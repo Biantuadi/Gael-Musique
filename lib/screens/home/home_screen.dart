@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text(
             "Gael",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: primaryColor,
+                  color: AppTheme.primaryColor,
                 ),
           ),
         ),

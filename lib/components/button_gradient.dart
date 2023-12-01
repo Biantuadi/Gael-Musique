@@ -19,17 +19,17 @@ class GradientButton extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
-            colors: [primaryColor, secondaryColor],
+            colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
           ),
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             'Press me',
             style: TextStyle(
-              color: thirdColorBlack,
+              color: AppTheme.backgroundBlack,
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
