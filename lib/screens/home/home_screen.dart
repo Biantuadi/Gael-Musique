@@ -1,4 +1,3 @@
-import 'package:Gael/components/ellipsis.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,32 +12,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
 
     return Scaffold(
-      body: Stack(
-        children: [
-          ColorFiltered(
-            colorFilter: ColorFilter.mode(
-              thirdColorBlack,
-              BlendMode.darken,
-            ),
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              color: Colors.transparent,
-              height: MediaQuery.of(context).size.height,
-            ),
+        body: Container(
+      child: Column(children: [
+        Center(
+          child: Text(
+            "Gael",
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: primaryColor,
+                ),
           ),
-          buildEllipse(
-            sizeWidth: width * 0.5,
-            sizeHeight: width * 0.6,
-          ),
-        ],
-      ),
-    );
+        ),
+      ]),
+    ));
   }
 }
