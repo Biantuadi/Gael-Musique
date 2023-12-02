@@ -17,17 +17,56 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
 
     return Scaffold(
-        body: Container(
-      child: Column(children: [
-        Center(
-          child: Text(
-            "Gael",
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: AppTheme.primaryColor,
+        body: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+          // navigation bar
+          Container(
+            height: 100,
+            // decoration: const BoxDecoration(
+            //   color: Colors.white,
+            //   boxShadow: [
+            //     BoxShadow(
+            //       color: Colors.black12,
+            //       blurRadius: 5,
+            //       offset: Offset(0, 0),
+            //     )
+            //   ],
+            // ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // logo
+                Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: Image.asset(
+                    'assets/logo/logo.png',
+                    height: 50,
+                  ),
                 ),
-          ),
-        ),
-      ]),
-    ));
+                // search bar
+                Container(
+                  margin: const EdgeInsets.only(right: 20),
+                  child:
+                      // icon notification
+                      Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.notifications_none),
+                        onPressed: () {},
+                      ),
+                      // icon profile
+                      IconButton(
+                        icon: const Icon(Icons.person_outline),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ]));
   }
 }
