@@ -1,5 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:Gael/screens/chat/chat_list_creen.dart';
-import 'package:Gael/screens/chat/chatting_screen.dart';
+import 'package:Gael/screens/chat/chat_detail_screen.dart';
 import 'package:Gael/screens/favorite/favorite_sreen.dart';
 import 'package:Gael/screens/home/home_screen.dart';
 import 'package:Gael/screens/landing/landing_screen.dart';
@@ -19,7 +21,7 @@ class Routes {
   static const String landingScreen = "LANDING-SCREEN";
   static const String homeScreen = "HOME-SCREEN";
   static const String chatListScreen = "CHAT-LIST-SCREEN";
-  static const String chattingScreen = "CHATTING-SCREEN";
+  static const String chatDetailScreen = "CHAT-DETAIL-SCREEN";
 
   static const String radioScreen = "RADIO-SCREEN";
   static const String favoritesScreen = "FAVORITES-SCREEN";
@@ -33,8 +35,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case chatListScreen:
         return MaterialPageRoute(builder: (_) => const ChatListScreen());
-      case chattingScreen:
-        return MaterialPageRoute(builder: (_) => const ChattingScreen());
+      case chatDetailScreen:
+        return MaterialPageRoute(builder: (_) => const ChatDetailScreen());
       case radioScreen:
         return MaterialPageRoute(builder: (_) => const RadioScreen());
       case favoritesScreen:

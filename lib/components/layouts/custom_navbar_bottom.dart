@@ -3,7 +3,6 @@ import 'package:Gael/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:ui' as ui show ImageFilter;
 
 class CustomNavbarBottom extends StatelessWidget {
   const CustomNavbarBottom({

@@ -1,5 +1,4 @@
 import 'package:Gael/routes/main_routes.dart';
-import 'package:Gael/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:Gael/utils/theme_variables.dart';
 

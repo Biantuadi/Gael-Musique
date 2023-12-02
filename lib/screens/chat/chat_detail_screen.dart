@@ -1,17 +1,19 @@
 import 'package:Gael/components/layouts/custom_header.dart';
-import 'package:Gael/components/layouts/custom_navbar_bottom.dart';
 import 'package:flutter/material.dart';
 
-class ChattingScreen extends StatefulWidget {
-  const ChattingScreen({super.key});
+class ChatDetailScreen extends StatefulWidget {
+  const ChatDetailScreen({super.key});
 
   @override
-  State<ChattingScreen> createState() => _ChattingScreenState();
+  State<ChatDetailScreen> createState() => CchatDetailScreenState();
 }
 
-class _ChattingScreenState extends State<ChattingScreen> {
+class CchatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    // Map<String?, dynamic> data =
+    //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // print(ModalRoute.of(context)!.settings.arguments);
     return const Scaffold(
       body: Column(
         children: [

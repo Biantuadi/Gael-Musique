@@ -28,7 +28,14 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigator.pushNamed(context, Routes.chattingScreen);
+        // Handle item click, navigate to another page, and pass data
+        // Navigator.pushNamed(context, Routes.chatDetailScreen, arguments: {
+        //   'userName': userName,
+        //   'imageUrl': imageUrl,
+        // });
+        Navigator.pushNamed(context, Routes.chatDetailScreen);
+
+        // dans le fichier chat_detail_screen.dart
       },
       leading: buildLeading(),
       title: Text(
