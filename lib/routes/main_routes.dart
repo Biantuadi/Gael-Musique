@@ -1,4 +1,5 @@
-import 'package:Gael/screens/chat/chat_creen.dart';
+import 'package:Gael/screens/chat/chat_list_creen.dart';
+import 'package:Gael/screens/chat/chatting_screen.dart';
 import 'package:Gael/screens/favorite/favorite_sreen.dart';
 import 'package:Gael/screens/home/home_screen.dart';
 import 'package:Gael/screens/landing/landing_screen.dart';
@@ -17,7 +18,9 @@ class Routes {
   // App
   static const String landingScreen = "LANDING-SCREEN";
   static const String homeScreen = "HOME-SCREEN";
-  static const String chatScreen = "CHAT-SCREEN";
+  static const String chatListScreen = "CHAT-LIST-SCREEN";
+  static const String chattingScreen = "CHATTING-SCREEN";
+
   static const String radioScreen = "RADIO-SCREEN";
   static const String favoritesScreen = "FAVORITES-SCREEN";
   static const String profileScreen = "PROFILE-SCREEN";
@@ -28,8 +31,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const LandingScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-      case chatScreen:
-        return MaterialPageRoute(builder: (_) => const ChatScreen());
+      case chatListScreen:
+        return MaterialPageRoute(builder: (_) => const ChatListScreen());
+      case chattingScreen:
+        return MaterialPageRoute(builder: (_) => const ChattingScreen());
       case radioScreen:
         return MaterialPageRoute(builder: (_) => const RadioScreen());
       case favoritesScreen:

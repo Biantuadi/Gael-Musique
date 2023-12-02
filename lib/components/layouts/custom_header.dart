@@ -19,11 +19,13 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: textRadio! ? 140 : 105,
+      padding: const EdgeInsets.only(top: 50),
+      // color: AppTheme.primaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (showLogo!) _buildLogo(),
           if (showBackButton!) _buildBackButton(context),
@@ -67,6 +69,7 @@ class CustomHeader extends StatelessWidget {
         title!,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: Colors.white,
+              fontSize: 20,
             ),
       ),
     );

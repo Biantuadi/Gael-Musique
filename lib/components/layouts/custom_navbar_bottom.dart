@@ -62,7 +62,7 @@ class CustomNavbarBottom extends StatelessWidget {
                 _buildNavbarItem(
                   context,
                   icon: "message-text.svg",
-                  route: Routes.chatScreen,
+                  route: Routes.chatListScreen,
                   isActive: isChat,
                 ),
                 _buildNavbarItem(
