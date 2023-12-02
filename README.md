@@ -33,11 +33,32 @@ flutter run
 flutter build apk
 ```
 
-**Note:** Définir la couleur de la barre de notification.
+**Note:** 
+
+- Définir la couleur de la barre de notification.
 (la zone en haut de l'écran où se trouve l'heure, la batterie, etc.)
 
 ```dart
 SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
 ));
+```
+
+- Definir l'effet flou.
+
+```dart 
+import 'dart:ui' as ui show ImageFilter;
+
+ClipRect(
+        // Use ClipRect to restrict the blur effect to the container boundaries
+        child: BackdropFilter(
+          filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.grey.withOpacity(0.1),
+            child: Text('Hello World'),
+          ),
+        ),
+      ),
+
 ```

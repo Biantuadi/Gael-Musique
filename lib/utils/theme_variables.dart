@@ -6,7 +6,6 @@ class AppTheme {
   static const Color primaryColor = Color(0xFFDE901C);
   static const Color secondaryColor = Color(0xFFFFC54B);
   static const Color backgroundBlack = Color(0xFF161615);
-  // static const Color thirdColorBlack = Color(0xFF161615);
-
+  static const Color thirdColorBlack = Color(0xFF161615);
+  static const Color iconInactive = Color.fromARGB(255, 87, 87, 87);
 }
-

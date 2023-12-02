@@ -1,5 +1,9 @@
+import 'package:Gael/screens/chat/chat_creen.dart';
+import 'package:Gael/screens/favorite/favorite_sreen.dart';
 import 'package:Gael/screens/home/home_screen.dart';
 import 'package:Gael/screens/landing/landing_screen.dart';
+import 'package:Gael/screens/profile/profile_screen.dart';
+import 'package:Gael/screens/radio/radio_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -13,6 +17,10 @@ class Routes {
   // App
   static const String landingScreen = "LANDING-SCREEN";
   static const String homeScreen = "HOME-SCREEN";
+  static const String chatScreen = "CHAT-SCREEN";
+  static const String radioScreen = "RADIO-SCREEN";
+  static const String favoritesScreen = "FAVORITES-SCREEN";
+  static const String profileScreen = "PROFILE-SCREEN";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -20,6 +28,14 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const LandingScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case chatScreen:
+        return MaterialPageRoute(builder: (_) => const ChatScreen());
+      case radioScreen:
+        return MaterialPageRoute(builder: (_) => const RadioScreen());
+      case favoritesScreen:
+        return MaterialPageRoute(builder: (_) => const FavoriteScreen());
+      case profileScreen:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
       default:
         return _NotFoundRoute();
     }
@@ -32,5 +48,21 @@ class Routes {
         body: const Center(child: Text("Lien introuvable")),
       );
     });
+  }
+
+  static Route<dynamic> _buildPageRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+    );
   }
 }

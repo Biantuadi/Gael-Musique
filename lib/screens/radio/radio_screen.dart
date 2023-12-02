@@ -1,22 +1,17 @@
 import 'package:Gael/components/layouts/custom_header.dart';
 import 'package:Gael/components/layouts/custom_navbar_bottom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class RadioScreen extends StatefulWidget {
+  const RadioScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<RadioScreen> createState() => _RadioScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _RadioScreenState extends State<RadioScreen> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
-
     return const Scaffold(
       body: Column(
         children: [
@@ -28,9 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomNavbarBottom(
-        isHome: true,
-      ),
+      bottomNavigationBar: CustomNavbarBottom(),
     );
   }
 }

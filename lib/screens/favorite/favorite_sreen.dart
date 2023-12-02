@@ -1,22 +1,17 @@
 import 'package:Gael/components/layouts/custom_header.dart';
 import 'package:Gael/components/layouts/custom_navbar_bottom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class FavoriteScreen extends StatefulWidget {
+  const FavoriteScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
-
     return const Scaffold(
       body: Column(
         children: [
@@ -29,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: CustomNavbarBottom(
-        isHome: true,
       ),
     );
   }
