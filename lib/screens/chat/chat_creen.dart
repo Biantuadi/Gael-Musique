@@ -24,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       bottomNavigationBar: CustomNavbarBottom(
-        
+        isChat: true,
       ),
     );
   }

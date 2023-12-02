@@ -23,7 +23,9 @@ class _RadioScreenState extends State<RadioScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomNavbarBottom(),
+      bottomNavigationBar: CustomNavbarBottom(
+        isRadio: true,
+      ),
     );
   }
 }

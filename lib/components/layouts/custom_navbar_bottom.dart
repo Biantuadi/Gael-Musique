@@ -81,15 +81,11 @@ class CustomNavbarBottom extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (!isActive) {
-          // animate to route que ça fasse comme un slide de droite à gauche
-          // Navigator.pushNamed(context, route);
-          // page builder
           Navigator.pushNamed(context, route);
-        
         }
       },
       child: Container(
-        padding: const EdgeInsets.only(top: 24),
+        padding: const EdgeInsets.only(top: 20),
         width: 70,
         decoration: BoxDecoration(
           border: Border(
@@ -102,7 +98,7 @@ class CustomNavbarBottom extends StatelessWidget {
         child: SvgPicture.asset(
           'assets/icons/$icon',
           color: isActive ? AppTheme.primaryColor : AppTheme.iconInactive,
-          height: 30,
+          height: 33,
         ),
       ),
     );

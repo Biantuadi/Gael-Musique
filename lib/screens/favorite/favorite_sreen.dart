@@ -24,6 +24,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ],
       ),
       bottomNavigationBar: CustomNavbarBottom(
+        isFavorite: true,
       ),
     );
   }
