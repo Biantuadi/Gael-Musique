@@ -15,11 +15,8 @@ class _RadioScreenState extends State<RadioScreen> {
     return const Scaffold(
       body: Column(
         children: [
-          CustomHeader(
-            showLogo: true,
-            showAvatar: true,
-            title: "",
-            showBackButton: false,
+          const CustomHeader(
+            textRadio: true,
           ),
         ],
       ),

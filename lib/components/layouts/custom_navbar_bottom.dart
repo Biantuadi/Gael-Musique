@@ -1,5 +1,4 @@
-import 'dart:math';
-
+// ignore_for_file: deprecated_member_use
 import 'package:Gael/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +23,21 @@ class CustomNavbarBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 80,
-      padding: const EdgeInsets.only(bottom: 20),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
+            Container(
+              height: 1,
+              padding: const EdgeInsets.only(top: 1),
+              child: const Divider(
+                color: AppTheme.iconInactive,
+                thickness: .5,
+                height: 0,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -85,20 +92,20 @@ class CustomNavbarBottom extends StatelessWidget {
         }
       },
       child: Container(
-        padding: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 25),
         width: 70,
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
               color: isActive ? AppTheme.primaryColor : AppTheme.iconInactive,
-              width: 1,
+              width: .4,
             ),
           ),
         ),
         child: SvgPicture.asset(
           'assets/icons/$icon',
           color: isActive ? AppTheme.primaryColor : AppTheme.iconInactive,
-          height: 33,
+          height: 30,
         ),
       ),
     );
