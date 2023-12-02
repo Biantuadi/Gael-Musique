@@ -1,6 +1,7 @@
 import 'package:Gael/components/layouts/custom_header.dart';
 import 'package:Gael/components/layouts/custom_navbar_bottom.dart';
 import 'package:Gael/components/search_input.dart';
+import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -12,6 +13,11 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _searchController = TextEditingController();
+  // final bool _isSearching = false;
+  final bool _isLastMessageMine = false;
+  final bool _isReceivedMessage = true;
+  final bool _isReadMessage = false;
+  final bool _isOnline = true;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: [
           const CustomHeader(
-            showLogo: false,
-            showAvatar: false,
             title: "Messages",
-            showBackButton: false,
           ),
           const SizedBox(height: 30),
           SearchInput(
@@ -32,24 +35,39 @@ class _ChatScreenState extends State<ChatScreen> {
               // print('Search query: $value');
             },
           ),
-          // const SizedBox(height: 30),
-          // Todo: Add a list of messages
           Expanded(
             child: ListView.builder(
               itemCount: 10,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: const CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                        'https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png'),
+                  leading: Stack(
+                    children: [
+                      const CircleAvatar(
+                        radius: 30,
+                        backgroundImage:
+                            NetworkImage('https://picsum.photos/250?image=9'),
+                      ),
+                      if (_isOnline)
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: const BoxDecoration(
+                              color: Colors.green,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                   title: Text('User $index',
-                      style: const TextStyle(color: Colors.white)),
-                  subtitle: Text('Message $index',
-                      style: TextStyle(color: Colors.white.withOpacity(0.5))),
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 20)),
+                  subtitle: buildSubtitle(),
                   trailing: Text('12:00',
-                      style: TextStyle(color: Colors.white.withOpacity(0.5))),
+                      style: TextStyle(color: AppTheme.listChatTextColor)),
                 );
               },
             ),
@@ -60,5 +78,51 @@ class _ChatScreenState extends State<ChatScreen> {
         isChat: true,
       ),
     );
+  }
+
+  // Fonction pour construire le sous-titre en fonction des conditions
+  Widget? buildSubtitle() {
+    if (_isLastMessageMine) {
+      return Text(
+        'is mine',
+        style: TextStyle(color: AppTheme.listChatTextColor),
+      );
+    } else if (_isReceivedMessage && _isReadMessage) {
+      // Sous-titre avec une icône de double check verte pour un message reçu et lu
+      return Row(
+        children: [
+          const Icon(Icons.done_all, color: AppTheme.primaryColor, size: 16),
+          const SizedBox(width: 5),
+          Text(
+            'Received and Read',
+            style: TextStyle(color: AppTheme.listChatTextColor),
+          ),
+        ],
+      );
+    } else if (_isReceivedMessage) {
+      // Sous-titre avec une icône de check pour un message reçu
+      return Row(
+        children: [
+          Icon(Icons.check, color: AppTheme.listChatTextColor, size: 16),
+          const SizedBox(width: 5),
+          Text(
+            'Received',
+            style: TextStyle(color: AppTheme.listChatTextColor),
+          ),
+        ],
+      );
+    } else {
+      // Sous-titre avec une icône de double check pour un message non lu
+      return Row(
+        children: [
+          Icon(Icons.done_all, color: AppTheme.listChatTextColor, size: 16),
+          const SizedBox(width: 5),
+          Text(
+            'Unread',
+            style: TextStyle(color: AppTheme.listChatTextColor),
+          ),
+        ],
+      );
+    }
   }
 }

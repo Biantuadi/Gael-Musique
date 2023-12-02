@@ -23,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
           CustomHeader(
             showLogo: true,
             showAvatar: true,
-            title: "",
-            showBackButton: false,
           ),
         ],
       ),

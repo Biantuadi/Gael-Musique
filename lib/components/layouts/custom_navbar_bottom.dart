@@ -49,12 +49,6 @@ class CustomNavbarBottom extends StatelessWidget {
                 ),
                 _buildNavbarItem(
                   context,
-                  icon: "message-text.svg",
-                  route: Routes.chatScreen,
-                  isActive: isChat,
-                ),
-                _buildNavbarItem(
-                  context,
                   icon: "radio.svg",
                   route: Routes.radioScreen,
                   isActive: isRadio,
@@ -64,6 +58,12 @@ class CustomNavbarBottom extends StatelessWidget {
                   icon: "Heart.svg",
                   route: Routes.favoritesScreen,
                   isActive: isFavorite,
+                ),
+                _buildNavbarItem(
+                  context,
+                  icon: "message-text.svg",
+                  route: Routes.chatScreen,
+                  isActive: isChat,
                 ),
                 _buildNavbarItem(
                   context,
