@@ -43,7 +43,6 @@ class ThemeProvider with ChangeNotifier{
        _theme = value ?? _theme;
        notifyListeners();
        manageTheme();
-       getSizes();
      });
   }
 
@@ -74,13 +73,12 @@ class ThemeProvider with ChangeNotifier{
   double iconSizeLarge = 0;
   double iconSizeExtraLarge = 0;
 
-  getSizes(){
-    Size screenSize = MediaQuery.sizeOf(MainApp.navigatorKey.currentContext!);
+  getSizes()async{
+    Size screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window).size ;//MediaQuery.sizeOf(MainApp.navigatorKey.currentContext!);
     standardTabletScreenWidth = 600;
     smallPhoneWidth = 320;
     bigPhoneScreen = 480;
     bigTabletScreen = 720;
-
     spacingSizeExtraSmall = screenSize.width >= bigTabletScreen? 15: (screenSize.width >= smallPhoneWidth)? 5.0 : 2;
     spacingSizeSmall = screenSize.width >= bigTabletScreen? 20 : (screenSize.width >= smallPhoneWidth)? 10.0 : 5;
     spacingSizeDefault = screenSize.width >= bigTabletScreen? 25: (screenSize.width >= smallPhoneWidth)? 15.0 : 8 ;

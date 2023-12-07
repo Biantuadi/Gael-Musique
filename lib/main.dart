@@ -1,3 +1,4 @@
+import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/screens/splash/splash_screen.dart';
@@ -5,14 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'di_container.dart' as di;
 
-void main() {
-  runApp(const MainApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await di.init();
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
+    ],
+    child: const MainApp(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
   const MainApp({Key? key}) : super(key: key);
+
   static final navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(

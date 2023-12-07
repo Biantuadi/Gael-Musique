@@ -14,12 +14,12 @@ class ThemeVariables {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: <Color>[
-      Colors.transparent,
-      Colors.transparent,
-      Colors.transparent,
-      Color(0xafffb002),
-      Color(0xfacc9200),
-      Color(0xaf7a5400),
+      Color(0xaff6aa01),
+      Color(0xaff6aa01),
+      Color(0xafc78900),
+      Color(0xafc78900),
+      Color(0xfa805d00),
+      Color(0xfa805d00),
     ],
     tileMode: TileMode.mirror,
   );

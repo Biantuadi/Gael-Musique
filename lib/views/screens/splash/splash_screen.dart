@@ -57,40 +57,58 @@ class SplashScreenState extends State<SplashScreen>{
         height: size.height,
         width: size.height,
         child: Stack(
+          alignment: Alignment.center,
           children: [
             Image.asset(Assets.bgWelcomeWEBP, width: size.width, height: size.height, fit: BoxFit.cover,),
-            Container(
-              decoration: const BoxDecoration(
-                gradient: ThemeVariables.linearGradient
+            Opacity(
+              opacity: 0.5,
+              child: Container(
+                height: size.height,
+                width: size.width,
+                decoration: const BoxDecoration(
+                  gradient: ThemeVariables.linearGradient
+                ),
               ),
             ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SvgPicture.asset(
-                  Provider.of<ThemeProvider>(context, listen: true).isDark ?
-                  Assets.logoPNG : Assets.logoPNG,
-                  width: size.width/3,
-                  fit: BoxFit.cover,
+            Opacity(
+              opacity: 0.6,
+              child: Container(
+                height: size.height,
+                width: size.width,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
                 ),
-
-                Positioned(
-                    bottom: 30,
-                    child: Column(
-                      children: [
-                        Provider.of<SplashProvider>(context, listen: true).isFirstTime?
-                        Container(
-                            padding: EdgeInsets.only(bottom: Provider.of<ThemeProvider>(context, listen: false).iconSizeSmall),
-                            child: Text("Initialisation...", style: Theme.of(context).textTheme.bodySmall,)): const SizedBox(height: 0, width: 0,),
-                        CircularProgressIndicator(
-                          color: Provider.of<ThemeProvider>(context, listen: false).isDark ? Colors.white : Colors.black,
-                          strokeWidth: 1,
-                        ),
-                      ],
-                    ))
-
-              ],
+              ),
             ),
+            SizedBox(
+              height: size.height,
+              width: size.height,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    Provider.of<ThemeProvider>(context, listen: true).isDark ?
+                    Assets.logoPNG : Assets.logoPNG,
+                    width: size.width/3,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                      bottom: 30,
+                      child: Column(
+                        children: [
+                          Provider.of<SplashProvider>(context, listen: true).isFirstTime?
+                          Container(
+                              padding: EdgeInsets.only(bottom: Provider.of<ThemeProvider>(context, listen: false).iconSizeSmall),
+                              child: Text("Initialisation...", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),)): const SizedBox(height: 0, width: 0,),
+                          const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 1,
+                          ),
+                        ],
+                      ))
+                ],
+              ),
+            )
           ],
         ),
       ),
