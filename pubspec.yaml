@@ -15,6 +15,8 @@ dependencies:
   provider: ^6.1.1
   flutter_svg: ^2.0.9
   flutter_blurhash: ^0.8.2
+  get_it: ^7.6.4
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
