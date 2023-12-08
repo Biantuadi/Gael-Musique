@@ -1,3 +1,4 @@
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/ellipsis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -69,7 +70,12 @@ class _LandingScreenState extends State<LandingScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(right: 10, top: 100),
-                child: const GradientButton(),
+                child:  GradientButton(
+                  child: Text("Press Me", style: Theme.of(context).textTheme.titleSmall,),
+                  voidCallback: () {
+                    Navigator.pushNamed(context, Routes.mainScreen);
+                  },
+                ),
               ),
             ],
           ),

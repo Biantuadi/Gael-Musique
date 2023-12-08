@@ -11,6 +11,7 @@ class Routes {
   static const String registerScreen = "REGISTER-SCREEN";
 
   // App
+  static const String mainScreen = "MAIN-SCREEN";
   static const String landingScreen = "LANDING-SCREEN";
   static const String homeScreen = "HOME-SCREEN";
   static const String chatListScreen = "CHAT-LIST-SCREEN";
