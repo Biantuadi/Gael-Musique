@@ -1,4 +1,5 @@
 import 'package:Gael/data/models/screen_model.dart';
+import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
 import 'package:Gael/views/screens/main/favorite/favorite_sreen.dart';
@@ -6,6 +7,7 @@ import 'package:Gael/views/screens/main/profile/profile_screen.dart';
 import 'package:Gael/views/screens/main/radio/radio_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'home/home_screen.dart';
 
 class MainScreen extends StatefulWidget{
@@ -72,6 +74,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                 icon: Icon(
                     tabController.index == screens.indexOf(screen)? screen.activeIcon : screen.icon,
                   color: tabController.index == screens.indexOf(screen)? ThemeVariables.primaryColor : ThemeVariables.iconInactive,
+                  size:Provider.of<ThemeProvider>(context, listen: false).iconSizeDefault,
 
                 )
             )).toList() ,
