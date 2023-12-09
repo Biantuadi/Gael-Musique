@@ -41,6 +41,20 @@ class MainApp extends StatelessWidget {
             onGenerateRoute: Routes.generateRoute,
             theme:  ThemeData(
               primaryColor: ThemeVariables.primaryColor,
+              colorScheme: const ColorScheme(
+                  background: Colors.white,
+                  brightness: Brightness.dark,
+                  primary: ThemeVariables.primaryColor,
+                  onPrimary: ThemeVariables.primaryColor,
+                  secondary: ThemeVariables.secondaryColor,
+                  onSecondary: ThemeVariables.secondaryColor,
+                  error: Colors.red,
+                  onError: Colors.redAccent,
+                  onBackground: ThemeVariables.primaryColor,
+                  surface: ThemeVariables.primaryColor,
+                  onSurface: ThemeVariables.primaryColor,
+
+              ),
               scaffoldBackgroundColor: ThemeVariables.thirdColorBlack,
               textTheme: TextTheme(
                 titleLarge: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 35),

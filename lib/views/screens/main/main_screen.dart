@@ -1,107 +1,99 @@
 import 'package:Gael/data/models/screen_model.dart';
+import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
 import 'package:Gael/views/screens/main/favorite/favorite_sreen.dart';
 import 'package:Gael/views/screens/main/profile/profile_screen.dart';
 import 'package:Gael/views/screens/main/radio/radio_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
-
 import 'home/home_screen.dart';
 
 class MainScreen extends StatefulWidget{
+  const MainScreen({super.key});
+
   @override
-  _MainScreenState createState()=>_MainScreenState();
+  MainScreenState createState()=>MainScreenState();
 }
-class _MainScreenState extends State<MainScreen>{
+class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin{
  List<ScreenModel> screens = [];
   late PageController pageController;
+  late TabController tabController;
   int selectedIndex = 0;
-  ScrollController scrollController = ScrollController();
   bool showAppBar = true;
 
   @override
   void initState() {
     super.initState();
     screens = [
-      ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home1, content:  HomeScreen()),
-      ScreenModel(icon: CupertinoIcons.list_bullet, activeIcon: CupertinoIcons.list_bullet_indent, content:  ChatListScreen()),
-      ScreenModel(icon: CupertinoIcons.list_bullet, activeIcon: CupertinoIcons.list_bullet_indent, content:  RadioScreen()),
-      ScreenModel(icon: CupertinoIcons.list_bullet, activeIcon: CupertinoIcons.list_bullet_indent, content:  FavoriteScreen()),
-      ScreenModel(icon: CupertinoIcons.list_bullet, activeIcon: CupertinoIcons.list_bullet_indent, content:  ProfileScreen()),
+      ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:  const HomeScreen()),
+      ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()),
+      ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const RadioScreen()),
+      ScreenModel(icon: Iconsax.heart, activeIcon: Iconsax.heart5, content:  const FavoriteScreen()),
+      ScreenModel(icon: Iconsax.user, activeIcon: Iconsax.user, content:  const ProfileScreen()),
     ];
-    pageController = PageController(
-      initialPage: selectedIndex,
-    );
-    showAppBar = true;
-  }
-  jumpToPage(int value){
-    setState(() {
-      selectedIndex = value;
+    tabController = TabController(length: screens.length, vsync: this);
+    tabController.addListener(() {
+      setState(() {
+        selectedIndex = tabController.index;
+      });
     });
-    pageController.jumpToPage(value);
   }
+
 
 
   @override
   void dispose() {
     super.dispose();
-    pageController.dispose();
+    tabController.dispose();
   }
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor : Colors.transparent,
-          statusBarBrightness: isDark? Brightness.light: Brightness.dark,
-          statusBarIconBrightness: isDark? Brightness.light : Brightness.dark,
-          systemNavigationBarColor: isDark? Colors.black :  Colors.transparent,
-          systemNavigationBarContrastEnforced: true,
-          systemNavigationBarIconBrightness:isDark?Brightness.light : Brightness.dark,
-          systemStatusBarContrastEnforced: false,
-          systemNavigationBarDividerColor: Colors.transparent,
-        ),
-        child: Scaffold(
-            extendBodyBehindAppBar: true,
-            bottomNavigationBar: AnimatedContainer(
-              duration: const Duration(milliseconds: 20000),
-              color: Theme.of(context).colorScheme.background,
-              curve: Curves.easeInCirc,
-              height: showAppBar? null : 0,
-              child: BottomNavigationBar(
-                selectedItemColor: Colors.deepOrangeAccent,
-                unselectedItemColor: Colors.grey,
-                currentIndex: selectedIndex,
-                elevation: 30,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Theme.of(context).colorScheme.background,
-                selectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
-                unselectedLabelStyle:Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).primaryColor,
-                ) ,
-                onTap: (index){
-                  jumpToPage(index);
-                },
-                items: screens.map((screen) => BottomNavigationBarItem(
-                  icon: Icon(screen.icon),
-                  activeIcon: Icon(screen.activeIcon),
 
-                )).toList(),
-              ),
+    return Scaffold(
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.black,
+          padding: EdgeInsets.zero,
+          elevation: 0.1,
+          shadowColor: Colors.grey,
+          child:TabBar(
+            dividerHeight: 0,
+            automaticIndicatorColorAdjustment: true,
+            tabAlignment: TabAlignment.fill,
+            indicator: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: ThemeVariables.primaryColor)
+              )
             ),
-            body: PageView(
-              controller: pageController,
-              padEnds: false,
-              //physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (value){
-                setState(() {
-                  selectedIndex = value;
-                  showAppBar = true;
-                });
-              },
-              children: screens.map((screen) => screen.content).toList(),
-            )
-        ));
+            controller: tabController,
+            onTap: (index){
+              setState(() {
+                tabController.index = index;
+              });
+            },
+            tabs:screens.map((screen) => Tab(
+                icon: Icon(
+                    tabController.index == screens.indexOf(screen)? screen.activeIcon : screen.icon,
+                  color: tabController.index == screens.indexOf(screen)? ThemeVariables.primaryColor : ThemeVariables.iconInactive,
+
+                )
+            )).toList() ,
+          ),
+        ),
+        body: TabBarView(
+          controller: tabController,
+          children: screens.map((screen) => screen.content).toList(),
+        )
+    );
   }
+  Widget page()=>PageView(
+    padEnds: false,
+    //physics: const NeverScrollableScrollPhysics(),
+    onPageChanged: (value){
+      setState(() {
+        selectedIndex = value;
+        showAppBar = true;
+      });
+    },
+    children: screens.map((screen) => screen.content).toList(),
+  );
 }

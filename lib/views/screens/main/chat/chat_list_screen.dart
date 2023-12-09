@@ -49,9 +49,6 @@ class CchatListScreenState extends State<ChatListScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: const CustomNavbarBottom(
-        isChat: true,
-      ),
     );
   }
 }

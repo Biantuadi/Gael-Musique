@@ -2,6 +2,7 @@ import 'package:Gael/views/components/layouts/custom_header.dart';
 import 'package:Gael/views/components/layouts/custom_navbar_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iconsax/iconsax.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
-
+    Size size = MediaQuery.sizeOf(context);
     return const Scaffold(
       body: Column(
         children: [
@@ -25,9 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
             showAvatar: true,
           ),
         ],
-      ),
-      bottomNavigationBar: CustomNavbarBottom(
-        isHome: true,
       ),
     );
   }

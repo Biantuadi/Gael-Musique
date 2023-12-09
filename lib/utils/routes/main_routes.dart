@@ -25,6 +25,8 @@ class Routes {
     switch (settings.name) {
       case landingScreen:
         return MaterialPageRoute(builder: (_) => const LandingScreen());
+      case mainScreen:
+        return MaterialPageRoute(builder: (_) =>  const MainScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case chatListScreen:
