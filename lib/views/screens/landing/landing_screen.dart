@@ -71,7 +71,7 @@ class _LandingScreenState extends State<LandingScreen> {
               Container(
                 margin: const EdgeInsets.only(right: 10, top: 100),
                 child:  GradientButton(
-                  child: Text("Press Me", style: Theme.of(context).textTheme.titleSmall,),
+                  child: Text("Press Me", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black),),
                   voidCallback: () {
                     Navigator.pushNamed(context, Routes.mainScreen);
                   },

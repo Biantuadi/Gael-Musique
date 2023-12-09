@@ -1,14 +1,12 @@
 import 'dart:async';
-
 import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-//import 'package:connectivity_plus/connectivity_plus.dart';
+///import 'package:connectivity_plus/connectivity_plus.dart';
 
 
 class SplashScreen extends StatefulWidget{
@@ -42,8 +40,8 @@ class SplashScreenState extends State<SplashScreen>{
         }
     );
 
-    Future.delayed(const Duration(seconds: 3),(){
-      Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
+    Future.delayed(const Duration(seconds: 4),(){
+     Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
     });
 
   }
@@ -58,7 +56,7 @@ class SplashScreenState extends State<SplashScreen>{
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Image.asset(Assets.bgWelcomeWEBP, width: size.width, height: size.height, fit: BoxFit.cover,),
+            Image.asset(Assets.splashBgJPG, width: size.width, height: size.height, fit: BoxFit.cover,),
             Opacity(
               opacity: 0.5,
               child: Container(
