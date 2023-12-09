@@ -84,11 +84,11 @@ class MainApp extends StatelessWidget {
                   return AnnotatedRegion<SystemUiOverlayStyle>(
                       value: SystemUiOverlayStyle(
                         statusBarColor : Colors.transparent,
-                        statusBarBrightness: isDark? Brightness.light: Brightness.dark,
+                        statusBarBrightness:Brightness.light ,//isDark? Brightness.light: Brightness.dark,
                         statusBarIconBrightness: isDark? Brightness.light : Brightness.dark,
-                        systemNavigationBarColor: isDark? Colors.black :  Colors.transparent,
+                        systemNavigationBarColor: Colors.black,
                         systemNavigationBarContrastEnforced: true,
-                        systemNavigationBarIconBrightness:isDark?Brightness.light : Brightness.dark,
+                        systemNavigationBarIconBrightness:Brightness.light,
                         systemStatusBarContrastEnforced: false,
                         systemNavigationBarDividerColor: Colors.transparent,
                       ),

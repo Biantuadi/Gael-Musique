@@ -39,8 +39,6 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     });
   }
 
-
-
   @override
   void dispose() {
     super.dispose();
