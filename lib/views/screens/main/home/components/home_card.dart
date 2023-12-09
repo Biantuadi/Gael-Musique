@@ -21,7 +21,7 @@ class HomeCard extends StatelessWidget{
             vertical :Provider.of<ThemeProvider>(context, listen: false).spacingSizeDefault,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Provider.of<ThemeProvider>(context, listen: false).radiusSizeSmall),
+          borderRadius: BorderRadius.circular(Provider.of<ThemeProvider>(context, listen: false).radiusSizeDefault),
           color: ThemeVariables.iconInactive.withOpacity(0.2)
         ),
         child: Row(
