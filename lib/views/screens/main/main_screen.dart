@@ -48,36 +48,53 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   }
   @override
   Widget build(BuildContext context) {
-
+    Size size = MediaQuery.sizeOf(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context, listen: true);
     return Scaffold(
         bottomNavigationBar: BottomAppBar(
           color: Colors.black,
           padding: EdgeInsets.zero,
           elevation: 0.1,
           shadowColor: Colors.grey,
-          child:TabBar(
-            dividerHeight: 0,
-            automaticIndicatorColorAdjustment: true,
-            tabAlignment: TabAlignment.fill,
-            indicator: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: ThemeVariables.primaryColor)
-              )
-            ),
-            controller: tabController,
-            onTap: (index){
-              setState(() {
-                tabController.index = index;
-              });
-            },
-            tabs:screens.map((screen) => Tab(
-                icon: Icon(
-                    tabController.index == screens.indexOf(screen)? screen.activeIcon : screen.icon,
-                  color: tabController.index == screens.indexOf(screen)? ThemeVariables.primaryColor : ThemeVariables.iconInactive,
-                  size:Provider.of<ThemeProvider>(context, listen: false).iconSizeDefault,
+          child:Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Container(
+                width: size.width,
+                height: 0.2,
+                color: Colors.grey,
+              ),
+              TabBar(
+                dividerHeight: 0,
+                dividerColor: Colors.black,
+                automaticIndicatorColorAdjustment: true,
+                tabAlignment: TabAlignment.fill,
 
-                )
-            )).toList() ,
+                indicator: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: ThemeVariables.primaryColor)
+                  )
+                ),
+                controller: tabController,
+                onTap: (index){
+                  setState(() {
+                    tabController.index = index;
+                  });
+                },
+
+                tabs:screens.map((screen) => Tab(
+                    child: Container(
+                      padding: EdgeInsets.only(top: themeProvider.spacingSizeDefault),
+                      child: Icon(
+                          tabController.index == screens.indexOf(screen)? screen.activeIcon : screen.icon,
+                        color: tabController.index == screens.indexOf(screen)? ThemeVariables.primaryColor : ThemeVariables.iconInactive,
+                        size:Provider.of<ThemeProvider>(context, listen: false).iconSizeDefault,
+
+                      ),
+                    )
+                )).toList() ,
+              ),
+            ],
           ),
         ),
         body: TabBarView(
