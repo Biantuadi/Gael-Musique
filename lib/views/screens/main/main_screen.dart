@@ -65,7 +65,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                 color: Colors.grey,
               ),
               TabBar(
-                dividerHeight: 0,
+                // dividerHeight: 0,
                 dividerColor: Colors.black,
                 automaticIndicatorColorAdjustment: true,
                 tabAlignment: TabAlignment.fill,

@@ -25,9 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
       statusBarColor: Colors.transparent,
     ));
     Size size = MediaQuery.sizeOf(context);
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context, listen: true);
-    Widget spacing()=>SizedBox(height: themeProvider.spacingSizeDefault,);
-    return  Scaffold(
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: true);
+    Widget spacing() => SizedBox(
+          height: themeProvider.spacingSizeDefault,
+        );
+    return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,49 +38,94 @@ class _HomeScreenState extends State<HomeScreen> {
             showLogo: true,
             showAvatar: true,
           ),
-          Expanded(child: SingleChildScrollView(
+          Expanded(
+              child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 spacing(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal :themeProvider.spacingSizeDefault),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: themeProvider.spacingSizeDefault),
                   child: Wrap(
-                    spacing: themeProvider.spacingSizeDefault/2,
+                    spacing: themeProvider.spacingSizeDefault / 2,
                     alignment: WrapAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding:  EdgeInsets.only(bottom:themeProvider.spacingSizeDefault/2),
-                        child: HomeCard(onTap: (){}, iconData: Iconsax.share, title: "Tredding & radios", width: (size.width/2) - 3* themeProvider.spacingSizeDefault/2, ),
+                        padding: EdgeInsets.only(
+                            bottom: themeProvider.spacingSizeDefault / 2),
+                        child: HomeCard(
+                          onTap: () {},
+                          iconData: Iconsax.share,
+                          title: "Tredding & radios",
+                          width: (size.width / 2) -
+                              3 * themeProvider.spacingSizeDefault / 2,
+                        ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(bottom:themeProvider.spacingSizeDefault/2),
-                        child: HomeCard(onTap: (){}, iconData: Iconsax.book, title: "Enseignements", width: (size.width/2) - 3* themeProvider.spacingSizeDefault/2, ),
+                        padding: EdgeInsets.only(
+                            bottom: themeProvider.spacingSizeDefault / 2),
+                        child: HomeCard(
+                          onTap: () {},
+                          iconData: Iconsax.book,
+                          title: "Enseignements",
+                          width: (size.width / 2) -
+                              3 * themeProvider.spacingSizeDefault / 2,
+                        ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(bottom:themeProvider.spacingSizeDefault/2),
-                        child: HomeCard(onTap: (){}, iconData: Iconsax.music, title: "Album", width: (size.width/2) - 3* themeProvider.spacingSizeDefault/2, ),
+                        padding: EdgeInsets.only(
+                            bottom: themeProvider.spacingSizeDefault / 2),
+                        child: HomeCard(
+                          onTap: () {},
+                          iconData: Iconsax.music,
+                          title: "Album",
+                          width: (size.width / 2) -
+                              3 * themeProvider.spacingSizeDefault / 2,
+                        ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(bottom:themeProvider.spacingSizeDefault/2),
-                        child: HomeCard(onTap: (){}, iconData: Iconsax.calendar, title: "Evenements", width: (size.width/2) - 3* themeProvider.spacingSizeDefault/2, ),
+                        padding: EdgeInsets.only(
+                            bottom: themeProvider.spacingSizeDefault / 2),
+                        child: HomeCard(
+                          onTap: () {},
+                          iconData: Iconsax.calendar,
+                          title: "Evenements",
+                          width: (size.width / 2) -
+                              3 * themeProvider.spacingSizeDefault / 2,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 spacing(),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal:themeProvider.spacingSizeDefault),
-                  child: Text("LIBRARY", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: themeProvider.spacingSizeDefault),
+                  child: Text(
+                    "LIBRARY",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(color: ThemeVariables.primaryColor),
+                  ),
                 ),
                 spacing(),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal:themeProvider.spacingSizeDefault),
-                  child: Text("Streaming", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: themeProvider.spacingSizeDefault),
+                  child: Text(
+                    "Streaming",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: Colors.white),
+                  ),
                 ),
                 spacing(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: themeProvider.spacingSizeDefault),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: themeProvider.spacingSizeDefault),
                   child: Center(
                     child: Column(
                       children: [
@@ -85,17 +133,44 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            StreamingCard(title: '20 ans Gael', imagePath: Assets.splashBgJPG, size: (size.width/4) - (themeProvider.spacingSizeDefault * 4/3),),
-                            StreamingCard(title: 'Covers', imagePath: Assets.splashBgJPG, size: (size.width/4) - (themeProvider.spacingSizeDefault * 4/3),),
-                            StreamingCard(title: 'Sanjola 2019', imagePath: Assets.splashBgJPG, size: (size.width/4) - (themeProvider.spacingSizeDefault * 4/3),),
-                            StreamingCard(title: 'Saint-Esprit', imagePath: Assets.splashBgJPG, size: (size.width/4) - (themeProvider.spacingSizeDefault * 4/3),),
+                            StreamingCard(
+                              title: '20 ans Gael',
+                              imagePath: Assets.splashBgJPG,
+                              size: (size.width / 4) -
+                                  (themeProvider.spacingSizeDefault * 4 / 3),
+                            ),
+                            StreamingCard(
+                              title: 'Covers',
+                              imagePath: Assets.splashBgJPG,
+                              size: (size.width / 4) -
+                                  (themeProvider.spacingSizeDefault * 4 / 3),
+                            ),
+                            StreamingCard(
+                              title: 'Sanjola 2019',
+                              imagePath: Assets.splashBgJPG,
+                              size: (size.width / 4) -
+                                  (themeProvider.spacingSizeDefault * 4 / 3),
+                            ),
+                            StreamingCard(
+                              title: 'Saint-Esprit',
+                              imagePath: Assets.splashBgJPG,
+                              size: (size.width / 4) -
+                                  (themeProvider.spacingSizeDefault * 4 / 3),
+                            ),
                           ],
                         ),
                         Container(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: (){},
-                            child: Text("Voir plus", style: Theme.of(context).textTheme?.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
+                            onPressed: () {},
+                            child: Text(
+                              "Voir plus",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
+                                      color: ThemeVariables.primaryColor),
+                            ),
                           ),
                         )
                       ],
@@ -104,18 +179,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 spacing(),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal:themeProvider.spacingSizeDefault),
-                  child: Text("Albums", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: themeProvider.spacingSizeDefault),
+                  child: Text(
+                    "Albums",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: Colors.white),
+                  ),
                 ),
                 SizedBox(
-                  height: size.height/3,
+                  height: size.height / 3,
                   child: ListView.builder(
-                    padding: EdgeInsets.all(themeProvider.spacingSizeDefault),
+                      padding: EdgeInsets.all(themeProvider.spacingSizeDefault),
                       itemCount: 4,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index){
-                        return HomeAlbumCard(title: 'SUBLIME', imagePath: Assets.bgWelcomeWEBP, randomSongTitle: 'Parfum qui chante', screenSize: size,);
-
+                      itemBuilder: (context, index) {
+                        return HomeAlbumCard(
+                          title: 'SUBLIME',
+                          imagePath: Assets.albumSublimeWEBP,
+                          randomSongTitle: 'Parfum qui chante',
+                          screenSize: size,
+                        );
                       }),
                 )
               ],

@@ -8,9 +8,9 @@ class Assets{
   static String bgWelcomeWEBP =  "assets/images/bg_welcome.webp";
   static String splashBgJPG =  "assets/images/splash_bg.jpg";
   static String gradientPNG = "assets/images/gradient.png";
-  static String gradient2PNG = "assets/images/gradient2.png";
   static String mediaSonSVG = "assets/images/Media_son.svg";
   static String textGael = "assets/images/TextGael.svg";
+  static String albumSublimeWEBP = "assets/images/album_sublime.jpg";
 
 
 }
