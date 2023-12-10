@@ -2,19 +2,19 @@ import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ImageWidget extends StatefulWidget{
+class AssetImageWidget extends StatefulWidget{
   final String imagePath;
   final Size size;
   final double? radius;
-  const ImageWidget({super.key, required this.imagePath, required this.size, this.radius});
+  const AssetImageWidget({super.key, required this.imagePath, required this.size, this.radius});
 
   @override
   State<StatefulWidget> createState() {
-   return ImageWidgetState();
+   return AssetImageWidgetState();
   }
 
 }
-class ImageWidgetState extends State<ImageWidget>{
+class AssetImageWidgetState extends State<AssetImageWidget>{
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

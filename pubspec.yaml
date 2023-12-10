@@ -18,6 +18,7 @@ dependencies:
   get_it: ^7.6.4
   shared_preferences: ^2.2.2
   iconsax: ^0.0.8
+  image_fade: ^0.6.2
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,8 @@ import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:Gael/utils/theme_variables.dart';
 
+import 'network_image_widget.dart';
+
 class ChatListItem extends StatelessWidget {
   final bool isLastMessageMine;
   final bool isReceivedMessage;
@@ -28,24 +30,17 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        // Handle item click, navigate to another page, and pass data
-        // Navigator.pushNamed(context, Routes.chatDetailScreen, arguments: {
-        //   'userName': userName,
-        //   'imageUrl': imageUrl,
-        // });
         Navigator.pushNamed(context, Routes.chatDetailScreen);
-
-        // dans le fichier chat_detail_screen.dart
-      },
+        },
       leading: buildLeading(),
       title: Text(
         userName,
-        style: const TextStyle(color: Colors.white, fontSize: 20),
+        style:  Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600),
       ),
-      subtitle: buildSubtitle(),
+      subtitle: buildSubtitle(context),
       trailing: Text(
         lastMessageTime,
-        style: TextStyle(color: ThemeVariables.listChatTextColor),
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: ThemeVariables.listChatTextColor, ),
       ),
     );
   }
@@ -53,13 +48,10 @@ class ChatListItem extends StatelessWidget {
   Widget buildLeading() {
     return Stack(
       children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundImage: NetworkImage(imageUrl),
-        ),
+        NetWorkImageWidget(imageUrl: imageUrl, size: const Size(25, 25), radius: 30,),
         if (isOnline)
           Positioned(
-            top: 0,
+            bottom: 0,
             right: 0,
             child: Container(
               width: 15,
@@ -74,20 +66,23 @@ class ChatListItem extends StatelessWidget {
     );
   }
 
-  Widget buildSubtitle() {
+  Widget buildSubtitle(BuildContext context) {
+    TextStyle? textStyle =  Theme.of(context).textTheme.bodySmall?.copyWith(color: ThemeVariables.listChatTextColor, );
     if (isLastMessageMine) {
       return Text(
         lastMessage,
-        style: TextStyle(color: ThemeVariables.listChatTextColor),
+        style: textStyle,
       );
     } else if (isReceivedMessage && isReadMessage) {
+
+
       return Row(
         children: [
-          const Icon(Icons.done_all, color: ThemeVariables.primaryColor, size: 16),
+          const Icon(Icons.done_all, color: ThemeVariables.primaryColor, ),
           const SizedBox(width: 5),
           Text(
             lastMessage,
-            style: TextStyle(color: ThemeVariables.listChatTextColor),
+            style: textStyle,
           ),
         ],
       );
@@ -98,8 +93,7 @@ class ChatListItem extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             lastMessage,
-            style: TextStyle(color: ThemeVariables.listChatTextColor),
-          ),
+            style: textStyle),
         ],
       );
     } else if (isReadMessage) {
@@ -109,7 +103,7 @@ class ChatListItem extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             lastMessage,
-            style: TextStyle(color: ThemeVariables.listChatTextColor),
+            style: textStyle,
           ),
         ],
       );

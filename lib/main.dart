@@ -49,9 +49,9 @@ class MainApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routes.generateRoute,
             theme:  ThemeData(
-              primaryColor: ThemeVariables.primaryColor,
+              primaryColor: Colors.white,
               colorScheme: const ColorScheme(
-                  background: Colors.white,
+                  background: Colors.black,
                   brightness: Brightness.dark,
                   primary: ThemeVariables.primaryColor,
                   onPrimary: ThemeVariables.primaryColor,

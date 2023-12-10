@@ -1,3 +1,4 @@
+import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,7 @@ class CustomHeader extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 10),
       child: Image.asset(
-        'assets/logo/logo.png',
+        Assets.logoPNG,
         height: 50,
       ),
     );
@@ -67,9 +68,8 @@ class CustomHeader extends StatelessWidget {
       margin: const EdgeInsets.only(left: 10),
       child: Text(
         title!,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Colors.white,
-              fontSize: 20,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Theme.of(context).primaryColor,
             ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:Gael/data/providers/theme_provider.dart';
-import 'package:Gael/views/components/image_widget.dart';
+import 'package:Gael/views/components/image_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class StreamingCard extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment:  MainAxisAlignment.spaceBetween,
         children: [
-          ImageWidget(size: Size(size, size * 4/3), imagePath: imagePath,),
+          AssetImageWidget(size: Size(size, size * 4/3), imagePath: imagePath,),
           SizedBox(height: themeProvider.spacingSizeSmall,),
           SizedBox(
             width: size,
