@@ -69,9 +69,9 @@ class MainApp extends StatelessWidget {
                 titleLarge: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 25),
                 titleMedium: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20),
                 titleSmall: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12),
-                bodyLarge: GoogleFonts.poppins(fontSize: 25),
-                bodyMedium: GoogleFonts.poppins(fontSize: 14),
-                bodySmall: GoogleFonts.poppins(fontSize: 12),
+                bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 25),
+                bodyMedium: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 14),
+                bodySmall: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 12),
               ),
               iconTheme: IconThemeData(
                 size: provider.iconSizeDefault,
