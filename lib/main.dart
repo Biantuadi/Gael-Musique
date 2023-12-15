@@ -34,12 +34,9 @@ class MainApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
 
-      )
-    );
-    return Consumer<ThemeProvider>(
+
+   return Consumer<ThemeProvider>(
         builder: (BuildContext context, provider, Widget? child) {
           bool isDark = provider.isDark;
           return MaterialApp(
@@ -81,18 +78,18 @@ class MainApp extends StatelessWidget {
             home: FutureBuilder(
                 future:provider.themeMode == ThemeMode.system ? syncWithOs(context) : future(),
                 builder: (context, snapshot) {
-                  return AnnotatedRegion<SystemUiOverlayStyle>(
+                  return const AnnotatedRegion<SystemUiOverlayStyle>(
                       value: SystemUiOverlayStyle(
                         statusBarColor : Colors.transparent,
-                        statusBarBrightness:Brightness.light ,//isDark? Brightness.light: Brightness.dark,
-                        statusBarIconBrightness: isDark? Brightness.light : Brightness.dark,
+                        statusBarBrightness: Brightness.light,
+                        statusBarIconBrightness:  Brightness.light,
                         systemNavigationBarColor: Colors.black,
                         systemNavigationBarContrastEnforced: true,
                         systemNavigationBarIconBrightness:Brightness.light,
                         systemStatusBarContrastEnforced: false,
                         systemNavigationBarDividerColor: Colors.transparent,
                       ),
-                      child: const SplashScreen()
+                      child: SplashScreen()
                   );
                 }
             ),

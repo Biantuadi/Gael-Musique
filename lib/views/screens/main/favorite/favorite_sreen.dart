@@ -15,12 +15,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return const Scaffold(
       body: Column(
         children: [
-          CustomHeader(
-            showLogo: true,
-            showAvatar: true,
-            title: "",
-            showBackButton: false,
-          ),
         ],
       ),
     );

@@ -15,12 +15,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return const Scaffold(
       body: Column(
         children: [
-          CustomHeader(
-            showLogo: true,
-            showAvatar: true,
-            title: "",
-            showBackButton: false,
-          ),
         ],
       ),
 

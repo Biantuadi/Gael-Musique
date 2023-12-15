@@ -20,21 +20,16 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: textRadio! ? 140 : 105,
-      padding: const EdgeInsets.only(top: 50),
-      // color: AppTheme.primaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (showLogo!) _buildLogo(),
-          if (showBackButton!) _buildBackButton(context),
-          if (title!.isNotEmpty) _buildTitle(context),
-          if (showAvatar!) _buildAvatar(),
-          if (textRadio!) _buildTextRadio(context),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (showLogo!) _buildLogo(),
+        if (showBackButton!) _buildBackButton(context),
+        if (title!.isNotEmpty) _buildTitle(context),
+        if (showAvatar!) _buildAvatar(),
+        if (textRadio!) _buildTextRadio(context),
+      ],
     );
   }
 
