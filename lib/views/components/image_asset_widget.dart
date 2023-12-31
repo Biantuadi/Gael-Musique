@@ -1,6 +1,5 @@
-import 'package:Gael/data/providers/theme_provider.dart';
+import 'package:Gael/utils/dimensions.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AssetImageWidget extends StatefulWidget{
   final String imagePath;
@@ -18,7 +17,7 @@ class AssetImageWidgetState extends State<AssetImageWidget>{
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(widget.radius??Provider.of<ThemeProvider>(context, listen: false).radiusSizeDefault),
+      borderRadius: BorderRadius.circular(widget.radius??Dimensions.radiusSizeDefault),
       child: Image.asset(widget.imagePath, width: widget.size.width, height: widget.size.height, fit: BoxFit.cover,),
     );
   }

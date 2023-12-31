@@ -8,4 +8,11 @@ class AppConfig {
 
    static const String appTheme = "THEME";
    static const String isFirstTime = "IS-FIRST-TIME";
+
+   /* auth */
+   static const String token = "USER-TOKEN";
+   static const String userName = "USER-NAME";
+   static const String userFirstName = "USER-FIRST-NAME";
+   static const String userProfileUrl = "USER-PROFILE-URL";
+
  }

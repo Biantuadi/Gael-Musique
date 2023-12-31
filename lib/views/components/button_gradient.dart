@@ -1,22 +1,26 @@
+import 'package:Gael/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:Gael/utils/theme_variables.dart';
 
 class GradientButton extends StatelessWidget {
-  final VoidCallback voidCallback;
+  final VoidCallback onTap;
   final Widget child;
-  const GradientButton({Key? key, required this.voidCallback, required this.child}) : super(key: key);
+  final Size size;
+  const GradientButton({Key? key, required this.onTap, required this.child, required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
+    Size screenSize = size;
+    if(screenSize.height >= 50){
+      screenSize =  Size (size.width, 50);
+    }
     return GestureDetector(
-      onTap: voidCallback,
+      onTap: onTap,
       child: Container(
-        width: width * 0.34,
-        height: 50,
+        width: screenSize.width,
+        height: screenSize.height,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
           gradient: const LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,

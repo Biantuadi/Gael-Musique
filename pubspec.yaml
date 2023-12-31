@@ -19,6 +19,12 @@ dependencies:
   shared_preferences: ^2.2.2
   iconsax: ^0.0.8
   image_fade: ^0.6.2
+  shimmer: ^3.0.0
+  image_picker: ^1.0.5
+  country_list_picker: ^1.0.2
+  country_picker: ^2.0.23
+  intl_phone_field: ^3.2.0
+  countries_info: ^1.0.3
 
 dev_dependencies:
   flutter_test:

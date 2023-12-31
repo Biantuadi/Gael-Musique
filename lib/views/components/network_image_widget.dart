@@ -1,8 +1,7 @@
-import 'package:Gael/data/providers/theme_provider.dart';
+import 'package:Gael/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_fade/image_fade.dart';
-import 'package:provider/provider.dart';
 
 class NetWorkImageWidget extends StatefulWidget{
   final String imageUrl;
@@ -20,9 +19,8 @@ class NetWorkImageWidget extends StatefulWidget{
 class NetWorkImageWidgetState extends State<NetWorkImageWidget>{
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context, listen: true);
     return ClipRRect(
-      borderRadius:BorderRadius.circular(widget.radius??themeProvider.radiusSizeDefault),
+      borderRadius:BorderRadius.circular(widget.radius??Dimensions.radiusSizeDefault),
       child: ImageFade(
         image: NetworkImage(widget.imageUrl),
         duration: const Duration(milliseconds: 900),

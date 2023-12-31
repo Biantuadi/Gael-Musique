@@ -1,6 +1,7 @@
 import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/config/app_config.dart';
+import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,12 @@ import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'data/providers/auth_provider.dart';
+import 'data/providers/chat_provider.dart';
+import 'data/providers/favorite_provider.dart';
+import 'data/providers/notification_provider.dart';
+import 'data/providers/song_provider.dart';
+import 'data/providers/stream_provider.dart';
 import 'di_container.dart' as di;
 
 void main() async{
@@ -18,6 +25,12 @@ void main() async{
     providers: [
       ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<SongProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<NotificationProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<FavoriteProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<StreamsProvider>()),
     ],
     child: const MainApp(),
   ));
@@ -51,12 +64,12 @@ class MainApp extends StatelessWidget {
                   background: Colors.black,
                   brightness: Brightness.dark,
                   primary: ThemeVariables.primaryColor,
-                  onPrimary: ThemeVariables.primaryColor,
+                  onPrimary:Colors.transparent ,// ThemeVariables.primaryColor,
                   secondary: ThemeVariables.secondaryColor,
                   onSecondary: ThemeVariables.secondaryColor,
                   error: Colors.red,
                   onError: Colors.redAccent,
-                  onBackground: ThemeVariables.primaryColor,
+                  onBackground:Colors.transparent ,//ThemeVariables.primaryColor,
                   surface: ThemeVariables.primaryColor,
                   onSurface: ThemeVariables.primaryColor,
 
@@ -71,7 +84,7 @@ class MainApp extends StatelessWidget {
                 bodySmall: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 12),
               ),
               iconTheme: IconThemeData(
-                size: provider.iconSizeDefault,
+                size: Dimensions.iconSizeDefault,
                 color: isDark? Colors.white : Colors.black,
               )
           ),

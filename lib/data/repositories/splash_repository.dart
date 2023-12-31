@@ -11,6 +11,19 @@ class SplashRepository{
      return  sharedPreferences.getBool(AppConfig.isFirstTime) ?? true;
   }
 
+  Future<String?> getUserToken()async{
+    return  sharedPreferences.getString(AppConfig.token);
+  }
+  Future<String?> getUserName()async{
+    return  sharedPreferences.getString(AppConfig.userFirstName);
+  }
+  Future<String?> getUserProfileUrl()async{
+    return  sharedPreferences.getString(AppConfig.userProfileUrl);
+  }
+  Future<String?> getUserFirstName()async{
+    return  sharedPreferences.getString(AppConfig.userFirstName);
+  }
+
   setFirstTimeToFalse()async{
       await sharedPreferences.setBool(AppConfig.isFirstTime, false);
   }

@@ -11,6 +11,7 @@ class Assets{
   static String gradient2PNG = "assets/images/gradient2.png";
   static String mediaSonSVG = "assets/images/Media_son.svg";
   static String textGael = "assets/images/TextGael.svg";
+  static String loginBg = "assets/images/login_bg.jpg";
 
 
 }
