@@ -59,7 +59,7 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
                    },
                    icon: Icon(
                      CupertinoIcons.play_circle_fill,
-                     size: Dimensions.iconSizeExtraLarge * 1.5,
+                     size: Dimensions.iconSizeExtraLarge * 2,
                      //color: Colors.red,
                    ),
                  ),

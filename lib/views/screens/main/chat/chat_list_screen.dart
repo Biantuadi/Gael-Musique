@@ -1,6 +1,7 @@
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/screens/main/chat/components/chat_list_item.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:flutter/rendering.dart';
@@ -59,7 +60,7 @@ class CchatListScreenState extends State<ChatListScreen> {
               // Utilize the input value here
               // print('Search query: $value');
             }, hintText: 'Recherche...',
-            prefixIcon: Icon(Iconsax.search_zoom_out, color: Theme.of(context).primaryColor, size: Dimensions.iconSizeSmall,),
+            prefixIcon: Icon(CupertinoIcons.search, color: Theme.of(context).primaryColor, size: Dimensions.iconSizeSmall,),
           ),
         ),
         SliverList.builder(
