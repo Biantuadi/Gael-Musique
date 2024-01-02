@@ -1,4 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/views/screens/screens.dart';
 import 'package:flutter/material.dart';
 
@@ -21,10 +22,12 @@ class Routes {
   static const String chatDetailScreen = "CHAT-DETAIL-SCREEN";
 
   static const String radioScreen = "RADIO-SCREEN";
+  static const String streamingDetailsScreen = "STREAMING-DETAILS-SCREEN";
   static const String favoritesScreen = "FAVORITES-SCREEN";
   static const String profileScreen = "PROFILE-SCREEN";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    final arguments = settings.arguments;
     switch (settings.name) {
       case landingScreen:
         return MaterialPageRoute(builder: (_) => const LandingScreen());
@@ -48,6 +51,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ChatDetailScreen());
       case radioScreen:
         return MaterialPageRoute(builder: (_) => const StreamingScreen());
+      case streamingDetailsScreen:
+        return MaterialPageRoute(builder: (_) =>  StreamingDetailsScreen(streaming: arguments as Streaming,));
       case favoritesScreen:
         return MaterialPageRoute(builder: (_) => const FavoriteScreen());
       case profileScreen:

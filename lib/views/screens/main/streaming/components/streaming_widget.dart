@@ -1,6 +1,7 @@
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -15,7 +16,7 @@ class StreamingWidget extends StatelessWidget{
     Size size = Size(screenSize.width *0.8, screenSize.width *2);
     return InkWell(
       onTap: (){
-
+        Navigator.pushNamed(context, Routes.streamingDetailsScreen, arguments: streaming);
       },
       child: Container(
         width: size.width,
@@ -37,7 +38,7 @@ class StreamingWidget extends StatelessWidget{
                 Text(streaming.title, style: Theme.of(context).textTheme.titleSmall,),
                 SizedBox(
                   width: size.width,
-                    child: Text(streaming.description, style: Theme.of(context).textTheme.bodySmall,)),
+                    child: Text(streaming.description, style: Theme.of(context).textTheme.bodySmall, textAlign: TextAlign.center,)),
               ],
             ),)
           ],

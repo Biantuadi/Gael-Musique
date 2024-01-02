@@ -75,6 +75,8 @@ class MainApp extends StatelessWidget {
 
               ),
               scaffoldBackgroundColor: ThemeVariables.thirdColorBlack,
+              dialogBackgroundColor: ThemeVariables.thirdColorBlack,
+              backgroundColor: ThemeVariables.thirdColorBlack,
 
               textTheme: TextTheme(
                 titleLarge: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 25, color: Colors.white),
