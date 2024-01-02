@@ -47,24 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.sizeOf(context);
     Widget spacing()=>SizedBox(height: Dimensions.spacingSizeDefault,);
     return  Scaffold(
-      appBar: (!showAppBar)?AppBar(
-        leadingWidth: 0,
-        backgroundColor: Colors.black,
-        leading: const SizedBox(),
-        actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Iconsax.notification_1, color: Colors.white,))
-        ],
-        title: Text("Accueil", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
-      ) :null ,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            showAppBar?
             const CustomHeader(
               showLogo: true,
               showAvatar: true,
-            ) : const SizedBox(height: 0, width: 0,),
+            ) ,
             Expanded(
               child: SingleChildScrollView(
                 controller: scrollController,
