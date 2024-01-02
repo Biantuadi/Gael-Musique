@@ -1,3 +1,4 @@
+/*
 import 'package:countries_info/countries_info.dart';
 
 void main() {
@@ -48,3 +49,4 @@ void main2() {
       print(country['name']['official']);
     });
 }
+ */

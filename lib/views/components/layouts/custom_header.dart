@@ -1,4 +1,5 @@
 import 'package:Gael/utils/assets.dart';
+import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 
@@ -20,22 +21,24 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (showLogo!) _buildLogo(),
-        if (showBackButton!) _buildBackButton(context),
-        if (title!.isNotEmpty) _buildTitle(context),
-        if (showAvatar!) _buildAvatar(),
-        if (textRadio!) _buildTextRadio(context),
-      ],
+    return Container(
+      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (showLogo!) _buildLogo(),
+          if (showBackButton!) _buildBackButton(context),
+          if (title!.isNotEmpty) _buildTitle(context),
+          if (showAvatar!) _buildAvatar(),
+          if (textRadio!) _buildTextRadio(context),
+        ],
+      ),
     );
   }
 
   Widget _buildLogo() {
     return Container(
-      margin: const EdgeInsets.only(left: 10),
       child: Image.asset(
         Assets.logoPNG,
         height: 50,
@@ -45,7 +48,6 @@ class CustomHeader extends StatelessWidget {
 
   Widget _buildBackButton(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10),
       child: IconButton(
         onPressed: () {
           Navigator.pop(context);
@@ -60,7 +62,6 @@ class CustomHeader extends StatelessWidget {
 
   Widget _buildTitle(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10),
       child: Text(
         title!,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -72,7 +73,6 @@ class CustomHeader extends StatelessWidget {
 
   Widget _buildAvatar() {
     return Container(
-      margin: const EdgeInsets.only(right: 15),
       decoration: BoxDecoration(
         border: Border.all(
           color: ThemeVariables.primaryColor,
@@ -92,7 +92,6 @@ class CustomHeader extends StatelessWidget {
   // text span
   Widget _buildTextRadio(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10),
       child: RichText(
         text: TextSpan(
           text: 'Faites votre choix, \n',

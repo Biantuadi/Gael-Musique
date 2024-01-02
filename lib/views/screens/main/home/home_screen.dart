@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
         leading: const SizedBox(),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Iconsax.notification_1, color: Colors.white,))
+          IconButton(onPressed: (){}, icon: const Icon(Iconsax.notification_1, color: Colors.white,))
         ],
         title: Text("Accueil", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
       ) :null ,
