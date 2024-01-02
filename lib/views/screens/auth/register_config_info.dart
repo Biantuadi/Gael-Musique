@@ -28,7 +28,6 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     countries.all().forEach((element) {
-      print(element);
     });
 
     return Scaffold(

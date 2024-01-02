@@ -13,7 +13,7 @@ class HomeAlbumCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: screenSize.height/4,
+      height: screenSize.height/5,
       width: screenSize.width * 0.8,
       margin: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
       decoration: BoxDecoration(

@@ -21,11 +21,7 @@ class GradientButton extends StatelessWidget {
         height: screenSize.height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-          gradient: const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [ThemeVariables.primaryColor, ThemeVariables.secondaryColor],
-          ),
+          gradient: ThemeVariables.primaryGradient
         ),
         child:  Center(
           child: child,

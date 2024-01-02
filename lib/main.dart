@@ -14,7 +14,7 @@ import 'data/providers/chat_provider.dart';
 import 'data/providers/favorite_provider.dart';
 import 'data/providers/notification_provider.dart';
 import 'data/providers/song_provider.dart';
-import 'data/providers/stream_provider.dart';
+import 'data/providers/streaming_provider.dart';
 import 'di_container.dart' as di;
 
 void main() async{
@@ -30,7 +30,7 @@ void main() async{
       ChangeNotifierProvider(create: (context) => di.sl<FavoriteProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<StreamsProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<StreamingProvider>()),
     ],
     child: const MainApp(),
   ));
@@ -75,13 +75,14 @@ class MainApp extends StatelessWidget {
 
               ),
               scaffoldBackgroundColor: ThemeVariables.thirdColorBlack,
+
               textTheme: TextTheme(
-                titleLarge: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 25),
-                titleMedium: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20),
-                titleSmall: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12),
-                bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 25),
-                bodyMedium: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 14),
-                bodySmall: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 12),
+                titleLarge: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 25, color: Colors.white),
+                titleMedium: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.white),
+                titleSmall: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, color: Colors.white),
+                bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 25, color: Colors.white),
+                bodyMedium: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 14, color: Colors.white),
+                bodySmall: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 12, color: Colors.white),
               ),
               iconTheme: IconThemeData(
                 size: Dimensions.iconSizeDefault,
@@ -93,7 +94,7 @@ class MainApp extends StatelessWidget {
                 builder: (context, snapshot) {
                   return const AnnotatedRegion<SystemUiOverlayStyle>(
                       value: SystemUiOverlayStyle(
-                        statusBarColor : Colors.transparent,
+                        statusBarColor : Colors.black,
                         statusBarBrightness: Brightness.light,
                         statusBarIconBrightness:  Brightness.light,
                         systemNavigationBarColor: Colors.black,

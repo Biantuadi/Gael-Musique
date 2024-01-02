@@ -6,7 +6,7 @@ class ThemeVariables {
   static const Color primaryColor = Color(0xFFDE901C);
   static const Color secondaryColor = Color(0xFFFFC54B);
   static const Color backgroundBlack = Color(0xFF161615);
-  static const Color thirdColorBlack = Color(0xFF161615);
+  static const Color thirdColorBlack = Color(0xFF171717);
   static const Color iconInactive = Color.fromRGBO(
       87, 87, 87, 0.8549019607843137);
   static  Color listChatTextColor = Colors.white.withOpacity(0.5);
@@ -23,6 +23,12 @@ class ThemeVariables {
       Color(0xfa805d00),
     ],
     tileMode: TileMode.mirror,
+  );
+
+  static const primaryGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [ThemeVariables.primaryColor, ThemeVariables.secondaryColor],
   );
 
 }

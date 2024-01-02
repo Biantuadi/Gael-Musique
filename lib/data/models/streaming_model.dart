@@ -2,6 +2,7 @@
 class Streaming{
   late String id;
   late String cover;
+  late String title;
   late String description;
   late DateTime createdAt;
   late bool? isEmission;
@@ -11,6 +12,7 @@ class Streaming{
   Streaming({
     required this.cover,
     required this.id,
+    required this.title,
     required this.createdAt,
     required this.description,
     this.isEmission,
@@ -20,6 +22,7 @@ class Streaming{
 
   Streaming.fromJson(Map<String, dynamic> json){
     id = json["id"];
+    title = json["title"];
     description = json["description"];
     cover = json["cover"];
     isEmission = json["is_emission"];
@@ -32,6 +35,7 @@ class Streaming{
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
     json["id"] = id;
+    json["title"] = title;
     json["description"] = description;
     json["cover"] = cover;
     json["is_emission"] = isEmission;

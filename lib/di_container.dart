@@ -12,13 +12,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'data/api/client/dio_client.dart';
 import 'data/providers/song_provider.dart';
 import 'data/providers/splash_provider.dart';
-import 'data/providers/stream_provider.dart';
+import 'data/providers/streaming_provider.dart';
 import 'data/repositories/chat_repository.dart';
 import 'data/repositories/favorite_repository.dart';
 import 'data/repositories/notification_repository.dart';
 import 'data/repositories/song_repository.dart';
 import 'data/repositories/splash_repository.dart';
-import 'data/repositories/stream_repository.dart';
+import 'data/repositories/streaming_repository.dart';
 
 
 final sl = GetIt.instance;
@@ -32,7 +32,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => FavoriteRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => NotificationRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => SongRepository(sharedPreferences: sl(), dioClient: sl()));
-  sl.registerLazySingleton(() => StreamRepository(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(() => StreamingRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => ThemeRepository(sharedPreferences: sl(),));
 
   sl.registerFactory(() => SplashProvider(splashRepository: sl(),));
@@ -42,7 +42,7 @@ Future<void> init() async {
   sl.registerFactory(() => FavoriteProvider(favoriteRepository: sl()));
   sl.registerFactory(() => NotificationProvider(notificationRepository: sl()));
   sl.registerFactory(() => SongProvider(songRepository: sl()));
-  sl.registerFactory(() => StreamsProvider(streamRepository: sl(),));
+  sl.registerFactory(() => StreamingProvider(streamRepository: sl(),));
 
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);

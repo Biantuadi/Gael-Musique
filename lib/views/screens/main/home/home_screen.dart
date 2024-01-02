@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text("Albums", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
                       ),
                       SizedBox(
-                        height: size.height/3,
+                        height: size.height/4,
                         child: ListView.builder(
                           padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                             itemCount: 4,
