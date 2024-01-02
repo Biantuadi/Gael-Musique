@@ -5,6 +5,7 @@ class AuthProvider with ChangeNotifier{
   AuthRepository authRepository;
   AuthProvider({required this.authRepository});
   Map<String, dynamic> registerInfo = {};
+
   setNames({required String name, required String firstName}){
       registerInfo["name"] = name;
       registerInfo["firstName"] = firstName;
@@ -18,5 +19,8 @@ class AuthProvider with ChangeNotifier{
   setPassword(String password){
     registerInfo["password"] = password;
     notifyListeners();
+  }
+  getUserInfos(){
+
   }
 }

@@ -54,7 +54,6 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
             SizedBox(
               height: size.height,
               width: size.width,
-
               child: Consumer<AuthProvider>(
                   builder: (BuildContext context, provider, Widget? child) {
                   return Column(

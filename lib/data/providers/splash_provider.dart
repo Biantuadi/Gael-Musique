@@ -18,12 +18,16 @@ class SplashProvider with ChangeNotifier{
   String? userName_;
   String? userProfileUrl_;
   String? userFirstName_;
+  String? userEmail_;
+  String? userPhone_;
 
 
   // GETTERS
 
   String? get userToken => userToken_;
   String? get userName => userName_;
+  String? get userPhone => userPhone_;
+  String? get userEmail => userEmail_;
   String? get userFirstName => userFirstName_;
   String? get userProfileUrl => userProfileUrl_;
   bool get  isFirstTime =>  isFirstTime_;
