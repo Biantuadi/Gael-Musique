@@ -1,3 +1,4 @@
+import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
@@ -59,7 +60,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 Container(
                   margin: EdgeInsets.only(top: height * 0.15),
                   child: SvgPicture.asset(
-                    "assets/images/Media_son.svg",
+                    Assets.mediaSonSVG,
                     width: width,
                     height: height * 0.3,
                   ),
@@ -67,12 +68,12 @@ class _LandingScreenState extends State<LandingScreen> {
                 Container(
                   alignment: Alignment.bottomRight,
                   child: SvgPicture.asset(
-                    "assets/images/TextGael.svg",
+                    Assets.textGael,
                     width: width * 0.5,
                     height: height * 0.22,
                   ),
                 ),
-                SizedBox(height: Dimensions.spacingSizeDefault,),
+                SizedBox(height: sizeScreen.height * 0.1,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
