@@ -67,6 +67,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
               padding: EdgeInsets.zero,
               elevation: 0.1,
               shadowColor: Colors.grey,
+              height: size.height * .08,
               child:Stack(
                 alignment: Alignment.topCenter,
                 children: [
@@ -80,7 +81,6 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                     dividerColor: Colors.black,
                     automaticIndicatorColorAdjustment: true,
                     tabAlignment: TabAlignment.fill,
-
                     indicator: const BoxDecoration(
                         border: Border(
                             top: BorderSide(color: ThemeVariables.primaryColor)
