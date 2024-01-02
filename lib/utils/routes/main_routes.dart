@@ -47,7 +47,7 @@ class Routes {
       case chatDetailScreen:
         return MaterialPageRoute(builder: (_) => const ChatDetailScreen());
       case radioScreen:
-        return MaterialPageRoute(builder: (_) => const RadioScreen());
+        return MaterialPageRoute(builder: (_) => const StreamingScreen());
       case favoritesScreen:
         return MaterialPageRoute(builder: (_) => const FavoriteScreen());
       case profileScreen:

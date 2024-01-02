@@ -4,7 +4,7 @@ import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/ellipsis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:Gael/views/components/button_gradient.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});

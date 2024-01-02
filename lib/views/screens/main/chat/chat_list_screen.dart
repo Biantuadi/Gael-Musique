@@ -1,7 +1,7 @@
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/views/screens/main/chat/components/chat_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:Gael/views/components/custom_text_field.dart';
+import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';
 

@@ -6,7 +6,7 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/string_extensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
-import 'package:Gael/views/components/button_gradient.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';

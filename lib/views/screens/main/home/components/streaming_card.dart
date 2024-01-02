@@ -1,5 +1,5 @@
 import 'package:Gael/utils/dimensions.dart';
-import 'package:Gael/views/components/image_asset_widget.dart';
+import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/material.dart';
 
 class StreamingCard extends StatelessWidget{

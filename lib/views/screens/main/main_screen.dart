@@ -1,9 +1,9 @@
-import 'package:Gael/data/models/screen_model.dart';
+import 'package:Gael/data/models/app/screen_model.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
 import 'package:Gael/views/screens/main/favorite/favorite_sreen.dart';
 import 'package:Gael/views/screens/main/profile/profile_screen.dart';
-import 'package:Gael/views/screens/main/radio/radio_screen.dart';
+import 'package:Gael/views/screens/main/streaming/streaming_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
@@ -30,7 +30,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     screens = [
       ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:const HomeScreen()),
       ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()),
-      ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const RadioScreen()),
+      ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const StreamingScreen()),
       ScreenModel(icon: Iconsax.heart, activeIcon: Iconsax.heart5, content:  const FavoriteScreen()),
       ScreenModel(icon: Iconsax.user, activeIcon: Iconsax.user, content:  const ProfileScreen()),
     ];

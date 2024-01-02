@@ -2,7 +2,7 @@ import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:Gael/utils/theme_variables.dart';
 
-import '../../../../components/network_image_widget.dart';
+import '../../../../components/images/network_image_widget.dart';
 
 class ChatListItem extends StatelessWidget {
   final bool isLastMessageMine;
