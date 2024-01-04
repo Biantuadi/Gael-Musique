@@ -8,7 +8,7 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
     isScrollControlled: true,
     context: context,
     elevation: 10,
-    backgroundColor: ThemeVariables.thirdColorBlack,
+    backgroundColor: Colors.transparent,
     barrierColor: ThemeVariables.thirdColorBlack.withOpacity(0.5),
     clipBehavior: Clip.antiAliasWithSaveLayer,
     shape: RoundedRectangleBorder(
@@ -27,7 +27,7 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
                     padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                     margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
                     decoration: BoxDecoration(
-                      color: bgColor??Colors.black.withOpacity(0.7),
+                      color: bgColor??Colors.black,
                       borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
                     ),
                     child: content),

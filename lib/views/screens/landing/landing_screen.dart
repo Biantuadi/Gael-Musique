@@ -90,7 +90,7 @@ class _LandingScreenState extends State<LandingScreen> {
                         onPressed: (){
                           Navigator.pushNamed(context, Routes.loginScreen);
                         },
-                        child: Text("Login")),
+                        child: Text("Login", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor))),
                   ],
                 )
               ],
