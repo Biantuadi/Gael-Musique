@@ -1,4 +1,5 @@
 import 'package:Gael/data/models/streaming_model.dart';
+import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
@@ -14,6 +15,7 @@ class StreamingWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.sizeOf(context);
     Size size = Size(screenSize.width *0.8, screenSize.width *2);
+    User user =   User(phone: "", firstName: "", id: "", address: "", bio: "", birthDay: DateTime.now(), createdAt: DateTime.now(), email: "", lastName: "", preferences: {}, profileImage: "", role: "");
     return InkWell(
       onTap: (){
         Navigator.pushNamed(context, Routes.streamingDetailsScreen, arguments: streaming);
@@ -31,7 +33,7 @@ class StreamingWidget extends StatelessWidget{
             Opacity(
               opacity: .6,
                 child: AssetImageWidget(imagePath: Assets.loginBg, size: size,)),
-            IconButton(onPressed: (){}, icon: const Icon(Iconsax.heart)),
+            IconButton(onPressed: (){}, icon: Icon(streaming.isFavorite(user: user)? Iconsax.heart : Iconsax.heart5)),
             Center(child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

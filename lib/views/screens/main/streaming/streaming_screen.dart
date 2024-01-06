@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'components/streaming_filter_widget.dart';
-import 'components/streaming_widget.dart';
+import '../../../components/streaming_widget.dart';
 
 class StreamingScreen extends StatefulWidget {
   const StreamingScreen({super.key});

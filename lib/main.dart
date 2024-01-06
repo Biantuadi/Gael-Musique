@@ -87,7 +87,7 @@ class MainApp extends StatelessWidget {
               ),
               iconTheme: IconThemeData(
                 size: Dimensions.iconSizeDefault,
-                color: isDark? Colors.white : Colors.black,
+                color: Colors.white,
               )
           ),
             home: FutureBuilder(

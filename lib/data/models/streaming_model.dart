@@ -1,4 +1,6 @@
 
+import 'package:Gael/data/models/user_model.dart';
+
 class Streaming{
   late String id;
   late String cover;
@@ -29,10 +31,9 @@ class Streaming{
     isPodcast = json["is_podcast"];
     isRadio = json["is_radio"];
     createdAt = DateTime.parse(json["created_at"]);
-
   }
 
-  Map<String, dynamic> toJson({bool isForBd = false}){
+  Map<String, dynamic> toJson(){
     Map<String, dynamic> json = {};
     json["id"] = id;
     json["title"] = title;
@@ -45,5 +46,15 @@ class Streaming{
 
     return json;
   }
+
+  bool isFavorite({required User user}){
+    if(user.preferences.containsKey("streaming")){
+      if(user.preferences["streaming"].contains(toJson())){
+        return true;
+      }
+    }
+    return false;
+  }
+
 
 }

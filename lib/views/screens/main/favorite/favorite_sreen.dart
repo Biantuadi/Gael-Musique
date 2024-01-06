@@ -1,6 +1,13 @@
-import 'package:Gael/views/components/layouts/custom_header.dart';
-import 'package:Gael/views/components/layouts/custom_navbar_bottom.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
+import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/screens/main/streaming/components/streaming_filter_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../../../components/streaming_widget.dart';
+
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -9,14 +16,79 @@ class FavoriteScreen extends StatefulWidget {
   State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
+
+
+
 class _FavoriteScreenState extends State<FavoriteScreen> {
+  ScrollController scrollController = ScrollController();
+
+  bool showHeader = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        setState(() {
+          showHeader = false;
+        });
+      }
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        setState(() {
+          showHeader = true;
+        });
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        children: [
-        ],
-      ),
+    Size size = MediaQuery.sizeOf(context);
+    return Consumer<StreamingProvider>(
+        builder: (BuildContext context, provider, Widget? child) {
+          return CustomScrollView(
+            controller: scrollController,
+            slivers: [
+              SliverAppBar(
+                title: Text("Vos favoris",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
+                pinned: true,
+                backgroundColor:ThemeVariables.thirdColorBlack,
+              ),
+              SliverList.list(children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    top : Dimensions.spacingSizeDefault,
+                    left : Dimensions.spacingSizeDefault,
+                  ),
+                  child:Text("Revivez ces moments", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                ),
+              ]),
+
+              SliverPadding(
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                sliver: SliverGrid.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: Dimensions.spacingSizeDefault, mainAxisSpacing: Dimensions.spacingSizeDefault, childAspectRatio: .8),
+                  itemBuilder: (BuildContext ctx, int index){
+                    if(provider.streamingToShow == null){
+                      return  Container(
+                        width: size.width,
+                        height: size.width * 2,
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+                        ),
+                      );
+                    }
+                    return StreamingWidget(streaming: provider.streamingToShow![index],);
+                  },
+                  itemCount: provider.streamingToShow!.length,
+                ),
+              )
+            ],
+          );
+        }
     );
   }
 }
