@@ -70,7 +70,7 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                                 Image.asset(Assets.logoPNG, width: size.width/4,),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
                                 Text(
-                                  "Salut, ${provider.registerInfo['name']} ${provider.registerInfo['firstName']}".capitalize(),
+                                  "Salut, ${provider.registerModel.firstName} ${provider.registerModel.lastName}".capitalize(),
                                   style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                                 ),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
@@ -113,7 +113,7 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                                 SizedBox(height: Dimensions.spacingSizeLarge,),
                                 GradientButton(onTap: (){
                                   if (formKey.currentState!.validate()) {
-                                    provider.setInfo(email: email, phone: phone);
+                                    provider.setRegisterInfo(email: email, phone: phone);
                                     Navigator.pushNamedAndRemoveUntil(context, Routes.registerPasswordConfigScreen, (route) => false);
                                   }
                                 }, size: size, child: Text("Continuer", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))

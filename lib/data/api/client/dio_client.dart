@@ -47,6 +47,32 @@ class DioClient {
       rethrow;
     }
   }
+  Future<Response> post(String uri, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+    FormData? data
+
+  }) async {
+    try {
+      var response = await dio.post(
+        uri,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        data: data,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } on SocketException catch (e) {
+      throw SocketException(e.toString());
+    } on FormatException catch (_) {
+      throw const FormatException("Unable to process the data");
+    } catch (e) {
+      rethrow;
+    }
+  }
 
 
 }

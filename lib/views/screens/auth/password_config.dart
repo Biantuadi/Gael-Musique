@@ -58,12 +58,12 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                 Image.asset(Assets.logoPNG, width: size.width/4,),
                                 SizedBox(height: Dimensions.spacingSizeDefault,),
                                 Text(
-                                  "${provider.registerInfo['firstName']} ${provider.registerInfo['name']},",
+                                  "${provider.registerModel.firstName} ${provider.registerModel.lastName},",
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
                                 ),
 
                                 Text(
-                                  "${provider.registerInfo['email']}",
+                                  "${provider.registerModel.email}",
                                   style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),
                                 ),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),

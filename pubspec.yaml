@@ -25,6 +25,7 @@ dependencies:
   country_picker: ^2.0.23
   intl_phone_field: ^3.2.0
   countries_info: ^1.0.3
+  flutter_carousel_widget: ^2.2.0
 
 dev_dependencies:
   flutter_test:

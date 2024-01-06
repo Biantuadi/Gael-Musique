@@ -112,7 +112,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                             GradientButton(onTap: (){
 
                               if (formKey.currentState!.validate()) {
-                                Provider.of<AuthProvider>(context, listen: false).setNames(name: name, firstName: firstName);
+                                Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
                                 Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
                               }
                             }, size: size, child: Text("Continuer", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))

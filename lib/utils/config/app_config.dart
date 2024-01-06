@@ -2,7 +2,18 @@ class AppConfig {
    static const String APP_NAME = 'Gael Music';
    static const String APP_VERSION = '1.0';
    static const String API_KEY = "";
-   static const String BASE_URL = "";
+   static const String BASE_URL = "https://back-gael.vercel.app/";
+
+   // URL
+      // AUTH
+   static const String loginUrl = "auth/login";
+   static const String registerUrl = "auth/register";
+
+      // USERS
+   static const String users = "users";
+   static const String userMe = "users/me"; // PASSER SON ID
+   static const String user = "users/";
+
 
    // SHARED PREFERENCES
 
@@ -10,9 +21,12 @@ class AppConfig {
    static const String isFirstTime = "IS-FIRST-TIME";
 
    /* auth */
-   static const String token = "USER-TOKEN";
-   static const String userName = "USER-NAME";
-   static const String userFirstName = "USER-FIRST-NAME";
-   static const String userProfileUrl = "USER-PROFILE-URL";
+   static const String sharedToken = "USER-TOKEN";
+   static const String sharedUserName = "USER-NAME";
+   static const String sharedFirstName = "USER-FIRST-NAME";
+   static const String sharedEmail = "USER-EMAIL";
+   static const String sharedProfileUrl = "USER-PROFILE-URL";
+   static const String sharedPhone = "USER-PHONE";
+   static const String sharedUserBio = "USER-BIO";
 
  }

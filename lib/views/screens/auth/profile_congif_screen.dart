@@ -95,7 +95,7 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                                   ),
                                   SizedBox(height: Dimensions.spacingSizeSmall,),
                                   Text(
-                                    "${provider.registerInfo['firstName']}".capitalize()+" ${provider.registerInfo['name']}".capitalize(),
+                                    "${provider.registerModel.firstName}".capitalize()+" ${provider.registerModel.lastName}".capitalize(),
                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                                   ),
                                   const Divider(color: Colors.white,),
@@ -109,11 +109,11 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                               children: [
                                 Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
-                                Text("${provider.registerInfo['email']}".capitalize(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+                                Text("${provider.registerModel.email}".capitalize(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
                                 SizedBox(height: Dimensions.spacingSizeDefault,),
                                 Text("Téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
-                                Text("${provider.registerInfo['phone']}".capitalize(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
+                                Text("${provider.registerModel.phone}".capitalize(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
 
                               ],
                             ),

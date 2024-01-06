@@ -31,5 +31,5 @@ class Chat {
 
     return json;
   }
- 
+
 }

@@ -12,18 +12,24 @@ class SplashRepository{
   }
 
   Future<String?> getUserToken()async{
-    return  sharedPreferences.getString(AppConfig.token);
+    return  sharedPreferences.getString(AppConfig.sharedToken);
   }
   Future<String?> getUserName()async{
-    return  sharedPreferences.getString(AppConfig.userFirstName);
+    return  sharedPreferences.getString(AppConfig.sharedUserName);
   }
   Future<String?> getUserProfileUrl()async{
-    return  sharedPreferences.getString(AppConfig.userProfileUrl);
+    return  sharedPreferences.getString(AppConfig.sharedProfileUrl);
   }
   Future<String?> getUserFirstName()async{
-    return  sharedPreferences.getString(AppConfig.userFirstName);
+    return  sharedPreferences.getString(AppConfig.sharedFirstName);
   }
 
+  Future<String?> getUserPhone()async{
+    return  sharedPreferences.getString(AppConfig.sharedPhone);
+  }
+  Future<String?> getUserBio()async{
+    return  sharedPreferences.getString(AppConfig.sharedUserBio);
+  }
   setFirstTimeToFalse()async{
       await sharedPreferences.setBool(AppConfig.isFirstTime, false);
   }
