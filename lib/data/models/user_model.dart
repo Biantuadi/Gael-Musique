@@ -40,7 +40,7 @@ class User{
     phone = json["phone"];
   }
 
-  Map<String, dynamic> toJson({bool isForBd = false}){
+  Map<String, dynamic> toJson(){
     Map<String, dynamic> json = {};
     json["id"] = id;
     json["lastName"] = lastName;

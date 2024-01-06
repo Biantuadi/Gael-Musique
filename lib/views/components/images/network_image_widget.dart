@@ -21,36 +21,43 @@ class NetWorkImageWidgetState extends State<NetWorkImageWidget>{
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius:BorderRadius.circular(widget.radius??Dimensions.radiusSizeDefault),
-      child: ImageFade(
-        image: NetworkImage(widget.imageUrl),
-        duration: const Duration(milliseconds: 900),
-        syncDuration: const Duration(milliseconds: 150),
-        alignment: Alignment.center,
-        fit: BoxFit.cover,
-        placeholder: Container(
-          color: Theme.of(context).hintColor,
-          height: widget.size.height,
-          width: widget.size.width,
-          alignment: Alignment.center,
-          child: widget.placeHolderWidget ??  Icon(Iconsax.image, color: Colors.white30, size: widget.size.width /2),
+      child: Container(
+        height: widget.size.height,
+        width: widget.size.width,
+        decoration:const BoxDecoration(
+          color: Colors.white10
         ),
-        loadingBuilder: (context, progress, chunkEvent) =>
-            Container(
-              height: widget.size.height,
-              width: widget.size.width,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(0.6),
-                borderRadius: BorderRadius.circular(widget.size.width)
-              ),
-                child: CircularProgressIndicator(value: progress),
-            ),
-        errorBuilder: (context, error) => Container(
-          height: widget.size.height,
-          width: widget.size.width,
-          color: const Color(0xFF6F6D6A),
+        child: ImageFade(
+          image: NetworkImage(widget.imageUrl),
+          duration: const Duration(milliseconds: 900),
+          syncDuration: const Duration(milliseconds: 150),
           alignment: Alignment.center,
-          child:widget.errorWidget?? Icon(Iconsax.eraser, color: Colors.black26, size: widget.size.width * 0.2),
+          fit: BoxFit.cover,
+          placeholder: Container(
+            color: Theme.of(context).hintColor,
+            height: widget.size.height,
+            width: widget.size.width,
+            alignment: Alignment.center,
+            child: widget.placeHolderWidget ??  Icon(Iconsax.image, color: Colors.white30, size: widget.size.width /2),
+          ),
+          loadingBuilder: (context, progress, chunkEvent) =>
+              Container(
+                height: widget.size.height,
+                width: widget.size.width,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(widget.size.width)
+                ),
+                  child: CircularProgressIndicator(value: progress),
+              ),
+          errorBuilder: (context, error) => Container(
+            height: widget.size.height,
+            width: widget.size.width,
+            color: const Color(0xFF6F6D6A),
+            alignment: Alignment.center,
+            child:widget.errorWidget?? Icon(Iconsax.eraser, color: Colors.black26, size: widget.size.width * 0.2),
+          ),
         ),
       ),
     );
