@@ -8,6 +8,7 @@ class StreamingFilter extends StatelessWidget{
   final VoidCallback onTap;
   const StreamingFilter({super.key, required this.title, required this.onTap,  this.isSelected});
 
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: ()=>onTap(),

@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool showAppBar = true;
   @override
   void initState() {
-    // TODO: implement initState
+    // 
     super.initState();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==

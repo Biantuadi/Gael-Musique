@@ -5,12 +5,9 @@ import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
-import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -80,6 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final file = xImageFile;
     if(xImageFile != null){
       imageFile = File(file!.path);
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     }
   }

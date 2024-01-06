@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class AppConfig {
    static const String APP_NAME = 'Gael Music';
    static const String APP_VERSION = '1.0';
