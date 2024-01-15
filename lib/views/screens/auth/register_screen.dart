@@ -21,9 +21,17 @@ class RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   String name = "";
   String firstName = "";
+  bool showPositional = true;
+  @override
+  void initState() {
+    super.initState();
+    
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    final keyBoardHeight = MediaQuery.of(context).viewInsets.bottom;
+    showPositional = !(keyBoardHeight > 0);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -128,32 +136,35 @@ class RegisterScreenState extends State<RegisterScreen> {
             ),
             Positioned(
                 bottom: size.height * 0.000,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: size.width,
-                  height: size.height * 0.07,
-                  color: Colors.black.withOpacity(0.6),
-                  child: RichText(
-                    text: TextSpan(
-                        text: "Vous avez déjà un compte?",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: Colors.white),
-                        children: [
-                          TextSpan(
-                            text: " Connectez-vous",
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.pushNamed(
-                                  context, Routes.loginScreen),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ]),
+                child: Visibility(
+                  visible: showPositional,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: size.width,
+                    height: size.height * 0.07,
+                    color: Colors.black.withOpacity(0.6),
+                    child: RichText(
+                      text: TextSpan(
+                          text: "Vous avez déjà un compte?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(color: Colors.white),
+                          children: [
+                            TextSpan(
+                              text: " Connectez-vous",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.pushNamed(
+                                    context, Routes.loginScreen),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ]),
+                    ),
                   ),
                 ))
           ],

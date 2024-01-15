@@ -143,12 +143,27 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
 
                                   if (formKey.currentState!.validate()) {
                                     if(conditionsAccepted){
-                                      Navigator.pushNamedAndRemoveUntil(context, Routes.registerProfileConfigScreen, (route) => false);
+                                      provider.register(successCallBack: (){}, erroCallback: ()=> Navigator.pushNamedAndRemoveUntil(context, Routes.registerProfileConfigScreen, (route) => false)
+                                      );
                                     }else{
                                       ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Vous devez accepter les conditions avant de continuer", context: context, bgColor: Colors.red));
                                     }
                                   }
-                                }, size: size, child: Text("Créer le compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
+                                }, size: size, child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    provider.isLoading? Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
+                                          width:Dimensions.iconSizeExtraSmall,
+                                            height: Dimensions.iconSizeExtraSmall,
+                                            child: const CircularProgressIndicator(strokeWidth: 1,))
+                                      ],
+                                    ):const SizedBox(),
+                                    Text("Créer le compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                                  ],
+                                ))
                               ],
                             ),
                           ),

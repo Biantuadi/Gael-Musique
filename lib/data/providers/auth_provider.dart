@@ -35,11 +35,13 @@ class AuthProvider with ChangeNotifier{
   getUserInfo(){
 
   }
-  register()async{
+  register({required VoidCallback successCallBack, required VoidCallback erroCallback})async{
     isLoading = true;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
+
     if(apiResponse != null){
+      print("LA RESPONSE: ${apiResponse.response.statusCode}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
             userEmail = data["email"];
@@ -54,9 +56,13 @@ class AuthProvider with ChangeNotifier{
             await authRepository.setUserUserName(userName!);
             await authRepository.setUserPhone(userPhone!);
             await authRepository.setUserProfileUrl(userProfileUrl!);
+            print("LES DATS RECUES: $data");
+            successCallBack();
         }
+
     }else{
       registerError = "Erreur inconnue";
+      erroCallback();
     }
     isLoading = false;
     notifyListeners();
