@@ -6,7 +6,6 @@ class SmallTitleBuild extends StatelessWidget{
   const SmallTitleBuild({required this.title, super.key, this.color});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     throw UnimplementedError();
   }
 

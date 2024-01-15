@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Dimensions {
   //static double SPACING_SIZE_EXTRA_EXTRA_SMALL = (screenSize.width >= bigTabletScreen)? 10 :(screenSize.width >= smallPhoneWidth)? 2.0 : 1;
+  // ignore: deprecated_member_use
   static Size screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window).size ;//MediaQuery.sizeOf(MainApp.navigatorKey.currentContext!);
   static double standardTabletScreenWidth = 600;
   static double smallPhoneWidth = 320;

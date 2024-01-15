@@ -1,10 +1,10 @@
+
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:Gael/views/screens/main/streaming/components/streaming_filter_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../components/streaming_widget.dart';
 

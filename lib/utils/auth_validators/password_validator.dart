@@ -3,7 +3,7 @@ String? validatePassword(String? value) {
   if(value!.isEmpty){
     return "le mot de passe est obligatoire";
   }
-  if(value!.length <8){
+  if(value.length <8){
     return "le mot de passe doit contenir au moins 8 caractères";
   }
   return !regex.hasMatch(value)

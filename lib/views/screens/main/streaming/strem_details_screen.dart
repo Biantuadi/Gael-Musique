@@ -11,6 +11,7 @@ import 'package:iconsax/iconsax.dart';
 class StreamingDetailsScreen extends StatefulWidget{
   final Streaming streaming;
   const StreamingDetailsScreen({super.key, required this.streaming});
+  @override
   StreamingDetailsScreenState createState()=>StreamingDetailsScreenState();
 }
 class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{

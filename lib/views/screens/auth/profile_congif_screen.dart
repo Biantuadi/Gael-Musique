@@ -7,7 +7,6 @@ import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/string_extensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,6 +30,7 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
       final file = xImageFile;
       if(xImageFile != null){
         imageFile = File(file!.path);
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       }
   }

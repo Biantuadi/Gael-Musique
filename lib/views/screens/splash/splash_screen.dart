@@ -41,7 +41,7 @@ class SplashScreenState extends State<SplashScreen>{
           Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
         },
         errorCallback: (){
-          // TODO: LE CODE POUR AFFICHER L'ERREUR
+          // 
         }
     );
 

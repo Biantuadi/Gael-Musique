@@ -38,36 +38,30 @@ class CustomHeader extends StatelessWidget {
   }
 
   Widget _buildLogo() {
-    return Container(
-      child: Image.asset(
-        Assets.logoPNG,
-        height: 50,
-      ),
+    return Image.asset(
+      Assets.logoPNG,
+      height: 50,
     );
   }
 
   Widget _buildBackButton(BuildContext context) {
-    return Container(
-      child: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-        ),
+    return IconButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.arrow_back_ios,
+        color: Colors.white,
       ),
     );
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Container(
-      child: Text(
-        title!,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Theme.of(context).primaryColor,
-            ),
-      ),
+    return Text(
+      title!,
+      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: Theme.of(context).primaryColor,
+          ),
     );
   }
 
@@ -91,22 +85,20 @@ class CustomHeader extends StatelessWidget {
 
   // text span
   Widget _buildTextRadio(BuildContext context) {
-    return Container(
-      child: RichText(
-        text: TextSpan(
-          text: 'Faites votre choix, \n',
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-              ),
-          children: const <TextSpan>[
-            TextSpan(
-              text: 'ou passez sur la radio',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+    return RichText(
+      text: TextSpan(
+        text: 'Faites votre choix, \n',
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
             ),
-          ],
-        ),
+        children: const <TextSpan>[
+          TextSpan(
+            text: 'ou passez sur la radio',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

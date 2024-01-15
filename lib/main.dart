@@ -17,7 +17,7 @@ import 'data/providers/song_provider.dart';
 import 'data/providers/streaming_provider.dart';
 import 'di_container.dart' as di;
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await di.init();
@@ -26,7 +26,8 @@ void main() async{
       ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<SongProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<NotificationProvider>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<NotificationProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<FavoriteProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
@@ -48,75 +49,91 @@ class MainApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-
-   return Consumer<ThemeProvider>(
+    return Consumer<ThemeProvider>(
         builder: (BuildContext context, provider, Widget? child) {
           bool isDark = provider.isDark;
           return MaterialApp(
-            themeMode: provider.themeMode,
-            title: AppConfig.APP_NAME,
-            navigatorKey: navigatorKey,
-            debugShowCheckedModeBanner: false,
-            onGenerateRoute: Routes.generateRoute,
-            theme:  ThemeData(
-              primaryColor: Colors.white,
-              colorScheme: const ColorScheme(
-                  background: Colors.black,
-                  brightness: Brightness.dark,
-                  primary: Colors.transparent,
-                  onPrimary:Colors.white ,// ThemeVariables.primaryColor,
-                  secondary: ThemeVariables.thirdColorBlack,
-                  onSecondary: Colors.white,
-                  error: Colors.red,
-                  onError: Colors.redAccent,
-                  onBackground:Colors.white ,//ThemeVariables.primaryColor,
-                  surface: ThemeVariables.thirdColorBlack,
-                  onSurface: Colors.white,
-              ),
-              scaffoldBackgroundColor: ThemeVariables.thirdColorBlack,
-              dialogBackgroundColor: ThemeVariables.thirdColorBlack,
-              backgroundColor: ThemeVariables.thirdColorBlack,
-
-              textTheme: TextTheme(
-                titleLarge: GoogleFonts.poppins(fontWeight: FontWeight.w800, fontSize: 25, color: Colors.white),
-                titleMedium: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20, color: Colors.white),
-                titleSmall: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, color: Colors.white),
-                bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 25, color: Colors.white),
-                bodyMedium: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 14, color: Colors.white),
-                bodySmall: GoogleFonts.poppins(fontWeight: FontWeight.w300,fontSize: 12, color: Colors.white),
-              ),
-              iconTheme: IconThemeData(
-                size: Dimensions.iconSizeDefault,
-                color: Colors.white,
-              )
-          ),
-            home: FutureBuilder(
-                future:provider.themeMode == ThemeMode.system ? syncWithOs(context) : future(),
-                builder: (context, snapshot) {
-                  return const AnnotatedRegion<SystemUiOverlayStyle>(
-                      value: SystemUiOverlayStyle(
-                        statusBarColor : Colors.black,
-                        statusBarBrightness: Brightness.light,
-                        statusBarIconBrightness:  Brightness.light,
-                        systemNavigationBarColor: Colors.black,
-                        systemNavigationBarContrastEnforced: true,
-                        systemNavigationBarIconBrightness:Brightness.light,
-                        systemStatusBarContrastEnforced: false,
-                        systemNavigationBarDividerColor: Colors.transparent,
-                      ),
-                      child: SplashScreen()
-                  );
-                }
+        themeMode: provider.themeMode,
+        title: AppConfig.APP_NAME,
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: Routes.generateRoute,
+        theme: ThemeData(
+            primaryColor: Colors.white,
+            colorScheme: const ColorScheme(
+              background: Colors.black,
+              brightness: Brightness.dark,
+              primary: Colors.transparent,
+              onPrimary: Colors.white, // ThemeVariables.primaryColor,
+              secondary: ThemeVariables.thirdColorBlack,
+              onSecondary: Colors.white,
+              error: Colors.red,
+              onError: Colors.redAccent,
+              onBackground: Colors.white, //ThemeVariables.primaryColor,
+              surface: ThemeVariables.thirdColorBlack,
+              onSurface: Colors.white,
             ),
-          );
-        });
+            scaffoldBackgroundColor: ThemeVariables.thirdColorBlack,
+            dialogBackgroundColor: ThemeVariables.thirdColorBlack,
+            // ignore: deprecated_member_use
+            backgroundColor: ThemeVariables.thirdColorBlack,
+            textTheme: TextTheme(
+              titleLarge: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 25,
+                  color: Colors.white),
+              titleMedium: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: Colors.white),
+              titleSmall: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: Colors.white),
+              bodyLarge: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 25,
+                  color: Colors.white),
+              bodyMedium: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 14,
+                  color: Colors.white),
+              bodySmall: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 12,
+                  color: Colors.white),
+            ),
+            iconTheme: IconThemeData(
+              size: Dimensions.iconSizeDefault,
+              color: isDark ? Colors.white : Colors.black,
+            )),
+        home: FutureBuilder(
+            future: provider.themeMode == ThemeMode.system
+                ? syncWithOs(context)
+                : future(),
+            builder: (context, snapshot) {
+              return const AnnotatedRegion<SystemUiOverlayStyle>(
+                  value: SystemUiOverlayStyle(
+                    statusBarColor: Colors.black,
+                    statusBarBrightness: Brightness.light,
+                    statusBarIconBrightness: Brightness.light,
+                    systemNavigationBarColor: Colors.black,
+                    systemNavigationBarContrastEnforced: true,
+                    systemNavigationBarIconBrightness: Brightness.light,
+                    systemStatusBarContrastEnforced: false,
+                    systemNavigationBarDividerColor: Colors.transparent,
+                  ),
+                  child: SplashScreen());
+            }),
+      );
+    });
   }
-  syncWithOs(context){
+
+  syncWithOs(context) {
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
   }
 
-  future(){
+  future() {
     //
   }
-
 }

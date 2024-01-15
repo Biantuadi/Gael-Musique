@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:flutter/rendering.dart';
-import 'package:iconsax/iconsax.dart';
 
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({Key? key}) : super(key: key);
@@ -20,7 +19,6 @@ class CchatListScreenState extends State<ChatListScreen> {
   bool showAppBar = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
@@ -40,7 +38,6 @@ class CchatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.sizeOf(context);
     return CustomScrollView(
       slivers: [
         SliverList.list(children: [ Container(
@@ -49,7 +46,7 @@ class CchatListScreenState extends State<ChatListScreen> {
               top: Dimensions.spacingSizeDefault * 3,
               left: Dimensions.spacingSizeDefault
           ),
-          child: Text("Messages",style: Theme.of(context).textTheme?.titleLarge?.copyWith(color: Colors.white),),
+          child: Text("Messages",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
         )]),
         SliverAppBar(
           pinned: true,
