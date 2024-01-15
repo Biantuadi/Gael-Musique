@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
-                              child: HomeCard(onTap: (){}, iconData: Iconsax.share, title: "Tredding & radios", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
+                              child: HomeCard(onTap: (){}, iconData: Iconsax.share, title: "Sanjola & lives", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),

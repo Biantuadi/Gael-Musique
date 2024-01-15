@@ -48,11 +48,11 @@ class Streaming{
   }
 
   bool isFavorite({required User user}){
-    if(user.preferences.containsKey("streaming")){
-      if(user.preferences["streaming"].contains(toJson())){
-        return true;
-      }
-    }
+    //if(user.preferences.containsKey("streaming")){
+      //if(user.preferences["streaming"].contains(toJson())){
+        //return true;
+      //}
+    //}
     return false;
   }
 

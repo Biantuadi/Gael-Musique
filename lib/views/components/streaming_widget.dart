@@ -1,3 +1,4 @@
+import 'package:Gael/data/models/preference_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/utils/assets.dart';
@@ -15,7 +16,7 @@ class StreamingWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.sizeOf(context);
     Size size = Size(screenSize.width *0.8, screenSize.width *2);
-    User user =   User(phone: "", firstName: "", id: "", address: "", bio: "", birthDay: DateTime.now(), createdAt: DateTime.now(), email: "", lastName: "", preferences: {}, profileImage: "", role: "");
+    User user =   User(phone: "", firstName: "", id: "", address: "", bio: "", birthDay: DateTime.now(), createdAt: DateTime.now(), email: "", lastName: "", preferences: Preference(theme: '',language: '', notifications: true), profileImage: "", role: "");
     return InkWell(
       onTap: (){
         Navigator.pushNamed(context, Routes.streamingDetailsScreen, arguments: streaming);

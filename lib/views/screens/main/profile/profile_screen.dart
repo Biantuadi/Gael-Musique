@@ -52,6 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: Dimensions.spacingSizeDefault,),
                   Center(child: Text("${splashProvider.userFirstName??'Trésor'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.titleLarge,)),
+                  Center(child: Text("Ma bio" , style: Theme.of(context).textTheme.bodyMedium,)),
                   SizedBox(height: Dimensions.spacingSizeLarge,),
                   const Divider(color: Colors.white, height: 0.4, thickness: .1,),
                   SizedBox(height: Dimensions.spacingSizeLarge,),

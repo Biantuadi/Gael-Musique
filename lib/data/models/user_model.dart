@@ -1,3 +1,5 @@
+import 'package:Gael/data/models/preference_model.dart';
+
 class User{
   late String id;
   late String firstName;
@@ -8,9 +10,11 @@ class User{
   late DateTime birthDay;
   late String bio;
   late String address;
-  late String role;
-  late Map<String, dynamic> preferences;
+  late String? role;
+  late Preference preferences;
   late DateTime createdAt;
+  late bool? isConected;
+  late List<String>? eventInterest;
   User({
     required this.phone,
     required this.firstName,
@@ -23,7 +27,10 @@ class User{
     required this.lastName,
     required this.preferences,
     required this.profileImage,
-    required this.role
+     this.role,
+    this.isConected,
+    this.eventInterest
+
 });
 
   User.fromJson(Map<String, dynamic> json){
@@ -33,11 +40,14 @@ class User{
     createdAt = DateTime.parse(json["created_at"]);
     role = json["role"];
     profileImage = json["profileImage"];
-    preferences = json["preferences"];
+    preferences =Preference.fromJson(json["preferences"]);
     birthDay = DateTime.parse(json["birthDay"]);
     bio = json["bio"];
     address = json["address"];
     phone = json["phone"];
+    role = json["role"];
+    isConected = json["isConected"];
+    eventInterest = json["eventInterest"];
   }
 
   Map<String, dynamic> toJson(){
@@ -47,11 +57,14 @@ class User{
     json["firstName"] = firstName.toString();
     json["role"] = role;
     json["profileImage"] = profileImage;
-    json["preferences"] = preferences;
+    json["preferences"] = preferences.toJson();
     json["birthDay"] = birthDay.toString();
     json["bio"] = bio;
     json["address"] = address;
     json["phone"] = phone;
+    json["role"] = role;
+    json["isConected"] = isConected;
+    json["eventInterest"] = eventInterest;
 
     return json;
   }

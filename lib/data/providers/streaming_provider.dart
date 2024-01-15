@@ -13,6 +13,7 @@ class StreamingProvider with ChangeNotifier{
 
   //STREAMING FILTERS
   bool? showEmission;
+  bool? showSongs;
   bool? showPodCast;
   bool? showRadio;
   bool showAll = true;
@@ -20,6 +21,10 @@ class StreamingProvider with ChangeNotifier{
   getStreaming(){
     allStreaming = streamRepository.getStreaming();
     streamingToShow = allStreaming;
+  }
+  getSongs(){
+    //allStreaming = streamRepository.getStreaming();
+    //streamingToShow = allStreaming;
   }
 
   setShowPodCasts(){

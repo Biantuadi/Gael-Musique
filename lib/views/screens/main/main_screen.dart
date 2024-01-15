@@ -29,9 +29,9 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     super.initState();
     screens = [
       ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:const HomeScreen()),
-      ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()),
       ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const StreamingScreen()),
-      ScreenModel(icon: Iconsax.heart, activeIcon: Iconsax.heart5, content:  const FavoriteScreen()),
+      ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()),
+      ScreenModel(icon: Iconsax.notification, activeIcon: Iconsax.notification1, content:  const FavoriteScreen()),
       ScreenModel(icon: Iconsax.user, activeIcon: Iconsax.user, content:  const ProfileScreen()),
     ];
     tabController = TabController(length: screens.length, vsync: this);

@@ -66,6 +66,9 @@ class _StreamingScreenState extends State<StreamingScreen> {
                     child: Wrap(
                       children: [
                         SizedBox(width: Dimensions.spacingSizeDefault,),
+                        StreamingFilter(title: 'Chants', onTap: () {
+                          provider.getAllStreamingToShow();
+                        }, isSelected: provider.showSongs,),
                         StreamingFilter(title: 'Streaming', onTap: () {
                           provider.getAllStreamingToShow();
                         }, isSelected: provider.showAll,),
