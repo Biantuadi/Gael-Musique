@@ -29,9 +29,11 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
       xImageFile = await imagePicker.pickImage(source: imageSource);
       final file = xImageFile;
       if(xImageFile != null){
-        imageFile = File(file!.path);
+       setState(() {
+         imageFile = File(file!.path);
+       });
         // ignore: use_build_context_synchronously
-        Navigator.pop(context);
+
       }
   }
   @override
@@ -81,16 +83,16 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                                         width : size.width / 2.5,
                                         height : size.width / 2.5,
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                                            borderRadius: BorderRadius.circular(size.width / 2.5),
                                             color: Colors.white.withOpacity(0.1)
                                         ),
                                         child: Icon(Iconsax.user, size: size.width / 4,),
                                       ):
                                       ClipRRect(
-                                        borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                                        borderRadius: BorderRadius.circular(size.width / 2.5),
                                         child: Image.file(imageFile!,  width : size.width / 2.5,height : size.width / 2.5, fit: BoxFit.cover,),
                                       ),
-                                      IconButton(onPressed: ()=>sourceBottomSheet(), icon: const Icon(Iconsax.edit))
+                                      IconButton(onPressed: ()=>sourceBottomSheet(), icon: const Icon(Iconsax.edit), highlightColor: Colors.white10,)
                                     ],
                                   ),
                                   SizedBox(height: Dimensions.spacingSizeSmall,),
@@ -143,7 +145,9 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
       children: [
         InkWell(
           onTap: (){
-            pickImageFromSource(ImageSource.camera);
+            pickImageFromSource(ImageSource.camera).then((value){
+              Navigator.pop(context);
+            });
           },
           child: Container(
             padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
@@ -160,7 +164,9 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
         const Divider(color: Colors.white, thickness: 0.2, height: 0.5,),
         InkWell(
           onTap: (){
-            pickImageFromSource(ImageSource.gallery);
+            pickImageFromSource(ImageSource.gallery).then((value){
+              Navigator.pop(context);
+            });
           },
           child: Container(
             padding: EdgeInsets.all(Dimensions.spacingSizeDefault),

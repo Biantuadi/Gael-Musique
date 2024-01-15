@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 class AuthProvider with ChangeNotifier{
   AuthRepository authRepository;
   AuthProvider({required this.authRepository});
-  late RegisterModel registerModel;
+   RegisterModel registerModel = RegisterModel();
   bool isLoading = false;
   String? registerError;
   String? userToken;
