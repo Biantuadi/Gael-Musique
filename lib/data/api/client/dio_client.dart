@@ -16,12 +16,13 @@ class DioClient {
     dio = dioC;
     dio
       ..options.baseUrl = baseUrl
-      ..options.connectTimeout = const Duration(milliseconds: 30000)
-      ..options.receiveTimeout = const Duration(milliseconds: 30000)
+      ..options.connectTimeout = const Duration(milliseconds: 3000)
+      ..options.receiveTimeout = const Duration(milliseconds: 3000)
       ..httpClientAdapter
       ..options.headers = {
         'Content-Type': 'application/json; charset=UTF-8',
       };
+
   }
 
   Future<Response> get(String uri, {
@@ -48,17 +49,14 @@ class DioClient {
     }
   }
   Future<Response> post(String uri, {
-    Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
-    FormData? data
-
+    Object? data
   }) async {
     try {
       var response = await dio.post(
         uri,
-        queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,
         data: data,

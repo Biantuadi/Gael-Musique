@@ -39,6 +39,8 @@ class AuthProvider with ChangeNotifier{
     isLoading = true;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
+    isLoading = false;
+    notifyListeners();
 
     if(apiResponse != null){
       print("LA RESPONSE: ${apiResponse.response.statusCode}");
@@ -50,13 +52,15 @@ class AuthProvider with ChangeNotifier{
             userToken = data["token"];
             userPhone = data["phone"];
             userBio = data["bio"];
-            await authRepository.setUserBio(userBio!);
-            await authRepository.setUserEmail(userEmail!);
-            await authRepository.setUserFirstName(userFirstName!);
-            await authRepository.setUserUserName(userName!);
-            await authRepository.setUserPhone(userPhone!);
-            await authRepository.setUserProfileUrl(userProfileUrl!);
-            print("LES DATS RECUES: $data");
+
+            await authRepository.setUserToken(userToken!);
+            await authRepository.setUserBio(userBio??"");
+            await authRepository.setUserEmail(userEmail??registerModel.email??"");
+            await authRepository.setUserFirstName(userFirstName??registerModel.firstName??"");
+            await authRepository.setUserUserName(userName??registerModel.lastName??"");
+            await authRepository.setUserPhone(userPhone??registerModel.phone??"");
+            await authRepository.setUserProfileUrl(userProfileUrl??"");
+            print("LES DATES RECUES: $data");
             successCallBack();
         }
 

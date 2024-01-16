@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:Gael/data/api/client/dio_client.dart';
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
@@ -13,13 +12,9 @@ class AuthRepository {
   DioClient dioClient;
   AuthRepository({required this.sharedPreferences, required this.dioClient});
   Future<ApiResponse?> register({required RegisterModel registerModel})async{
-    try{
-      Response response = await dioClient.post(AppConfig.registerUrl,queryParameters: registerModel.toJson(), );
-      return ApiResponse(response: response);
-    }catch (e){
-        print('ERROR');
-    }
-    return null;
+    print("LA FORM DATA: ${registerModel.toJson()}");
+    Response response = await dioClient.post(AppConfig.registerUrl,data: registerModel.toJson() );
+    return ApiResponse(response: response);
   }
 
   Future<ApiResponse?> updateAvatar({required File avatar, required String userId})async{
@@ -27,10 +22,11 @@ class AuthRepository {
     String fileName = '';
     fileName = file.path.split('/').last;
     FormData formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path, filename: fileName)
+      'file': await MultipartFile.fromFile(file.path, filename: fileName),
+      "userId": userId
     });
     try{
-      Response response = await dioClient.post(AppConfig.registerUrl,data: formData, queryParameters: {'userId' : userId } );
+      Response response = await dioClient.post(AppConfig.registerUrl,data: formData,);
       return ApiResponse(response: response);
     }catch (e){
       print('ERROR');
@@ -38,8 +34,9 @@ class AuthRepository {
     return null;
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{
+    FormData formData = FormData.fromMap(loginModel.toJson());
     try{
-      Response response = await dioClient.post(AppConfig.registerUrl,queryParameters: loginModel.toJson());
+      Response response = await dioClient.post(AppConfig.registerUrl,data: formData);
       return ApiResponse(response: response);
     }catch (e){
       print('ERROR');
@@ -63,6 +60,9 @@ class AuthRepository {
   }
   setUserBio(String bio)async{
     await sharedPreferences.setString(AppConfig.sharedUserBio, bio);
+  }
+  setUserToken(String token)async{
+    await sharedPreferences.setString(AppConfig.sharedToken, token);
   }
   Future<String?> getUserToken()async{
     return  sharedPreferences.getString(AppConfig.sharedToken);

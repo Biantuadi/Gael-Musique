@@ -56,7 +56,7 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Image.asset(Assets.logoPNG, width: size.width/4,),
-                                SizedBox(height: Dimensions.spacingSizeDefault,),
+                                SizedBox(height: Dimensions.spacingSizeLarge * 2,),
                                 Text(
                                   "${provider.registerModel.firstName} ${provider.registerModel.lastName},",
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
@@ -66,12 +66,12 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                   "${provider.registerModel.email}",
                                   style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),
                                 ),
-                                SizedBox(height: Dimensions.spacingSizeSmall,),
+                                SizedBox(height: Dimensions.spacingSizeDefault,),
                                 Text(
                                   "C'est le moment de sécuriser votre compte!",
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                                 ),
-                                SizedBox(height: Dimensions.spacingSizeLarge,),
+                                SizedBox(height: Dimensions.spacingSizeLarge * 2,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -143,8 +143,10 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
 
                                   if (formKey.currentState!.validate()) {
                                     if(conditionsAccepted){
-                                      provider.register(successCallBack: (){}, erroCallback: ()=> Navigator.pushNamedAndRemoveUntil(context, Routes.registerProfileConfigScreen, (route) => false)
-                                      );
+                                      provider.setRegisterPassword(password);
+                                      provider.register(successCallBack: (){
+                                        Navigator.pushNamedAndRemoveUntil(context, Routes.registerProfileConfigScreen, (route) => false);
+                                      }, erroCallback: (){});
                                     }else{
                                       ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Vous devez accepter les conditions avant de continuer", context: context, bgColor: Colors.red));
                                     }
@@ -155,10 +157,10 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                     provider.isLoading? Row(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
+                                          margin: EdgeInsets.only(right: Dimensions.spacingSizeSmall),
                                           width:Dimensions.iconSizeExtraSmall,
                                             height: Dimensions.iconSizeExtraSmall,
-                                            child: const CircularProgressIndicator(strokeWidth: 1,))
+                                            child:  const CircularProgressIndicator(strokeWidth: 1, color: Colors.black,))
                                       ],
                                     ):const SizedBox(),
                                     Text("Créer le compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),

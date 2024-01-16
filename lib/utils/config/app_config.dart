@@ -9,7 +9,7 @@ class AppConfig {
    // URL
       // AUTH
    static const String loginUrl = "auth/login";
-   static const String registerUrl = "auth/register";
+   static const String registerUrl = "/auth/register";
 
       // USERS
    static const String users = "users";

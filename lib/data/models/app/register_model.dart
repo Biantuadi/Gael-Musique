@@ -21,8 +21,8 @@ Map<String, dynamic> toJson(){
   json["email"] = email;
   json["password"] = password;
   json["phone"] = phone;
-  json["first_name"] = firstName;
-  json["last_name"] = lastName;
+  json["firstname"] = firstName;
+  json["lastname"] = lastName;
 
   return json;
 }
@@ -30,8 +30,8 @@ Map<String, dynamic> toJson(){
     email = json["email"];
     password = json["password"];
     phone = json["phone"];
-    firstName = json["first_name"];
-    lastName = json["last_name"];
+    firstName = json["firstname"];
+    lastName = json["lastname"];
   }
 
 }

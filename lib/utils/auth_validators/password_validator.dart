@@ -1,5 +1,5 @@
 String? validatePassword(String? value) {
-  final regex = RegExp(r"^(?=.*?[A-Z])(?=.*?[a-z)(?=.*?[0-9])(?=.*?[!@#\$&*~¤£^*%]).{8,}$");
+  final regex = RegExp(r"^(?=.*?[A-Z])(?=.*?[a-z)(?=.*?[0-9])(?=.*?[!@#\$&*~¤£^*%€^]).{8,}$");
   if(value!.isEmpty){
     return "le mot de passe est obligatoire";
   }
