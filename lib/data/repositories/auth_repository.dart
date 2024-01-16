@@ -34,9 +34,8 @@ class AuthRepository {
     return null;
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{
-    FormData formData = FormData.fromMap(loginModel.toJson());
     try{
-      Response response = await dioClient.post(AppConfig.registerUrl,data: formData);
+      Response response = await dioClient.post(AppConfig.loginUrl,data: loginModel.toJson());
       return ApiResponse(response: response);
     }catch (e){
       print('ERROR');
@@ -83,5 +82,13 @@ class AuthRepository {
   Future<String?> getUserBio()async{
     return  sharedPreferences.getString(AppConfig.sharedUserBio);
   }
-
+  logOut(){
+    sharedPreferences.remove(AppConfig.sharedToken);
+    sharedPreferences.remove(AppConfig.sharedUserBio);
+    sharedPreferences.remove(AppConfig.sharedPhone);
+    sharedPreferences.remove(AppConfig.sharedProfileUrl);
+    sharedPreferences.remove(AppConfig.sharedUserName);
+    sharedPreferences.remove(AppConfig.sharedEmail);
+    sharedPreferences.remove(AppConfig.sharedFirstName);
+  }
 }

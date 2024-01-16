@@ -13,5 +13,12 @@ class Assets{
   static String textGael = "assets/images/TextGael.svg";
   static String loginBg = "assets/images/login_bg.jpg";
 
+  //APP
+  static String course = "assets/icons/course.jpg";
+  static String event = "assets/icons/event.jpg";
+  static String payment = "assets/icons/payment.jpg";
+  static String favorite = "assets/icons/favorite.jpg";
+  static String pod = "assets/icons/pod.jpg";
+  //static String pod2 = "assets/icons/pod2.jpg";
 
 }

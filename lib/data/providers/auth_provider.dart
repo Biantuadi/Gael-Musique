@@ -35,7 +35,7 @@ class AuthProvider with ChangeNotifier{
   getUserInfo(){
 
   }
-  register({required VoidCallback successCallBack, required VoidCallback erroCallback})async{
+  register({required VoidCallback successCallBack, required VoidCallback errorCallback})async{
     isLoading = true;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
@@ -47,32 +47,25 @@ class AuthProvider with ChangeNotifier{
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
             userEmail = data["email"];
-            userName = data["last_name"];
-            userFirstName = data["first_name"];
+            userName = data["lastname"];
+            userFirstName = data["firstname"];
             userToken = data["token"];
             userPhone = data["phone"];
             userBio = data["bio"];
-
-            await authRepository.setUserToken(userToken!);
-            await authRepository.setUserBio(userBio??"");
-            await authRepository.setUserEmail(userEmail??registerModel.email??"");
-            await authRepository.setUserFirstName(userFirstName??registerModel.firstName??"");
-            await authRepository.setUserUserName(userName??registerModel.lastName??"");
-            await authRepository.setUserPhone(userPhone??registerModel.phone??"");
-            await authRepository.setUserProfileUrl(userProfileUrl??"");
+            setUserVars();
             print("LES DATES RECUES: $data");
             successCallBack();
         }
 
     }else{
       registerError = "Erreur inconnue";
-      erroCallback();
+      errorCallback();
     }
     isLoading = false;
     notifyListeners();
 
   }
-  login(LoginModel loginModel)async{
+  login(LoginModel loginModel, {required VoidCallback successCallBack, required VoidCallback errorCallback})async{
     isLoading = true;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.login(loginModel);
@@ -85,17 +78,26 @@ class AuthProvider with ChangeNotifier{
         userToken = data["token"];
         userPhone = data["phone"];
         userBio = data["bio"];
-        await authRepository.setUserBio(userBio!);
-        await authRepository.setUserEmail(userEmail!);
-        await authRepository.setUserFirstName(userFirstName!);
-        await authRepository.setUserUserName(userName!);
-        await authRepository.setUserPhone(userPhone!);
-        await authRepository.setUserProfileUrl(userProfileUrl!);
+        setUserVars();
+        successCallBack();
       }
     }else{
       registerError = "Erreur inconnue";
+      errorCallback();
     }
     isLoading = false;
     notifyListeners();
+  }
+  logOut(){
+    authRepository.logOut();
+  }
+  setUserVars()async{
+    await authRepository.setUserToken(userToken!);
+    await authRepository.setUserBio(userBio??"");
+    await authRepository.setUserEmail(userEmail??registerModel.email??"");
+    await authRepository.setUserFirstName(userFirstName??registerModel.firstName??"");
+    await authRepository.setUserUserName(userName??registerModel.lastName??"");
+    await authRepository.setUserPhone(userPhone??registerModel.phone??"");
+    await authRepository.setUserProfileUrl(userProfileUrl??"");
   }
 }

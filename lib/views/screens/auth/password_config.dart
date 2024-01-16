@@ -146,7 +146,7 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                       provider.setRegisterPassword(password);
                                       provider.register(successCallBack: (){
                                         Navigator.pushNamedAndRemoveUntil(context, Routes.registerProfileConfigScreen, (route) => false);
-                                      }, erroCallback: (){});
+                                      }, errorCallback: (){});
                                     }else{
                                       ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Vous devez accepter les conditions avant de continuer", context: context, bgColor: Colors.red));
                                     }

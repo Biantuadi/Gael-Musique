@@ -1,3 +1,5 @@
+import 'package:Gael/data/models/app/login_model.dart';
+import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/auth_validators/email_validator.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -7,6 +9,7 @@ import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +21,8 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool showPositional = true;
+  String email = "";
+  String password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -40,90 +45,115 @@ class LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: size.height,
               width: size.width,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+              child: Consumer<AuthProvider>(
+                  builder: (BuildContext context, provider, Widget? child) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        IconButton(onPressed: (){
-                          Navigator.pop(context);
-                        }, icon: const Icon(Iconsax.arrow_left, color: Colors.white,))
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                      width: size.width,
-                      child:    Form(
-                        key: formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        Row(
                           children: [
-                            Image.asset(Assets.logoPNG, width: size.width/4,),
-                            SizedBox(height: Dimensions.spacingSizeDefault,),
-                            Text(
-                              "Login",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            SizedBox(height: Dimensions.spacingSizeSmall,),
-                            Text(
-                              "Heureux de vous revoir!",
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                            ),
-                            SizedBox(height: Dimensions.spacingSizeLarge,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                                SizedBox(height: Dimensions.spacingSizeSmall,),
-                                CustomTextField(
-                                  controller: TextEditingController(),
-                                  onChanged: (value) {
-                                    // Utilize the input value here
-                                    // print('Search query: $value');
-                                  }, hintText: 'Athomsmbuma@gmail.com',
-                                  validator: (value)=>validateEmail(value),
-                                ),
-                                SizedBox(height: Dimensions.spacingSizeDefault,),
-                                Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                                SizedBox(height: Dimensions.spacingSizeSmall,),
-                                CustomTextField(
-                                  controller: TextEditingController(),
-                                  onChanged: (value) {
-                                    // Utilize the input value here
-                                    // print('Search query: $value');
-                                  }, hintText: '**********',
-                                  isForPassword: true,
-                                  maxLines: 1,
-                                  validator: (value){
-                                    if(value.toString().trim()==""){
-                                      return "Le mot de passe est obligatoire";
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: Dimensions.spacingSizeLarge,),
-                            GradientButton(onTap: (){
-                            if (formKey.currentState!.validate()) {
-                              Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
-                            }
-                            }, size: size, child: Text("Connexion", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
-
+                            IconButton(onPressed: (){
+                              Navigator.pop(context);
+                            }, icon: const Icon(Iconsax.arrow_left, color: Colors.white,))
                           ],
                         ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(onPressed: (){}, child:const Text("Mot de passe oublié? "))
+                        Container(
+                          padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                          width: size.width,
+                          child:    Form(
+                            key: formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(Assets.logoPNG, width: size.width/4,),
+                                SizedBox(height: Dimensions.spacingSizeDefault,),
+                                Text(
+                                  "Login",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                SizedBox(height: Dimensions.spacingSizeSmall,),
+                                Text(
+                                  "Heureux de vous revoir!",
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                                ),
+                                SizedBox(height: Dimensions.spacingSizeLarge,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                                    SizedBox(height: Dimensions.spacingSizeSmall,),
+                                    CustomTextField(
+                                      controller: TextEditingController(),
+                                      onChanged: (value) {
+                                          email = value;
+                                      }, hintText: 'Athomsmbuma@gmail.com',
+                                      validator: (value)=>validateEmail(value),
+                                    ),
+                                    SizedBox(height: Dimensions.spacingSizeDefault,),
+                                    Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                                    SizedBox(height: Dimensions.spacingSizeSmall,),
+                                    CustomTextField(
+                                      controller: TextEditingController(),
+                                      onChanged: (value) {
+                                        password = value;
+                                      }, hintText: '********',
+                                      isForPassword: true,
+                                      maxLines: 1,
+                                      validator: (value){
+                                        if(value.toString().trim()==""){
+                                          return "Le mot de passe est obligatoire";
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: Dimensions.spacingSizeLarge,),
+                                GradientButton(onTap: (){
+                                if (formKey.currentState!.validate()) {
+                                  provider.login(LoginModel(email: email, password: password), successCallBack: (){
+                                    Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                                  },
+                                    errorCallback: (){
+
+                                    }
+                                  );
+
+                                }
+
+                                }, size: size,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        provider.isLoading? Row(
+                                          children: [
+                                            Container(
+                                                margin: EdgeInsets.only(right: Dimensions.spacingSizeSmall),
+                                                width:Dimensions.iconSizeExtraSmall,
+                                                height: Dimensions.iconSizeExtraSmall,
+                                                child:  const CircularProgressIndicator(strokeWidth: 1, color: Colors.black,))
+                                          ],
+                                        ):const SizedBox(),
+                                        Text("Créer le compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                                      ],
+                                    )),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(onPressed: (){}, child:const Text("Mot de passe oublié? "))
+                          ],
+                        )
+
+
                       ],
-                    )
-
-
-                  ],
-                ),
+                    ),
+                  );
+                }
               ),
             ),
             Positioned(

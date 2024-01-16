@@ -1,4 +1,5 @@
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 
 class ProfileOption extends StatelessWidget{
@@ -12,7 +13,12 @@ class ProfileOption extends StatelessWidget{
     return InkWell(
       onTap: ()=>voidCallback(),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeSmall),
+        padding: EdgeInsets.all(Dimensions.spacingSizeDefault * 0.7),
+        margin: EdgeInsets.symmetric(vertical :Dimensions.spacingSizeExtraSmall),
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+        ),
         child: Row(
          children: [
            Icon(iconData, color: Colors.white,),
