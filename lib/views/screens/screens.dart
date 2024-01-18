@@ -7,8 +7,18 @@ export 'landing/landing_screen.dart';
 export 'main/home/home_screen.dart';
 export 'main/chat/chat_detail_screen.dart';
 export 'main/chat/chat_list_screen.dart';
-export 'main/favorite/favorite_sreen.dart';
+export 'main/notifications/notifications_screen.dart';
+
+// PROFILE
 export 'main/profile/profile_screen.dart';
+export 'main/profile/about_screen.dart';
+export 'main/profile/courses_screen.dart';
+export 'main/profile/event_screen.dart';
+export 'main/profile/favorite_screen.dart';
+export 'main/profile/settings_screen.dart';
+export 'main/profile/payment_screen.dart';
+export 'main/profile/update/info_update_screen.dart';
+export 'main/profile/update/password_update.dart';
 
 
 export 'main/streaming/streaming_screen.dart';

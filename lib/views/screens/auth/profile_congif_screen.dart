@@ -7,6 +7,8 @@ import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/string_extensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,14 +35,12 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
          imageFile = File(file!.path);
        });
         // ignore: use_build_context_synchronously
-
       }
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-
       body: SafeArea(
         child: Stack(
           children: [
@@ -73,7 +73,9 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisSize : MainAxisSize.max,
                                 children: [
+                                  SizedBox(height: Dimensions.spacingSizeDefault,),
                                   Image.asset(Assets.logoPNG, width: size.width/4,),
+
                                   SizedBox(height: Dimensions.spacingSizeDefault,),
                                   Stack(
                                     alignment : Alignment.bottomRight,
@@ -86,13 +88,13 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                                             borderRadius: BorderRadius.circular(size.width / 2.5),
                                             color: Colors.white.withOpacity(0.1)
                                         ),
-                                        child: Icon(Iconsax.user, size: size.width / 4,),
+                                        child: Icon(Iconsax.user, size: size.width / 4, color: Colors.white,),
                                       ):
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(size.width / 2.5),
                                         child: Image.file(imageFile!,  width : size.width / 2.5,height : size.width / 2.5, fit: BoxFit.cover,),
                                       ),
-                                      IconButton(onPressed: ()=>sourceBottomSheet(), icon: const Icon(Iconsax.edit), highlightColor: Colors.white10,)
+                                      IconButton(onPressed: ()=>sourceBottomSheet(), icon: const Icon(Iconsax.edit), color: Colors.white,)
                                     ],
                                   ),
                                   SizedBox(height: Dimensions.spacingSizeSmall,),
@@ -105,10 +107,12 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: Dimensions.spacingSizeLarge,),
+                            //SizedBox(height: Dimensions.spacingSizeDefault,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text("Configurons votre photo de profil ou laisser le profil par défaut", style: Theme.of(context).textTheme.bodyMedium,),
+                                SizedBox(height: Dimensions.spacingSizeDefault,),
                                 Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
                                 Text("${provider.registerModel.email}".capitalize(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -121,9 +125,32 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                             ),
                             SizedBox(height: Dimensions.spacingSizeLarge,),
                             GradientButton(onTap: (){
-                              Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                              provider.setUserVars();
+                              if(imageFile != null){
+                                provider.updateUserAvatar(successCallBack: (){
+                                  ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
+                                  Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                                }, errorCallback: (){}, avatar: imageFile!);
+                              }else{
+                                Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                              }
 
-                            }, size: size, child: Text("continuer", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
+                            }, size: size, child:
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                provider.isLoading? Row(
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.only(right: Dimensions.spacingSizeSmall),
+                                        width:Dimensions.iconSizeExtraSmall,
+                                        height: Dimensions.iconSizeExtraSmall,
+                                        child:  const CircularProgressIndicator(strokeWidth: 1, color: Colors.black,))
+                                  ],
+                                ):const SizedBox(),
+                                Text("Terminer", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                              ],
+                            ))
                           ],
                         )
                       )
@@ -153,7 +180,7 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
             padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
             child: Row(
               children: [
-                const Icon(Iconsax.camera),
+                const Icon(Iconsax.camera, color: Colors.white,),
                 SizedBox(width: Dimensions.spacingSizeDefault,),
                 Text("Caméra",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                 )
@@ -173,7 +200,7 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
           
             child: Row(
               children: [
-                const Icon(Iconsax.image),
+                const Icon(CupertinoIcons.device_phone_portrait, color: Colors.white,),
                 SizedBox(width: Dimensions.spacingSizeDefault,),
                 Text("Téléphone", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                 )
@@ -181,6 +208,31 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
             ),
           ),
         ),
+        imageFile != null?
+            Column(
+              children: [
+                const Divider(color: Colors.white, thickness: 0.2, height: 0.5,),
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      imageFile = null;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+
+                    child: Row(
+                      children: [
+                        const Icon(Iconsax.box_remove, color: Colors.white,),
+                        SizedBox(width: Dimensions.spacingSizeDefault,),
+                        Text("Supprimer", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ): const SizedBox(height: 0,)
       ],
     ), );
   }

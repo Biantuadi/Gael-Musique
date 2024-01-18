@@ -1,7 +1,7 @@
 import 'package:Gael/data/models/app/screen_model.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
-import 'package:Gael/views/screens/main/favorite/favorite_sreen.dart';
+import 'package:Gael/views/screens/main/notifications/notifications_screen.dart';
 import 'package:Gael/views/screens/main/profile/profile_screen.dart';
 import 'package:Gael/views/screens/main/streaming/streaming_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
       ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:const HomeScreen()),
       ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const StreamingScreen()),
       ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()),
-      ScreenModel(icon: Iconsax.notification, activeIcon: Iconsax.notification1, content:  const FavoriteScreen()),
+      ScreenModel(icon: Iconsax.notification, activeIcon: Iconsax.notification1, content:  const NotificationsScreen()),
       ScreenModel(icon: Iconsax.user, activeIcon: Iconsax.user, content:  const ProfileScreen()),
     ];
     tabController = TabController(length: screens.length, vsync: this);

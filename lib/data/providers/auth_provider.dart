@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
@@ -32,7 +34,31 @@ class AuthProvider with ChangeNotifier{
     registerModel.password = password;
     notifyListeners();
   }
-  getUserInfo(){
+  updateUserAvatar({required VoidCallback successCallBack, required VoidCallback errorCallback,required File avatar})async{
+    isLoading = true;
+    notifyListeners();
+    ApiResponse? apiResponse = await authRepository.updateAvatar(avatar: avatar);
+    isLoading = false;
+    notifyListeners();
+    if(apiResponse != null){
+      print("LA RESPONSE: ${apiResponse.response.statusCode}");
+      if(apiResponse.response.statusCode == 200){
+        Map<String, dynamic> data = apiResponse.response.data;
+        userToken = data["token"];
+        userProfileUrl = data["avatar"];
+        authRepository.setUserProfileUrl(userProfileUrl??"");
+        authRepository.setUserToken(userToken??"");
+        setUserVars();
+        print("LES DATES RECUES: $data");
+        successCallBack();
+      }
+
+    }else{
+      registerError = "Erreur inconnue";
+      errorCallback();
+    }
+    isLoading = false;
+    notifyListeners();
 
   }
   register({required VoidCallback successCallBack, required VoidCallback errorCallback})async{
@@ -41,7 +67,6 @@ class AuthProvider with ChangeNotifier{
     ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
     isLoading = false;
     notifyListeners();
-
     if(apiResponse != null){
       print("LA RESPONSE: ${apiResponse.response.statusCode}");
         if(apiResponse.response.statusCode == 200){

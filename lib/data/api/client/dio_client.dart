@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,15 +13,19 @@ class DioClient {
   DioClient(this.baseUrl,
       Dio dioC, {
         required this.sharedPreferences,
+
       }) {
     dio = dioC;
+    token = sharedPreferences.getString(AppConfig.sharedToken);
     dio
       ..options.baseUrl = baseUrl
-      ..options.connectTimeout = const Duration(milliseconds: 3000)
-      ..options.receiveTimeout = const Duration(milliseconds: 3000)
+      ..options.connectTimeout = const Duration(milliseconds: 40000)
+      ..options.receiveTimeout = const Duration(milliseconds: 40000)
       ..httpClientAdapter
       ..options.headers = {
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': "Bearer $token"
+
       };
 
   }
@@ -61,6 +66,7 @@ class DioClient {
         cancelToken: cancelToken,
         data: data,
         onReceiveProgress: onReceiveProgress,
+
       );
       return response;
     } on SocketException catch (e) {

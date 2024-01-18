@@ -12,25 +12,27 @@ class AuthRepository {
   DioClient dioClient;
   AuthRepository({required this.sharedPreferences, required this.dioClient});
   Future<ApiResponse?> register({required RegisterModel registerModel})async{
-    print("LA FORM DATA: ${registerModel.toJson()}");
+    //print("LA FORM DATA: ${registerModel.toJson()}");
     Response response = await dioClient.post(AppConfig.registerUrl,data: registerModel.toJson() );
     return ApiResponse(response: response);
   }
 
-  Future<ApiResponse?> updateAvatar({required File avatar, required String userId})async{
+  Future<ApiResponse?> updateAvatar({required File avatar})async{
     File? file = avatar;
     String fileName = '';
     fileName = file.path.split('/').last;
+    print("LA FILE: ${file.path}");
     FormData formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path, filename: fileName),
-      "userId": userId
+      'avatar': await MultipartFile.fromFile(file.path, filename: fileName),
     });
-    try{
+
+    //try{
       Response response = await dioClient.post(AppConfig.registerUrl,data: formData,);
+      print("LA STATUS CODE: ${response.statusCode} ");
       return ApiResponse(response: response);
-    }catch (e){
-      print('ERROR');
-    }
+    //}catch (e){
+      //print('ERROR');
+    //}
     return null;
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{

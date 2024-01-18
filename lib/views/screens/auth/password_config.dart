@@ -3,10 +3,12 @@ import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/auth_validators/password_validator.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
+import 'package:Gael/utils/string_extensions.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 
@@ -47,19 +49,26 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          children: [
+                            IconButton(onPressed: (){
+                              Navigator.pop(context);
+                            }, icon: const Icon(Iconsax.arrow_left, color: Colors.white,))
+                          ],
+                        ),
                         Container(
                           padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                           width: size.width,
                           child:    Form(
                             key: formKey,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Image.asset(Assets.logoPNG, width: size.width/4,),
-                                SizedBox(height: Dimensions.spacingSizeLarge * 2,),
+                                //Image.asset(Assets.logoPNG, width: size.width/4,),
+                                //SizedBox(height: Dimensions.spacingSizeLarge * 2,),
                                 Text(
-                                  "${provider.registerModel.firstName} ${provider.registerModel.lastName},",
-                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
+                                  "${"${provider.registerModel.firstName}".capitalize()} ${"${provider.registerModel.lastName}".capitalize()},",
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white),
                                 ),
 
                                 Text(
@@ -71,7 +80,7 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                   "C'est le moment de sécuriser votre compte!",
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                                 ),
-                                SizedBox(height: Dimensions.spacingSizeLarge * 2,),
+                                SizedBox(height: Dimensions.spacingSizeLarge * 3,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -84,7 +93,7 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                         setState(() {
                                           password = value;
                                         });
-                                      }, hintText: '**********',
+                                      }, hintText: '********',
                                       validator:(value)=> validatePassword(value),
                                     ),
                                     SizedBox(height: Dimensions.spacingSizeDefault,),
@@ -95,7 +104,7 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                       isForPassword: true,
                                       onChanged: (value) {
                                         confirmPassword = value;
-                                      }, hintText: '**************',
+                                      }, hintText: '********',
                                       validator: (value){
                                         if(value.toString() != password){
                                           return "Les mots de passe ne correspondent pas!";
@@ -140,7 +149,6 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                 ),
                                 SizedBox(height: Dimensions.spacingSizeLarge,),
                                 GradientButton(onTap: (){
-
                                   if (formKey.currentState!.validate()) {
                                     if(conditionsAccepted){
                                       provider.setRegisterPassword(password);

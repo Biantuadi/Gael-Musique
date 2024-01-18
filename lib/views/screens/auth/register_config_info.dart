@@ -65,20 +65,20 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                           child:    Form(
                             key: formKey,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Image.asset(Assets.logoPNG, width: size.width/4,),
-                                SizedBox(height: Dimensions.spacingSizeSmall,),
+                                //Center(child: Image.asset(Assets.logoPNG, width: size.width/4,)),
+                                SizedBox(height: Dimensions.spacingSizeLarge,),
                                 Text(
                                   "Salut, ${provider.registerModel.firstName} ${provider.registerModel.lastName}".capitalize(),
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white, height: 1, ),
                                 ),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
                                 Text(
                                   "Configurons vos informations",
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, height: 1),
                                 ),
-                                SizedBox(height: Dimensions.spacingSizeLarge,),
+                                SizedBox(height: Dimensions.spacingSizeLarge * 2,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -114,7 +114,7 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                                 GradientButton(onTap: (){
                                   if (formKey.currentState!.validate()) {
                                     provider.setRegisterInfo(email: email, phone: phone);
-                                    Navigator.pushNamedAndRemoveUntil(context, Routes.registerPasswordConfigScreen, (route) => false);
+                                    Navigator.pushNamed(context, Routes.registerPasswordConfigScreen);
                                   }
                                 }, size: size, child: Text("Continuer", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
                               ],

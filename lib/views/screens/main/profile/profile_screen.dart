@@ -8,6 +8,7 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +20,6 @@ import 'package:provider/provider.dart';
 
 import 'component/profile_option_tile.dart';
 import 'component/user_cart_widget.dart';
-import 'component/user_info_tile.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -39,24 +39,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           builder: (BuildContext context, provider, Widget? child) {
             return CustomScrollView(
               slivers: [
+
                 SliverList.list(children: [
                   SafeArea(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment:MainAxisAlignment.spaceBetween ,
-                          children: [
-                            Container(
-                                padding: EdgeInsets.only(left: Dimensions.spacingSizeDefault),
-                                child: Text("Profil", style: Theme.of(context).textTheme.titleMedium,)),
-                            IconButton(onPressed: (){
-                              logoutBottomSheet();
-                            }, icon: const Icon(Iconsax.logout,))
-                          ],
-                        ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: Dimensions.spacingSizeDefault),
+                          padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                           child: Row(
                             children: [
                               SizedBox(
@@ -76,10 +66,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Salut!" , style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1),),
                                   Text("${splashProvider.userFirstName??'Trésor'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1),),
-                                  Text("${splashProvider.userEmail??'Trésor'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1),),
-                                  Text("${splashProvider.userPhone??'Trésor'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1),),
+                                  Text("${splashProvider.userEmail??'user@gmail.com'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
+                                  Text("${splashProvider.userPhone??'+243 837 636 837'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey,),),
+                                  SizedBox(height: Dimensions.spacingSizeSmall,),
+                                  GradientButton(onTap: (){}, size: Size(size.width/5, 40), child: Text("Modifier", style: Theme.of(context).textTheme.bodySmall,))
       
                                 ],
                               ),
@@ -95,37 +86,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                   padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomTextField(
-                          onChanged: (value) {
-                            // Utilize the input value here
-                            // print('Search query: $value');
-                          }, hintText: 'Recherche...',
-                          prefixIcon: Icon(CupertinoIcons.search, color: Theme.of(context).primaryColor, size: Dimensions.iconSizeSmall,), controller: TextEditingController(),
-                        ),
-      
-      
-                        SizedBox(height: Dimensions.spacingSizeLarge,),
-      
                         const Divider(color: Colors.white, height: 0.4, thickness: .1,),
-                        Wrap(
-                          children: [
-                            UserCartWidget(title: 'Mes payements', svgFile: Assets.payment,),
-                            UserCartWidget(title: 'Mes favoris', svgFile: Assets.favorite,),
-                            UserCartWidget(title: 'Mes enseignements', svgFile: Assets.course,),
-                            UserCartWidget(title: 'Events', svgFile: Assets.event,),
-                          ],
+                        SizedBox(height: Dimensions.spacingSizeSmall,),
+                       Text("Mon Dashboard", style: Theme.of(context).textTheme.titleMedium,),
+                        SizedBox(height: Dimensions.spacingSizeSmall,),
+
+                        Center(
+                          child: Wrap(
+
+                            children: [
+                              UserCartWidget(title: 'Mes payements', svgFile: Assets.payment, onTap: (){
+                                Navigator.pushNamed(context, Routes.paymentScreen);
+                              },),
+                              UserCartWidget(title: 'Mes favoris', svgFile: Assets.favorite,onTap: (){
+                                Navigator.pushNamed(context, Routes.favoritesScreen);
+                              }),
+                              UserCartWidget(title: 'Mes enseignements', svgFile: Assets.course,onTap: (){
+                                Navigator.pushNamed(context, Routes.coursesScreen);
+                              }),
+                              UserCartWidget(title: 'Mes Events', svgFile: Assets.event,onTap: (){
+                                Navigator.pushNamed(context, Routes.userEventScreen);
+                              }),
+                            ],
+                          ),
                         ),
-                        ProfileOption(label: 'Paramètres', iconData: Iconsax.setting, voidCallback: () {},),
-                        ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
-                        ProfileOption(label: 'A propos', iconData: Iconsax.info_circle, voidCallback: () {  },),
                       ],
                     ),
                   ),
                   Container(
-                    color: ThemeVariables.thirdColorBlack,
-                    height: size.height / 3,
-                  )
+                    padding: EdgeInsets.only(
+                        bottom:Dimensions.spacingSizeDefault,
+                        left:Dimensions.spacingSizeDefault,
+                        right:Dimensions.spacingSizeDefault,
+                    ),
+                      child: Column(
+                        children: [
+                          ProfileOption(label: 'Paramètres', iconData: Iconsax.setting, voidCallback: () {
+                            Navigator.pushNamed(context, Routes.settingsScreen);
+                          },),
+                          ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
+                        ],
+                      )),
+
                 ]),
       
               ],
@@ -153,13 +157,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         InkWell(
           onTap: (){
-            pickImageFromSource(ImageSource.camera);
+            pickImageFromSource(ImageSource.camera).then((value){
+              Navigator.pop(context);
+            });
           },
           child: Container(
             padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
             child: Row(
               children: [
-                const Icon(Iconsax.camera),
+                const Icon(Iconsax.camera, color: Colors.white,),
                 SizedBox(width: Dimensions.spacingSizeDefault,),
                 Text("Caméra",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                 )
@@ -170,14 +176,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         const Divider(color: Colors.white, thickness: 0.2, height: 0.5,),
         InkWell(
           onTap: (){
-            pickImageFromSource(ImageSource.gallery);
+            pickImageFromSource(ImageSource.gallery).then((value){
+              Navigator.pop(context);
+            });
           },
           child: Container(
             padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
 
             child: Row(
               children: [
-                const Icon(Iconsax.image),
+                const Icon(CupertinoIcons.device_phone_portrait, color: Colors.white,),
                 SizedBox(width: Dimensions.spacingSizeDefault,),
                 Text("Téléphone", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                 )
@@ -185,6 +193,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+        imageFile != null?
+        Column(
+          children: [
+            const Divider(color: Colors.white, thickness: 0.2, height: 0.5,),
+            InkWell(
+              onTap: (){
+                setState(() {
+                  imageFile = null;
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+
+                child: Row(
+                  children: [
+                    const Icon(Iconsax.box_remove, color: Colors.white,),
+                    SizedBox(width: Dimensions.spacingSizeDefault,),
+                    Text("Supprimer", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ): const SizedBox(height: 0,)
       ],
     ), );
   }
@@ -230,4 +263,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     ), );
   }
+
 }

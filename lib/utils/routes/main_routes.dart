@@ -24,7 +24,17 @@ class Routes {
   static const String radioScreen = "RADIO-SCREEN";
   static const String streamingDetailsScreen = "STREAMING-DETAILS-SCREEN";
   static const String favoritesScreen = "FAVORITES-SCREEN";
+
+  //PROFILE
   static const String profileScreen = "PROFILE-SCREEN";
+  static const String aboutScreen = "ABOUT-SCREEN";
+  static const String coursesScreen = "COURSES-SCREEN";
+  static const String userEventScreen = "USER-PROFILE-SCREEN";
+  static const String paymentScreen = "PAYMENT-SCREEN";
+  static const String settingsScreen = "SETTINGS-SCREEN";
+  static const String favoriteScreen = "FAVORITE-SCREEN";
+  static const String infoUpdateScreen = "INFO-UPDATE-SCREEN";
+  static const String passwordUpdateScreen = "PASSWORD-UPDATE-SCREEN";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final arguments = settings.arguments;
@@ -57,6 +67,22 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const FavoriteScreen());
       case profileScreen:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case aboutScreen:
+        return MaterialPageRoute(builder: (_) => const AboutScreen());
+      case coursesScreen:
+        return MaterialPageRoute(builder: (_) => const CoursesScreen());
+      case userEventScreen:
+        return MaterialPageRoute(builder: (_) => const UserEventScreen());
+      case favoriteScreen:
+        return MaterialPageRoute(builder: (_) => const FavoriteScreen());
+      case paymentScreen:
+        return MaterialPageRoute(builder: (_) => const PaymentScreen());
+      case settingsScreen:
+        return MaterialPageRoute(builder: (_) => const SettingsScreen());
+      case infoUpdateScreen:
+        return MaterialPageRoute(builder: (_) => const InfoUpdateScreen());
+      case passwordUpdateScreen:
+        return MaterialPageRoute(builder: (_) => const PasswordUpdateScreen());
       default:
         return _NotFoundRoute();
     }

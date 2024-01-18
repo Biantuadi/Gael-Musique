@@ -88,7 +88,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                               "Faisons connaissance!",
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
                             ),
-                            SizedBox(height: Dimensions.spacingSizeLarge,),
+                            SizedBox(height: Dimensions.spacingSizeLarge * 3,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
