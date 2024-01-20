@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/auth_validators/email_validator.dart';
+import 'package:Gael/utils/auth_validators/password_validator.dart';
 import 'package:Gael/utils/auth_validators/phone_validator.dart';
 import 'package:Gael/utils/auth_validators/string_validator.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -26,6 +27,9 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
   final formKey = GlobalKey<FormState>();
   String name = "";
   String firstName = "";
+  String password = "";
+  String email = "";
+  String phone = "";
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +102,12 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                             Text("Email : ${provider.userEmail}", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                             SizedBox(height: Dimensions.spacingSizeSmall,),
                             Text("Téléphone : ${provider.userPhone}", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                            SizedBox(height: Dimensions.spacingSizeSmall,),
+                            SizedBox(height: Dimensions.spacingSizeDefault*2,),
+
+                            GradientButton(onTap: (){
+                          updatePassword();
+                            }, size: size, child: Text("Mettre à jour le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
+
 
                           ],
                         ),
@@ -354,6 +363,76 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
 
                   if (personalFormKey.currentState!.validate()) {
                     Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
+                    //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
+                  }
+                }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
+              ],
+            ),
+          ),
+        ],
+      ), );
+  }
+  updatePassword(){
+    Size size = MediaQuery.sizeOf(context);
+    final personalFormKey = GlobalKey<FormState>();
+    showCustomBottomSheet(
+      context: context,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+
+          Text("Mettre à jour le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
+          SizedBox(height: Dimensions.spacingSizeDefault,),
+          Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: personalFormKey,
+            canPop: false,
+            onPopInvoked: (didPop){
+              if(didPop){
+                return;
+              }
+              canPop();
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                    SizedBox(height: Dimensions.spacingSizeSmall,),
+                    CustomTextField(
+                      controller: TextEditingController(),
+                      onChanged: (value) {
+                        //firstName = value;
+                      }, hintText: '******',
+                      validator: (value)=>validatePassword(value),
+                    ),
+                    SizedBox(height: Dimensions.spacingSizeDefault,),
+                    Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                    SizedBox(height: Dimensions.spacingSizeSmall,),
+                    CustomTextField(
+                      controller: TextEditingController(),
+                      textInputType: TextInputType.text,
+                      onChanged: (value) {
+                        // Utilize the input value here
+                        // print('Search query: $value');
+                        name = value;
+                      }, hintText: '******',
+                      validator:  (value){
+                        if(value.toString() != password){
+                          return "Les mots de passe ne correspondent pas!";
+                        }
+                      },
+
+                    ),
+                  ],
+                ),
+                SizedBox(height: Dimensions.spacingSizeLarge,),
+                GradientButton(onTap: (){
+                  if (personalFormKey.currentState!.validate()) {
+                   // Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
                     //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
                   }
                 }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
