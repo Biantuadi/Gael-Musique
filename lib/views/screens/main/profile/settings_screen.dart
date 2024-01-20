@@ -2,6 +2,7 @@ import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
@@ -18,58 +19,56 @@ class SettingsScreenState extends State<SettingsScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(icon: const Icon(Iconsax.arrow_left, ), onPressed: (){
+          Navigator.pop(context);
+        },),
+        title: Text("Paramètres", style: Theme.of(context).textTheme.titleMedium,),
+      ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
-            ProfileOption(label: 'A propos', iconData: Iconsax.info_circle, voidCallback: () {  },),
-
-
-          ],
+        child: Container(
+          padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+          child: Column(
+            children: [
+              ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
+              ProfileOption(label: 'A propos', iconData: Iconsax.info_circle, voidCallback: () {
+                Navigator.pushNamed(context, Routes.aboutScreen);
+              },),
+          
+          
+            ],
+          ),
         ),
       ),
     );
   }
   logoutBottomSheet(){
+    Size size = MediaQuery.sizeOf(context);
     showCustomBottomSheet(context: context, content: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Voulez-vous vous déconnecter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
-        InkWell(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-            child: Row(
-              children: [
-                const Icon(Iconsax.close_circle),
-                SizedBox(width: Dimensions.spacingSizeDefault,),
-                Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                )
-              ],
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+        Row(
+          children: [
+            GradientButton(onTap: (){
+              Provider.of<AuthProvider>(context, listen: false).logOut();
+              Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
+            },
+                size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
+            SizedBox(width: Dimensions.spacingSizeDefault,),
+            InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+                child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
+              ),
             ),
-          ),
-        ),
-        const Divider(color: Colors.white, thickness: 0.2, height: 0.5,),
-        InkWell(
-          onTap: (){
-            Provider.of<AuthProvider>(context, listen: false).logOut();
-            Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-            child: Row(
-              children: [
-                const Icon(Iconsax.logout),
-                SizedBox(width: Dimensions.spacingSizeDefault,),
-                Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                )
-              ],
-            ),
-          ),
-        ),
+
+          ],
+        )
       ],
     ), );
   }

@@ -10,7 +10,8 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
     elevation: 10,
     backgroundColor: Colors.transparent,
     barrierColor: ThemeVariables.thirdColorBlack.withOpacity(0.5),
-    clipBehavior: Clip.antiAliasWithSaveLayer,
+    clipBehavior: Clip.antiAlias,
+
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(Dimensions.radiusSizeDefault),
@@ -20,19 +21,20 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
     builder: (BuildContext context) {
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Wrap(
-              children: <Widget>[
-                Container(
-                    width: size.width,
-                    padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                    margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                    decoration: BoxDecoration(
-                      color: bgColor??Colors.black,
-                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
-                    ),
-                    child: content),
-              ],
-            );
+            return Container(
+                width: size.width,
+                padding: EdgeInsets.only(
+                    top:Dimensions.spacingSizeDefault,
+                    left:Dimensions.spacingSizeDefault,
+                    right:Dimensions.spacingSizeDefault,
+                  bottom: MediaQuery.of(context).viewInsets.bottom
+                ),
+                margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                decoration: BoxDecoration(
+                  color: bgColor??Colors.black,
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
+                ),
+                child: content);
           });
     },
   );

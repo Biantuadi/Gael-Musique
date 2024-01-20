@@ -6,10 +6,8 @@ import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
-import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
-import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           builder: (BuildContext context, provider, Widget? child) {
             return CustomScrollView(
               slivers: [
-
                 SliverList.list(children: [
                   SafeArea(
                     child: Column(
@@ -70,7 +67,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text("${splashProvider.userEmail??'user@gmail.com'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
                                   Text("${splashProvider.userPhone??'+243 837 636 837'} ${splashProvider.userName??'Biantuadi'}" , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey,),),
                                   SizedBox(height: Dimensions.spacingSizeSmall,),
-                                  GradientButton(onTap: (){}, size: Size(size.width/5, 40), child: Text("Modifier", style: Theme.of(context).textTheme.bodySmall,))
+                                  GradientButton(onTap: (){
+                                    Navigator.pushNamed(context, Routes.infoUpdateScreen);
+                                  }, size: Size(size.width/5, 40), child: Text("Modifier", style: Theme.of(context).textTheme.bodySmall,))
       
                                 ],
                               ),
@@ -222,44 +221,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ), );
   }
   logoutBottomSheet(){
+    Size size = MediaQuery.sizeOf(context);
     showCustomBottomSheet(context: context, content: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Voulez-vous vous déconnecter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
-        InkWell(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-            child: Row(
-              children: [
-                const Icon(Iconsax.close_circle),
-                SizedBox(width: Dimensions.spacingSizeDefault,),
-                Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                )
-              ],
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+        Row(
+          children: [
+
+            GradientButton(onTap: (){
+              Provider.of<AuthProvider>(context, listen: false).logOut();
+              Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
+            },
+             size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
+            SizedBox(width: Dimensions.spacingSizeDefault,),
+            InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+                child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
+              ),
             ),
-          ),
-        ),
-        const Divider(color: Colors.white, thickness: 0.2, height: 0.5,),
-        InkWell(
-          onTap: (){
-            Provider.of<AuthProvider>(context, listen: false).logOut();
-            Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-            child: Row(
-              children: [
-                const Icon(Iconsax.logout),
-                SizedBox(width: Dimensions.spacingSizeDefault,),
-                Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                )
-              ],
-            ),
-          ),
-        ),
+
+          ],
+        )
       ],
     ), );
   }

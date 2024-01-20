@@ -15,8 +15,8 @@ class Assets{
 
   //APP
   static String course = "assets/icons/course.jpg";
-  static String event = "assets/icons/event.jpg";
-  static String payment = "assets/icons/payment.jpg";
+  static String event = "assets/icons/event.png";
+  static String payment = "assets/icons/ticket.jpg";
   static String favorite = "assets/icons/favorite.jpg";
   static String pod = "assets/icons/pod.jpg";
   //static String pod2 = "assets/icons/pod2.jpg";
