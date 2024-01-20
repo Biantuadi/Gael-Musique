@@ -21,20 +21,24 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
     builder: (BuildContext context) {
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Container(
-                width: size.width,
-                padding: EdgeInsets.only(
-                    top:Dimensions.spacingSizeDefault,
-                    left:Dimensions.spacingSizeDefault,
-                    right:Dimensions.spacingSizeDefault,
-                  bottom: MediaQuery.of(context).viewInsets.bottom
-                ),
-                margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                decoration: BoxDecoration(
-                  color: bgColor??Colors.black,
-                  borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
-                ),
-                child: content);
+            return Wrap(
+              children: [
+                Container(
+                    width: size.width,
+                    padding: EdgeInsets.only(
+                        top:Dimensions.spacingSizeDefault,
+                        left:Dimensions.spacingSizeDefault,
+                        right:Dimensions.spacingSizeDefault,
+                      bottom: MediaQuery.of(context).viewInsets.bottom
+                    ),
+                    margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                    decoration: BoxDecoration(
+                      color: bgColor??Colors.black,
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
+                    ),
+                    child: content),
+              ],
+            );
           });
     },
   );
