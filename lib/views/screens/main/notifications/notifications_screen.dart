@@ -52,18 +52,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             controller: scrollController,
             slivers: [
               SliverAppBar(
-                title: Text("Vos favoris",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
+                title: Text("Notifications",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
                 pinned: true,
                 backgroundColor:ThemeVariables.thirdColorBlack,
               ),
               SliverList.list(children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    top : Dimensions.spacingSizeDefault,
-                    left : Dimensions.spacingSizeDefault,
-                  ),
-                  child:Text("Revivez ces moments", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                ),
               ]),
 
               SliverPadding(
@@ -81,7 +74,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         ),
                       );
                     }
-                    return StreamingWidget(streaming: provider.streamingToShow![index],);
+                    return Container();
                   },
                   itemCount: provider.streamingToShow!.length,
                 ),
