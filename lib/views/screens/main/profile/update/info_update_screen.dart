@@ -57,7 +57,9 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         child: Stack(
                           alignment: Alignment.bottomRight,
                           children: [
-                            AssetImageWidget(imagePath: Assets.avatarPNG, size: Size(size.width , size.height/4),),
+                            imageFile == null?
+                            AssetImageWidget(imagePath: Assets.avatarPNG, size: Size(size.width , size.height/4),):
+                            ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),child: Image.file(imageFile!, width:size.width, height: size.height/4, fit: BoxFit.cover),),
                             IconButton(onPressed: (){
                               sourceBottomSheet();
                             }, icon:  Icon(Iconsax.edit, color: Colors.white, size: Dimensions.iconSizeSmall,))
@@ -158,9 +160,11 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
     xImageFile = await imagePicker.pickImage(source: imageSource);
     final file = xImageFile;
     if(xImageFile != null){
-      imageFile = File(file!.path);
+      setState(() {
+        imageFile = File(file!.path);
+      });
       // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+     // Navigator.pop(context);
     }
   }
   sourceBottomSheet(){

@@ -52,7 +52,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
-                                    AssetImageWidget(imagePath: Assets.avatarPNG, size: Size(size.width / 3 , size.width/3),),
+                                    imageFile == null?
+                                    AssetImageWidget(imagePath: Assets.avatarPNG, size: Size(size.width / 3 , size.width/3),):
+                                    ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),child: Image.file(imageFile!, width:size.width/3, height: size.width/3, fit: BoxFit.cover,),),
+
                                     IconButton(onPressed: (){
                                       sourceBottomSheet();
                                     }, icon:  Icon(Iconsax.edit, color: Colors.white, size: Dimensions.iconSizeSmall,))
@@ -148,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if(xImageFile != null){
       imageFile = File(file!.path);
       // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+      //Navigator.pop(context);
     }
   }
   sourceBottomSheet(){
@@ -222,33 +225,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
   logoutBottomSheet(){
     Size size = MediaQuery.sizeOf(context);
-    showCustomBottomSheet(context: context, content: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Voulez-vous vous déconnecter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
-        SizedBox(height: Dimensions.spacingSizeDefault,),
-        Row(
-          children: [
-
-            GradientButton(onTap: (){
-              Provider.of<AuthProvider>(context, listen: false).logOut();
-              Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
-            },
-             size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
-            SizedBox(width: Dimensions.spacingSizeDefault,),
-            InkWell(
-              onTap: (){
-                Navigator.pop(context);
+    showCustomBottomSheet(context: context, content: Container(
+      padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Voulez-vous vous déconnecter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
+          SizedBox(height: Dimensions.spacingSizeLarge,),
+          Row(
+            children: [
+      
+              GradientButton(onTap: (){
+                Provider.of<AuthProvider>(context, listen: false).logOut();
+                Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
               },
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-                child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
+               size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
+              SizedBox(width: Dimensions.spacingSizeDefault,),
+              InkWell(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+                  child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
+                ),
               ),
-            ),
-
-          ],
-        )
-      ],
+      
+            ],
+          )
+        ],
+      ),
     ), );
   }
 

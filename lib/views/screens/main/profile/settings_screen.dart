@@ -44,32 +44,35 @@ class SettingsScreenState extends State<SettingsScreen>{
   }
   logoutBottomSheet(){
     Size size = MediaQuery.sizeOf(context);
-    showCustomBottomSheet(context: context, content: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Voulez-vous vous déconnecter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
-        SizedBox(height: Dimensions.spacingSizeDefault,),
-        Row(
-          children: [
-            GradientButton(onTap: (){
-              Provider.of<AuthProvider>(context, listen: false).logOut();
-              Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
-            },
-                size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
-            SizedBox(width: Dimensions.spacingSizeDefault,),
-            InkWell(
-              onTap: (){
-                Navigator.pop(context);
+    showCustomBottomSheet(context: context, content: Container(
+      padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Voulez-vous vous déconnecter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
+          SizedBox(height: Dimensions.spacingSizeDefault,),
+          Row(
+            children: [
+              GradientButton(onTap: (){
+                Provider.of<AuthProvider>(context, listen: false).logOut();
+                Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
               },
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-                child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
+                  size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
+              SizedBox(width: Dimensions.spacingSizeDefault,),
+              InkWell(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+                  child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
+                ),
               ),
-            ),
 
-          ],
-        )
-      ],
+            ],
+          )
+        ],
+      ),
     ), );
   }
 }
