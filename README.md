@@ -62,3 +62,9 @@ ClipRect(
       ),
 
 ```
+
+!Important:
+pour arreter de suivre un fichier dans git
+```bash
+git rm --cached <file>
+```
