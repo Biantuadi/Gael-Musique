@@ -1,9 +1,13 @@
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 
 void showCustomBottomSheet({required BuildContext context,required Widget content, Color? bgColor}) {
   Size size =  MediaQuery.sizeOf(context);
+
+
+
   showModalBottomSheet<dynamic>(
     isScrollControlled: true,
     context: context,
@@ -11,7 +15,6 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
     backgroundColor: Colors.transparent,
     barrierColor: ThemeVariables.thirdColorBlack.withOpacity(0.5),
     clipBehavior: Clip.antiAlias,
-
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(Dimensions.radiusSizeDefault),
@@ -42,4 +45,6 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
           });
     },
   );
+
+
 }

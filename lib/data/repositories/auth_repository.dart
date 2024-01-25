@@ -36,13 +36,8 @@ class AuthRepository {
     return null;
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{
-    try{
       Response response = await dioClient.post(AppConfig.loginUrl,data: loginModel.toJson());
       return ApiResponse(response: response);
-    }catch (e){
-      print('ERROR');
-    }
-    return null;
   }
   setUserEmail(String email)async{
     await sharedPreferences.setString(AppConfig.sharedEmail, email);
@@ -80,6 +75,9 @@ class AuthRepository {
 
   Future<String?> getUserPhone()async{
     return  sharedPreferences.getString(AppConfig.sharedPhone);
+  }
+  Future<String?> getUserEmail()async{
+    return  sharedPreferences.getString(AppConfig.sharedEmail);
   }
   Future<String?> getUserBio()async{
     return  sharedPreferences.getString(AppConfig.sharedUserBio);

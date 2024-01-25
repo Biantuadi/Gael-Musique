@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/assets.dart';
@@ -30,11 +31,12 @@ class SplashScreenState extends State<SplashScreen>{
   Future<void>getSongs()async{
 
   }
-  void _route() {
+  void _route(){
     String route = Routes.landingScreen;
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
     Provider.of<SplashProvider>(context, listen: false).initConfig(
-        successCallback: (){
+        successCallback: () async {
+          await Provider.of<AuthProvider>(context, listen: false).getUserVars();
           if(Provider.of<SplashProvider>(context, listen: false).userToken != null ){
             route = Routes.mainScreen;
           }

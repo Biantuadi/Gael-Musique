@@ -71,12 +71,13 @@ class AuthProvider with ChangeNotifier{
       print("LA RESPONSE: ${apiResponse.response.statusCode}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
-            userEmail = data["email"];
-            userName = data["lastname"];
-            userFirstName = data["firstname"];
-            userToken = data["token"];
-            userPhone = data["phone"];
-            userBio = data["bio"];
+          userEmail = data['user']["email"];
+          userName = data['user']["lastname"];
+          userFirstName = data['user']["firstname"];
+          userToken = data["token"];
+          userPhone = data['user']["phone"];
+          userBio = data['user']["bio"];
+          userProfileUrl = data['user']['avatar'];
             setUserVars();
             print("LES DATES RECUES: $data");
             successCallBack();
@@ -94,15 +95,24 @@ class AuthProvider with ChangeNotifier{
     isLoading = true;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.login(loginModel);
+    print("LA STRUCTURE LA DE RESPONSE: ${apiResponse?.response.statusMessage}");
+    isLoading = false;
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;
-        userEmail = data["email"];
-        userName = data["last_name"];
-        userFirstName = data["first_name"];
-        userToken = data["token"];
-        userPhone = data["phone"];
-        userBio = data["bio"];
+        print("LES DATAS RECUES: $data");
+        userEmail = data['user']['email'];
+        print("LE MAIL!: ${data['user']['email']}");
+        userName = data['user']['lastname'];
+        print("LA USER NAME:${data['user']['lastname']}");
+        userFirstName = data['user']['firstname'];
+        print("FIRST NAME: ${ data['user']['firstname']}");
+        userToken = data['token'];
+        print("LA TOKEN: ${data['token']}");
+        userPhone = data['user']["phone"];
+        userBio = data['user']["bio"];
+        userProfileUrl = data['user']['avatar'];
+        notifyListeners();
         setUserVars();
         successCallBack();
       }
@@ -110,7 +120,7 @@ class AuthProvider with ChangeNotifier{
       registerError = "Erreur inconnue";
       errorCallback();
     }
-    isLoading = false;
+
     notifyListeners();
   }
   logOut(){
@@ -124,5 +134,15 @@ class AuthProvider with ChangeNotifier{
     await authRepository.setUserUserName(userName??registerModel.lastName??"");
     await authRepository.setUserPhone(userPhone??registerModel.phone??"");
     await authRepository.setUserProfileUrl(userProfileUrl??"");
+
+  }
+  getUserVars()async{
+    userProfileUrl = await authRepository.getUserProfileUrl();
+    userPhone = await authRepository.getUserPhone();
+    userName = await authRepository.getUserName();
+    userFirstName = await authRepository.getUserFirstName();
+    userToken = await authRepository.getUserToken();
+    userEmail = await authRepository.getUserEmail();
+    notifyListeners();
   }
 }

@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:Gael/data/providers/auth_provider.dart';
-import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/auth_validators/email_validator.dart';
 import 'package:Gael/utils/auth_validators/password_validator.dart';
 import 'package:Gael/utils/auth_validators/phone_validator.dart';
@@ -10,7 +8,7 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
-import 'package:Gael/views/components/images/image_asset_widget.dart';
+import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -58,7 +56,8 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           alignment: Alignment.bottomRight,
                           children: [
                             imageFile == null?
-                            AssetImageWidget(imagePath: Assets.avatarPNG, size: Size(size.width , size.height/4),):
+                            NetWorkImageWidget(imageUrl: provider.userProfileUrl!, size: Size(size.width , size.height/4),)
+:
                             ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),child: Image.file(imageFile!, width:size.width, height: size.height/4, fit: BoxFit.cover),),
                             IconButton(onPressed: (){
                               sourceBottomSheet();
@@ -242,9 +241,9 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
     final personalFormKey = GlobalKey<FormState>();
     showCustomBottomSheet(
       context: context,
-      content: SizedBox(
+      content: Container(
         width: size.width,
-        //height: size.height,
+        padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,66 +313,69 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
     final personalFormKey = GlobalKey<FormState>();
     showCustomBottomSheet(
       context: context,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      content: Container(
+        padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-          Text("Informations du compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
-          Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: personalFormKey,
-            canPop: false,
-            onPopInvoked: (didPop){
-              if(didPop){
-                return;
-              }
-              canPop();
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                    SizedBox(height: Dimensions.spacingSizeSmall,),
-                    CustomTextField(
-                      controller: TextEditingController(),
-                      onChanged: (value) {
-                        firstName = value;
-                      }, hintText: 'Athoms@gmail.com',
-                      validator: (value)=>validateEmail(value),
-                    ),
-                    SizedBox(height: Dimensions.spacingSizeDefault,),
-                    Text("Téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                    SizedBox(height: Dimensions.spacingSizeSmall,),
-                    CustomTextField(
-                      controller: TextEditingController(),
-                      textInputType: const TextInputType.numberWithOptions(decimal: false,),
-                      onChanged: (value) {
-                        // Utilize the input value here
-                        // print('Search query: $value');
-                        name = value;
-                      }, hintText: '00 243 826 037 382 ',
-                      validator: (value)=>validatePhoneNumber(value: value),
+            Text("Informations du compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
+            SizedBox(height: Dimensions.spacingSizeDefault,),
+            Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: personalFormKey,
+              canPop: false,
+              onPopInvoked: (didPop){
+                if(didPop){
+                  return;
+                }
+                canPop();
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                      SizedBox(height: Dimensions.spacingSizeSmall,),
+                      CustomTextField(
+                        controller: TextEditingController(),
+                        onChanged: (value) {
+                          firstName = value;
+                        }, hintText: 'Athoms@gmail.com',
+                        validator: (value)=>validateEmail(value),
+                      ),
+                      SizedBox(height: Dimensions.spacingSizeDefault,),
+                      Text("Téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                      SizedBox(height: Dimensions.spacingSizeSmall,),
+                      CustomTextField(
+                        controller: TextEditingController(),
+                        textInputType: const TextInputType.numberWithOptions(decimal: false,),
+                        onChanged: (value) {
+                          // Utilize the input value here
+                          // print('Search query: $value');
+                          name = value;
+                        }, hintText: '00 243 826 037 382 ',
+                        validator: (value)=>validatePhoneNumber(value: value),
 
-                    ),
-                  ],
-                ),
-                SizedBox(height: Dimensions.spacingSizeLarge,),
-                GradientButton(onTap: (){
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: Dimensions.spacingSizeLarge,),
+                  GradientButton(onTap: (){
 
-                  if (personalFormKey.currentState!.validate()) {
-                    Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
-                    //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
-                  }
-                }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
-              ],
+                    if (personalFormKey.currentState!.validate()) {
+                      Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
+                      //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
+                    }
+                  }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ), );
   }
   updatePassword(){
@@ -381,69 +383,72 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
     final personalFormKey = GlobalKey<FormState>();
     showCustomBottomSheet(
       context: context,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      content: Container(
+        padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-          Text("Mettre à jour le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
-          Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: personalFormKey,
-            canPop: false,
-            onPopInvoked: (didPop){
-              if(didPop){
-                return;
-              }
-              canPop();
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                    SizedBox(height: Dimensions.spacingSizeSmall,),
-                    CustomTextField(
-                      controller: TextEditingController(),
-                      onChanged: (value) {
-                        //firstName = value;
-                      }, hintText: '******',
-                      validator: (value)=>validatePassword(value),
-                    ),
-                    SizedBox(height: Dimensions.spacingSizeDefault,),
-                    Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                    SizedBox(height: Dimensions.spacingSizeSmall,),
-                    CustomTextField(
-                      controller: TextEditingController(),
-                      textInputType: TextInputType.text,
-                      onChanged: (value) {
-                        // Utilize the input value here
-                        // print('Search query: $value');
-                        name = value;
-                      }, hintText: '******',
-                      validator:  (value){
-                        if(value.toString() != password){
-                          return "Les mots de passe ne correspondent pas!";
-                        }
-                      },
+            Text("Mettre à jour le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
+            SizedBox(height: Dimensions.spacingSizeDefault,),
+            Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: personalFormKey,
+              canPop: false,
+              onPopInvoked: (didPop){
+                if(didPop){
+                  return;
+                }
+                canPop();
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                      SizedBox(height: Dimensions.spacingSizeSmall,),
+                      CustomTextField(
+                        controller: TextEditingController(),
+                        onChanged: (value) {
+                          //firstName = value;
+                        }, hintText: '******',
+                        validator: (value)=>validatePassword(value),
+                      ),
+                      SizedBox(height: Dimensions.spacingSizeDefault,),
+                      Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                      SizedBox(height: Dimensions.spacingSizeSmall,),
+                      CustomTextField(
+                        controller: TextEditingController(),
+                        textInputType: TextInputType.text,
+                        onChanged: (value) {
+                          // Utilize the input value here
+                          // print('Search query: $value');
+                          name = value;
+                        }, hintText: '******',
+                        validator:  (value){
+                          if(value.toString() != password){
+                            return "Les mots de passe ne correspondent pas!";
+                          }
+                        },
 
-                    ),
-                  ],
-                ),
-                SizedBox(height: Dimensions.spacingSizeLarge,),
-                GradientButton(onTap: (){
-                  if (personalFormKey.currentState!.validate()) {
-                   // Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
-                    //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
-                  }
-                }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
-              ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: Dimensions.spacingSizeLarge,),
+                  GradientButton(onTap: (){
+                    if (personalFormKey.currentState!.validate()) {
+                     // Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
+                      //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
+                    }
+                  }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ), );
   }
 }

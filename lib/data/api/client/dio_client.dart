@@ -66,15 +66,10 @@ class DioClient {
         cancelToken: cancelToken,
         data: data,
         onReceiveProgress: onReceiveProgress,
-
       );
       return response;
-    } on SocketException catch (e) {
-      throw SocketException(e.toString());
-    } on FormatException catch (_) {
-      throw const FormatException("Unable to process the data");
-    } catch (e) {
-      rethrow;
+    } catch (e){
+      throw e;
     }
   }
 

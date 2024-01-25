@@ -1,7 +1,10 @@
+import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomHeader extends StatelessWidget {
   const CustomHeader({
@@ -30,7 +33,7 @@ class CustomHeader extends StatelessWidget {
           if (showLogo!) _buildLogo(),
           if (showBackButton!) _buildBackButton(context),
           if (title!.isNotEmpty) _buildTitle(context),
-          if (showAvatar!) _buildAvatar(),
+          if (showAvatar!) _buildAvatar(context),
           if (textRadio!) _buildTextRadio(context),
         ],
       ),
@@ -65,7 +68,7 @@ class CustomHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -74,12 +77,7 @@ class CustomHeader extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(50),
       ),
-      child: const CircleAvatar(
-        radius: 24,
-        backgroundImage: AssetImage(
-          'assets/images/avatar.png',
-        ),
-      ),
+      child: NetWorkImageWidget(imageUrl: Provider.of<AuthProvider>(context, listen: false).userProfileUrl!, size: Size(Dimensions.iconSizeExtraLarge * 1.2, Dimensions.iconSizeExtraLarge*1.2), radius: Dimensions.iconSizeExtraLarge,),
     );
   }
 
