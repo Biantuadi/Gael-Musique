@@ -1,6 +1,5 @@
 import 'package:Gael/utils/dimensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class UserCartWidget extends StatelessWidget{
   final String title;

@@ -2,9 +2,7 @@ import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/repositories/streaming_repository.dart';
 import 'package:flutter/foundation.dart';
 
-
-
-class StreamingProvider with ChangeNotifier{
+class StreamingProvider with ChangeNotifier {
   StreamingRepository streamRepository;
   StreamingProvider({required this.streamRepository});
 
@@ -13,59 +11,74 @@ class StreamingProvider with ChangeNotifier{
 
   //STREAMING FILTERS
   bool? showEmission;
-  bool? showSongs;
+  bool? showSongs = true;
   bool? showPodCast;
   bool? showRadio;
-  bool showAll = true;
+  bool? showSanjola;
 
-  getStreaming(){
+  getStreaming() {
     allStreaming = streamRepository.getStreaming();
     streamingToShow = allStreaming;
   }
-  getSongs(){
-    //allStreaming = streamRepository.getStreaming();
-    //streamingToShow = allStreaming;
+
+  setShowSongs() {
+    showPodCast = null;
+    showEmission = null;
+    showRadio = null;
+    showSongs = true;
+    showSanjola = null;
+    getFilteredStreamingToShow();
+    notifyListeners();
   }
 
-  setShowPodCasts(){
+  setShowPodCasts() {
     showPodCast = true;
     showEmission = null;
     showRadio = null;
-    showAll = false;
+    showSongs = null;
+    showSanjola = null;
     getFilteredStreamingToShow();
     notifyListeners();
   }
-  setShowRadios(){
+
+  setShowRadios() {
     showPodCast = null;
     showEmission = null;
     showRadio = true;
-    showAll = false;
+    showSongs = null;
+    showSanjola = null;
     getFilteredStreamingToShow();
     notifyListeners();
   }
-  setShowEmissions(){
+
+  setShowEmissions() {
     showPodCast = null;
     showEmission = true;
     showRadio = null;
-    showAll = false;
+    showSongs = null;
+    showSanjola = null;
     getFilteredStreamingToShow();
     notifyListeners();
   }
-  getAllStreamingToShow(){
+
+  setShowSanjola() {
     showPodCast = null;
     showEmission = null;
     showRadio = null;
-    showAll = true;
-    streamingToShow = allStreaming;
+    showSongs = null;
+    showSanjola = true;
+    getFilteredStreamingToShow();
     notifyListeners();
   }
-  getFilteredStreamingToShow(){
-    streamingToShow = allStreaming.where(
-            (streaming) =>
+
+
+
+  getFilteredStreamingToShow() {
+    streamingToShow = allStreaming
+        .where((streaming) =>
             streaming.isRadio == showRadio &&
             streaming.isPodcast == showPodCast &&
-            streaming.isEmission == showEmission
-    ).toList();
+            streaming.isEmission == showEmission)
+        .toList();
   }
-
 }

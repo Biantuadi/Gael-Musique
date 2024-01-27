@@ -1,6 +1,5 @@
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
-import 'package:Gael/views/components/layouts/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -27,13 +26,13 @@ class CchatDetailScreenState extends State<ChatDetailScreen> {
         ),
         title: Row(
           children: [
-            const NetWorkImageWidget(imageUrl: 'https://picsum.photos/250?image=10', size:  const Size(45, 45),),
+            const NetWorkImageWidget(imageUrl: 'https://picsum.photos/250?image=10', size:   Size(45, 45),),
             SizedBox(width: Dimensions.spacingSizeDefault,),
             Text("Gael music", style: Theme.of(context).textTheme.titleMedium,)
           ],
         ),
       ),
-      body: Column(
+      body: const Column(
         children: [
         ],
       ),

@@ -11,7 +11,6 @@ import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';

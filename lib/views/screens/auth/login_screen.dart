@@ -134,7 +134,7 @@ class LoginScreenState extends State<LoginScreen> {
                                                 child:  const CircularProgressIndicator(strokeWidth: 1, color: Colors.black,))
                                           ],
                                         ):const SizedBox(),
-                                        Text("Créer le compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                                        Text("se connecter", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
                                       ],
                                     )),
 
