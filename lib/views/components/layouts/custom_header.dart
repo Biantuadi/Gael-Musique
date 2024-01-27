@@ -87,13 +87,13 @@ class CustomHeader extends StatelessWidget {
   Widget _buildTextRadio(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: 'Faites votre choix, \n',
+        text: 'Laissez vous emporter \n',
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: Colors.white,
             ),
         children: const <TextSpan>[
           TextSpan(
-            text: 'ou passez sur la radio',
+            text: 'par nos playlists',
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
