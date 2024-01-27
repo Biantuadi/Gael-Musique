@@ -17,7 +17,7 @@ class StreamingProvider with ChangeNotifier {
   bool? showSanjola;
 
   getStreaming() {
-    // allStreaming = streamRepository.getStreaming();
+    allStreaming = streamRepository.getStreaming();
     streamingToShow = allStreaming;
   }
 

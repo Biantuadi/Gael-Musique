@@ -1,45 +1,44 @@
 class Album{
   late String id;
-  late String name;
+  late String title;
+  late String subtitle;
   late String artist;
   late int year;
-  late String image;
-  late String genre;
+  late String? imgAlbum;
   late List<String> songs;
   late List<String> userBuy;
   late DateTime createdAt;
   Album({
-    required this.genre,
-    required this.name,
+    required this.title,
+    required this.subtitle,
     required this.id,
     required this.userBuy,
     required this.songs,
     required this.createdAt,
     required this.year,
     required this.artist,
-    required this.image,
+    required this.imgAlbum,
   });
 
   Album.fromJson(Map<String, dynamic> json){
     id = json["id"];
-    artist = json["artist"];
-    name = json["name"];
+    title = json["title"];
+    subtitle = json["subtitle"];
     createdAt = DateTime.parse(json["created_at"]);
-    image = json["image"];
+    imgAlbum = json["imgAlbum"];
     songs = json["songs"];
     userBuy = json["userBuy"];
-    genre = json["genre"];
   }
 
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
     json["id"] = id;
+    json["title"] = title.toString();
+    json["subtitle"] = subtitle;
     json["artist"] = artist;
-    json["name"] = name.toString();
-    json["image"] = image;
+    json["imgAlbum"] = imgAlbum;
     json["songs"] = songs;
     json["userBuy"] = userBuy;
-    json["genre"] = genre;
 
     return json;
   }
