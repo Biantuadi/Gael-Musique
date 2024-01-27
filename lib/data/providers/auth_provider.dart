@@ -90,6 +90,7 @@ class AuthProvider with ChangeNotifier{
     notifyListeners();
 
   }
+  
   login(LoginModel loginModel, {required VoidCallback successCallBack, required VoidCallback errorCallback})async{
     isLoading = true;
     notifyListeners();
@@ -98,8 +99,8 @@ class AuthProvider with ChangeNotifier{
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;
         userEmail = data["email"];
-        userName = data["last_name"];
-        userFirstName = data["first_name"];
+        userName = data["lastname"];
+        userFirstName = data["firstname"];
         userToken = data["token"];
         userPhone = data["phone"];
         userBio = data["bio"];

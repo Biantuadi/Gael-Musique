@@ -6,6 +6,7 @@ import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
+import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
@@ -221,7 +222,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
   logoutBottomSheet(){
     Size size = MediaQuery.sizeOf(context);
-    showCustomBottomSheet(context: context, content: Column(
+    showCustomBottomSheet(
+      bgColor: ThemeVariables.blackfonce,
+    context: context, 
+    content:  SizedBox(
+      height: size.height / 5,
+      child:  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Voulez-vous vous déconnecter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
@@ -233,22 +239,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Provider.of<AuthProvider>(context, listen: false).logOut();
               Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
             },
-             size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
+             size: Size(size.width / 5, 40), 
+             child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold,
+                fontSize: 16), )),
             SizedBox(width: Dimensions.spacingSizeDefault,),
             InkWell(
               onTap: (){
                 Navigator.pop(context);
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-                child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
+                padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault / 2, horizontal: Dimensions.spacingSizeDefault * 1.4),
+                child: Text("Non",  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold,
+                fontSize: 16
+                ),),
               ),
             ),
 
           ],
         )
       ],
-    ), );
-  }
+    ),
+    )); }
 
 }
