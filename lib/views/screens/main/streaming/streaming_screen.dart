@@ -63,7 +63,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
                          style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
                          children: const <TextSpan>[
                            TextSpan(
-                             text: 'avec playlists',
+                             text: 'avec nos playlists',
                              style: TextStyle(
                                fontWeight: FontWeight.bold,
                              ),
