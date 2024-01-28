@@ -7,8 +7,6 @@ import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-///import 'package:connectivity_plus/connectivity_plus.dart';
-
 
 class SplashScreen extends StatefulWidget{
   const SplashScreen({super.key});
@@ -17,24 +15,24 @@ class SplashScreen extends StatefulWidget{
   State<StatefulWidget> createState() {
     return SplashScreenState();
   }
-
 }
+
 class SplashScreenState extends State<SplashScreen>{
- // Connectivity  connectivity  = Connectivity();
   @override
   void initState() {
     super.initState();
     _route();
   }
 
-  Future<void>getSongs()async{
+  Future<void> getSongs() async {
 
   }
+
   void _route() {
     String route = Routes.landingScreen;
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
     Provider.of<SplashProvider>(context, listen: false).initConfig(
-        successCallback: (){
+        successCallback: () {
           if(Provider.of<SplashProvider>(context, listen: false).userToken != null ){
             route = Routes.mainScreen;
           }
