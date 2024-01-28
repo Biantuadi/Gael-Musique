@@ -136,8 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: 4,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index){
-                              return HomeAlbumCard(title: 'SUBLIME', imagePath: Assets.bgWelcomeWEBP, randomSongTitle: 'Parfum qui chante', screenSize: size,);
-        
+                              return HomeAlbumCard(title: 'SUBLIME', imagePath: Assets.albumSublime, randomSongTitle: 'Parfum qui chante', screenSize: size,);
                             }),
                       )
                     ],

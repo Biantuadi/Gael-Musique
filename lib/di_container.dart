@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/favorite_provider.dart';

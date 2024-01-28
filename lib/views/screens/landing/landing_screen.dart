@@ -1,7 +1,6 @@
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
-import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/ellipsis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
