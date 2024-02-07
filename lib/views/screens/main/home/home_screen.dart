@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
     ));
     Size size = MediaQuery.sizeOf(context);
     Widget spacing()=>SizedBox(height: Dimensions.spacingSizeDefault,);
