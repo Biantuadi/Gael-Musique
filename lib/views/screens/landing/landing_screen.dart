@@ -1,7 +1,6 @@
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
-import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/ellipsis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,18 +78,22 @@ class _LandingScreenState extends State<LandingScreen> {
                   children: [
                     GradientButton(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.registerScreen);
+                        Navigator.pushNamed(context, Routes.loginScreen);
                       },
                       size: Size(width*0.35, height * 0.07),
-                      child: Text("Get Started", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black),),
+                      child: Text("Press me", style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: Colors.black, 
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16
+                      ),),
                     ),
-                    SizedBox(height: Dimensions.spacingSizeDefault,),
-                    Text('or', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: ThemeVariables.primaryColor.withOpacity(0.7)),),
-                    TextButton(
-                        onPressed: (){
-                          Navigator.pushNamed(context, Routes.loginScreen);
-                        },
-                        child: Text("Login", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor))),
+                    // SizedBox(height: Dimensions.spacingSizeDefault,),
+                    // Text('or', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: ThemeVariables.primaryColor.withOpacity(0.7)),),
+                    // TextButton(
+                    //     onPressed: (){
+                    //       Navigator.pushNamed(context, Routes.registerScreen);
+                    //     },
+                    //     child: Text("Register", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor))),
                   ],
                 )
               ],

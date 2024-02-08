@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
     ));
     Size size = MediaQuery.sizeOf(context);
     Widget spacing()=>SizedBox(height: Dimensions.spacingSizeDefault,);
@@ -136,8 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: 4,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index){
-                              return HomeAlbumCard(title: 'SUBLIME', imagePath: Assets.bgWelcomeWEBP, randomSongTitle: 'Parfum qui chante', screenSize: size,);
-        
+                              return HomeAlbumCard(title: 'SUBLIME', imagePath: Assets.albumSublime, randomSongTitle: 'Parfum qui chante', screenSize: size,);
                             }),
                       )
                     ],

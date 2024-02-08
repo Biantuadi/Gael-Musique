@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:Gael/data/api/client/dio_client.dart';
 import 'package:Gael/data/models/app/login_model.dart';
@@ -26,14 +28,10 @@ class AuthRepository {
       'avatar': await MultipartFile.fromFile(file.path, filename: fileName),
     });
 
-    //try{
+    
       Response response = await dioClient.post(AppConfig.registerUrl,data: formData,);
       print("LA STATUS CODE: ${response.statusCode} ");
       return ApiResponse(response: response);
-    //}catch (e){
-      //print('ERROR');
-    //}
-    return null;
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{
       Response response = await dioClient.post(AppConfig.loginUrl,data: loginModel.toJson());

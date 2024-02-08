@@ -123,7 +123,8 @@ class MainApp extends StatelessWidget {
                     systemStatusBarContrastEnforced: false,
                     systemNavigationBarDividerColor: Colors.transparent,
                   ),
-                  child: SplashScreen());
+                  child: SplashScreen(),
+                  );
             }),
       );
     });

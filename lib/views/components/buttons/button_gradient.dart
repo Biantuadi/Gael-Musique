@@ -20,7 +20,7 @@ class GradientButton extends StatelessWidget {
         width: screenSize.width,
         height: screenSize.height,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault - 7),
           gradient: ThemeVariables.primaryGradient
         ),
         child:  Center(

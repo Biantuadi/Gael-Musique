@@ -7,6 +7,7 @@ class ThemeVariables {
   static const Color secondaryColor = Color(0xFFFFC54B);
   static const Color backgroundBlack = Color(0xFF161615);
   static const Color thirdColorBlack = Color(0xFF171717);
+  static const Color blackfonce = Color.fromARGB(255, 9, 9, 9);
   static const Color iconInactive = Color.fromRGBO(
       87, 87, 87, 0.8549019607843137);
   static  Color listChatTextColor = Colors.white.withOpacity(0.5);

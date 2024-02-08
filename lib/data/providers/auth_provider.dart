@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:Gael/data/models/app/login_model.dart';
@@ -91,6 +93,7 @@ class AuthProvider with ChangeNotifier{
     notifyListeners();
 
   }
+  
   login(LoginModel loginModel, {required VoidCallback successCallBack, required VoidCallback errorCallback})async{
     isLoading = true;
     notifyListeners();

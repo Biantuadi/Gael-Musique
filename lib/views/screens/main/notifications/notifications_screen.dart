@@ -25,7 +25,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   bool showHeader = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Provider.of<StreamingProvider>(context, listen: false).getStreaming();
     scrollController.addListener(() {

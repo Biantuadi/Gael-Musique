@@ -51,32 +51,58 @@ class _StreamingScreenState extends State<StreamingScreen> {
                     top: Dimensions.spacingSizeDefault * 3,
                     left: Dimensions.spacingSizeDefault
                ),
-               child: Text("Faites votre choix ou passez sur la radio",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
+               // child: Text("Faites votre choix ou passez sur la radio",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
+
+               child: Container(
+                  padding: EdgeInsets.only(
+                      top: Dimensions.spacingSizeDefault 
+                  ),
+                 child: RichText(
+                       text: TextSpan(
+                         text: 'Voyagez \n',
+                         style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
+                         children: const <TextSpan>[
+                           TextSpan(
+                             text: 'avec nos playlists',
+                             style: TextStyle(
+                               fontWeight: FontWeight.bold,
+                             ),
+                           ),
+                         ],
+                       ),
+                     ),
+               ),
              )]),
               SliverAppBar(
                 flexibleSpace:  Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: Dimensions.spacingSizeDefault *2),
+                  padding: EdgeInsets.only(top: Dimensions.spacingSizeDefault),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Wrap(
                       children: [
                         SizedBox(width: Dimensions.spacingSizeDefault,),
+
                         StreamingFilter(title: 'Chants', onTap: () {
-                          provider.getAllStreamingToShow();
+                          provider.setShowSongs();
                         }, isSelected: provider.showSongs,),
-                        StreamingFilter(title: 'Streaming', onTap: () {
-                          provider.getAllStreamingToShow();
-                        }, isSelected: provider.showAll,),
-                        StreamingFilter(title: 'Emissions', onTap: () {
-                          provider.setShowEmissions();
-                        }, isSelected: provider.showEmission,),
                         StreamingFilter(title: 'Podcast', onTap: () {
                           provider.setShowPodCasts();
                         }, isSelected: provider.showPodCast,),
                         StreamingFilter(title: 'Radios', onTap: () {
                           provider.setShowRadios();
                         }, isSelected: provider.showRadio,),
+                        
+                        StreamingFilter(title: 'Emissions', onTap: () {
+                          provider.setShowEmissions();
+                        }, isSelected: provider.showEmission,),
+
+                        StreamingFilter(title: 'Sanjolas', onTap: () {
+                          provider.setShowSanjola();
+                        }, isSelected: provider.showSanjola,),
+
+                        
+                        
                         SizedBox(width: Dimensions.spacingSizeDefault,)
                       ],
                     ),

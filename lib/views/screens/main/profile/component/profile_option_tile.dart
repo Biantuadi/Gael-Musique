@@ -1,5 +1,4 @@
 import 'package:Gael/utils/dimensions.dart';
-import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 
 class ProfileOption extends StatelessWidget{

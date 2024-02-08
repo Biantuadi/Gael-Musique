@@ -12,6 +12,7 @@ class Assets{
   static String mediaSonSVG = "assets/images/Media_son.svg";
   static String textGael = "assets/images/TextGael.svg";
   static String loginBg = "assets/images/login_bg.jpg";
+  static String albumSublime = "assets/images/album_sublime.jpg";
 
   //APP
   static String course = "assets/icons/course.jpg";
