@@ -29,7 +29,7 @@ class LoginScreenState extends State<LoginScreen> {
   void initState() {
 
     super.initState();
-    Provider.of<AuthProvider>(context, listen: false).nullAuthVars();
+    //Provider.of<AuthProvider>(context, listen: false).nullAuthVars();
   }
 
   @override

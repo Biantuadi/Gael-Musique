@@ -8,7 +8,6 @@ import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {

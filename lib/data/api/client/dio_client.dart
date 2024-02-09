@@ -25,7 +25,6 @@ class DioClient {
       ..options.headers = {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': "Bearer $token"
-
       };
     dio..options.validateStatus = (status) => status! < 500;
 
@@ -59,7 +58,9 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
     Object? data
   }) async {
+    print("TOKEN: $token");
     dio..options.validateStatus = (status) => status! < 700;
+    dio..options.contentType = Headers.multipartFormDataContentType;
     try {
       var response = await dio.post(
         uri,

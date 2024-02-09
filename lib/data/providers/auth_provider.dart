@@ -114,6 +114,8 @@ class AuthProvider with ChangeNotifier{
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.login(loginModel);
     print("LA STRUCTURE LA DE RESPONSE: ${apiResponse?.response.data}");
+    print("LA STATUS CODE: ${apiResponse?.response.statusCode}");
+    print("LA STATUS MESG: ${apiResponse?.response.statusMessage}");
     isLoading = false;
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
