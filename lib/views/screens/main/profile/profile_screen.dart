@@ -10,6 +10,7 @@ import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
+import 'package:Gael/views/components/images/image_file_widget.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,10 +53,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
-                                    imageFile == null?
-                                    NetWorkImageWidget(imageUrl: provider.userProfileUrl!, size: Size(size.width / 3 , size.width/3),) :
+                                    NetWorkImageWidget(imageUrl: provider.userProfileUrl!, size: Size(size.width / 3 , size.width/3),) ,
 
-                                    ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),child: Image.file(imageFile!, width:size.width/3, height: size.width/3, fit: BoxFit.cover,),),
 
                                     IconButton(onPressed: (){
                                       sourceBottomSheet();
@@ -157,13 +156,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //Navigator.pop(context);
     }
   }
+  updateAvatar(){
+    Size size = MediaQuery.sizeOf(context);
+    showCustomBottomSheet(context: context, content: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+        FileImageWidget(imageFile: imageFile!, size: Size(size.width, size.height / 4),),
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GradientButton(onTap: (){
+              Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
+                Navigator.pop(context);
+              }, errorCallback: (){}, avatar: imageFile!);
+            }, size: Size(size.width / 3, 50), child: Text("Mettre à jour", style: Theme.of(context).textTheme.titleSmall,)),
+            TextButton(onPressed: (){
+              setState(() {
+                imageFile = null;
+                Navigator.pop(context);
+
+              });
+            }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
+          ],
+        ),
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+
+      ],
+    ));
+  }
   sourceBottomSheet(){
+    Size size = MediaQuery.sizeOf(context);
     showCustomBottomSheet(context: context, content: Column(
       children: [
         InkWell(
           onTap: (){
             pickImageFromSource(ImageSource.camera).then((value){
               Navigator.pop(context);
+              updateAvatar();
             });
           },
           child: Container(
@@ -183,6 +215,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: (){
             pickImageFromSource(ImageSource.gallery).then((value){
               Navigator.pop(context);
+              updateAvatar();
             });
           },
           child: Container(

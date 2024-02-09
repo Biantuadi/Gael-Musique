@@ -21,6 +21,8 @@ class AuthProvider with ChangeNotifier{
   String? userPhone;
   String? userBio;
   String? userProfileUrl;
+  String? loginError;
+  String? avatarUpdateError;
 
   setRegisterNames({required String name, required String firstName}){
       registerModel.lastName = name;
@@ -43,7 +45,7 @@ class AuthProvider with ChangeNotifier{
     isLoading = false;
     notifyListeners();
     if(apiResponse != null){
-      print("LA RESPONSE: ${apiResponse.response.statusCode}");
+      print("LA RESPONSE: ${apiResponse.response}");
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;
         userToken = data["token"];
@@ -52,11 +54,14 @@ class AuthProvider with ChangeNotifier{
         authRepository.setUserToken(userToken??"");
         setUserVars();
         print("LES DATES RECUES: $data");
+
         successCallBack();
+      }else{
+        avatarUpdateError = apiResponse.response.data["message"];
       }
 
     }else{
-      registerError = "Erreur inconnue";
+      avatarUpdateError = "Erreur inconnue";
       errorCallback();
     }
     isLoading = false;
@@ -65,12 +70,13 @@ class AuthProvider with ChangeNotifier{
   }
   register({required VoidCallback successCallBack, required VoidCallback errorCallback})async{
     isLoading = true;
+    registerError = null;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
     isLoading = false;
     notifyListeners();
     if(apiResponse != null){
-      print("LA RESPONSE: ${apiResponse.response.statusCode}");
+      print("LA RESPONSE: ${apiResponse.response}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
           userEmail = data['user']["email"];
@@ -82,7 +88,10 @@ class AuthProvider with ChangeNotifier{
           userProfileUrl = data['user']['avatar'];
             setUserVars();
             print("LES DATES RECUES: $data");
+
             successCallBack();
+        }else{
+          registerError = apiResponse.response.data["message"];
         }
 
     }else{
@@ -93,12 +102,18 @@ class AuthProvider with ChangeNotifier{
     notifyListeners();
 
   }
-  
+  nullAuthVars(){
+    loginError = null;
+    registerError = null;
+    avatarUpdateError = null;
+    notifyListeners();
+  }
   login(LoginModel loginModel, {required VoidCallback successCallBack, required VoidCallback errorCallback})async{
     isLoading = true;
+    loginError = null;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.login(loginModel);
-    print("LA STRUCTURE LA DE RESPONSE: ${apiResponse?.response.statusMessage}");
+    print("LA STRUCTURE LA DE RESPONSE: ${apiResponse?.response.data}");
     isLoading = false;
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
@@ -118,9 +133,13 @@ class AuthProvider with ChangeNotifier{
         notifyListeners();
         setUserVars();
         successCallBack();
+        loginError = null;
+      }
+      else{
+        loginError = apiResponse.response.data["message"];
       }
     }else{
-      registerError = "Erreur inconnue";
+      loginError = "Erreur inconnue";
       errorCallback();
     }
 

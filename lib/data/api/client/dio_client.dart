@@ -27,6 +27,7 @@ class DioClient {
         'Authorization': "Bearer $token"
 
       };
+    dio..options.validateStatus = (status) => status! < 500;
 
   }
 
@@ -54,16 +55,14 @@ class DioClient {
     }
   }
   Future<Response> post(String uri, {
-    Options? options,
-    CancelToken? cancelToken,
+
     ProgressCallback? onReceiveProgress,
     Object? data
   }) async {
+    dio..options.validateStatus = (status) => status! < 700;
     try {
       var response = await dio.post(
         uri,
-        options: options,
-        cancelToken: cancelToken,
         data: data,
         onReceiveProgress: onReceiveProgress,
       );

@@ -25,13 +25,7 @@ class SplashScreenState extends State<SplashScreen> {
     _route();
   }
 
-  Future<void> getSongs() async {}
 
-  Future<void> getAlbums() async {}
-
-  Future<void> streamings() async {}
-
-  }
   void _route(){
     String route = Routes.landingScreen;
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
@@ -44,11 +38,9 @@ class SplashScreenState extends State<SplashScreen> {
           Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
         },
         errorCallback: (){
-          // 
+          //
         }
-    );
-
-
+    );}
 
   @override
   Widget build(BuildContext context) {

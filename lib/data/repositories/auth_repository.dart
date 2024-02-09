@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:Gael/data/api/client/dio_client.dart';
 import 'package:Gael/data/models/app/login_model.dart';
@@ -7,6 +8,7 @@ import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
@@ -15,7 +17,7 @@ class AuthRepository {
   AuthRepository({required this.sharedPreferences, required this.dioClient});
   Future<ApiResponse?> register({required RegisterModel registerModel})async{
     //print("LA FORM DATA: ${registerModel.toJson()}");
-    Response response = await dioClient.post(AppConfig.registerUrl,data: registerModel.toJson() );
+    Response response = await dioClient.post(AppConfig.registerUrl,data: registerModel.toJson());
     return ApiResponse(response: response);
   }
 
@@ -28,9 +30,9 @@ class AuthRepository {
       'avatar': await MultipartFile.fromFile(file.path, filename: fileName),
     });
 
-    
-      Response response = await dioClient.post(AppConfig.registerUrl,data: formData,);
-      print("LA STATUS CODE: ${response.statusCode} ");
+
+    Response response = await dioClient.post(AppConfig.registerUrl,data: {"avatar" :formData},);
+      //print("LA STATUS CODE: ${response.statusCode} ");
       return ApiResponse(response: response);
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{

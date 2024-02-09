@@ -25,6 +25,12 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
   String confirmPassword = "";
   bool conditionsAccepted = false;
   @override
+  void initState() {
+
+    super.initState();
+    Provider.of<AuthProvider>(context, listen: false).nullAuthVars();
+  }
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -149,6 +155,13 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
 
                                     ],
                                   ),
+                                  provider.registerError != null? Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: Dimensions.spacingSizeLarge,),
+                                      Text(provider.registerError!, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red),)
+                                    ],
+                                  ) : const SizedBox(),
                                   SizedBox(height: Dimensions.spacingSizeLarge,),
                                   GradientButton(onTap: (){
                                     if (formKey.currentState!.validate()) {

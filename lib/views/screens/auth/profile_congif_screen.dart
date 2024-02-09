@@ -129,8 +129,12 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                               if(imageFile != null){
                                 provider.updateUserAvatar(successCallBack: (){
                                   ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
-                                  Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
-                                }, errorCallback: (){}, avatar: imageFile!);
+                                  //Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                                }, errorCallback: (){
+                                 if( provider.avatarUpdateError!= null){
+                                   ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.avatarUpdateError??"Une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
+                                 }
+                                }, avatar: imageFile!);
                               }else{
                                 Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
                               }
