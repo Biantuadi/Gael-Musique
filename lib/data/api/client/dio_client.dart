@@ -59,8 +59,8 @@ class DioClient {
     Object? data
   }) async {
     print("TOKEN: $token");
-    dio..options.validateStatus = (status) => status! < 700;
-    dio..options.contentType = Headers.multipartFormDataContentType;
+    dio..options.validateStatus = (status) => status! < 800;
+    //dio..options.contentType = Headers.multipartFormDataContentType;
     try {
       var response = await dio.post(
         uri,

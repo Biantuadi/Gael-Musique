@@ -30,7 +30,7 @@ class AuthRepository {
     });
 
 
-    Response response = await dioClient.post(AppConfig.registerUrl,data: {"avatar" :formData},);
+    Response response = await dioClient.post(AppConfig.registerUrl,data: {"avatar" : avatar.readAsBytesSync()},);
       //print("LA STATUS CODE: ${response.statusCode} ");
       return ApiResponse(response: response);
   }
