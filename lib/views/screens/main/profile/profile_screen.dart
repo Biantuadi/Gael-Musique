@@ -6,10 +6,9 @@ import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
-import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
-import 'package:Gael/views/components/images/image_asset_widget.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/images/image_file_widget.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -166,13 +165,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         FileImageWidget(imageFile: imageFile!, size: Size(size.width, size.height / 4),),
         SizedBox(height: Dimensions.spacingSizeDefault,),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GradientButton(onTap: (){
               Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
                 Navigator.pop(context);
-              }, errorCallback: (){}, avatar: imageFile!);
+                ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
+
+              }, errorCallback: (){
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
+
+              }, avatar: imageFile!);
             }, size: Size(size.width / 3, 50), child: Text("Mettre à jour", style: Theme.of(context).textTheme.titleSmall,)),
+            SizedBox(width: Dimensions.spacingSizeDefault,),
             TextButton(onPressed: (){
               setState(() {
                 imageFile = null;

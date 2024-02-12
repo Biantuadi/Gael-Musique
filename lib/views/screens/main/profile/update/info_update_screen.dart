@@ -7,7 +7,9 @@ import 'package:Gael/utils/auth_validators/string_validator.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
+import 'package:Gael/views/components/images/image_file_widget.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,10 +57,8 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         child: Stack(
                           alignment: Alignment.bottomRight,
                           children: [
-                            imageFile == null?
-                            NetWorkImageWidget(imageUrl: provider.userProfileUrl!, size: Size(size.width , size.height/4),)
-:
-                            ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),child: Image.file(imageFile!, width:size.width, height: size.height/4, fit: BoxFit.cover),),
+
+                            NetWorkImageWidget(imageUrl: provider.userProfileUrl!, size: Size(size.width , size.height/4),),
                             IconButton(onPressed: (){
                               sourceBottomSheet();
                             }, icon:  Icon(Iconsax.edit, color: Colors.white, size: Dimensions.iconSizeSmall,))
@@ -172,7 +172,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
         InkWell(
           onTap: (){
             pickImageFromSource(ImageSource.camera).then((value){
-              Navigator.pop(context);
+              updateAvatar();
             });
           },
           child: Container(
@@ -191,7 +191,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
         InkWell(
           onTap: (){
             pickImageFromSource(ImageSource.gallery).then((value){
-              Navigator.pop(context);
+              updateAvatar();
             });
           },
           child: Container(
@@ -450,5 +450,42 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
           ],
         ),
       ), );
+  }
+  updateAvatar(){
+    Size size = MediaQuery.sizeOf(context);
+    showCustomBottomSheet(context: context, content: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+        FileImageWidget(imageFile: imageFile!, size: Size(size.width, size.height / 4),),
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+        Row(
+          children: [
+            GradientButton(onTap: (){
+              Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
+
+              }, errorCallback: (){
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
+
+              }, avatar: imageFile!);
+            }, size: Size(size.width / 3, 50), child: Text("Mettre à jour", style: Theme.of(context).textTheme.titleSmall,)),
+            SizedBox(width: Dimensions.spacingSizeDefault,),
+            TextButton(onPressed: (){
+              setState(() {
+                imageFile = null;
+                Navigator.pop(context);
+
+              });
+            }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
+          ],
+        ),
+        SizedBox(height: Dimensions.spacingSizeDefault,),
+
+      ],
+    ));
   }
 }
