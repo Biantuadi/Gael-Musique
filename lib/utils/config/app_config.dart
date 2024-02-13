@@ -18,8 +18,8 @@ class AppConfig {
    static const String avatarUpdateUrl = "users/avatar?userID=";
 
       /* GETS */
-   static const String albumsUrl = "albums/";
-   static const String songsUrl = "songs/all";
+   static const String albumsUrl = "albums";
+   static const String songsUrl = "songs";
    // SHARED PREFERENCES
 
    static const String appTheme = "THEME";

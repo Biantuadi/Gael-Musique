@@ -47,7 +47,7 @@ class NetWorkImageWidgetState extends State<NetWorkImageWidget>{
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(widget.size.width)
+                  borderRadius: BorderRadius.circular(widget.radius??Dimensions.radiusSizeDefault)
                 ),
                   child: CircularProgressIndicator(value: progress),
               ),

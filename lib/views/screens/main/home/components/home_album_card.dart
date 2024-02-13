@@ -1,5 +1,5 @@
 import 'package:Gael/utils/dimensions.dart';
-import 'package:Gael/views/components/images/image_asset_widget.dart';
+import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -21,7 +21,8 @@ class HomeAlbumCard extends StatelessWidget{
       ),
       child: Stack(
         children: [
-          AssetImageWidget(size: Size(screenSize.width * 0.8, screenSize.height/4), imagePath: imagePath, radius: Dimensions.radiusSizeDefault,),
+          NetWorkImageWidget(size: Size(screenSize.width * 0.8, screenSize.height/4), imageUrl: imagePath, radius: Dimensions.radiusSizeDefault,),
+
           Opacity(
             opacity: 0.3,
             child: Container(

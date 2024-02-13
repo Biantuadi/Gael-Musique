@@ -1,3 +1,5 @@
+import 'package:Gael/data/models/album_model.dart';
+import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'components/home_album_card.dart';
 import 'components/home_card.dart';
 import 'components/streaming_card.dart';
@@ -47,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
     Size size = MediaQuery.sizeOf(context);
     Widget spacing()=>SizedBox(height: Dimensions.spacingSizeDefault,);
+    List<Album> albums = Provider.of<SongProvider>(context, listen: false).allAlbums;
+
     return  Scaffold(
       body: SafeArea(
         child: Column(
@@ -127,19 +132,34 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       spacing(),
                       Padding(
-                        padding:  EdgeInsets.symmetric(horizontal:Dimensions.spacingSizeDefault),
-                        child: Text("Albums", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                        padding:  EdgeInsets.only(left:Dimensions.spacingSizeDefault),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Albums", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: (){},
+                                child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: size.height/4,
                         child: ListView.builder(
                           padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                            itemCount: 4,
+                            itemCount: albums.length >= 4? 4 : albums.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index){
-                              return HomeAlbumCard(title: 'SUBLIME', imagePath: Assets.albumSublime, randomSongTitle: 'Parfum qui chante', screenSize: size,);
+                            Album album = albums[index];
+                              return HomeAlbumCard(title: album.title, imagePath: album.imgAlbum??'', randomSongTitle: 'Parfum qui chante', screenSize: size,);
                             }),
-                      )
+                      ),
+                      SizedBox(height: Dimensions.spacingSizeLarge * 3,)
+                      
                     ],
                   ),
               ),

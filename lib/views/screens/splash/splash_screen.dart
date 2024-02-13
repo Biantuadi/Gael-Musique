@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/assets.dart';
@@ -34,6 +35,8 @@ class SplashScreenState extends State<SplashScreen> {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
           if(Provider.of<SplashProvider>(context, listen: false).userToken != null ){
             route = Routes.mainScreen;
+            await Provider.of<SongProvider>(context, listen: false).getSongs();
+            await Provider.of<SongProvider>(context, listen: false).getAlbums();
           }
           Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
         },
@@ -92,38 +95,33 @@ class SplashScreenState extends State<SplashScreen> {
                       width: size.width / 3,
                       fit: BoxFit.cover,
                     ),
-                    provider.isLoading
-                        ? Positioned(
-                            bottom: 30,
-                            child: Column(
-                              children: [
-                                Provider.of<SplashProvider>(context,
-                                            listen: true)
-                                        .isFirstTime
-                                    ? Container(
-                                        padding: EdgeInsets.only(
-                                            bottom: Dimensions.iconSizeSmall),
-                                        child: Text(
-                                          "Initialisation...",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(color: Colors.white),
-                                        ))
-                                    : const SizedBox(
-                                        height: 0,
-                                        width: 0,
-                                      ),
-                                const CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 1,
-                                ),
-                              ],
-                            ))
-                        : const SizedBox(
-                            height: 0,
-                            width: 0,
-                          )
+                    Positioned(
+                        bottom: 30,
+                        child: Column(
+                          children: [
+                            Provider.of<SplashProvider>(context,
+                                listen: true)
+                                .isFirstTime
+                                ? Container(
+                                padding: EdgeInsets.only(
+                                    bottom: Dimensions.iconSizeSmall),
+                                child: Text(
+                                  "Initialisation...",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: Colors.white),
+                                ))
+                                : const SizedBox(
+                              height: 0,
+                              width: 0,
+                            ),
+                            const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 1,
+                            ),
+                          ],
+                        ))
                   ],
                 ),
               )
