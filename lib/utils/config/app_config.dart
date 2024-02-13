@@ -7,16 +7,19 @@ class AppConfig {
    static const String BASE_URL = "https://back-gael.vercel.app/";
 
    // URL
-      // AUTH
+      /* AUTH */
    static const String loginUrl = "auth/login";
    static const String registerUrl = "/auth/register";
 
-      // USERS
-   static const String users = "users";
-   static const String userMe = "users/me"; // PASSER SON ID
-   static const String user = "users/";
+      /* USERS */
+   static const String usersUrl = "users";
+   static const String userMeUrl = "users/me"; // PASSER SON ID
+   static const String userUrl = "users/";
+   static const String avatarUpdateUrl = "users/avatar?userID=";
 
-
+      /* GETS */
+   static const String albumsUrl = "albums/";
+   static const String songsUrl = "songs/all";
    // SHARED PREFERENCES
 
    static const String appTheme = "THEME";
@@ -30,5 +33,6 @@ class AppConfig {
    static const String sharedProfileUrl = "USER-PROFILE-URL";
    static const String sharedPhone = "USER-PHONE";
    static const String sharedUserBio = "USER-BIO";
+   static const String sharedUserID= "USER-ID";
 
  }

@@ -15,6 +15,7 @@ class AuthProvider with ChangeNotifier{
   bool isLoading = false;
   String? registerError;
   String? userToken;
+  String? userID;
   String? userName;
   String? userFirstName;
   String? userEmail;
@@ -52,12 +53,13 @@ class AuthProvider with ChangeNotifier{
         userProfileUrl = data["avatar"];
         authRepository.setUserProfileUrl(userProfileUrl??"");
         authRepository.setUserToken(userToken??"");
-        setUserVars();
+        //setUserVars();
         print("LES DATES RECUES: $data");
-
         successCallBack();
       }else{
         avatarUpdateError = apiResponse.response.data["message"];
+        errorCallback();
+        notifyListeners();
       }
 
     }else{
@@ -79,17 +81,17 @@ class AuthProvider with ChangeNotifier{
       print("LA RESPONSE: ${apiResponse.response}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
-          userEmail = data['user']["email"];
-          userName = data['user']["lastname"];
-          userFirstName = data['user']["firstname"];
-          userToken = data["token"];
+          userEmail = data['user']['email'];
+          userName = data['user']['lastname'];
+          userFirstName = data['user']['firstname'];
+          userToken = data['token'];
           userPhone = data['user']["phone"];
           userBio = data['user']["bio"];
           userProfileUrl = data['user']['avatar'];
-            setUserVars();
-            print("LES DATES RECUES: $data");
-
-            successCallBack();
+          userID = data['user']['_id'];
+          setUserVars();
+          print("LES DATES RECUES: $data");
+          successCallBack();
         }else{
           registerError = apiResponse.response.data["message"];
         }
@@ -120,18 +122,15 @@ class AuthProvider with ChangeNotifier{
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;
-        print("LES DATAS RECUES: $data");
+        print("LA DATA RECUE: $data ");
         userEmail = data['user']['email'];
-        print("LE MAIL!: ${data['user']['email']}");
         userName = data['user']['lastname'];
-        print("LA USER NAME:${data['user']['lastname']}");
         userFirstName = data['user']['firstname'];
-        print("FIRST NAME: ${ data['user']['firstname']}");
         userToken = data['token'];
-        print("LA TOKEN: ${data['token']}");
         userPhone = data['user']["phone"];
         userBio = data['user']["bio"];
         userProfileUrl = data['user']['avatar'];
+        userID = data['user']['_id'];
         notifyListeners();
         setUserVars();
         successCallBack();
@@ -158,6 +157,7 @@ class AuthProvider with ChangeNotifier{
     await authRepository.setUserUserName(userName??registerModel.lastName??"");
     await authRepository.setUserPhone(userPhone??registerModel.phone??"");
     await authRepository.setUserProfileUrl(userProfileUrl??"");
+    await authRepository.setUserID(userID??"");
 
   }
   getUserVars()async{
@@ -167,6 +167,7 @@ class AuthProvider with ChangeNotifier{
     userFirstName = await authRepository.getUserFirstName();
     userToken = await authRepository.getUserToken();
     userEmail = await authRepository.getUserEmail();
+    userID = await authRepository.getUserID();
     notifyListeners();
   }
 }

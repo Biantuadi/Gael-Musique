@@ -28,10 +28,13 @@ class AuthRepository {
     FormData formData = FormData.fromMap({
       'avatar': await MultipartFile.fromFile(file.path, filename: fileName),
     });
+    String? userId = await getUserID();
+    print("URL: ${AppConfig.avatarUpdateUrl} $userId");
 
 
-    Response response = await dioClient.post(AppConfig.registerUrl,data: {"avatar" : avatar.readAsBytesSync()},);
-      //print("LA STATUS CODE: ${response.statusCode} ");
+    Response response = await dioClient.post("${AppConfig.avatarUpdateUrl}$userId",data: formData,);
+    print("LA STATUS CODE: ${response.statusCode}");
+    print("LA STATUS MSG: ${response.statusMessage}");
       return ApiResponse(response: response);
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{
@@ -49,6 +52,9 @@ class AuthRepository {
   }
   setUserProfileUrl(String profileUrl)async{
     await sharedPreferences.setString(AppConfig.sharedProfileUrl, profileUrl);
+  }
+  setUserID(String userID)async{
+    await sharedPreferences.setString(AppConfig.sharedUserID, userID);
   }
   setUserPhone(String phone)async{
     await sharedPreferences.setString(AppConfig.sharedPhone, phone);
@@ -77,6 +83,9 @@ class AuthRepository {
   }
   Future<String?> getUserEmail()async{
     return  sharedPreferences.getString(AppConfig.sharedEmail);
+  }
+  Future<String?> getUserID()async{
+    return  sharedPreferences.getString(AppConfig.sharedUserID);
   }
   Future<String?> getUserBio()async{
     return  sharedPreferences.getString(AppConfig.sharedUserBio);

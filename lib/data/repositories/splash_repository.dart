@@ -27,6 +27,12 @@ class SplashRepository{
   Future<String?> getUserPhone()async{
     return  sharedPreferences.getString(AppConfig.sharedPhone);
   }
+  Future<String?> getUserEmail()async{
+    return  sharedPreferences.getString(AppConfig.sharedEmail);
+  }
+  Future<String?> getUserID()async{
+    return  sharedPreferences.getString(AppConfig.sharedUserID);
+  }
   Future<String?> getUserBio()async{
     return  sharedPreferences.getString(AppConfig.sharedUserBio);
   }

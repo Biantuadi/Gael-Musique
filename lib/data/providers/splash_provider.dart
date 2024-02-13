@@ -45,10 +45,7 @@ class SplashProvider with ChangeNotifier{
     if(isFirstTime_){
       isFirstTime_ = false;
     }
-    userToken_ = await splashRepository.getUserToken() ;
-    userProfileUrl_ = await splashRepository.getUserProfileUrl();
-    userName_ = await splashRepository.getUserName();
-    userFirstName_ = await splashRepository.getUserFirstName();
+    getUserVars();
 
     // ICI, FAIRE LES APPELS API DE TOUTES LES INFOS IMPORTANTES
     // S'IL Y A SUCCES, ALORS ON VA VERS LA MAIN SCREEN SINON, ON AFFICHE UNE SNACK BAR OU UN ECRAN QUI DIT QU'IL Y A ERREUR
@@ -62,6 +59,16 @@ class SplashProvider with ChangeNotifier{
     }
 
 
+  }
+  getUserVars()async{
+    userProfileUrl_= await splashRepository.getUserProfileUrl();
+    userPhone_ = await splashRepository.getUserPhone();
+    userName_ = await splashRepository.getUserName();
+    userFirstName_ = await splashRepository.getUserFirstName();
+    userToken_ = await splashRepository.getUserToken();
+    userEmail_ = await splashRepository.getUserEmail();
+   // userID = await splashRepository.getUserID();
+    notifyListeners();
   }
 
 }

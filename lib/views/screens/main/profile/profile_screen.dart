@@ -2,7 +2,6 @@
 import 'dart:io';
 
 import 'package:Gael/data/providers/auth_provider.dart';
-import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
@@ -52,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
-                                    NetWorkImageWidget(imageUrl: provider.userProfileUrl!, size: Size(size.width / 3 , size.width/3),) ,
+                                    NetWorkImageWidget(imageUrl: provider.userProfileUrl??"", size: Size(size.width / 3 , size.width/3),) ,
 
 
                                     IconButton(onPressed: (){
@@ -152,45 +151,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if(xImageFile != null){
       imageFile = File(file!.path);
       // ignore: use_build_context_synchronously
-      //Navigator.pop(context);
     }
   }
   updateAvatar(){
     Size size = MediaQuery.sizeOf(context);
-    showCustomBottomSheet(context: context, content: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
-        SizedBox(height: Dimensions.spacingSizeDefault,),
-        FileImageWidget(imageFile: imageFile!, size: Size(size.width, size.height / 4),),
-        SizedBox(height: Dimensions.spacingSizeDefault,),
-        Row(
-          children: [
-            GradientButton(onTap: (){
-              Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
+    showCustomBottomSheet(context: context, content:Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
+      return  Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
+          SizedBox(height: Dimensions.spacingSizeDefault,),
+          FileImageWidget(imageFile: imageFile!, size: Size(size.width, size.height / 4),),
+          SizedBox(height: Dimensions.spacingSizeDefault,),
+          Row(
+            children: [
+              GradientButton(onTap: (){
+                if(!provider.isLoading){
+                  Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
 
-              }, errorCallback: (){
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
+                  }, errorCallback: (){
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.avatarUpdateError??"une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
+                  }, avatar: imageFile!);
+                }
+              }, size: Size(provider.isLoading? size.width /2 : size.width / 3, 50),
+                bgColor: provider.isLoading? Colors.grey :null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      provider.isLoading? Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(right: Dimensions.spacingSizeSmall),
+                              width:Dimensions.iconSizeExtraSmall,
+                              height: Dimensions.iconSizeExtraSmall,
+                              child:  const CircularProgressIndicator(strokeWidth: 1, color: Colors.black,))
+                        ],
+                      ):const SizedBox(),
+                      Text(provider.isLoading? "Mise à jour en cours":"Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                    ],
+                  ),
+              ),
+              SizedBox(width: Dimensions.spacingSizeDefault,),
+              TextButton(onPressed: (){
+                setState(() {
+                  imageFile = null;
+                  Navigator.pop(context);
 
-              }, avatar: imageFile!);
-            }, size: Size(size.width / 3, 50), child: Text("Mettre à jour", style: Theme.of(context).textTheme.titleSmall,)),
-            SizedBox(width: Dimensions.spacingSizeDefault,),
-            TextButton(onPressed: (){
-              setState(() {
-                imageFile = null;
-                Navigator.pop(context);
+                });
+              }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
+            ],
+          ),
+          SizedBox(height: Dimensions.spacingSizeDefault,),
 
-              });
-            }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
-          ],
-        ),
-        SizedBox(height: Dimensions.spacingSizeDefault,),
-
-      ],
-    ));
+        ],
+      );
+    }));
   }
   sourceBottomSheet(){
     Size size = MediaQuery.sizeOf(context);

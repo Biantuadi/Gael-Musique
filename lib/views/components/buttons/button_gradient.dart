@@ -6,7 +6,8 @@ class GradientButton extends StatelessWidget {
   final VoidCallback onTap;
   final Widget child;
   final Size size;
-  const GradientButton({Key? key, required this.onTap, required this.child, required this.size}) : super(key: key);
+  final Color? bgColor;
+  const GradientButton({Key? key, required this.onTap, required this.child, required this.size, this.bgColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,8 @@ class GradientButton extends StatelessWidget {
         height: screenSize.height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault - 7),
-          gradient: ThemeVariables.primaryGradient
+          gradient: ThemeVariables.primaryGradient,
+          color: bgColor
         ),
         child:  Center(
           child: child,
