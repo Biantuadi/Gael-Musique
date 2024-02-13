@@ -2,6 +2,7 @@ import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/layouts/custom_header.dart';
 import 'package:flutter/material.dart';
@@ -100,8 +101,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       spacing(),
                       Padding(
-                        padding:  EdgeInsets.symmetric(horizontal:Dimensions.spacingSizeDefault),
-                        child: Text("Streaming", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                        padding:  EdgeInsets.only(left:Dimensions.spacingSizeDefault),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Streaming", style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: (){},
+                                child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       spacing(),
                       Padding(
@@ -119,13 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   StreamingCard(title: 'Saint-Esprit', imagePath: Assets.splashBgJPG, size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),),
                                 ],
                               ),
-                              Container(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: (){},
-                                  child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
-                                ),
-                              )
+
                             ],
                           ),
                         ),
@@ -140,7 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             Container(
                               alignment: Alignment.centerRight,
                               child: TextButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                  Navigator.pushNamed(context, Routes.albumScreen);
+                                  print("HELLO WORLD");
+                                },
                                 child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
                               ),
                             ),
@@ -155,11 +165,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index){
                             Album album = albums[index];
-                              return HomeAlbumCard(title: album.title, imagePath: album.imgAlbum??'', randomSongTitle: 'Parfum qui chante', screenSize: size,);
+                              return HomeAlbumCard(album: album,screenSize: size,);
                             }),
                       ),
                       SizedBox(height: Dimensions.spacingSizeLarge * 3,)
-                      
+
                     ],
                   ),
               ),

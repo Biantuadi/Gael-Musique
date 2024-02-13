@@ -1,4 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:Gael/data/models/album_model.dart';
+import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/views/screens/screens.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,11 @@ class Routes {
   static const String radioScreen = "RADIO-SCREEN";
   static const String streamingDetailsScreen = "STREAMING-DETAILS-SCREEN";
   static const String favoritesScreen = "FAVORITES-SCREEN";
+
+  // ALBUMS
+  static const String albumScreen = "ALBUM-SCREEN";
+  static const String albumSongsScreen = "ALBUM-SONGS-SCREEN";
+  static const String songDetailsScreen = "SONGS-DET-SCREEN";
 
   //PROFILE
   static const String profileScreen = "PROFILE-SCREEN";
@@ -83,6 +90,12 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const InfoUpdateScreen());
       case passwordUpdateScreen:
         return MaterialPageRoute(builder: (_) => const PasswordUpdateScreen());
+      case albumScreen:
+        return MaterialPageRoute(builder: (_) => const AlbumScreen());
+      case albumSongsScreen:
+        return MaterialPageRoute(builder: (_) =>  AlbumSongsScreen(album: arguments as Album,));
+      case songDetailsScreen:
+        return MaterialPageRoute(builder: (_) =>  SongDetailsScreen(song: arguments as Song,));
       default:
         return _NotFoundRoute();
     }
