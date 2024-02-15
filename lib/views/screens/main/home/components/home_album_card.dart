@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:Gael/data/models/album_model.dart';
+import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 
 class HomeAlbumCard extends StatelessWidget{
   final Album album;
@@ -16,12 +18,14 @@ class HomeAlbumCard extends StatelessWidget{
   Widget build(BuildContext context) {
     ;
     String randomSong = "Random Song";
-    if(album.songs.length > 1){
-      album.songs[Random().nextInt(album.songs.length)];
+    if(album.songs.isNotEmpty){
+      randomSong = album.songs[Random().nextInt(album.songs.length)]["title"];
+      print("LES SONGS: ${album.songs[Random().nextInt(album.songs.length)]}");
     }
 
     return GestureDetector(
       onTap: (){
+        Provider.of<SongProvider>(context, listen: false).setCurrentAlbum(album);
           Navigator.pushNamed(context, Routes.albumSongsScreen, arguments: album);
       },
       child: Container(
@@ -61,7 +65,7 @@ class HomeAlbumCard extends StatelessWidget{
                      SizedBox(height: Dimensions.spacingSizeExtraSmall,),
                      Row(
                        children: [
-                         Icon(Iconsax.music, size: Dimensions.iconSizeExtraSmall,),
+                         Icon(Iconsax.music, size: Dimensions.iconSizeExtraSmall, color: Colors.white,),
                          SizedBox(width: Dimensions.spacingSizeExtraSmall,),
                          Text(randomSong, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                        ],
@@ -70,7 +74,6 @@ class HomeAlbumCard extends StatelessWidget{
                  ),
                   Row(
                     children: [
-
                       Text("Plus d'infos", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                       SizedBox(width: Dimensions.spacingSizeExtraSmall,),
                       Icon(Iconsax.arrow_right_34, color: Colors.white, size:Dimensions.iconSizeSmall ,),

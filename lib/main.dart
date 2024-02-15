@@ -74,6 +74,7 @@ class MainApp extends StatelessWidget {
               onBackground: Colors.white, //ThemeVariables.primaryColor,
               surface: ThemeVariables.thirdColorBlack,
               onSurface: Colors.white,
+
             ),
             scaffoldBackgroundColor: ThemeVariables.thirdColorBlack,
             dialogBackgroundColor: ThemeVariables.thirdColorBlack,
