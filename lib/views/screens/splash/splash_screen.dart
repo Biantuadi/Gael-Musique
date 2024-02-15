@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
+import 'package:Gael/data/providers/events_provider.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -37,6 +39,8 @@ class SplashScreenState extends State<SplashScreen> {
             route = Routes.mainScreen;
             await Provider.of<SongProvider>(context, listen: false).getSongs();
             await Provider.of<SongProvider>(context, listen: false).getAlbums();
+            await Provider.of<EventsProvider>(context, listen: false).getEvents();
+            await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
           }
           Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
         },

@@ -25,6 +25,8 @@ class SongProvider with ChangeNotifier{
   }
   getAlbums() async {
     Response response = await songRepository.getAlbums();
+    print("LA SSTATUS CODE: ${response.statusCode}");
+    print("LA SSTATUS MSG: ${response.statusMessage}");
     if(response.statusCode == 200){
       dynamic data = response.data;
       data.forEach((json){

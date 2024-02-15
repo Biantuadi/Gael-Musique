@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'data/providers/auth_provider.dart';
 import 'data/providers/chat_provider.dart';
+import 'data/providers/events_provider.dart';
 import 'data/providers/favorite_provider.dart';
 import 'data/providers/notification_provider.dart';
 import 'data/providers/song_provider.dart';
@@ -32,6 +33,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<StreamingProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<EventsProvider>()),
     ],
     child: const MainApp(),
   ));

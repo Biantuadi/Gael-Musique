@@ -1,5 +1,6 @@
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/repositories/streaming_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class StreamingProvider with ChangeNotifier {
@@ -16,8 +17,17 @@ class StreamingProvider with ChangeNotifier {
   bool? showRadio;
   bool? showSanjola;
 
-  getStreaming() {
-    allStreaming = streamRepository.getStreaming();
+  getStreaming() async{
+    //allStreaming = streamRepository.getStreaming();
+    allStreaming = [];
+    Response response = await streamRepository.getStreaming();
+    print("LA STATUS CODE: ${response.statusCode}");
+    if(response.statusCode == 200){
+      List data = response.data;
+      data.forEach((json) {
+        allStreaming.add(Streaming.fromJson(json));
+      });
+    }
     streamingToShow = allStreaming;
   }
 

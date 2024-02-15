@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import '../../../../data/providers/streaming_provider.dart';
 import 'components/home_album_card.dart';
 import 'components/home_card.dart';
 import 'components/streaming_card.dart';
@@ -69,6 +70,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       spacing(),
+
+                                            ElevatedButton(onPressed: (){
+                         //Provider.of<SongProvider>(context, listen: false).getSongs();
+                         Provider.of<SongProvider>(context, listen: false).getAlbums();
+                         //Provider.of<EventsProvider>(context, listen: false).getEvents();
+                         //Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+
+                      }, child: Text("CLICK ELEVATED"  , style: Theme.of(context).textTheme.bodySmall,)),
+
+
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
                         child: Wrap(

@@ -77,7 +77,7 @@ class CustomHeader extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(50),
       ),
-      child: NetWorkImageWidget(imageUrl: Provider.of<AuthProvider>(context, listen: false).userProfileUrl!, size: Size(Dimensions.iconSizeExtraLarge * 1.2, Dimensions.iconSizeExtraLarge*1.2), radius: Dimensions.iconSizeExtraLarge,),
+      child: NetWorkImageWidget(imageUrl: Provider.of<AuthProvider>(context, listen: false).userProfileUrl??"", size: Size(Dimensions.iconSizeExtraLarge * 1.2, Dimensions.iconSizeExtraLarge*1.2), radius: Dimensions.iconSizeExtraLarge,),
     );
   }
 

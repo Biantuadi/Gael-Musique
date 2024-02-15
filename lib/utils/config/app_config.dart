@@ -20,6 +20,9 @@ class AppConfig {
       /* GETS */
    static const String albumsUrl = "albums";
    static const String songsUrl = "songs";
+   static const String podcastsUrl = "podcasts";
+   static const String eventsUrl = "events";
+   static const String streamingsUrl = "streamings";
    // SHARED PREFERENCES
 
    static const String appTheme = "THEME";

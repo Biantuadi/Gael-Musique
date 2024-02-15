@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
@@ -12,6 +14,12 @@ class HomeAlbumCard extends StatelessWidget{
   const HomeAlbumCard({super.key, required this.album, required this.screenSize});
   @override
   Widget build(BuildContext context) {
+    ;
+    String randomSong = "Random Song";
+    if(album.songs.length > 1){
+      album.songs[Random().nextInt(album.songs.length)];
+    }
+
     return GestureDetector(
       onTap: (){
           Navigator.pushNamed(context, Routes.albumSongsScreen, arguments: album);
@@ -28,7 +36,7 @@ class HomeAlbumCard extends StatelessWidget{
             NetWorkImageWidget(size: Size(screenSize.width * 0.8, screenSize.height/4), imageUrl: album.imgAlbum??'', radius: Dimensions.radiusSizeDefault,),
 
             Opacity(
-              opacity: 0.3,
+              opacity: 0.6,
               child: Container(
                 height: screenSize.height/4,
                 width: screenSize.width * 0.8,
@@ -49,13 +57,13 @@ class HomeAlbumCard extends StatelessWidget{
                  Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
-                     Text(album.title, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white),),
+                     Text(album.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white, height: 1),),
                      SizedBox(height: Dimensions.spacingSizeExtraSmall,),
                      Row(
                        children: [
                          Icon(Iconsax.music, size: Dimensions.iconSizeExtraSmall,),
                          SizedBox(width: Dimensions.spacingSizeExtraSmall,),
-                         Text('random title', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                         Text(randomSong, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                        ],
                      ),
                    ],

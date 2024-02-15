@@ -2,11 +2,12 @@ import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:Gael/views/screens/main/albums/components/album_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+
+import 'components/song_widget.dart';
 
 class AlbumSongsScreen extends StatefulWidget{
   final Album album;
@@ -57,14 +58,16 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                 pinned: true,
                 backgroundColor:ThemeVariables.thirdColorBlack,
               ),
-              SliverList.list(children:provider.allAlbums.map((album) => AlbumWidget(album: album,)).toList()),
-
+          SliverPadding(
+          padding: EdgeInsets.only(top : Dimensions.spacingSizeDefault),
+          sliver:
+              SliverList.list(children:provider.allSongs.map((song) => SongWidget(song: song,)).toList())),
               SliverPadding(
                 padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                 sliver: SliverGrid.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: Dimensions.spacingSizeDefault, mainAxisSpacing: Dimensions.spacingSizeDefault, childAspectRatio: .8),
                   itemBuilder: (BuildContext ctx, int index){
-                    if(provider.albumsToShow == null){
+                    if(provider.allSongs == null){
                       return  Container(
                         width: size.width,
                         height: size.width * 2,
@@ -76,7 +79,7 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                     }
                     return Container();
                   },
-                  itemCount: provider.allAlbums.length,
+                  itemCount: provider.allSongs.length,
                 ),
               )
             ],

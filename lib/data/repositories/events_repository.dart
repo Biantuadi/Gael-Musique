@@ -3,14 +3,14 @@ import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class StreamingRepository {
+class EventsRepository {
   SharedPreferences sharedPreferences;
   DioClient dioClient;
-  StreamingRepository({required this.sharedPreferences, required this.dioClient});
+  EventsRepository({required this.sharedPreferences, required this.dioClient});
 
 
- Future<Response> getStreaming()async{
-    Response response = await dioClient.get(AppConfig.streamingsUrl);
+  Future<Response> getEvents()async{
+    Response response = await dioClient.get(AppConfig.eventsUrl);
     return response;
   }
 

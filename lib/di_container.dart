@@ -10,10 +10,12 @@ import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/data/repositories/theme_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'data/api/client/dio_client.dart';
+import 'data/providers/events_provider.dart';
 import 'data/providers/song_provider.dart';
 import 'data/providers/splash_provider.dart';
 import 'data/providers/streaming_provider.dart';
 import 'data/repositories/chat_repository.dart';
+import 'data/repositories/events_repository.dart';
 import 'data/repositories/favorite_repository.dart';
 import 'data/repositories/notification_repository.dart';
 import 'data/repositories/song_repository.dart';
@@ -34,6 +36,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SongRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => StreamingRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => ThemeRepository(sharedPreferences: sl(),));
+  sl.registerLazySingleton(() => EventsRepository(sharedPreferences: sl(), dioClient: sl()));
 
   sl.registerFactory(() => SplashProvider(splashRepository: sl(),));
   sl.registerFactory(() => ThemeProvider(themeRepository: sl()));
@@ -43,6 +46,7 @@ Future<void> init() async {
   sl.registerFactory(() => NotificationProvider(notificationRepository: sl()));
   sl.registerFactory(() => SongProvider(songRepository: sl()));
   sl.registerFactory(() => StreamingProvider(streamRepository: sl(),));
+  sl.registerFactory(() => EventsProvider(eventsRepository: sl(),));
 
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
