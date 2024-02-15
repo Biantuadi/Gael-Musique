@@ -165,7 +165,7 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                               width: size.width * 0.7,
                               child: Slider(
                                 min: 0,
-                                max:provider.audioPlayer.duration!.inSeconds.toDouble(),
+                                max:provider.audioPlayer.duration !=  null ?provider.audioPlayer.duration!.inSeconds.toDouble() :0,
                                 thumbColor: Colors.white,
                                 inactiveColor: ThemeVariables.thirdColorBlack,
                                 activeColor: Colors.white,

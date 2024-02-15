@@ -57,21 +57,24 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
   }
   onCompleted(){
-    if(audioPlayer.duration!.inSeconds.toDouble() == audioPlayer.position.inSeconds.toDouble()){
-      int indexOf = currentAlbumSongs!.indexOf(currentSong!);
-      Random random = Random();
-      if(currentAlbumSongs!=null){
+    if(audioPlayer.duration != null){
+      if(audioPlayer.duration!.inSeconds.toDouble() == audioPlayer.position.inSeconds.toDouble()){
+        int indexOf = currentAlbumSongs!.indexOf(currentSong!);
+        Random random = Random();
+        if(currentAlbumSongs!=null){
           if(indexOf < currentAlbumSongs!.length - 2){
             currentSong = currentAlbumSongs![indexOf+1];
           }else if (indexOf == currentAlbumSongs!.length-1){
             currentSong = currentAlbumSongs![0];
           }
-      }
-      if(playShuffledSong){
+        }
+        if(playShuffledSong){
           int index = random.nextInt( currentAlbumSongs!.length -1);
-          currentSong = currentAlbumSongs![indexOf+1];
+          currentSong = currentAlbumSongs![index];
+        }
       }
     }
+
   }
 
   playSong()async{
@@ -82,7 +85,6 @@ class SongProvider with ChangeNotifier{
   pauseSong()async{
     if(currentSong != null && audioPlayer.playing){
       await audioPlayer.pause();
-
     }
   }
   String getAnySongDuration(Song song){
@@ -94,6 +96,31 @@ class SongProvider with ChangeNotifier{
     return getFormattedDuration(d);
   }
 
+  playNext(){
+    int indexOf = currentAlbumSongs!.indexOf(currentSong!);
+    if(currentAlbumSongs!=null){
+      if(indexOf < currentAlbumSongs!.length - 2){
+        currentSong = currentAlbumSongs![indexOf+1];
+      }else if (indexOf == currentAlbumSongs!.length-1){
+        currentSong = currentAlbumSongs![0];
+      }
+      audioPlayer.setUrl(defaultSongUrl);
+      audioPlayer.play();
+    }
+  }
+
+  playPost(){
+    int indexOf = currentAlbumSongs!.indexOf(currentSong!);
+    if(currentAlbumSongs!=null){
+      if(indexOf > 1){
+        currentSong = currentAlbumSongs![indexOf-1];
+      }else if (indexOf == 0){
+        currentSong = currentAlbumSongs!.last;
+      }
+      audioPlayer.setUrl(defaultSongUrl);
+      audioPlayer.play();
+    }
+  }
 
   String getSongDuration(){
     songDuration = audioPlayer.duration ?? songPosition;
@@ -108,7 +135,7 @@ class SongProvider with ChangeNotifier{
   }
   String getSongReminder(){
     Duration d = Duration.zero;
-    d = audioPlayer.duration! - audioPlayer.position;
+    d = audioPlayer.duration?? Duration.zero - audioPlayer.position;
     songPositionStr = getFormattedDuration(d);
     return songPositionStr;
   }

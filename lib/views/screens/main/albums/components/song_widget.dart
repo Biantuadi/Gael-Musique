@@ -2,6 +2,7 @@ import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,14 @@ class SongWidget extends StatelessWidget{
 
     return GestureDetector(
       onTap: (){
-        Provider.of<SongProvider>(context, listen: false).setCurrentSong(song);
-        Provider.of<SongProvider>(context, listen: false).playSong();
+
+        if(Provider.of<SongProvider>(context, listen: false).thisSongIsCurrent(song) == false){
+          Provider.of<SongProvider>(context, listen: false).setCurrentSong(song);
+        }
+        if( !Provider.of<SongProvider>(context, listen: false).audioPlayer.playing){
+          Provider.of<SongProvider>(context, listen: false).playSong();
+        }
+        Navigator.of(context).pushNamed(Routes.songDetailsScreen, arguments: song);
       },
       child: Container(
         padding: EdgeInsets.all(Dimensions.spacingSizeSmall),

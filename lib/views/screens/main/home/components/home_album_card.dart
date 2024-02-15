@@ -20,7 +20,6 @@ class HomeAlbumCard extends StatelessWidget{
     String randomSong = "Random Song";
     if(album.songs.isNotEmpty){
       randomSong = album.songs[Random().nextInt(album.songs.length)]["title"];
-      print("LES SONGS: ${album.songs[Random().nextInt(album.songs.length)]}");
     }
 
     return GestureDetector(
