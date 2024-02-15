@@ -9,6 +9,8 @@ import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import 'images/network_image_widget.dart';
+
 class StreamingWidget extends StatelessWidget{
   final Streaming streaming;
 
@@ -34,7 +36,7 @@ class StreamingWidget extends StatelessWidget{
           children: [
             Opacity(
               opacity: .6,
-                child: AssetImageWidget(imagePath: Assets.loginBg, size: size,)),
+                child: NetWorkImageWidget(imageUrl: streaming.cover, size: size,)),
             IconButton(onPressed: (){}, icon: Icon(streaming.isFavorite(user: user)? Iconsax.heart5 : Iconsax.heart4,color: (streaming.isFavorite(user: user)? ThemeVariables.primaryColor : Colors.white ))),
             Center(child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

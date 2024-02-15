@@ -21,11 +21,12 @@ class StreamingProvider with ChangeNotifier {
     //allStreaming = streamRepository.getStreaming();
     allStreaming = [];
     Response response = await streamRepository.getStreaming();
-    print("LA STATUS CODE: ${response.statusCode}");
+
     if(response.statusCode == 200){
-      List data = response.data;
+      List data = response.data["items"];
+      print("LA DATA STRUCTURE: ${response.data}");
       data.forEach((json) {
-        allStreaming.add(Streaming.fromJson(json));
+      allStreaming.add(Streaming.fromJson(json));
       });
     }
     streamingToShow = allStreaming;

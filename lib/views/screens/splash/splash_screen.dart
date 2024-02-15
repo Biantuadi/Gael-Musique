@@ -35,6 +35,7 @@ class SplashScreenState extends State<SplashScreen> {
     Provider.of<SplashProvider>(context, listen: false).initConfig(
         successCallback: () async {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
+          // :ignore_async gaps
           if(Provider.of<SplashProvider>(context, listen: false).userToken != null ){
             route = Routes.mainScreen;
             await Provider.of<SongProvider>(context, listen: false).getSongs();

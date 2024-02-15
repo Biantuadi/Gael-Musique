@@ -10,6 +10,8 @@ class Streaming{
   late bool? isEmission;
   late bool? isPodcast;
   late bool? isRadio;
+  late String videoLink;
+  late DateTime date;
 
   Streaming({
     required this.cover,
@@ -19,18 +21,22 @@ class Streaming{
     required this.description,
     this.isEmission,
     this.isPodcast,
-    this.isRadio
+    this.isRadio,
+    required this.videoLink,
+    required this.date
   });
 
   Streaming.fromJson(Map<String, dynamic> json){
-    id = json["id"];
+    id = json["_id"]??"";
     title = json["title"];
     description = json["description"];
-    cover = json["cover"];
+    cover = json["thumbnail"];
     isEmission = json["is_emission"];
+    videoLink = json["videoLink"];
     isPodcast = json["is_podcast"];
     isRadio = json["is_radio"];
-    createdAt = DateTime.parse(json["created_at"]);
+    createdAt = DateTime.parse(json["createdAt"]);
+    date = DateTime.parse(json["date"]);
   }
 
   Map<String, dynamic> toJson(){

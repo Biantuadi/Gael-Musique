@@ -65,9 +65,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("${provider.userFirstName??'firstname'} ${provider.userName??'lastname'}" , style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1), overflow: TextOverflow.ellipsis,),
-                                    Text(provider.userEmail??'email' , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
-                                    Text(provider.userPhone??'phone' , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey,),),
+                                    Text("${provider.userFirstName??''} ${provider.userName??''}" , style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1), overflow: TextOverflow.ellipsis,),
+                                    Text(provider.userEmail??'' , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
+                                    Text(provider.userPhone??'' , style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey,),),
                                     SizedBox(height: Dimensions.spacingSizeSmall,),
                                     GradientButton(onTap: (){
                                       Navigator.pushNamed(context, Routes.infoUpdateScreen);

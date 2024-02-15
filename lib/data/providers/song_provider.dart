@@ -14,9 +14,8 @@ class SongProvider with ChangeNotifier{
     Response response = await songRepository.getSongs();
     //print("RESPONSE CODE:${response.statusCode} ");
     if(response.statusCode == 200){
-      dynamic data = response.data;
-
-      //print("LA SONGS DATA: ${data[0]}");
+      dynamic data = response.data["items"];
+      print("LA SONGS DATA: ${data}");
       data.forEach((json){
         allSongs.add(Song.fromJson(json));
       });
@@ -25,10 +24,12 @@ class SongProvider with ChangeNotifier{
   }
   getAlbums() async {
     Response response = await songRepository.getAlbums();
-    print("LA SSTATUS CODE: ${response.statusCode}");
-    print("LA SSTATUS MSG: ${response.statusMessage}");
+    print("LA STATUS CODE: ${response.statusCode}");
+    print("LA STATUS MSG: ${response.statusMessage}");
+
     if(response.statusCode == 200){
-      dynamic data = response.data;
+      dynamic data = response.data["items"];
+      print("LA DATA: ${response.data}");
       data.forEach((json){
         allAlbums.add(Album.fromJson(json));
       });

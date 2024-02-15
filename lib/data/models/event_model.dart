@@ -24,7 +24,7 @@ class Event{
     id = json["id"];
     datetime = json["date"];
     title = json["title"];
-    createdAt = DateTime.parse(json["created_at"]);
+    createdAt = DateTime.parse(json["createdAt"]);
     image = json["image"];
     tickets = json["tickets"];
     time = json["time"];

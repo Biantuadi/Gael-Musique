@@ -37,6 +37,8 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
+      print("TOKEN: $token");
+      dio..options.validateStatus = (status) => status! < 800;
       var response = await dio.get(
         uri,
         queryParameters: queryParameters,

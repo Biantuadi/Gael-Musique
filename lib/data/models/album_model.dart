@@ -5,7 +5,7 @@ class Album{
   late String artist;
   late int year;
   late String? imgAlbum;
-  late List<String> songs;
+  late List<dynamic> songs;
   late List<dynamic> userBuy;
   late DateTime createdAt;
   Album({

@@ -48,7 +48,7 @@ class AuthRepository {
     await sharedPreferences.setString(AppConfig.sharedUserName, name);
   }
   setUserFirstName(String firstName)async{
-    await sharedPreferences.setString(AppConfig.sharedEmail, firstName);
+    await sharedPreferences.setString(AppConfig.sharedFirstName, firstName);
   }
   setUserProfileUrl(String profileUrl)async{
     await sharedPreferences.setString(AppConfig.sharedProfileUrl, profileUrl);
