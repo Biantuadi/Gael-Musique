@@ -138,6 +138,7 @@ class AuthProvider with ChangeNotifier{
       }
       else{
         loginError = apiResponse.response.data["message"];
+        errorCallback();
       }
     }else{
       loginError = "Erreur inconnue";

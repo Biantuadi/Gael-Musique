@@ -8,6 +8,7 @@ import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/custom_snackbar.dart';
+import 'package:Gael/views/components/images/image_base64_widget.dart';
 import 'package:Gael/views/components/images/image_file_widget.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
-                                    NetWorkImageWidget(imageUrl: provider.userProfileUrl??"", size: Size(size.width / 3 , size.width/3),) ,
+                                    Base64ImageWidget(base64String: provider.userProfileUrl??"", size: Size(size.width / 3 , size.width/3),) ,
 
 
                                     IconButton(onPressed: (){

@@ -9,8 +9,8 @@ import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
+import 'package:Gael/views/components/images/image_base64_widget.dart';
 import 'package:Gael/views/components/images/image_file_widget.dart';
-import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -58,7 +58,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           alignment: Alignment.bottomRight,
                           children: [
 
-                            NetWorkImageWidget(imageUrl: provider.userProfileUrl!, size: Size(size.width , size.height/4),),
+                            Base64ImageWidget(base64String: provider.userProfileUrl!, size: Size(size.width , size.height/4),),
                             IconButton(onPressed: (){
                               sourceBottomSheet();
                             }, icon:  Icon(Iconsax.edit, color: Colors.white, size: Dimensions.iconSizeSmall,))

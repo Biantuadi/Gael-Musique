@@ -2,6 +2,7 @@ import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/images/image_base64_widget.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +78,7 @@ class CustomHeader extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(50),
       ),
-      child: NetWorkImageWidget(imageUrl: Provider.of<AuthProvider>(context, listen: false).userProfileUrl??"", size: Size(Dimensions.iconSizeExtraLarge * 1.2, Dimensions.iconSizeExtraLarge*1.2), radius: Dimensions.iconSizeExtraLarge,),
+      child: Base64ImageWidget(base64String: Provider.of<AuthProvider>(context, listen: false).userProfileUrl??"", size: Size(Dimensions.iconSizeExtraLarge * 1.2, Dimensions.iconSizeExtraLarge*1.2), radius: Dimensions.iconSizeExtraLarge,),
     );
   }
 

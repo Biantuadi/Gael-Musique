@@ -1,14 +1,13 @@
+
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
-import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/layouts/custom_header.dart';
-import 'package:Gael/views/components/streaming_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -61,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
         streamings = streamings.sublist(0, 4);
     }
 
-
+  //Uint8List bytes = base64Decode(Provider.of<AuthProvider>(context, listen: false).userProfileUrl!);
+    String bytesStr = Provider.of<AuthProvider>(context, listen: false).userProfileUrl!;
     return  Scaffold(
       body: SafeArea(
         child: Column(
@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       spacing(),
+
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
                         child: Wrap(
