@@ -89,9 +89,11 @@ class AuthProvider with ChangeNotifier{
           userBio = data['user']["bio"];
           userProfileUrl = data['user']['avatar'];
           userID = data['user']['_id'];
-          setUserVars();
-          print("LES DATES RECUES: $data");
-          successCallBack();
+          setUserVars().then(
+                  (value){
+                successCallBack();
+              }
+          );
         }else{
           registerError = apiResponse.response.data["message"];
         }
@@ -132,8 +134,13 @@ class AuthProvider with ChangeNotifier{
         userProfileUrl = data['user']['avatar'];
         userID = data['user']['_id'];
         notifyListeners();
-        setUserVars();
-        successCallBack();
+        setUserVars().then(
+            (value){
+              successCallBack();
+            }
+
+        );
+
         loginError = null;
       }
       else{
