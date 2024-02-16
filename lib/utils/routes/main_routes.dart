@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:Gael/data/models/album_model.dart';
+import 'package:Gael/data/models/event_model.dart';
 import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/views/screens/screens.dart';
@@ -42,6 +43,10 @@ class Routes {
   static const String favoriteScreen = "FAVORITE-SCREEN";
   static const String infoUpdateScreen = "INFO-UPDATE-SCREEN";
   static const String passwordUpdateScreen = "PASSWORD-UPDATE-SCREEN";
+
+  //EVENT
+  static const String eventScreen = "EVENT-SCREEN";
+  static const String eventDetailsScreen = "EVENT-DETAILS-SCREEN";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final arguments = settings.arguments;
@@ -96,6 +101,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) =>  AlbumSongsScreen(album: arguments as Album,));
       case songDetailsScreen:
         return MaterialPageRoute(builder: (_) =>  SongDetailsScreen(song: arguments as Song,));
+      case eventScreen:
+        return MaterialPageRoute(builder: (_) =>  const EventsScreen());
+      case eventDetailsScreen:
+        return MaterialPageRoute(builder: (_) =>  EventDetailsScreen(event: arguments as Event,));
       default:
         return _NotFoundRoute();
     }

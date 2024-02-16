@@ -97,11 +97,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
                               child: HomeCard(onTap: (){
                                 Navigator.pushNamed(context, Routes.albumScreen);
-                              }, iconData: Iconsax.music, title: "Album", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
+                              }, iconData: Iconsax.music, title: "Albums", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
-                              child: HomeCard(onTap: (){}, iconData: Iconsax.calendar, title: "Evenements", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
+                              child: HomeCard(onTap: (){
+                                Navigator.pushNamed(context, Routes.eventScreen);
+                              }, iconData: Iconsax.calendar, title: "Evenements", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                           ],
                         ),
