@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/repositories/song_repository.dart';
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
@@ -25,11 +26,13 @@ class SongProvider with ChangeNotifier{
   String songDurationStr = "";
   String songPositionStr = "";
   String defaultSongUrl = "https://www.dropbox.com/s/v381wcr6ixsygrm/364%20C%27EST%20MON%20JOYEUX%20SERVICE.mp3?dl=1";
+  PlayerController playerController =  PlayerController();
 
   String getFormattedDuration(Duration duration){
     String hours = duration.inHours.remainder(60).toString().padLeft(2,'0');
     String minutes = duration.inMinutes.remainder(60).toString().padLeft(2,'0');
     String seconds = duration.inSeconds.remainder(60).toString().padLeft(2,'0');
+
 
     if(duration.inHours < 1){
       return "$minutes:$seconds";
@@ -123,9 +126,7 @@ class SongProvider with ChangeNotifier{
   }
 
   String getSongDuration(){
-    songDuration = audioPlayer.duration ?? songPosition;
-    songDurationStr = getFormattedDuration(songDuration);
-    notifyListeners();
+    songDurationStr = getFormattedDuration(audioPlayer.duration??songDuration);
     return songDurationStr;
   }
   String getSongPosition(){
@@ -133,10 +134,9 @@ class SongProvider with ChangeNotifier{
     songPositionStr = getFormattedDuration(songPosition);
     return songPositionStr;
   }
-  String getSongReminder(){
-    Duration d = Duration.zero;
-    d = audioPlayer.duration?? Duration.zero - audioPlayer.position;
-    songPositionStr = getFormattedDuration(d);
+  String getSongReminder(Duration duration, Duration position){
+    songPositionStr = getFormattedDuration(duration - position);
+
     return songPositionStr;
   }
 

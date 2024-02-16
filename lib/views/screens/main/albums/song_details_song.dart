@@ -4,6 +4,7 @@ import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -45,14 +46,24 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                     SizedBox(height: Dimensions.spacingSizeSmall,),
                     Text(provider.currentAlbum!.artist, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
                     Text(provider.currentSong!.title, style: Theme.of(context).textTheme.titleSmall,),
-                    Row(
-                      children: [
-                        Text(provider.currentSong!.title, style: Theme.of(context).textTheme.titleSmall,),
-                        Text(provider.currentSong!.title, style: Theme.of(context).textTheme.titleSmall,),
-                      ],
+                    Container(
+                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(provider.getSongDuration(), style: Theme.of(context).textTheme.titleSmall,),
+                          Text("-${provider.getSongReminder(provider.audioPlayer.duration ?? Duration.zero , provider.audioPlayer.position)}", style: Theme.of(context).textTheme.titleSmall,),
+                        ],
+                      ),
                     ),
                     SizedBox(height: Dimensions.spacingSizeSmall,),
-                    SvgPicture.asset(Assets.mediaSonSVG, width: size.width * 0.8,),
+                    AudioFileWaveforms(
+                      size: Size(MediaQuery.of(context).size.width, 50.0),
+                      playerController: provider.playerController,
+                      enableSeekGesture: true,
+                      playerWaveStyle: const PlayerWaveStyle(),
+
+                    ),
                     SizedBox(height: Dimensions.spacingSizeDefault,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,8 +81,8 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
 
                         IconButton(
                           color: ThemeVariables.primaryColor,
-                          onPressed: () {
-                                if(provider.audioPlayer.playing){
+                          onPressed: () async{
+                               if(provider.audioPlayer.playing){
                                   provider.pauseSong();
                                 }else{
                                   provider.playSong();

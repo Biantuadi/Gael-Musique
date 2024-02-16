@@ -154,7 +154,7 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(provider.currentSong!.title, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-                            Text("- ${provider.getSongReminder()}", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                            Text("- ${provider.getSongReminder(provider.audioPlayer.duration ?? Duration.zero , provider.audioPlayer.position)}", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                           ],
                         ),
                         //SizedBox(height: Dimensions.spacingSizeDefault,),
