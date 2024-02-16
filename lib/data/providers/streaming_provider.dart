@@ -24,7 +24,7 @@ class StreamingProvider with ChangeNotifier {
 
     if(response.statusCode == 200){
       List data = response.data["items"];
-      print("LA DATA STRUCTURE: ${response.data}");
+      print("LA DATA STRUCTURE STREAMING: ${response.data}");
       data.forEach((json) {
       allStreaming.add(Streaming.fromJson(json));
       });

@@ -1,5 +1,8 @@
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/events_provider.dart';
+import 'package:Gael/data/providers/song_provider.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/auth_validators/email_validator.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -132,7 +135,11 @@ class LoginScreenState extends State<LoginScreen> {
                                 SizedBox(height: Dimensions.spacingSizeLarge,),
                                 GradientButton(onTap: (){
                                 if (formKey.currentState!.validate()) {
-                                  provider.login(LoginModel(email: email, password: password), successCallBack: (){
+                                  provider.login(LoginModel(email: email, password: password), successCallBack: ()async{
+                                    await Provider.of<SongProvider>(context, listen: false).getSongs();
+                                    await Provider.of<SongProvider>(context, listen: false).getAlbums();
+                                    await Provider.of<EventsProvider>(context, listen: false).getEvents();
+                                    await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
                                     Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
                                   },
                                     errorCallback: (){

@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/events_provider.dart';
+import 'package:Gael/data/providers/song_provider.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
@@ -124,8 +127,13 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                               ],
                             ),
                             SizedBox(height: Dimensions.spacingSizeLarge,),
-                            GradientButton(onTap: (){
+                            GradientButton(onTap: ()async{
+
                               provider.setUserVars();
+                              await Provider.of<SongProvider>(context, listen: false).getSongs();
+                              await Provider.of<SongProvider>(context, listen: false).getAlbums();
+                              await Provider.of<EventsProvider>(context, listen: false).getEvents();
+                              await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
                               if(imageFile != null){
                                 provider.updateUserAvatar(successCallBack: (){
                                   ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));

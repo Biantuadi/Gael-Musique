@@ -1,10 +1,13 @@
 import 'package:Gael/data/models/album_model.dart';
+import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/layouts/custom_header.dart';
+import 'package:Gael/views/components/streaming_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -52,6 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.sizeOf(context);
     Widget spacing()=>SizedBox(height: Dimensions.spacingSizeDefault,);
     List<Album> albums = Provider.of<SongProvider>(context, listen: false).allAlbums;
+    List<Streaming> streamings = Provider.of<StreamingProvider>(context, listen: false).allStreaming;
+    if(streamings.length >= 4){
+        streamings = streamings.sublist(0, 4);
+    }
+
 
     return  Scaffold(
       body: SafeArea(
@@ -132,15 +140,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Center(
                           child: Column(
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  StreamingCard(title: '20 ans Gael', imagePath: Assets.splashBgJPG, size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),),
-                                  StreamingCard(title: 'Covers', imagePath: Assets.splashBgJPG, size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),),
-                                  StreamingCard(title: 'Sanjola 2019', imagePath: Assets.splashBgJPG, size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),),
-                                  StreamingCard(title: 'Saint-Esprit', imagePath: Assets.splashBgJPG, size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),),
-                                ],
+                              Wrap(
+                                spacing: Dimensions.spacingSizeSmall,
+                                alignment: WrapAlignment.spaceEvenly,
+                                children: streamings.map((streaming) => StreamingCard(streaming: streaming, size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),)).toList(),
                               ),
 
                             ],
