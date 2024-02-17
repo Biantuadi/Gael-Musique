@@ -23,6 +23,7 @@ class Routes {
   static const String homeScreen = "HOME-SCREEN";
   static const String chatListScreen = "CHAT-LIST-SCREEN";
   static const String chatDetailScreen = "CHAT-DETAIL-SCREEN";
+  static const String noInternetScreen = "NO-INTERNET-SCREEN";
 
   static const String radioScreen = "RADIO-SCREEN";
   static const String streamingDetailsScreen = "STREAMING-DETAILS-SCREEN";
@@ -103,6 +104,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) =>  SongDetailsScreen(song: arguments as Song,));
       case eventScreen:
         return MaterialPageRoute(builder: (_) =>  const EventsScreen());
+      case noInternetScreen:
+        return MaterialPageRoute(builder: (_) =>  const NoInternetScreen());
       case eventDetailsScreen:
         return MaterialPageRoute(builder: (_) =>  EventDetailsScreen(event: arguments as Event,));
       default:

@@ -37,5 +37,6 @@ export 'main/albums/albums_screen.dart';
 export 'main/albums/song_details_song.dart';
 export 'main/events/event_screen.dart';
 export 'main/events/event_details_screen.dart';
+export 'not_internet_page.dart';
 
 
