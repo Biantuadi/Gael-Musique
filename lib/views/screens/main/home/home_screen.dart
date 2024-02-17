@@ -18,6 +18,7 @@ import 'components/home_card.dart';
 import 'components/streaming_card.dart';
 
 class HomeScreen extends StatefulWidget {
+  ///VoidCallback voidCallback;
   const HomeScreen({super.key});
 
   @override

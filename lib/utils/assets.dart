@@ -14,12 +14,13 @@ class Assets{
   static String loginBg = "assets/images/login_bg.jpg";
   static String albumSublime = "assets/images/album_sublime.jpg";
 
-  //APP
+  // ICONS
   static String course = "assets/icons/course.jpg";
   static String event = "assets/icons/event.png";
   static String payment = "assets/icons/ticket.jpg";
   static String favorite = "assets/icons/favorite.jpg";
   static String pod = "assets/icons/pod.jpg";
+  static String noInternet = "assets/icons/no_internet.svg";
   //static String pod2 = "assets/icons/pod2.jpg";
 
 }
