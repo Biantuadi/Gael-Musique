@@ -22,67 +22,69 @@ class HomeAlbumCard extends StatelessWidget{
       randomSong = album.songs[Random().nextInt(album.songs.length)]["title"];
     }
 
-    return GestureDetector(
-      onTap: (){
-        Provider.of<SongProvider>(context, listen: false).setCurrentAlbum(album);
-          Navigator.pushNamed(context, Routes.albumSongsScreen, arguments: album);
-      },
-      child: Container(
-        height: screenSize.height/5,
-        width: screenSize.width * 0.8,
-        margin: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
-        ),
-        child: Stack(
-          children: [
-            NetWorkImageWidget(size: Size(screenSize.width * 0.8, screenSize.height/4), imageUrl: album.imgAlbum??'', radius: Dimensions.radiusSizeDefault,),
+    return Card(
+      child: GestureDetector(
+        onTap: (){
+          Provider.of<SongProvider>(context, listen: false).setCurrentAlbum(album);
+            Navigator.pushNamed(context, Routes.albumSongsScreen, arguments: album);
+        },
+        child: Container(
+          height: screenSize.height/5,
+          width: screenSize.width * 0.8,
+          margin: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+          ),
+          child: Stack(
+            children: [
+              NetWorkImageWidget(size: Size(screenSize.width * 0.8, screenSize.height/4), imageUrl: album.imgAlbum??'', radius: Dimensions.radiusSizeDefault,),
 
-            Opacity(
-              opacity: 0.6,
-              child: Container(
-                height: screenSize.height/4,
-                width: screenSize.width * 0.8,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-                    color: Colors.black
+              Opacity(
+                opacity: 0.6,
+                child: Container(
+                  height: screenSize.height/4,
+                  width: screenSize.width * 0.8,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                      color: Colors.black
+                  ),
                 ),
               ),
-            ),
-            Container(
-              height: screenSize.height/4,
-              width: screenSize.width * 0.8,
-              padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                 Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: [
-                     Text(album.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white, height: 1),),
-                     SizedBox(height: Dimensions.spacingSizeExtraSmall,),
-                     Row(
-                       children: [
-                         Icon(Iconsax.music, size: Dimensions.iconSizeExtraSmall, color: Colors.white,),
-                         SizedBox(width: Dimensions.spacingSizeExtraSmall,),
-                         Text(randomSong, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                       ],
-                     ),
-                   ],
-                 ),
-                  Row(
-                    children: [
-                      Text("Plus d'infos", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                      SizedBox(width: Dimensions.spacingSizeExtraSmall,),
-                      Icon(Iconsax.arrow_right_34, color: Colors.white, size:Dimensions.iconSizeSmall ,),
+              Container(
+                height: screenSize.height/4,
+                width: screenSize.width * 0.8,
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                   Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Text(album.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white, height: 1),),
+                       SizedBox(height: Dimensions.spacingSizeExtraSmall,),
+                       Row(
+                         children: [
+                           Icon(Iconsax.music, size: Dimensions.iconSizeExtraSmall, color: Colors.white,),
+                           SizedBox(width: Dimensions.spacingSizeExtraSmall,),
+                           Text(randomSong, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                         ],
+                       ),
+                     ],
+                   ),
+                    Row(
+                      children: [
+                        Text("Plus d'infos", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                        SizedBox(width: Dimensions.spacingSizeExtraSmall,),
+                        Icon(Iconsax.arrow_right_34, color: Colors.white, size:Dimensions.iconSizeSmall ,),
 
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

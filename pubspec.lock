@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  audio_progress_bars:
+    dependency: "direct main"
+    description:
+      name: audio_progress_bars
+      sha256: "5d9a06df84d8107994704d5b8ba3c8d4de675fbbffc6bbad43f6a815b54f79e4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   audio_session:
     dependency: transitive
     description:
