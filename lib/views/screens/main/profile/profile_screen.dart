@@ -1,16 +1,14 @@
-
 import 'dart:io';
-
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
+import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/images/image_base64_widget.dart';
 import 'package:Gael/views/components/images/image_file_widget.dart';
-import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -52,6 +50,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
+                                    provider.userProfileUrl == null?
+                                        Container(
+                                          width: size.width / 3,
+                                          height: size.width/3,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: ThemeVariables.iconInactive,
+                                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+                                          ),
+                                          child: const CircularProgressIndicator(strokeWidth: 2, color: ThemeVariables.primaryColor,),
+                                        ):
                                     Base64ImageWidget(base64String: provider.userProfileUrl??"", size: Size(size.width / 3 , size.width/3),) ,
 
 
@@ -212,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }));
   }
   sourceBottomSheet(){
-    Size size = MediaQuery.sizeOf(context);
+    //Size size = MediaQuery.sizeOf(context);
     showCustomBottomSheet(context: context, content: Column(
       children: [
         InkWell(

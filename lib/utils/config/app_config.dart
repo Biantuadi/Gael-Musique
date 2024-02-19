@@ -13,7 +13,7 @@ class AppConfig {
 
       /* USERS */
    static const String usersUrl = "users";
-   static const String userMeUrl = "users/me"; // PASSER SON ID
+   static const String userMeUrl = "users/me?userId"; // PASSER SON ID
    static const String userUrl = "users/";
    static const String avatarUpdateUrl = "users/avatar?userID=";
 

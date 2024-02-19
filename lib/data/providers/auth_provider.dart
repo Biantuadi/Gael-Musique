@@ -24,6 +24,7 @@ class AuthProvider with ChangeNotifier{
   String? userProfileUrl;
   String? loginError;
   String? avatarUpdateError;
+  String? getUserError;
 
   setRegisterNames({required String name, required String firstName}){
       registerModel.lastName = name;
@@ -53,8 +54,7 @@ class AuthProvider with ChangeNotifier{
         userProfileUrl = data["avatar"];
         authRepository.setUserProfileUrl(userProfileUrl??"");
         authRepository.setUserToken(userToken??"");
-        //setUserVars();
-        print("LES DATES RECUES: $data");
+        getUser();
         successCallBack();
       }else{
         avatarUpdateError = apiResponse.response.data["message"];
@@ -105,6 +105,33 @@ class AuthProvider with ChangeNotifier{
     isLoading = false;
     notifyListeners();
 
+  }
+  getUser()async{
+    isLoading = true;
+    registerError = null;
+    notifyListeners();
+    ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
+    isLoading = false;
+    notifyListeners();
+    if(apiResponse != null){
+      print("LA RESPONSE: ${apiResponse.response}");
+      if(apiResponse.response.statusCode == 200){
+        Map<String, dynamic> data = apiResponse.response.data;
+        userEmail = data['user']['email'];
+        userName = data['user']['lastname'];
+        userFirstName = data['user']['firstname'];
+        userToken = data['token'];
+        userPhone = data['user']["phone"];
+        userBio = data['user']["bio"];
+        userProfileUrl = data['user']['avatar'];
+        userID = data['user']['_id'];
+        setUserVars();
+      }
+    }else{
+      getUserError = "Erreur inconnue";
+    }
+    isLoading = false;
+    notifyListeners();
   }
   nullAuthVars(){
     loginError = null;

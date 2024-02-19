@@ -29,13 +29,17 @@ class AuthRepository {
       'avatar': await MultipartFile.fromFile(file.path, filename: fileName),
     });
     String? userId = await getUserID();
-    print("URL: ${AppConfig.avatarUpdateUrl} $userId");
-
 
     Response response = await dioClient.post("${AppConfig.avatarUpdateUrl}$userId",data: formData,);
-    print("LA STATUS CODE: ${response.statusCode}");
-    print("LA STATUS MSG: ${response.statusMessage}");
+
       return ApiResponse(response: response);
+  }
+  Future<ApiResponse?> getUser()async{
+
+    String? userId = await getUserID();
+
+    Response response = await dioClient.get("${AppConfig.userMeUrl}$userId",);
+    return ApiResponse(response: response);
   }
   Future<ApiResponse?> login(LoginModel loginModel)async{
       Response response = await dioClient.post(AppConfig.loginUrl,data: loginModel.toJson());
