@@ -185,10 +185,10 @@ class SongProvider with ChangeNotifier{
     Response response = await songRepository.getAlbums();
     print("LA STATUS CODE: ${response.statusCode}");
     print("LA STATUS MSG: ${response.statusMessage}");
-
+    print("LA DATA STATUS: ${response.statusCode}");
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      //print("LA DATA: ${response.data}");
+      print("LA DATA: ${response.data}");
       data.forEach((json){
         allAlbums.add(Album.fromJson(json));
       });

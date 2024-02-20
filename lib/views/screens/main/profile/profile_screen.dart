@@ -30,9 +30,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
    Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+
     return SafeArea(
       child: Consumer<AuthProvider>(
           builder: (BuildContext context, provider, Widget? child) {
+            bool showMemoryImage = true;
+            bool showCircular = false;
+            if(provider.userProfileUrl == null){
+                showMemoryImage = false;
+                showCircular = true;
+            }else{
+              showCircular = false;
+              if(provider.userProfileUrl!.startsWith('http')){
+                  showMemoryImage = false;
+
+              }else{
+                  showMemoryImage = true;
+              }
+            }
             return CustomScrollView(
               slivers: [
                 SliverList.list(children: [
@@ -50,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
-                                    provider.userProfileUrl == null?
+                                showMemoryImage == false?
                                         Container(
                                           width: size.width / 3,
                                           height: size.width/3,
@@ -59,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             color: ThemeVariables.iconInactive,
                                             borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
                                           ),
-                                          child: const CircularProgressIndicator(strokeWidth: 2, color: ThemeVariables.primaryColor,),
+                                          child: showCircular ?const CircularProgressIndicator(strokeWidth: 2, color: ThemeVariables.primaryColor,) : Icon(Iconsax.personalcard),
                                         ):
                                     Base64ImageWidget(base64String: provider.userProfileUrl??"", size: Size(size.width / 3 , size.width/3),) ,
 

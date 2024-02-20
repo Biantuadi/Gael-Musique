@@ -1,7 +1,7 @@
-
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -79,7 +79,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       spacing(),
-
+                        ElevatedButton(
+                          onPressed: (){
+                            Provider.of<SongProvider>(context, listen: false).getSongs();
+                            Provider.of<SongProvider>(context, listen: false).getAlbums();
+                            Provider.of<EventsProvider>(context, listen: false).getEvents();
+                            Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+                          },
+                          child: Text("PRESS ME", style: TextStyle(color: Colors.white),),
+                        ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
                         child: Wrap(

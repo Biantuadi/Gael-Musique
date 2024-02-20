@@ -117,14 +117,14 @@ class MainApp extends StatelessWidget {
             builder: (context, snapshot) {
               return const AnnotatedRegion<SystemUiOverlayStyle>(
                   value: SystemUiOverlayStyle(
-                    statusBarColor: Colors.black,
+                    statusBarColor: Colors.transparent,
                     statusBarBrightness: Brightness.light,
                     statusBarIconBrightness: Brightness.light,
-                    systemNavigationBarColor: Colors.black,
+                    systemNavigationBarColor: Colors.transparent,
                     systemNavigationBarContrastEnforced: true,
                     systemNavigationBarIconBrightness: Brightness.light,
                     systemStatusBarContrastEnforced: false,
-                    systemNavigationBarDividerColor: Colors.transparent,
+                    systemNavigationBarDividerColor: Colors.black,
                   ),
                   child: SplashScreen(),
                   );
