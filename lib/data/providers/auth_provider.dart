@@ -110,11 +110,12 @@ class AuthProvider with ChangeNotifier{
     isLoading = true;
     registerError = null;
     notifyListeners();
-    ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
+    ApiResponse? apiResponse = await authRepository.getUser();
     isLoading = false;
     notifyListeners();
     if(apiResponse != null){
       print("LA RESPONSE: ${apiResponse.response}");
+      print("LA STATUS: ${apiResponse.response.statusCode}");
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;
         userEmail = data['user']['email'];
@@ -163,7 +164,10 @@ class AuthProvider with ChangeNotifier{
         notifyListeners();
         setUserVars().then(
             (value){
-              successCallBack();
+              if(userToken != null){
+                successCallBack();
+              }
+
             }
 
         );
@@ -171,7 +175,16 @@ class AuthProvider with ChangeNotifier{
         loginError = null;
       }
       else{
-        loginError = apiResponse.response.data["message"];
+        if(apiResponse.response.data is int || apiResponse.response.data is double){
+          loginError = "la requête a pris trop de temps, veillez réessayer!";
+        }else{
+          if(apiResponse.response.data is Map){
+            loginError = apiResponse.response.data["message"];
+          }else{
+            loginError = "Erreur Inconnue";
+          }
+        }
+
         errorCallback();
       }
     }else{

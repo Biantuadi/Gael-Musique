@@ -136,11 +136,14 @@ class LoginScreenState extends State<LoginScreen> {
                                 GradientButton(onTap: (){
                                 if (formKey.currentState!.validate()) {
                                   provider.login(LoginModel(email: email, password: password), successCallBack: ()async{
+
                                     await Provider.of<SongProvider>(context, listen: false).getSongs();
                                     await Provider.of<SongProvider>(context, listen: false).getAlbums();
                                     await Provider.of<EventsProvider>(context, listen: false).getEvents();
-                                    await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
-                                    Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                                    await Provider.of<StreamingProvider>(context, listen: false).getStreaming().then((value){
+                                      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                                    });
+
                                   },
                                     errorCallback: (){
 

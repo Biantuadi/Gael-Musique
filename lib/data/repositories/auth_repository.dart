@@ -102,5 +102,6 @@ class AuthRepository {
     sharedPreferences.remove(AppConfig.sharedUserName);
     sharedPreferences.remove(AppConfig.sharedEmail);
     sharedPreferences.remove(AppConfig.sharedFirstName);
+    sharedPreferences.remove(AppConfig.sharedUserID);
   }
 }

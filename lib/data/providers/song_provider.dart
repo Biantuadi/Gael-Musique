@@ -169,8 +169,9 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
   }
   getSongs()async{
+    print("OK");
     Response response = await songRepository.getSongs();
-    //print("RESPONSE CODE:${response.statusCode} ");
+    print("RESPONSE CODE:${response.statusCode} ");
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
       // print("LA SONGS DATA: ${data[0]}");
