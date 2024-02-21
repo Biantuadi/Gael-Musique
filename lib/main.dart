@@ -75,9 +75,11 @@ class MainApp extends StatelessWidget {
               surface: ThemeVariables.thirdColorBlack,
               onSurface: Colors.white,
 
+
             ),
             scaffoldBackgroundColor: ThemeVariables.thirdColorBlack,
             dialogBackgroundColor: ThemeVariables.thirdColorBlack,
+
             // ignore: deprecated_member_use
             backgroundColor: ThemeVariables.thirdColorBlack,
             textTheme: TextTheme(
@@ -108,7 +110,7 @@ class MainApp extends StatelessWidget {
             ),
             iconTheme: IconThemeData(
               size: Dimensions.iconSizeDefault,
-              color: isDark ? Colors.white : Colors.black,
+              color:  Colors.white,
             )),
         home: FutureBuilder(
             future: provider.themeMode == ThemeMode.system

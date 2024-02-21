@@ -86,31 +86,33 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                                 children: [
                                   NetWorkImageWidget(size: Size(size.width / 2, size.width * 0.5), imageUrl: widget.album.imgAlbum??"", radius: Dimensions.radiusSizeDefault,),
                                   SizedBox(width: Dimensions.spacingSizeDefault,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(widget.album.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
-                                      Text(widget.album.artist, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
-                                      Text("${provider.currentAlbumSongs!.length} singles", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
-                                      SizedBox(height: Dimensions.spacingSizeDefault,),
-                                      GradientButton(onTap: (){
-                                          if(provider.currentSong != null){
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(widget.album.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                                        Text(widget.album.artist, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
+                                        Text("${provider.currentAlbumSongs!.length} singles", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
+                                        SizedBox(height: Dimensions.spacingSizeDefault,),
+                                        GradientButton(onTap: (){
+                                            if(provider.currentSong != null){
+                                                if(provider.audioPlayer.playing){
+                                                  provider.pauseSong();
+                                                }else{
+                                                  provider.playSong();
+                                                }
+                                            }else{
+                                              provider.setFirstSong();
                                               if(provider.audioPlayer.playing){
                                                 provider.pauseSong();
                                               }else{
                                                 provider.playSong();
                                               }
-                                          }else{
-                                            provider.setFirstSong();
-                                            if(provider.audioPlayer.playing){
-                                              provider.pauseSong();
-                                            }else{
-                                              provider.playSong();
                                             }
-                                          }
-                                      }, size: Size(size.width/5, 40), child: Text(provider.audioPlayer.playing?"Pause":"Lire", style: Theme.of(context).textTheme.titleSmall,))
-                                    ],
+                                        }, size: Size(size.width/5, 40), child: Text(provider.audioPlayer.playing?"Pause":"Lire", style: Theme.of(context).textTheme.titleSmall,))
+                                      ],
+                                    ),
                                   )
                                 ],
                               ),
@@ -136,7 +138,8 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                             })),
                   ],
                 ),
-                provider.currentSong != null?
+                provider.currentSong != null && provider.currentAlbum != null?
+                    provider.currentSong!.album == provider.currentAlbum!.id?
                 Container(
                   margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
                   child: Container(
@@ -192,7 +195,7 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                       ],
                     ),
                   ),
-                ): const SizedBox(height: 0,)
+                ):const SizedBox(height: 0, width: 0,): const SizedBox(height: 0,)
               ],
             ),
           );
