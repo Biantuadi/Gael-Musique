@@ -9,6 +9,7 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
+import 'package:Gael/views/components/loading_overlay.dart';
 import 'package:Gael/views/components/overlay_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +137,6 @@ class LoginScreenState extends State<LoginScreen> {
                                 GradientButton(onTap: (){
                                 if (formKey.currentState!.validate()) {
                                   provider.login(LoginModel(email: email, password: password), successCallBack: ()async{
-
                                     await Provider.of<SongProvider>(context, listen: false).getSongs();
                                     await Provider.of<SongProvider>(context, listen: false).getAlbums();
                                     await Provider.of<EventsProvider>(context, listen: false).getEvents();
@@ -227,7 +227,9 @@ class LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: Dimensions.spacingSizeDefault,),
                   const Text("Connexion en cours...")
                 ],
-              ),): const SizedBox()
+              ),): const SizedBox() ,
+            provider.isLoadingData? const LoadingOverlayScreen() : const SizedBox()
+
             ],
           ),
         );

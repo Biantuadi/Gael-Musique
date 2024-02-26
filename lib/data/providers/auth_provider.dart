@@ -25,6 +25,7 @@ class AuthProvider with ChangeNotifier{
   String? loginError;
   String? avatarUpdateError;
   String? getUserError;
+  bool isLoadingData = false;
 
   setRegisterNames({required String name, required String firstName}){
       registerModel.lastName = name;
@@ -91,7 +92,10 @@ class AuthProvider with ChangeNotifier{
           userID = data['user']['_id'];
           setUserVars().then(
                   (value){
-                successCallBack();
+                    isLoadingData = true;
+                    notifyListeners();
+                    successCallBack();
+                    isLoadingData = false;
               }
           );
         }else{
@@ -165,7 +169,10 @@ class AuthProvider with ChangeNotifier{
         setUserVars().then(
             (value){
               if(userToken != null){
+                isLoadingData = true;
+                notifyListeners();
                 successCallBack();
+                isLoadingData = false;
               }
 
             }

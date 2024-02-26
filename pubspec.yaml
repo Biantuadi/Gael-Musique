@@ -27,8 +27,8 @@ dependencies:
   countries_info: ^1.0.3
   flutter_carousel_widget: ^2.2.0
   just_audio: ^0.9.36
-  audio_waveforms: ^1.0.4
-  audio_progress_bars: ^0.0.1
+  socket_io_client: ^2.0.3+1
+  wh_flutter_wave: ^0.0.4
 
 dev_dependencies:
   flutter_test:

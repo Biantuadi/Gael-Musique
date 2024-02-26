@@ -11,6 +11,7 @@ import 'package:Gael/utils/string_extensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/custom_snackbar.dart';
+import 'package:Gael/views/components/loading_overlay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -173,6 +174,7 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                 }
               ),
             ),
+            Provider.of<AuthProvider>(context, listen: true).isLoadingData? const LoadingOverlayScreen() : const SizedBox()
 
           ],
         ),

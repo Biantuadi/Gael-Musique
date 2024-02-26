@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/repositories/song_repository.dart';
-import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
@@ -26,7 +25,7 @@ class SongProvider with ChangeNotifier{
   String songDurationStr = "";
   String songPositionStr = "";
   String defaultSongUrl = "https://www.dropbox.com/s/v381wcr6ixsygrm/364%20C%27EST%20MON%20JOYEUX%20SERVICE.mp3?dl=1";
-  PlayerController playerController =  PlayerController();
+
 
   String getFormattedDuration(Duration duration){
     String hours = duration.inHours.remainder(60).toString().padLeft(2,'0');
@@ -49,6 +48,7 @@ class SongProvider with ChangeNotifier{
       if(currentAlbumSongs!.isNotEmpty){
         currentSong = currentAlbumSongs!.first;
         audioPlayer.setUrl(defaultSongUrl);
+        print("LA LINK: ${currentSong!.songLink}");
         onCompleted();
       }
     }
@@ -56,6 +56,7 @@ class SongProvider with ChangeNotifier{
   setCurrentSong(Song song){
     currentSong = song;
     audioPlayer.setUrl(defaultSongUrl);
+
     onCompleted();
     notifyListeners();
   }
