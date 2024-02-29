@@ -80,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       spacing(),
-
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
                         child: Wrap(

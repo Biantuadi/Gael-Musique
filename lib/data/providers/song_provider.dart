@@ -197,4 +197,10 @@ class SongProvider with ChangeNotifier{
 
   }
 
+  setAlbumSongs(){
+    allAlbums.forEach((album) {
+      album.getSongsFromIds(allSongs: allSongs);
+    });
+    notifyListeners();
+  }
 }

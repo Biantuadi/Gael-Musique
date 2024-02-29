@@ -25,7 +25,7 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
        leading: IconButton(onPressed: (){
          Navigator.pop(context);
        },icon: const Icon(Iconsax.arrow_left, color: Colors.white,),),
-       title: Text("Playing", style: Theme.of(context).textTheme.titleMedium,),
+       title: Text(widget.streaming.title, style: Theme.of(context).textTheme.titleMedium,),
        centerTitle: true,
      ),
      body: Center(

@@ -8,6 +8,7 @@ class Album{
   late int year;
   late String? imgAlbum;
   late List<Song> songs;
+  late List<String> songsIds;
   late List<dynamic> userBuy;
   late DateTime createdAt;
   Album({
@@ -20,6 +21,7 @@ class Album{
     required this.year,
     required this.artist,
     required this.imgAlbum,
+    required this.songsIds
   });
 
   Album.fromJson(Map<String, dynamic> json){
@@ -29,34 +31,33 @@ class Album{
     createdAt = DateTime.parse(json["createdAt"]);
     imgAlbum = json["imgAlbum"];
     if(json["songs"] != null){
-      songs =[];
-      json["songs"].forEach((song){
-        songs.add(Song.fromJson(song));
+      songsIds =[];
+      json["songs"].forEach((songId){
+        songsIds.add(songId);
       });
     }
-    
     userBuy = json["usersBuy"];
     year = json["year"];
     artist = json["artist"];
+    songs = [];
+
+  }
+  getSongsFromIds({required List<Song> allSongs}){
+    songs = [];
+    print("LES SONGS NBR : ${allSongs.length}");
+    songsIds.forEach((id) {
+      allSongs.forEach((song) {
+        if(song.id == id) {
+          songs.add(song);
+        }
+      });
+
+
+      //Song? sng = allSongs.singleWhere((song) => song.id == id);
+      //if (sng != null) songs.add(sng);
+    });
   }
 
-  Map<String, dynamic> toJson({bool isForBd = false}){
-    Map<String, dynamic> json = {};
-    json["_id"] = id;
-    json["title"] = title.toString();
-    json["subtitle"] = subtitle;
-    json["artist"] = artist;
-    json["imgAlbum"] = imgAlbum;
-    List<Map<String, dynamic>> sgs = [];
-    
-    songs.forEach((song){
-      json["songs"].add(song.toJson());
-    } );
-    
-    
-    json["userBuy"] = userBuy;
 
-    return json;
-  }
 
 }

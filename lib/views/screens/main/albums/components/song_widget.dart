@@ -35,7 +35,7 @@ class SongWidget extends StatelessWidget{
         margin: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault, vertical: Dimensions.spacingSizeSmall/2),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-            color: isPlaying? ThemeVariables.primaryColor.withOpacity(0.4): ThemeVariables.thirdColorBlack.withOpacity(0.3)
+            color: isPlaying? Colors.black: ThemeVariables.thirdColorBlack.withOpacity(0.3)
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

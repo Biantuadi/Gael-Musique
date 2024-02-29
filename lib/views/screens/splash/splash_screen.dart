@@ -28,7 +28,7 @@ class SplashScreenState extends State<SplashScreen> {
     _route();
   }
 
-
+  String loadingText = "Chargement...";
   void _route(){
     String route = Routes.landingScreen;
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
@@ -38,10 +38,31 @@ class SplashScreenState extends State<SplashScreen> {
           // :ignore_async gaps
           if(Provider.of<SplashProvider>(context, listen: false).userToken != null ){
             route = Routes.mainScreen;
-            await Provider.of<SongProvider>(context, listen: false).getSongs();
-            await Provider.of<SongProvider>(context, listen: false).getAlbums();
+            setState(() {
+              loadingText = "Chargement des chants";
+            });
+            await Provider.of<SongProvider>(context, listen: false).getSongs().then(
+                (value)async{
+                  setState(() {
+                    loadingText = "Chargement des albums";
+                  });
+                  await Provider.of<SongProvider>(context, listen: false).getAlbums().then((value)async{
+                    await Provider.of<SongProvider>(context, listen: false).setAlbumSongs();
+                  });
+                }
+            );
+
+            setState(() {
+              loadingText = "C'est presque fini!";
+            });
             await Provider.of<EventsProvider>(context, listen: false).getEvents();
+            setState(() {
+              loadingText = "Chargement des streams";
+            });
             await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+            setState(() {
+              loadingText = "C'est fini!";
+            });
           }
           Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
         },
@@ -121,6 +142,8 @@ class SplashScreenState extends State<SplashScreen> {
                               height: 0,
                               width: 0,
                             ),
+                            Text(loadingText, style: Theme.of(context).textTheme.bodySmall,),
+                            SizedBox(height: Dimensions.spacingSizeDefault,),
                             const CircularProgressIndicator(
                               color: Colors.white,
                               strokeWidth: 1,
