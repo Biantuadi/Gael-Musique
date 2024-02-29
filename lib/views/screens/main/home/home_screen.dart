@@ -72,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               showLogo: true,
               showAvatar: true,
             ) ,
+
             Expanded(
               child: SingleChildScrollView(
                 controller: scrollController,

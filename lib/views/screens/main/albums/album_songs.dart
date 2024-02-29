@@ -30,7 +30,6 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
   @override
   void initState() {
     super.initState();
-    //Provider.of<SongProvider>(context, listen: false).getSongs();
     Provider.of<SongProvider>(context, listen: false).setCurrentAlbum(widget.album);
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
@@ -93,7 +92,7 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                                       children: [
                                         Text(widget.album.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
                                         Text(widget.album.artist, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
-                                        Text("${provider.currentAlbumSongs!.length} singles", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
+                                        Text("${widget.album.songs.length} singles", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
                                         SizedBox(height: Dimensions.spacingSizeDefault,),
                                         GradientButton(onTap: (){
                                             if(provider.currentSong != null){
@@ -122,7 +121,7 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                       ),
                     ]),
 
-                    provider.currentAlbumSongs!.isEmpty?
+                    widget.album.songs.isEmpty?
 
                     SliverPadding(
                       padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
@@ -132,9 +131,9 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
                     ) :SliverPadding(
                         padding: EdgeInsets.only(top : Dimensions.spacingSizeDefault),
                         sliver: SliverList.builder(
-                            itemCount:provider.currentAlbumSongs!.length ,
+                            itemCount:widget.album.songs.length ,
                             itemBuilder: (BuildContext ctx, int i){
-                              return SongWidget(song: provider.currentAlbumSongs![i],albumImgUrl: widget.album.imgAlbum??"", isPlaying: provider.thisSongIsCurrent( provider.currentAlbumSongs![i]),);
+                              return SongWidget(song: widget.album.songs[i],albumImgUrl: widget.album.imgAlbum??"", isPlaying: provider.thisSongIsCurrent( widget.album.songs[i]),);
                             })),
                   ],
                 ),

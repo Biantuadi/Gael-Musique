@@ -19,7 +19,6 @@ class SongProvider with ChangeNotifier{
   bool playNextSong = false;
   bool songStopped = true;
   bool playShuffledSong = false;
-  List<Song>? currentAlbumSongs;
   Duration songDuration =  Duration.zero;
   Duration songPosition =  Duration.zero;
   String songDurationStr = "";
@@ -44,10 +43,10 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
   }
   setFirstSong(){
-    if(currentAlbumSongs != null){
-      if(currentAlbumSongs!.isNotEmpty){
-        currentSong = currentAlbumSongs!.first;
-        audioPlayer.setUrl(defaultSongUrl);
+    if(currentAlbum != null){
+      if(currentAlbum!.songs.isNotEmpty){
+        currentSong = currentAlbum!.songs.first;
+        audioPlayer.setUrl(currentSong!.songLink);
         print("LA LINK: ${currentSong!.songLink}");
         onCompleted();
       }
@@ -55,7 +54,7 @@ class SongProvider with ChangeNotifier{
   }
   setCurrentSong(Song song){
     currentSong = song;
-    audioPlayer.setUrl(defaultSongUrl);
+    audioPlayer.setUrl(currentSong!.songLink);
 
     onCompleted();
     notifyListeners();
@@ -63,18 +62,19 @@ class SongProvider with ChangeNotifier{
   onCompleted(){
     if(audioPlayer.duration != null){
       if(audioPlayer.duration!.inSeconds.toDouble() == audioPlayer.position.inSeconds.toDouble()){
-        int indexOf = currentAlbumSongs!.indexOf(currentSong!);
+
         Random random = Random();
-        if(currentAlbumSongs!=null){
-          if(indexOf < currentAlbumSongs!.length - 2){
-            currentSong = currentAlbumSongs![indexOf+1];
-          }else if (indexOf == currentAlbumSongs!.length-1){
-            currentSong = currentAlbumSongs![0];
+        if(currentAlbum != null){
+          int indexOf = currentAlbum!.songs.indexOf(currentSong!);
+          if(indexOf < currentAlbum!.songs.length - 2){
+            currentSong = currentAlbum!.songs[indexOf+1];
+          }else if (indexOf == currentAlbum!.songs.length-1){
+            currentSong = currentAlbum!.songs[0];
           }
         }
         if(playShuffledSong){
-          int index = random.nextInt( currentAlbumSongs!.length -1);
-          currentSong = currentAlbumSongs![index];
+          int index = random.nextInt( currentAlbum!.songs.length -1);
+          currentSong = currentAlbum!.songs[index];
         }
       }
     }
@@ -101,27 +101,29 @@ class SongProvider with ChangeNotifier{
   }
 
   playNext(){
-    int indexOf = currentAlbumSongs!.indexOf(currentSong!);
-    if(currentAlbumSongs!=null){
-      if(indexOf < currentAlbumSongs!.length - 2){
-        currentSong = currentAlbumSongs![indexOf+1];
-      }else if (indexOf == currentAlbumSongs!.length-1){
-        currentSong = currentAlbumSongs![0];
+
+    if(currentAlbum !=null){
+      int indexOf = currentAlbum!.songs.indexOf(currentSong!);
+      if(indexOf < currentAlbum!.songs.length - 2){
+        currentSong = currentAlbum!.songs[indexOf+1];
+      }else if (indexOf == currentAlbum!.songs.length-1){
+        currentSong = currentAlbum!.songs[0];
       }
-      audioPlayer.setUrl(defaultSongUrl);
+      audioPlayer.setUrl(currentSong!.songLink);
       audioPlayer.play();
     }
   }
 
   playPost(){
-    int indexOf = currentAlbumSongs!.indexOf(currentSong!);
-    if(currentAlbumSongs!=null){
+
+    if(currentAlbum !=null){
+      int indexOf = currentAlbum!.songs.indexOf(currentSong!);
       if(indexOf > 1){
-        currentSong = currentAlbumSongs![indexOf-1];
+        currentSong = currentAlbum!.songs[indexOf-1];
       }else if (indexOf == 0){
-        currentSong = currentAlbumSongs!.last;
+        currentSong = currentAlbum!.songs.last;
       }
-      audioPlayer.setUrl(defaultSongUrl);
+      audioPlayer.setUrl(currentSong!.songLink);
       audioPlayer.play();
     }
   }
@@ -150,12 +152,7 @@ class SongProvider with ChangeNotifier{
 
   setCurrentAlbum(Album album){
     currentAlbum = album;
-    currentAlbumSongs = allSongs.where((song) => song.album == album.id).toList();
-    if(currentAlbumSongs!.isNotEmpty){
-      //currentSong = currentAlbumSongs!.first;
-    }
-
-  }
+     }
 
   bool thisSongIsCurrent(Song song){
     if(currentSong != null){
@@ -175,7 +172,7 @@ class SongProvider with ChangeNotifier{
     print("RESPONSE CODE:${response.statusCode} ");
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      // print("LA SONGS DATA: ${data[0]}");
+      print("LA SONGS DATA: ${data}");
       data.forEach((json){
         allSongs.add(Song.fromJson(json));
       });
@@ -190,7 +187,7 @@ class SongProvider with ChangeNotifier{
     print("LA DATA STATUS: ${response.statusCode}");
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      print("LA DATA: ${response.data}");
+      print("LA DATA: ${data[0]}");
       data.forEach((json){
         allAlbums.add(Album.fromJson(json));
       });

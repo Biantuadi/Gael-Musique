@@ -1,3 +1,5 @@
+import 'package:Gael/data/models/song_model.dart';
+
 class Album{
   late String id;
   late String title;
@@ -5,7 +7,7 @@ class Album{
   late String artist;
   late int year;
   late String? imgAlbum;
-  late List<dynamic> songs;
+  late List<Song> songs;
   late List<dynamic> userBuy;
   late DateTime createdAt;
   Album({
@@ -26,7 +28,13 @@ class Album{
     subtitle = json["subtitle"];
     createdAt = DateTime.parse(json["createdAt"]);
     imgAlbum = json["imgAlbum"];
-    songs = json["songs"]??[];
+    if(json["songs"] != null){
+      songs =[];
+      json["songs"].forEach((song){
+        songs.add(Song.fromJson(song));
+      });
+    }
+    
     userBuy = json["usersBuy"];
     year = json["year"];
     artist = json["artist"];
@@ -39,7 +47,13 @@ class Album{
     json["subtitle"] = subtitle;
     json["artist"] = artist;
     json["imgAlbum"] = imgAlbum;
-    json["songs"] = songs;
+    List<Map<String, dynamic>> sgs = [];
+    
+    songs.forEach((song){
+      json["songs"].add(song.toJson());
+    } );
+    
+    
     json["userBuy"] = userBuy;
 
     return json;

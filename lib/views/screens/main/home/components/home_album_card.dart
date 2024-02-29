@@ -16,10 +16,10 @@ class HomeAlbumCard extends StatelessWidget{
   const HomeAlbumCard({super.key, required this.album, required this.screenSize});
   @override
   Widget build(BuildContext context) {
-    ;
+
     String randomSong = "Random Song";
     if(album.songs.isNotEmpty){
-      randomSong = album.songs[Random().nextInt(album.songs.length)]["title"];
+      randomSong = album.songs[Random().nextInt(album.songs.length)].title;
     }
 
     return Card(
