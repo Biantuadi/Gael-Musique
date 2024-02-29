@@ -75,7 +75,7 @@ class Routes {
       case radioScreen:
         return MaterialPageRoute(builder: (_) => const StreamingScreen());
       case streamingDetailsScreen:
-        return MaterialPageRoute(builder: (_) =>  StreamingDetailsScreen(streaming: arguments as Streaming,));
+        return MaterialPageRoute(builder: (_) =>  StreamingDetailsScreen());
       case favoritesScreen:
         return MaterialPageRoute(builder: (_) => const FavoriteScreen());
       case profileScreen:

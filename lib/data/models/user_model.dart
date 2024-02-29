@@ -7,9 +7,7 @@ class User{
   late String email;
   late String profileImage;
   late String phone;
-  late DateTime birthDay;
   late String bio;
-  late String address;
   late String? role;
   late Preference preferences;
   late DateTime createdAt;
@@ -19,9 +17,7 @@ class User{
     required this.phone,
     required this.firstName,
     required this.id,
-    required this.address,
     required this.bio,
-    required this.birthDay,
     required this.createdAt,
     required this.email,
     required this.lastName,
@@ -34,33 +30,30 @@ class User{
 });
 
   User.fromJson(Map<String, dynamic> json){
-    id = json["id"];
-    lastName = json["lastName"];
-    firstName = json["firstName"];
-    createdAt = DateTime.parse(json["created_at"]);
+    id = json["_id"];
+    lastName = json["lastname"];
+    firstName = json["firstname"];
+    createdAt = DateTime.parse(json["createdAt"]);
     role = json["role"];
-    profileImage = json["profileImage"];
+    profileImage = json["avatar"];
     preferences =Preference.fromJson(json["preferences"]);
-    birthDay = DateTime.parse(json["birthDay"]);
-    bio = json["bio"];
-    address = json["address"];
-    phone = json["phone"];
+    bio = json["bio"]??"";
+    phone = json["phone"]??"";
     role = json["role"];
     isConected = json["isConected"];
-    eventInterest = json["eventInterest"];
+    eventInterest = json["eventInterest"] ?? [];
+    email = json["email"];
   }
 
   Map<String, dynamic> toJson(){
     Map<String, dynamic> json = {};
-    json["id"] = id;
+    json["_id"] = id;
     json["lastName"] = lastName;
     json["firstName"] = firstName.toString();
     json["role"] = role;
-    json["profileImage"] = profileImage;
+    json["avatar"] = profileImage;
     json["preferences"] = preferences.toJson();
-    json["birthDay"] = birthDay.toString();
     json["bio"] = bio;
-    json["address"] = address;
     json["phone"] = phone;
     json["role"] = role;
     json["isConected"] = isConected;

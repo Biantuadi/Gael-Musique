@@ -8,7 +8,6 @@ class Album{
   late int year;
   late String? imgAlbum;
   late List<Song> songs;
-  late List<String> songsIds;
   late List<dynamic> userBuy;
   late DateTime createdAt;
   Album({
@@ -21,7 +20,6 @@ class Album{
     required this.year,
     required this.artist,
     required this.imgAlbum,
-    required this.songsIds
   });
 
   Album.fromJson(Map<String, dynamic> json){
@@ -31,9 +29,9 @@ class Album{
     createdAt = DateTime.parse(json["createdAt"]);
     imgAlbum = json["imgAlbum"];
     if(json["songs"] != null){
-      songsIds =[];
-      json["songs"].forEach((songId){
-        songsIds.add(songId);
+      songs = [];
+      json["songs"].forEach((song){
+        songs.add(Song.fromJson(song));
       });
     }
     userBuy = json["usersBuy"];
@@ -42,21 +40,7 @@ class Album{
     songs = [];
 
   }
-  getSongsFromIds({required List<Song> allSongs}){
-    songs = [];
-    print("LES SONGS NBR : ${allSongs.length}");
-    songsIds.forEach((id) {
-      allSongs.forEach((song) {
-        if(song.id == id) {
-          songs.add(song);
-        }
-      });
 
-
-      //Song? sng = allSongs.singleWhere((song) => song.id == id);
-      //if (sng != null) songs.add(sng);
-    });
-  }
 
 
 

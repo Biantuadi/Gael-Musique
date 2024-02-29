@@ -11,7 +11,6 @@ class EventsProvider with ChangeNotifier{
 
   getEvents()async{
     Response response = await eventsRepository.getEvents();
-    print("LA RESPONSE CODE: ${response.statusCode}");
     if(response.statusCode == 200){
       List data = response.data["items"];
       events = [];

@@ -1,85 +1,114 @@
-import 'package:Gael/data/models/streaming_model.dart';
-import 'package:Gael/utils/assets.dart';
+import 'dart:math';
+
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:Gael/views/components/images/image_asset_widget.dart';
+import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import 'components/det_streaming_card.dart';
+import 'components/video_button.dart';
 
 class StreamingDetailsScreen extends StatefulWidget{
-  final Streaming streaming;
-  const StreamingDetailsScreen({super.key, required this.streaming});
+  const StreamingDetailsScreen({super.key, });
   @override
   StreamingDetailsScreenState createState()=>StreamingDetailsScreenState();
 }
 class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    String title = widget.streaming.isEmission==true? "Emission":  widget.streaming.isPodcast==true? 'Podcast' : widget.streaming.isRadio==true? "Radio": "Stream";
-   return Scaffold(
-     appBar: AppBar(
-       backgroundColor: ThemeVariables.thirdColorBlack,
-       leading: IconButton(onPressed: (){
-         Navigator.pop(context);
-       },icon: const Icon(Iconsax.arrow_left, color: Colors.white,),),
-       title: Text(widget.streaming.title, style: Theme.of(context).textTheme.titleMedium,),
-       centerTitle: true,
-     ),
-     body: Center(
-       child: SingleChildScrollView(
-         child: Column(
-           crossAxisAlignment: CrossAxisAlignment.center,
-           children: [
-             AssetImageWidget(imagePath: Assets.splashBgJPG, size: Size(size.width * 0.6, size.width *0.8)),
-             SizedBox(height: Dimensions.spacingSizeSmall,),
-             Text('papa Alain moloto', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
-             Text(title, style: Theme.of(context).textTheme.titleSmall,),
-             SizedBox(height: Dimensions.spacingSizeSmall,),
-             SvgPicture.asset(Assets.mediaSonSVG, width: size.width * 0.8,),
-             SizedBox(height: Dimensions.spacingSizeDefault,),
-             Row(
-               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-               children: [
-                 IconButton(
-                   onPressed: () {
-                   },
-                   icon: Icon(
-                     CupertinoIcons.chevron_left,
-                     size: Dimensions.iconSizeDefault,
-                     //color: Colors.red,
-                   ),
-                 ),
+    return Consumer<StreamingProvider>(builder: (context ,provider, child){
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: ThemeVariables.thirdColorBlack,
+          leading: IconButton(onPressed: (){
+            Navigator.pop(context);
+          },icon: const Icon(Iconsax.arrow_left, color: Colors.white,),),
+          title: Text(provider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              YoutubePlayer(
+                controller: provider.streamingController,
+                progressColors: const ProgressBarColors(
+                  playedColor: ThemeVariables.primaryColor,
+                ),
+                bottomActions: [
+                  CurrentPosition(),
+                  ProgressBar(isExpanded: true),
 
-                 IconButton(
-                   color: ThemeVariables.primaryColor,
-                   onPressed: () {
+                ],
+              ),
+              SizedBox(height: Dimensions.spacingSizeSmall,),
 
-                   },
-                   icon: Icon(
-                     CupertinoIcons.play_circle_fill,
-                     size: Dimensions.iconSizeExtraLarge * 2,
-                     //color: Colors.red,
-                   ),
-                 ),
-                 IconButton(
-                   onPressed: (){
-                   },
-                   icon: Icon(
-                     CupertinoIcons.right_chevron,
-                     size: Dimensions.iconSizeDefault,
-                     //color: repeatSong? Colors.red : null,
-                   ),
-                 ),
-               ],
-             )
-           ],
-         ),
-       ),
-     ),
-   );
+              Container(
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(provider.currentStreaming!.createdAt.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
+                    Text(provider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
+                    SizedBox(height: Dimensions.spacingSizeSmall,),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
+                child: Wrap(
+                  spacing: Dimensions.spacingSizeDefault,
+                  children: const [
+                    VideoButton(text: 'partager', icon: CupertinoIcons.share,),
+                    VideoButton(text: 'liker', icon: CupertinoIcons.hand_thumbsup,),
+                    VideoButton(text: 'soutenir', icon: CupertinoIcons.money_dollar,),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(provider.currentStreaming!.description, style: Theme.of(context).textTheme.bodyMedium,),
+                  Text(provider.currentStreaming!.date.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),)
+                  ],
+                )
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
+                child: Text("Suivez aussi...", style: Theme.of(context).textTheme.titleMedium,),
+              ),
+              Container(
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                child: NetWorkImageWidget(imageUrl: provider.streamings[provider.randomIndex].cover, size: Size(size.width, size.width *.3),)
+                ,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: provider.streamings.map((e) => DetStreamingCard(streaming: e, width: size.width/3,)).toList(),
+                ),
+              ),
+              SizedBox(height: Dimensions.spacingSizeLarge,)
+            ],
+          ),
+        ),
+      );
+    });
   }
 
 }

@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/repositories/streaming_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class StreamingProvider with ChangeNotifier {
   StreamingRepository streamRepository;
   StreamingProvider({required this.streamRepository});
+  bool showStreamPlayContainer = false;
 
   List<Streaming> allStreaming = [];
+  List<Streaming> streamings = [];
   List<Streaming>? streamingToShow;
 
   //STREAMING FILTERS
@@ -16,7 +21,41 @@ class StreamingProvider with ChangeNotifier {
   bool? showPodCast;
   bool? showRadio;
   bool? showSanjola;
+  Random random = Random();
+  int randomIndex = 0;
 
+  late YoutubePlayerController streamingController;
+  Streaming? currentStreaming;
+
+  setCurrentStreaming(Streaming streaming){
+
+    currentStreaming = streaming;
+    streamings = allStreaming.where((str) => str.id != currentStreaming!.id).toList();
+    randomIndex = random.nextInt(streamings.length-1 );
+    String videoId;
+    videoId = YoutubePlayer.convertUrlToId(streaming.videoLink)??"https://youtu.be/wlSJcbWwzds?si=MRPYEcfQO4A76Tcc";
+    streamingController = YoutubePlayerController(
+        initialVideoId: videoId,
+        flags: const YoutubePlayerFlags(
+            autoPlay: false,
+          captionLanguage: 'fr'
+    ));
+    streamingController.play();
+    showStreamPlayContainer = true;
+    notifyListeners();
+  }
+  playStreamVideo(){
+    streamingController.play();
+  }
+
+  pauseStreamingVideo(){
+    streamingController.pause();
+  }
+  disposePlayer(){
+    streamingController.dispose();
+    showStreamPlayContainer = false;
+    notifyListeners();
+  }
   getStreaming() async{
     //allStreaming = streamRepository.getStreaming();
     allStreaming = [];

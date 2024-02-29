@@ -1,6 +1,8 @@
 import 'package:Gael/data/models/preference_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/models/user_model.dart';
+import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
@@ -8,6 +10,7 @@ import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 
 import 'images/network_image_widget.dart';
 
@@ -19,10 +22,12 @@ class StreamingWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.sizeOf(context);
     Size size = Size(screenSize.width *0.8, screenSize.width *2);
-    User user =   User(phone: "", firstName: "", id: "", address: "", bio: "", birthDay: DateTime.now(), createdAt: DateTime.now(), email: "", lastName: "", preferences: Preference(theme: '',language: '', notifications: true), profileImage: "", role: "");
+    User user =   Provider.of<AuthProvider>(context, listen: false).user!;
     return InkWell(
       onTap: (){
-        Navigator.pushNamed(context, Routes.streamingDetailsScreen, arguments: streaming);
+        if(streaming != Provider.of<StreamingProvider>(context, listen: false).currentStreaming) Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming);
+        Navigator.pushNamed(context, Routes.streamingDetailsScreen,);
+
       },
       child: Container(
         width: size.width,

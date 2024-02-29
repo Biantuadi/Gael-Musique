@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
+import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/auth_repository.dart';
 import 'package:flutter/foundation.dart';
 
@@ -26,6 +27,8 @@ class AuthProvider with ChangeNotifier{
   String? avatarUpdateError;
   String? getUserError;
   bool isLoadingData = false;
+  User? user;
+  Map<String, dynamic> u = {};
 
   setRegisterNames({required String name, required String firstName}){
       registerModel.lastName = name;
@@ -90,6 +93,8 @@ class AuthProvider with ChangeNotifier{
           userBio = data['user']["bio"];
           userProfileUrl = data['user']['avatar'];
           userID = data['user']['_id'];
+
+          user = User.fromJson(data['user']);
           setUserVars().then(
                   (value){
                     isLoadingData = true;
@@ -156,7 +161,6 @@ class AuthProvider with ChangeNotifier{
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;
-        print("LA DATA RECUE: $data ");
         userEmail = data['user']['email'];
         userName = data['user']['lastname'];
         userFirstName = data['user']['firstname'];
@@ -165,6 +169,7 @@ class AuthProvider with ChangeNotifier{
         userBio = data['user']["bio"];
         userProfileUrl = data['user']['avatar'];
         userID = data['user']['_id'];
+        user = User.fromJson(data['user']);
         notifyListeners();
         setUserVars().then(
             (value){
@@ -213,6 +218,7 @@ class AuthProvider with ChangeNotifier{
     await authRepository.setUserPhone(userPhone??registerModel.phone??"");
     await authRepository.setUserProfileUrl(userProfileUrl??"");
     await authRepository.setUserID(userID??"");
+
 
   }
   getUserVars()async{

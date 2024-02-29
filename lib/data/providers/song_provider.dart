@@ -47,7 +47,6 @@ class SongProvider with ChangeNotifier{
       if(currentAlbum!.songs.isNotEmpty){
         currentSong = currentAlbum!.songs.first;
         audioPlayer.setUrl(currentSong!.songLink);
-        print("LA LINK: ${currentSong!.songLink}");
         onCompleted();
       }
     }
@@ -167,27 +166,20 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
   }
   getSongs()async{
-    print("OK");
     Response response = await songRepository.getSongs();
-    print("RESPONSE CODE:${response.statusCode} ");
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      print("LA SONGS DATA: ${data}");
       data.forEach((json){
         allSongs.add(Song.fromJson(json));
       });
       notifyListeners();
-
     }
   }
   getAlbums() async {
     Response response = await songRepository.getAlbums();
-    print("LA STATUS CODE: ${response.statusCode}");
-    print("LA STATUS MSG: ${response.statusMessage}");
-    print("LA DATA STATUS: ${response.statusCode}");
+
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      print("LA DATA: ${data[0]}");
       data.forEach((json){
         allAlbums.add(Album.fromJson(json));
       });
@@ -197,10 +189,5 @@ class SongProvider with ChangeNotifier{
 
   }
 
-  setAlbumSongs(){
-    allAlbums.forEach((album) {
-      album.getSongsFromIds(allSongs: allSongs);
-    });
-    notifyListeners();
-  }
+
 }
