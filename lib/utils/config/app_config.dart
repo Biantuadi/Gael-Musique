@@ -5,6 +5,7 @@ class AppConfig {
    static const String APP_VERSION = '1.0';
    static const String API_KEY = "";
    static const String BASE_URL = "https://back-gael.vercel.app/";
+  //  static const String BASE_URL = "http://localhost:8080/";
 
    // URL
       /* AUTH */
