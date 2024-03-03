@@ -40,8 +40,8 @@ class SplashRepository{
       await sharedPreferences.setBool(AppConfig.isFirstTime, false);
   }
 
-  Future<bool?> isTokenValid()async{
-    String? tokenDateStr =  sharedPreferences.getString(AppConfig.sharedToken);
+  Future<bool> isTokenValid()async{
+    String? tokenDateStr =  sharedPreferences.getString(AppConfig.sharedTokenDate);
     if(tokenDateStr != null){
       DateTime tokenDate = DateTime.parse(tokenDateStr);
       bool isMoreThanOneDay = (DateTime.now().day - tokenDate.day) > 1;

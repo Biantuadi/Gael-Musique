@@ -80,10 +80,10 @@ class AuthRepository {
     return  sharedPreferences.getString(AppConfig.sharedTokenDate);
   }
   Future<bool?> isTokenValid()async{
-    String? tokenDateStr =  sharedPreferences.getString(AppConfig.sharedToken);
+    String? tokenDateStr =  sharedPreferences.getString(AppConfig.sharedTokenDate);
     if(tokenDateStr != null){
       DateTime tokenDate = DateTime.parse(tokenDateStr);
-      bool isMoreThanOneDay = (DateTime.now().day - tokenDate.day) > 1;
+      bool isMoreThanOneDay = (DateTime.now().day - tokenDate.day) > 0;
       return isMoreThanOneDay;
     }
     return false;

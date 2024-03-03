@@ -36,7 +36,7 @@ class SplashScreenState extends State<SplashScreen> {
         successCallback: () async {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
           // :ignore_async gaps
-          if(Provider.of<SplashProvider>(context, listen: false).userToken != null && Provider.of<SplashProvider>(context, listen: false).tokenIsValid){
+          if(Provider.of<SplashProvider>(context, listen: false).userToken != null && Provider.of<SplashProvider>(context, listen: false).tokenIsValid == true){
             route = Routes.mainScreen;
             setState(() {
               loadingText = "Chargement des chants";
@@ -69,7 +69,6 @@ class SplashScreenState extends State<SplashScreen> {
           //
         }
     );
-    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
   }
 
   @override

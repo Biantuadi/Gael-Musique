@@ -99,7 +99,7 @@ class AuthProvider with ChangeNotifier{
                   (value){
                     isLoadingData = true;
                     notifyListeners();
-                    if(userToken != null && userTokenIsValid ==  true){
+                    if(userToken != null){
                       successCallBack();
                     }
 
@@ -176,7 +176,7 @@ class AuthProvider with ChangeNotifier{
         notifyListeners();
         setUserVars().then(
             (value){
-              if(userToken != null && userTokenIsValid ==  true){
+              if(userToken != null){
                 isLoadingData = true;
                 notifyListeners();
                 successCallBack();
@@ -222,7 +222,7 @@ class AuthProvider with ChangeNotifier{
     await authRepository.setUserProfileUrl(userProfileUrl??"");
     await authRepository.setUserID(userID??"");
     await authRepository.setUserTokenDate(DateTime.now());
-
+    getUserVars();
 
   }
   getUserVars()async{
