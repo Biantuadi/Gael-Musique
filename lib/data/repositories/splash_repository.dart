@@ -44,7 +44,7 @@ class SplashRepository{
     String? tokenDateStr =  sharedPreferences.getString(AppConfig.sharedTokenDate);
     if(tokenDateStr != null){
       DateTime tokenDate = DateTime.parse(tokenDateStr);
-      bool isMoreThanOneDay = (DateTime.now().day - tokenDate.day) > 1;
+      bool isMoreThanOneDay = !((DateTime.now().day - tokenDate.day) > 0);
       return isMoreThanOneDay;
     }
     return false;

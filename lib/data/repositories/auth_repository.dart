@@ -83,7 +83,7 @@ class AuthRepository {
     String? tokenDateStr =  sharedPreferences.getString(AppConfig.sharedTokenDate);
     if(tokenDateStr != null){
       DateTime tokenDate = DateTime.parse(tokenDateStr);
-      bool isMoreThanOneDay = (DateTime.now().day - tokenDate.day) > 0;
+      bool isMoreThanOneDay = !((DateTime.now().day - tokenDate.day) > 0);
       return isMoreThanOneDay;
     }
     return false;

@@ -174,6 +174,7 @@ class AuthProvider with ChangeNotifier{
         userID = data['user']['_id'];
         user = User.fromJson(data['user']);
         notifyListeners();
+
         setUserVars().then(
             (value){
               if(userToken != null){
