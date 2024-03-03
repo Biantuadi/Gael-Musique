@@ -37,5 +37,6 @@ class AppConfig {
    static const String sharedPhone = "USER-PHONE";
    static const String sharedUserBio = "USER-BIO";
    static const String sharedUserID= "USER-ID";
+   static const String sharedTokenDate= "TOKEN-DATE";
 
  }

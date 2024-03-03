@@ -16,6 +16,7 @@ class AuthProvider with ChangeNotifier{
   bool isLoading = false;
   String? registerError;
   String? userToken;
+  bool? userTokenIsValid;
   String? userID;
   String? userName;
   String? userFirstName;
@@ -93,13 +94,15 @@ class AuthProvider with ChangeNotifier{
           userBio = data['user']["bio"];
           userProfileUrl = data['user']['avatar'];
           userID = data['user']['_id'];
-
           user = User.fromJson(data['user']);
           setUserVars().then(
                   (value){
                     isLoadingData = true;
                     notifyListeners();
-                    successCallBack();
+                    if(userToken != null && userTokenIsValid ==  true){
+                      successCallBack();
+                    }
+
                     isLoadingData = false;
               }
           );
@@ -173,7 +176,7 @@ class AuthProvider with ChangeNotifier{
         notifyListeners();
         setUserVars().then(
             (value){
-              if(userToken != null){
+              if(userToken != null && userTokenIsValid ==  true){
                 isLoadingData = true;
                 notifyListeners();
                 successCallBack();
@@ -218,6 +221,7 @@ class AuthProvider with ChangeNotifier{
     await authRepository.setUserPhone(userPhone??registerModel.phone??"");
     await authRepository.setUserProfileUrl(userProfileUrl??"");
     await authRepository.setUserID(userID??"");
+    await authRepository.setUserTokenDate(DateTime.now());
 
 
   }
@@ -229,6 +233,7 @@ class AuthProvider with ChangeNotifier{
     userToken = await authRepository.getUserToken();
     userEmail = await authRepository.getUserEmail();
     userID = await authRepository.getUserID();
+    userTokenIsValid = await authRepository.isTokenValid();
     notifyListeners();
   }
 }

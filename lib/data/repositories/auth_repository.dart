@@ -69,8 +69,24 @@ class AuthRepository {
   setUserToken(String token)async{
     await sharedPreferences.setString(AppConfig.sharedToken, token);
   }
+  setUserTokenDate(DateTime tokenDate)async{
+    String tokenDateStr = tokenDate.toString();
+    await sharedPreferences.setString(AppConfig.sharedTokenDate, tokenDateStr);
+  }
   Future<String?> getUserToken()async{
     return  sharedPreferences.getString(AppConfig.sharedToken);
+  }
+  Future<String?> getUserTokenDate()async{
+    return  sharedPreferences.getString(AppConfig.sharedTokenDate);
+  }
+  Future<bool?> isTokenValid()async{
+    String? tokenDateStr =  sharedPreferences.getString(AppConfig.sharedToken);
+    if(tokenDateStr != null){
+      DateTime tokenDate = DateTime.parse(tokenDateStr);
+      bool isMoreThanOneDay = (DateTime.now().day - tokenDate.day) > 1;
+      return isMoreThanOneDay;
+    }
+    return false;
   }
   Future<String?> getUserName()async{
     return  sharedPreferences.getString(AppConfig.sharedUserName);

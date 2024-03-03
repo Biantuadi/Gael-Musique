@@ -8,6 +8,7 @@ class SplashProvider with ChangeNotifier{
   //CONFIG
   bool success = false;
   bool isLoading_ = false;
+  bool tokenIsValid = false;
   // STYLE
 
   double captionFontSize = 14;
@@ -36,6 +37,7 @@ class SplashProvider with ChangeNotifier{
     }
     success = true;
     userToken_ = await splashRepository.getUserToken();
+    tokenIsValid = await splashRepository.isTokenValid()??false;
     isLoading_ = false;
     notifyListeners();
     if(success){

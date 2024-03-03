@@ -36,7 +36,7 @@ class SplashScreenState extends State<SplashScreen> {
         successCallback: () async {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
           // :ignore_async gaps
-          if(Provider.of<SplashProvider>(context, listen: false).userToken != null ){
+          if(Provider.of<SplashProvider>(context, listen: false).userToken != null && Provider.of<SplashProvider>(context, listen: false).tokenIsValid){
             route = Routes.mainScreen;
             setState(() {
               loadingText = "Chargement des chants";
@@ -68,7 +68,9 @@ class SplashScreenState extends State<SplashScreen> {
         errorCallback: (){
           //
         }
-    );}
+    );
+    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
