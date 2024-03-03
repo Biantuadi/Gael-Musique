@@ -43,6 +43,7 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              provider.streamingController.value.hasError == false?
               YoutubePlayer(
                 controller: provider.streamingController,
                 progressColors: const ProgressBarColors(
@@ -53,7 +54,8 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
                   ProgressBar(isExpanded: true),
 
                 ],
-              ),
+              ):
+              Container(height: size.width/2, width: size.width, alignment: Alignment.center, child: Text("Une erreur s'est produite"),),
               SizedBox(height: Dimensions.spacingSizeSmall,),
 
               Container(

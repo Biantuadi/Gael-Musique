@@ -97,15 +97,16 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  height: size.height * .1,
-                                  width: size.width/ 3,
+                                AspectRatio(
+                                  aspectRatio:  (size.width/ 3)/ (size.height * .1) ,
+
                                   child: YoutubePlayer(
                                       controller: provider.streamingController,
-                                      aspectRatio: 4/3,
+                                      aspectRatio: (size.width/ 3)/ (size.height * .1),
                                       width: size.width/3,
                                     actionsPadding: EdgeInsets.zero,
                                     thumbnail: const SizedBox(height: 0, width: 0,),
+                                    bufferIndicator: const SizedBox(height: 0, width: 0,),
                                 )),
                                 Container(
                                   margin: EdgeInsets.only(
