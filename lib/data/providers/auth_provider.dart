@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
+import 'package:Gael/data/models/preference_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/auth_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,7 @@ class AuthProvider with ChangeNotifier{
   String? registerError;
   String? userToken;
   bool? userTokenIsValid;
+  String? userCreatedAt;
   String? userID;
   String? userName;
   String? userFirstName;
@@ -95,6 +97,7 @@ class AuthProvider with ChangeNotifier{
           userProfileUrl = data['user']['avatar'];
           userID = data['user']['_id'];
           user = User.fromJson(data['user']);
+          userCreatedAt = data['user']["createdAt"];
           setUserVars().then(
                   (value){
                     isLoadingData = true;
@@ -138,6 +141,7 @@ class AuthProvider with ChangeNotifier{
         userBio = data['user']["bio"];
         userProfileUrl = data['user']['avatar'];
         userID = data['user']['_id'];
+        userCreatedAt = data["user"]["createdAt"];
         setUserVars();
       }
     }else{
@@ -173,6 +177,7 @@ class AuthProvider with ChangeNotifier{
         userProfileUrl = data['user']['avatar'];
         userID = data['user']['_id'];
         user = User.fromJson(data['user']);
+        userCreatedAt = data['user']["createdAt"];
         notifyListeners();
 
         setUserVars().then(
@@ -223,6 +228,7 @@ class AuthProvider with ChangeNotifier{
     await authRepository.setUserProfileUrl(userProfileUrl??"");
     await authRepository.setUserID(userID??"");
     await authRepository.setUserTokenDate(DateTime.now());
+    await authRepository.setUserCreatedAt(userCreatedAt??"");
     getUserVars();
 
   }
@@ -235,6 +241,19 @@ class AuthProvider with ChangeNotifier{
     userEmail = await authRepository.getUserEmail();
     userID = await authRepository.getUserID();
     userTokenIsValid = await authRepository.isTokenValid();
+    userCreatedAt = await authRepository.getUserCreatedAt();
+    DateTime? createdAtDate = DateTime.tryParse(userCreatedAt??"");
+    user = User(
+        phone: userPhone??"",
+        firstName: userFirstName??"",
+        id: userID??"",
+        bio: '',
+        createdAt: createdAtDate??DateTime.now(),
+        email: userEmail??'',
+        lastName: userName ??"",
+        preferences: Preference(theme: '', language: '', notifications: true),
+        profileImage: userProfileUrl??""
+    );
     notifyListeners();
   }
 }

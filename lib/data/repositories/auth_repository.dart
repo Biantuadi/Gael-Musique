@@ -69,6 +69,9 @@ class AuthRepository {
   setUserToken(String token)async{
     await sharedPreferences.setString(AppConfig.sharedToken, token);
   }
+  setUserCreatedAt(String createdAt)async{
+    await sharedPreferences.setString(AppConfig.sharedUserCreatedAt, createdAt);
+  }
   setUserTokenDate(DateTime tokenDate)async{
     String tokenDateStr = tokenDate.toString();
     await sharedPreferences.setString(AppConfig.sharedTokenDate, tokenDateStr);
@@ -106,6 +109,9 @@ class AuthRepository {
   }
   Future<String?> getUserID()async{
     return  sharedPreferences.getString(AppConfig.sharedUserID);
+  }
+  Future<String?> getUserCreatedAt()async{
+    return  sharedPreferences.getString(AppConfig.sharedUserCreatedAt);
   }
   Future<String?> getUserBio()async{
     return  sharedPreferences.getString(AppConfig.sharedUserBio);
