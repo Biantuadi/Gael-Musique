@@ -180,9 +180,11 @@ class SongProvider with ChangeNotifier{
 
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
+      print("LA DATA: ${data.first}");
       data.forEach((json){
         allAlbums.add(Album.fromJson(json));
       });
+
       albumsToShow = allAlbums;
       notifyListeners();
     }

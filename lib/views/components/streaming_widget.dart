@@ -27,7 +27,6 @@ class StreamingWidget extends StatelessWidget{
       onTap: (){
         if(streaming != Provider.of<StreamingProvider>(context, listen: false).currentStreaming) Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming);
         Navigator.pushNamed(context, Routes.streamingDetailsScreen,);
-
       },
       child: Container(
         width: size.width,

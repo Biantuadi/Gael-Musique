@@ -18,6 +18,7 @@ class HomeAlbumCard extends StatelessWidget{
   Widget build(BuildContext context) {
 
     String randomSong = "Random Song";
+    print("LES SONGS DE ${album.title}: ${album.songs}");
     if(album.songs.isNotEmpty){
       randomSong = album.songs[Random().nextInt(album.songs.length)].title;
     }

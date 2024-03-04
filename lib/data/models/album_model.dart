@@ -37,8 +37,6 @@ class Album{
     userBuy = json["usersBuy"];
     year = json["year"];
     artist = json["artist"];
-    songs = [];
-
   }
 
 

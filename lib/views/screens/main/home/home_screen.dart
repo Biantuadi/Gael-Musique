@@ -72,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
               showLogo: true,
               showAvatar: true,
             ) ,
-
+          ElevatedButton(onPressed: (){
+            Provider.of<SongProvider>(context, listen: false).getAlbums();
+          }, child: Text("PRESS ME")),
             Expanded(
               child: SingleChildScrollView(
                 controller: scrollController,

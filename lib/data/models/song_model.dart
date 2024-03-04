@@ -28,7 +28,6 @@ class Song{
     year = json["year"];
     songLink = json["songLink"];
 
-
   }
 
   Map<String, dynamic> toJson({bool isForBd = false}){
