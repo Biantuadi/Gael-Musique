@@ -15,8 +15,14 @@ class StreamingCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        if(streaming != Provider.of<StreamingProvider>(context, listen: false).currentStreaming) Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming);
-        Navigator.pushNamed(context, Routes.streamingDetailsScreen,);
+        if(Provider.of<StreamingProvider>(context, listen: false).currentStreaming == null){
+          Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
+        }else{
+          if(streaming.id != Provider.of<StreamingProvider>(context, listen: false).currentStreaming!.id){
+            Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
+          }
+        }
+        Navigator.pushNamed(context, Routes.streamingDetailsScreen);
 
       },
       child: Container(

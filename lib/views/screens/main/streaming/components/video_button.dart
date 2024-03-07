@@ -20,9 +20,9 @@ class VideoButton extends StatelessWidget{
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: Dimensions.iconSizeExtraSmall,),
-            SizedBox(width: Dimensions.spacingSizeSmall,),
-            Text(text, style: Theme.of(context).textTheme.bodySmall,)
+            Icon(icon, size: Dimensions.iconSizeSmall,),
+            SizedBox(width: Dimensions.spacingSizeSmall/2,),
+            Text(text, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),)
           ],
         ),
       ),

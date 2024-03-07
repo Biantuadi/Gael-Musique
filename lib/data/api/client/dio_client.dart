@@ -79,5 +79,26 @@ class DioClient {
     }
   }
 
+  Future<Response> put(String uri, {
+
+    ProgressCallback? onReceiveProgress,
+    Object? data
+  }) async {
+    print("TOKEN: $token");
+    token = await sharedPreferences.getString(AppConfig.sharedToken);
+    dio.options.headers["Authorization"] = "Bearer $token";
+    dio..options.validateStatus = (status) => status! < 800;
+    //dio..options.contentType = Headers.multipartFormDataContentType;
+    try {
+      var response = await dio.put(
+        uri,
+        data: data,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } catch (e){
+      throw e;
+    }
+  }
 
 }

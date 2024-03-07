@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/repositories/song_repository.dart';
+import 'package:Gael/utils/get_formatted_duration.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
@@ -26,17 +27,7 @@ class SongProvider with ChangeNotifier{
   String defaultSongUrl = "https://www.dropbox.com/s/v381wcr6ixsygrm/364%20C%27EST%20MON%20JOYEUX%20SERVICE.mp3?dl=1";
 
 
-  String getFormattedDuration(Duration duration){
-    String hours = duration.inHours.remainder(60).toString().padLeft(2,'0');
-    String minutes = duration.inMinutes.remainder(60).toString().padLeft(2,'0');
-    String seconds = duration.inSeconds.remainder(60).toString().padLeft(2,'0');
 
-
-    if(duration.inHours < 1){
-      return "$minutes:$seconds";
-    }
-    return "$hours:$minutes:$seconds";
-  }
 
   playShuffled(){
     playShuffledSong = !playShuffledSong;
@@ -91,11 +82,7 @@ class SongProvider with ChangeNotifier{
     }
   }
   String getAnySongDuration(Song song){
-    //AudioPlayer player = AudioPlayer();
-    //player.setUrl(defaultSongUrl);
     Duration d = Duration.zero;
-    //d = player.duration ?? d;
-    //player.dispose();
     return getFormattedDuration(d);
   }
 
@@ -169,6 +156,7 @@ class SongProvider with ChangeNotifier{
     Response response = await songRepository.getSongs();
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
+      print("LA FIRST SONG: ${data[0]}");
       data.forEach((json){
         allSongs.add(Song.fromJson(json));
       });
@@ -180,7 +168,6 @@ class SongProvider with ChangeNotifier{
 
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      print("LA DATA: ${data.first}");
       data.forEach((json){
         allAlbums.add(Album.fromJson(json));
       });

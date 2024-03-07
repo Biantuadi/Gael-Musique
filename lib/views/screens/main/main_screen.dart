@@ -70,7 +70,6 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           systemNavigationBarDividerColor: Colors.transparent,
         ),
         child: Consumer<StreamingProvider>(builder: (context, provider, child){
-
           return Scaffold(
               bottomNavigationBar: BottomAppBar(
                 color: Colors.black,
@@ -97,9 +96,9 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                AspectRatio(
-                                  aspectRatio:  (size.width/ 3)/ (size.height * .1) ,
-
+                                SizedBox(
+                                  width: size.width/3,
+                                  height: size.height * .1,
                                   child: YoutubePlayer(
                                       controller: provider.streamingController,
                                       aspectRatio: (size.width/ 3)/ (size.height * .1),
@@ -107,7 +106,8 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                     actionsPadding: EdgeInsets.zero,
                                     thumbnail: const SizedBox(height: 0, width: 0,),
                                     bufferIndicator: const SizedBox(height: 0, width: 0,),
-                                )),
+                                                                    ),
+                                ),
                                 Container(
                                   margin: EdgeInsets.only(
                                       top: Dimensions.spacingSizeSmall,
@@ -126,10 +126,13 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                 ),
                                 IconButton(onPressed: (){
                                   if(provider.streamingController.value.isPlaying){
-                                    provider.streamingController.pause();
+                                    setState(() {
+                                      provider.streamingController.pause();
+                                    });
                                   }else{
-
-                                    provider.streamingController.play();
+                                    setState(() {
+                                      provider.streamingController.play();
+                                    });
                                   }
                                   provider.playStreamVideo();
                                 }, icon:  Icon(provider.streamingController.value.isPlaying ? CupertinoIcons.pause_solid:CupertinoIcons.play_arrow_solid)),

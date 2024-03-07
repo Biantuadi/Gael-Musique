@@ -61,7 +61,6 @@ class EventsScreenState extends State<EventsScreen>{
                       title: Text("Evenements",style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
                       pinned: true,
                       backgroundColor:Colors.black,
-                      actions:[],
                     ),
 
                     SliverList.list(children: []),
@@ -73,7 +72,7 @@ class EventsScreenState extends State<EventsScreen>{
                         Center(child: Text("Aucun évenement trouvé", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),),
                       ]),
                     ) :SliverPadding(
-                        padding: EdgeInsets.only(top : Dimensions.spacingSizeDefault),
+                        padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                         sliver: SliverList.builder(
                             itemCount:provider.events!.length ,
                             itemBuilder: (BuildContext ctx, int i){

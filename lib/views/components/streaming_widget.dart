@@ -1,13 +1,10 @@
-import 'package:Gael/data/models/preference_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
-import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +22,13 @@ class StreamingWidget extends StatelessWidget{
     User user =   Provider.of<AuthProvider>(context, listen: false).user!;
     return InkWell(
       onTap: (){
-        if(streaming != Provider.of<StreamingProvider>(context, listen: false).currentStreaming) Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming);
+        if(Provider.of<StreamingProvider>(context, listen: false).currentStreaming == null){
+           Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
+        }else{
+          if(streaming.id != Provider.of<StreamingProvider>(context, listen: false).currentStreaming!.id){
+            Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
+          }
+        }
         Navigator.pushNamed(context, Routes.streamingDetailsScreen,);
       },
       child: Container(

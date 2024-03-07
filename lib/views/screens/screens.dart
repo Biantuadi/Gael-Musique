@@ -22,7 +22,7 @@ export 'main/profile/update/password_update.dart';
 
 
 export 'main/streaming/streaming_screen.dart';
-export 'main/streaming/strem_details_screen.dart';
+export 'main/streaming/streaming_details_screen.dart';
 
 export 'main/main_screen.dart';
 //AUTH

@@ -27,8 +27,7 @@ class StreamingProvider with ChangeNotifier {
   late YoutubePlayerController streamingController;
   Streaming? currentStreaming;
 
-  setCurrentStreaming(Streaming streaming){
-
+  setCurrentStreaming({required Streaming streaming, bool autoPlay=true}){
     currentStreaming = streaming;
     streamings = allStreaming.where((str) => str.id != currentStreaming!.id).toList();
     randomIndex = random.nextInt(streamings.length-1 );
@@ -36,9 +35,9 @@ class StreamingProvider with ChangeNotifier {
     videoId = YoutubePlayer.convertUrlToId(streaming.videoLink)??"https://youtu.be/wlSJcbWwzds?si=MRPYEcfQO4A76Tcc";
     streamingController = YoutubePlayerController(
         initialVideoId: videoId,
-        flags: const YoutubePlayerFlags(
-            autoPlay: false,
-          captionLanguage: 'fr'
+        flags: YoutubePlayerFlags(
+          captionLanguage: 'fr',
+          autoPlay: autoPlay
     ));
     streamingController.play();
     showStreamPlayContainer = true;

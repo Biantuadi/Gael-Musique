@@ -52,7 +52,6 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
                 bottomActions: [
                   CurrentPosition(),
                   ProgressBar(isExpanded: true),
-
                 ],
               ):
               Container(height: size.width/2, width: size.width, alignment: Alignment.center, child: Text("Une erreur s'est produite"),),
@@ -60,12 +59,23 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
 
               Container(
                 padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(provider.currentStreaming!.createdAt.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
-                    Text(provider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
-                    SizedBox(height: Dimensions.spacingSizeSmall,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(provider.currentStreaming!.createdAt.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
+                        Text(provider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
+                        SizedBox(height: Dimensions.spacingSizeSmall,),
+                      ],
+                    ),
+                    IconButton(
+                        onPressed: (){
+
+                        },
+                        icon: const Icon(Iconsax.audio_square))
                   ],
                 ),
               ),

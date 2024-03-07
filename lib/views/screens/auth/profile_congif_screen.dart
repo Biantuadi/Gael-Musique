@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
