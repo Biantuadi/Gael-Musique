@@ -2,13 +2,16 @@ import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/event_model.dart';
 import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
+import 'package:Gael/data/repositories/theme_repository.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/get_formatted_duration.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
@@ -61,36 +64,110 @@ class EventDetailsScreenState extends State<EventDetailsScreen>{
                 CustomScrollView(
                   controller: scrollController,
                   slivers: [
-                    SliverAppBar(
-                      leading: IconButton(icon: const Icon(Iconsax.arrow_left, ), onPressed: (){
-                        Navigator.pop(context);
-                      },),
-                      //title: Text(widget.album.title,style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
-                      pinned: true,
-                      backgroundColor:Colors.black,
-                      actions:[],
-                    ),
-
                     SliverList.list(children: [
+                      Stack(
+                        children: [
+                          NetWorkImageWidget(imageUrl:widget.event.image , size: Size(size.width, size.height/2), radius: 0,),
+                          Container(
+                            width: size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.4)
+                            ),
+                            child: SafeArea(
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                      icon:const Icon(Iconsax.arrow_left,color: Colors.white, )
+                                  ),
+                                  SizedBox(width: Dimensions.spacingSizeDefault,),
+                                  Text(widget.event.title, style: Theme.of(context).textTheme.titleMedium,)
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
 
-                    ]),
+                      Container(
+                        padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-                    provider.events!.isEmpty?
-
-                    SliverPadding(
-                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                      sliver:SliverList.list(children: [
-                        Center(child: Text("Aucun évenement trouvé", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),),
-                      ]),
-                    ) :SliverPadding(
-                        padding: EdgeInsets.only(top : Dimensions.spacingSizeDefault),
-                        sliver: SliverList.builder(
-                            itemCount:provider.events!.length ,
-                            itemBuilder: (BuildContext ctx, int i){
-                              return EventWidget(event: provider.events![i],);
-                            })),
+                            Wrap(
+                              spacing: Dimensions.spacingSizeDefault,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
+                                  decoration: BoxDecoration(
+                                      color: ThemeVariables.primaryColor,
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Iconsax.calendar, size: Dimensions.iconSizeSmall, color: Colors.black,),
+                                      SizedBox(
+                                        width: Dimensions.spacingSizeExtraSmall,
+                                      ),
+                                      Text(getFormattedDate(widget.event.datetime), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.black, fontWeight: FontWeight.w700),),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
+                                  decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+                                  ),
+                                  child:  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Iconsax.clock, size: Dimensions.iconSizeSmall, color: Colors.black,),
+                                      SizedBox(
+                                        width: Dimensions.spacingSizeExtraSmall,
+                                      ),
+                                      Text("${widget.event.startTime} - ${widget.event.endTime}", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.black, fontWeight: FontWeight.w700),),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: Dimensions.spacingSizeDefault,),
+                            Row(
+                              children: [
+                                Icon(Iconsax.location, size: Dimensions.iconSizeSmall,),
+                                SizedBox(
+                                  width: Dimensions.spacingSizeExtraSmall,
+                                ),
+                                Expanded(child: Text(widget.event.location, style: Theme.of(context).textTheme.bodyMedium,)),
+                              ],
+                            ),
+                            SizedBox(height: Dimensions.spacingSizeDefault,),
+                            Text("Description", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: ThemeVariables.primaryColor,
+                              fontWeight: FontWeight.bold
+                            ),),
+                            SizedBox(height: Dimensions.spacingSizeDefault,),
+                            Text(widget.event.description, style: Theme.of(context).textTheme.bodyMedium,),
+                          ],
+                        ),
+                      )
+                    ])
                   ],
                 ),
+                Positioned(
+                    child:Container(
+                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                      child: GradientButton(onTap: (){
+                        
+                      }, size: size, child: Text("Réserver", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
+                    )
+
+                )
 
               ],
             ),
