@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/data/providers/events_provider.dart';
@@ -32,6 +33,7 @@ class SplashScreenState extends State<SplashScreen> {
   void _route(){
     String route = Routes.landingScreen;
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
+    Provider.of<SocketProvider>(context, listen: false).initSocket();
     Provider.of<SplashProvider>(context, listen: false).initConfig(
         successCallback: () async {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();

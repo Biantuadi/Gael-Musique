@@ -1,11 +1,13 @@
 import 'package:Gael/data/models/event_model.dart';
+import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/repositories/events_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class EventsProvider with ChangeNotifier{
   EventsRepository eventsRepository;
-  EventsProvider({required this.eventsRepository});
+  SocketProvider socketProvider;
+  EventsProvider({required this.eventsRepository, required this.socketProvider});
 
   List<Event>? events;
 

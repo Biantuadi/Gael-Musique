@@ -1,5 +1,6 @@
 import 'package:Gael/data/models/app/screen_model.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
+import 'package:Gael/utils/config/app_config.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
@@ -15,6 +16,8 @@ import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'home/home_screen.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 
 class MainScreen extends StatefulWidget{
   const MainScreen({super.key});
@@ -29,9 +32,30 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   int selectedIndex = 0;
   bool showAppBar = true;
   late ScrollController scrollController;
+ late IO.Socket socket;
+ void initSocket() {
+   socket = IO.io(AppConfig.BASE_URL, <String, dynamic>{
+     'autoConnect': false,
+     'transports': ['websocket'],
+   });
+
+   socket.connect();
+
+   socket.onConnect((_) {
+     print('Connexion établie');
+     // Ajoutez ici votre logique lorsque la connexion est établie
+     // Par exemple, récupérez tous les messages ou écoutez les nouveaux messages
+   });
+
+   socket.onDisconnect((_) => print('Connexion interrompue'));
+   socket.onConnectError((err) => print(err));
+   socket.onError((err) => print(err));
+ }
 
   @override
   void initState() {
+    super.initState();
+    initSocket();
     super.initState();
     screens = [
       ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:const HomeScreen()),
@@ -54,11 +78,30 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     tabController.dispose();
   }
   bool showStreamContainer = false;
-  @override
+ void sendMessage() {
+   String message = "".trim();
+   if (message.isEmpty) return;
+
+   Map<String, dynamic> messageMap = {
+     'message': message,
+     //'senderId': userId, // Remplacez par l'ID de l'utilisateur actuel
+     // Ajoutez d'autres données si nécessaire
+   };
+
+   socket.emit('sendMessageEvent', messageMap);
+ }
+
+ @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
 
-   return AnnotatedRegion<SystemUiOverlayStyle>(
+    socket.on('getMessageEvent', (newMessage) {
+      // Ajoutez ici la logique pour gérer le nouveau message
+      // Par exemple, ajoutez le message à une liste de messages
+    });
+
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor : Colors.transparent,
           statusBarBrightness: Brightness.light,

@@ -14,6 +14,7 @@ import 'data/providers/chat_provider.dart';
 import 'data/providers/events_provider.dart';
 import 'data/providers/favorite_provider.dart';
 import 'data/providers/notification_provider.dart';
+import 'data/providers/socket_provider.dart';
 import 'data/providers/song_provider.dart';
 import 'data/providers/streaming_provider.dart';
 import 'di_container.dart' as di;
@@ -34,6 +35,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<StreamingProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<EventsProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<SocketProvider>()),
     ],
     child: const MainApp(),
   ));
@@ -43,6 +45,7 @@ class MainApp extends StatelessWidget {
   const MainApp({Key? key}) : super(key: key);
 
   static final navigatorKey = GlobalKey<NavigatorState>();
+
 
   @override
   Widget build(BuildContext context) {
