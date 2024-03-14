@@ -283,8 +283,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         CustomTextField(
                           controller: TextEditingController(),
                           onChanged: (value) {
-                            // Utilize the input value here
-                            // print('Search query: $value');
                             name = value;
                           }, hintText: 'Mbuma',
                           validator: (value)=>validateName(value: value, emptyMessage: 'Le nom est obligatoire', message: "Le nom entré n'est pas valide"),
@@ -296,8 +294,10 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                     GradientButton(onTap: (){
 
                       if (personalFormKey.currentState!.validate()) {
-                        Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
-                        //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
+                        Provider.of<AuthProvider>(context, listen: false).setUpdateUpdateNames(lastName: name, firstName: firstName);
+                        if(Provider.of<AuthProvider>(context, listen: false).userUpdate.id != null){
+
+                        }
                       }
                     }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
                   ],

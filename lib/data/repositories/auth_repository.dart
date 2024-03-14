@@ -6,6 +6,7 @@ import 'package:Gael/data/api/client/dio_client.dart';
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
+import 'package:Gael/data/models/app/user_updaate_model.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +35,14 @@ class AuthRepository {
 
       return ApiResponse(response: response);
   }
+
+  Future<ApiResponse?> updateUserInfo({required UserUpdate userUpdate})async{
+    String? userId = await getUserID();
+    userUpdate.id = userId;
+    Response response = await dioClient.put("${AppConfig.userUrl}$userId",data: userUpdate.toJson(),);
+    return ApiResponse(response: response);
+  }
+
   Future<ApiResponse?> getUser()async{
 
     String? userId = await getUserID();

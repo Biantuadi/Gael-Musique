@@ -1,10 +1,11 @@
-// ignore_for_file: avoid_print
 
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
+import 'package:Gael/data/models/app/user_updaate_model.dart';
 import 'package:Gael/data/models/preference_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/auth_repository.dart';
@@ -14,6 +15,7 @@ class AuthProvider with ChangeNotifier{
   AuthRepository authRepository;
   AuthProvider({required this.authRepository});
    RegisterModel registerModel = RegisterModel();
+  UserUpdate userUpdate = UserUpdate();
   bool isLoading = false;
   String? registerError;
   String? userToken;
@@ -28,10 +30,58 @@ class AuthProvider with ChangeNotifier{
   String? userProfileUrl;
   String? loginError;
   String? avatarUpdateError;
+  String? userUpdateError;
   String? getUserError;
   bool isLoadingData = false;
   User? user;
   Map<String, dynamic> u = {};
+
+  setUpdateUpdateNames({required String lastName, required String firstName}){
+    if(user != null){
+      userUpdate.id = user!.id;
+      userUpdate.firstName = firstName;
+      userUpdate.lastName = lastName;
+      notifyListeners();
+    }
+
+  }
+  emptyUpdateInfo(){
+    userUpdate = UserUpdate();
+    notifyListeners();
+  }
+  updateUser({required VoidCallback successCallBack, required VoidCallback errorCallback})async{
+    if(user != null && userUpdate.id != null) {
+      ApiResponse? apiResponse = await authRepository.updateUserInfo(userUpdate: userUpdate);
+      isLoading = false;
+      notifyListeners();
+      if(apiResponse != null){
+        print("LA RESPONSE: ${apiResponse.response}");
+        if(apiResponse.response.statusCode == 200){
+          Map<String, dynamic> data = apiResponse.response.data;
+          userToken = data["token"];
+          userProfileUrl = data["avatar"];
+          authRepository.setUserProfileUrl(userProfileUrl??"");
+          authRepository.setUserToken(userToken??"");
+          getUser();
+          successCallBack();
+        }else{
+          userUpdateError = apiResponse.response.data["message"];
+          errorCallback();
+          notifyListeners();
+        }
+      }else{
+        userUpdateError = "Erreur inconnue";
+        errorCallback();
+      }
+      isLoading = false;
+      emptyUpdateInfo();
+      notifyListeners();
+    }else{
+      userUpdateError = "informations manquantes...";
+    }
+    emptyUpdateInfo();
+  }
+
 
   setRegisterNames({required String name, required String firstName}){
       registerModel.lastName = name;

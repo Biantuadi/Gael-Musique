@@ -237,15 +237,4 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
    );
 
   }
-  Widget page()=>PageView(
-    padEnds: false,
-    //physics: const NeverScrollableScrollPhysics(),
-    onPageChanged: (value){
-      setState(() {
-        selectedIndex = value;
-        showAppBar = true;
-      });
-    },
-    children: screens.map((screen) => screen.content).toList(),
-  );
 }

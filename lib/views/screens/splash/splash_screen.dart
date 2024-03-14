@@ -33,7 +33,7 @@ class SplashScreenState extends State<SplashScreen> {
   void _route(){
     String route = Routes.landingScreen;
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
-    Provider.of<SocketProvider>(context, listen: false).initSocket();
+    //Provider.of<SocketProvider>(context, listen: false).initSocket();
     Provider.of<SplashProvider>(context, listen: false).initConfig(
         successCallback: () async {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
