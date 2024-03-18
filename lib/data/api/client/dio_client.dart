@@ -86,6 +86,7 @@ class DioClient {
   }) async {
     print("TOKEN: $token");
     token = await sharedPreferences.getString(AppConfig.sharedToken);
+    print("LA TOKEN: $token ");
     dio.options.headers["Authorization"] = "Bearer $token";
     dio..options.validateStatus = (status) => status! < 800;
     //dio..options.contentType = Headers.multipartFormDataContentType;

@@ -51,17 +51,14 @@ class AuthProvider with ChangeNotifier{
   }
   updateUser({required VoidCallback successCallBack, required VoidCallback errorCallback})async{
     if(user != null && userUpdate.id != null) {
-      ApiResponse? apiResponse = await authRepository.updateUserInfo(userUpdate: userUpdate);
-      isLoading = false;
+      isLoading = true;
       notifyListeners();
+      ApiResponse? apiResponse = await authRepository.updateUserInfo(userUpdate: userUpdate);
+
       if(apiResponse != null){
         print("LA RESPONSE: ${apiResponse.response}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
-          userToken = data["token"];
-          userProfileUrl = data["avatar"];
-          authRepository.setUserProfileUrl(userProfileUrl??"");
-          authRepository.setUserToken(userToken??"");
           getUser();
           successCallBack();
         }else{
@@ -132,7 +129,6 @@ class AuthProvider with ChangeNotifier{
     registerError = null;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.register(registerModel: registerModel);
-    isLoading = false;
     notifyListeners();
     if(apiResponse != null){
       print("LA RESPONSE: ${apiResponse.response}");
@@ -214,7 +210,6 @@ class AuthProvider with ChangeNotifier{
     print("LA STRUCTURE LA DE RESPONSE: ${apiResponse?.response.data}");
     print("LA STATUS CODE: ${apiResponse?.response.statusCode}");
     print("LA STATUS MESG: ${apiResponse?.response.statusMessage}");
-    isLoading = false;
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;

@@ -35,9 +35,12 @@ class SplashProvider with ChangeNotifier{
     if(isFirstTime_){
       isFirstTime_ = false;
     }
-    success = true;
+
     userToken_ = await splashRepository.getUserToken();
     tokenIsValid = await splashRepository.isTokenValid()??false;
+    if(userToken_ != null && tokenIsValid && userToken_ != "" && userToken_!=" "){
+      success = true;
+    }
     isLoading_ = false;
     notifyListeners();
     if(success){

@@ -3,7 +3,6 @@ import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/auth_validators/email_validator.dart';
 import 'package:Gael/utils/auth_validators/password_validator.dart';
 import 'package:Gael/utils/auth_validators/phone_validator.dart';
-import 'package:Gael/utils/auth_validators/string_validator.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
@@ -241,15 +240,106 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
     final personalFormKey = GlobalKey<FormState>();
     showCustomBottomSheet(
       context: context,
-      content: Container(
-        width: size.width,
-        padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-        child: SingleChildScrollView(
+      content:Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
+        return  Container(
+          width: size.width,
+          padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Text("Informations personnelles", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
+                SizedBox(height: Dimensions.spacingSizeDefault,),
+                Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  key: personalFormKey,
+                  canPop: false,
+                  onPopInvoked: (didPop){
+                    if(didPop){
+                      return;
+                    }
+                    canPop();
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Prénom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                          SizedBox(height: Dimensions.spacingSizeSmall,),
+                          CustomTextField(
+                            controller: TextEditingController(),
+                            onChanged: (value) {
+                              firstName = value;
+                            }, hintText: 'Athoms',
+                          ),
+                          SizedBox(height: Dimensions.spacingSizeDefault,),
+                          Text("Nom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                          SizedBox(height: Dimensions.spacingSizeSmall,),
+                          CustomTextField(
+                            controller: TextEditingController(),
+                            onChanged: (value) {
+                              name = value;
+                            }, hintText: 'Mbuma',
+
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: Dimensions.spacingSizeLarge,),
+                      GradientButton(onTap: (){
+
+                        if (personalFormKey.currentState!.validate()) {
+                          provider.setUpdateUpdateNames(lastName: name, firstName: firstName);
+                          if(provider.userUpdate.id != null && (name != "" || firstName != "" )){
+                            provider.updateUser(successCallBack: (){
+                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "informations mises à jour aavec succès", context: context, bgColor: Colors.green));
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            }, errorCallback: (){
+                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text:Provider.of<AuthProvider>(context, listen: false).userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
+                            });
+                          }
+                        }
+                      }, size: size, child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          provider.isLoading? Container(
+                            padding: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
+                            child: SizedBox(
+                              width: Dimensions.iconSizeExtraSmall,
+                              height: Dimensions.iconSizeExtraSmall,
+                              child: const CircularProgressIndicator(color: Colors.black,),
+                            ),
+                          ): const SizedBox(width: 0,),
+                          Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                        ],
+                      ))
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }), );
+  }
+  updateAccountInfo(){
+    Size size = MediaQuery.sizeOf(context);
+    final personalFormKey = GlobalKey<FormState>();
+    showCustomBottomSheet(
+      context: context,
+      content: Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
 
-              Text("Informations personnelles", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
+              Text("Informations du compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
               SizedBox(height: Dimensions.spacingSizeDefault,),
               Form(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -264,28 +354,30 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Prénom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                        Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
                           controller: TextEditingController(),
                           onChanged: (value) {
                             firstName = value;
-                          }, hintText: 'Athoms',
-                          validator: (value)=>validateName(value: value, emptyMessage: 'Le prénom est obligatoire', message: "Le prenom entré n'est pas valide"),
+                          }, hintText: 'Athoms@gmail.com',
+                          validator: (value)=>validateEmail(value),
                         ),
                         SizedBox(height: Dimensions.spacingSizeDefault,),
-                        Text("Nom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                        Text("Téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
                           controller: TextEditingController(),
+                          textInputType: const TextInputType.numberWithOptions(decimal: false,),
                           onChanged: (value) {
+                            // Utilize the input value here
+                            // print('Search query: $value');
                             name = value;
-                          }, hintText: 'Mbuma',
-                          validator: (value)=>validateName(value: value, emptyMessage: 'Le nom est obligatoire', message: "Le nom entré n'est pas valide"),
+                          }, hintText: '00 243 826 037 382 ',
+                          validator: (value)=>validatePhoneNumber(value: value),
 
                         ),
                       ],
@@ -294,162 +386,126 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                     GradientButton(onTap: (){
 
                       if (personalFormKey.currentState!.validate()) {
-                        Provider.of<AuthProvider>(context, listen: false).setUpdateUpdateNames(lastName: name, firstName: firstName);
-                        if(Provider.of<AuthProvider>(context, listen: false).userUpdate.id != null){
-
+                        provider.setRegisterNames(name: name, firstName: firstName);
+                        if(provider.userUpdate.id != null){
+                         provider.updateUser(successCallBack: (){
+                            ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "informations mises à jour aavec succès", context: context, bgColor: Colors.green));
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          }, errorCallback: (){
+                            ScaffoldMessenger.of(context).showSnackBar(customSnack(text: Provider.of<AuthProvider>(context, listen: false).userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
+                          });
                         }
                       }
-                    }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
+                    }, size: size, child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        provider.isLoading? Container(
+                          padding: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
+                          child: SizedBox(
+                            width: Dimensions.iconSizeExtraSmall,
+                            height: Dimensions.iconSizeExtraSmall,
+                            child: const CircularProgressIndicator(color: Colors.black, strokeWidth: 1,),
+                          ),
+                        ): const SizedBox(width: 0,),
+                        Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                      ],
+                    ))
                   ],
                 ),
               ),
             ],
           ),
-        ),
-      ), );
-  }
-  updateAccountInfo(){
-    Size size = MediaQuery.sizeOf(context);
-    final personalFormKey = GlobalKey<FormState>();
-    showCustomBottomSheet(
-      context: context,
-      content: Container(
-        padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-
-            Text("Informations du compte", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
-            SizedBox(height: Dimensions.spacingSizeDefault,),
-            Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              key: personalFormKey,
-              canPop: false,
-              onPopInvoked: (didPop){
-                if(didPop){
-                  return;
-                }
-                canPop();
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                      SizedBox(height: Dimensions.spacingSizeSmall,),
-                      CustomTextField(
-                        controller: TextEditingController(),
-                        onChanged: (value) {
-                          firstName = value;
-                        }, hintText: 'Athoms@gmail.com',
-                        validator: (value)=>validateEmail(value),
-                      ),
-                      SizedBox(height: Dimensions.spacingSizeDefault,),
-                      Text("Téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                      SizedBox(height: Dimensions.spacingSizeSmall,),
-                      CustomTextField(
-                        controller: TextEditingController(),
-                        textInputType: const TextInputType.numberWithOptions(decimal: false,),
-                        onChanged: (value) {
-                          // Utilize the input value here
-                          // print('Search query: $value');
-                          name = value;
-                        }, hintText: '00 243 826 037 382 ',
-                        validator: (value)=>validatePhoneNumber(value: value),
-
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: Dimensions.spacingSizeLarge,),
-                  GradientButton(onTap: (){
-
-                    if (personalFormKey.currentState!.validate()) {
-                      Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
-                      //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
-                    }
-                  }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
-                ],
-              ),
-            ),
-          ],
-        ),
-      ), );
+        );
+      }), );
   }
   updatePassword(){
     Size size = MediaQuery.sizeOf(context);
     final personalFormKey = GlobalKey<FormState>();
     showCustomBottomSheet(
       context: context,
-      content: Container(
-        padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
+      content: Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
 
-            Text("Mettre à jour le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
-            SizedBox(height: Dimensions.spacingSizeDefault,),
-            Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              key: personalFormKey,
-              canPop: false,
-              onPopInvoked: (didPop){
-                if(didPop){
-                  return;
-                }
-                canPop();
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                      SizedBox(height: Dimensions.spacingSizeSmall,),
-                      CustomTextField(
-                        controller: TextEditingController(),
-                        onChanged: (value) {
-                          //firstName = value;
-                        }, hintText: '******',
-                        validator: (value)=>validatePassword(value),
-                      ),
-                      SizedBox(height: Dimensions.spacingSizeDefault,),
-                      Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                      SizedBox(height: Dimensions.spacingSizeSmall,),
-                      CustomTextField(
-                        controller: TextEditingController(),
-                        textInputType: TextInputType.text,
-                        onChanged: (value) {
-                          // Utilize the input value here
-                          // print('Search query: $value');
-                          name = value;
-                        }, hintText: '******',
-                        validator:  (value){
-                          if(value.toString() != password){
-                            return "Les mots de passe ne correspondent pas!";
-                          }
-                        },
+              Text("Mettre à jour le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),),
+              SizedBox(height: Dimensions.spacingSizeDefault,),
+              Form(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                key: personalFormKey,
+                canPop: false,
+                onPopInvoked: (didPop){
+                  if(didPop){
+                    return;
+                  }
+                  canPop();
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                        SizedBox(height: Dimensions.spacingSizeSmall,),
+                        CustomTextField(
+                          controller: TextEditingController(),
+                          onChanged: (value) {
+                            //firstName = value;
+                          }, hintText: '******',
+                          validator: (value)=>validatePassword(value),
+                        ),
+                        SizedBox(height: Dimensions.spacingSizeDefault,),
+                        Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                        SizedBox(height: Dimensions.spacingSizeSmall,),
+                        CustomTextField(
+                          controller: TextEditingController(),
+                          textInputType: TextInputType.text,
+                          onChanged: (value) {
+                            // Utilize the input value here
+                            // print('Search query: $value');
+                            name = value;
+                          }, hintText: '******',
+                          validator:  (value){
+                            if(value.toString() != password){
+                              return "Les mots de passe ne correspondent pas!";
+                            }
+                          },
 
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: Dimensions.spacingSizeLarge,),
-                  GradientButton(onTap: (){
-                    if (personalFormKey.currentState!.validate()) {
-                     // Provider.of<AuthProvider>(context, listen: false).setRegisterNames(name: name, firstName: firstName);
-                      //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
-                    }
-                  }, size: size, child: Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),))
-                ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: Dimensions.spacingSizeLarge,),
+                    GradientButton(onTap: (){
+                      if (personalFormKey.currentState!.validate()) {
+                        //provider.setUpdateUpdateNames(name: name, firstName: firstName);
+                        //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
+                      }
+                    }, size: size, child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        provider.isLoading? Container(
+                          padding: EdgeInsets.only(right: Dimensions.spacingSizeDefault),
+                          child: SizedBox(
+                            width: Dimensions.iconSizeExtraSmall,
+                            height: Dimensions.iconSizeExtraSmall,
+                            child: const CircularProgressIndicator(color: Colors.black, strokeWidth: 1,),
+                          ),
+                        ): const SizedBox(width: 0,),
+                        Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                      ],
+                    ))
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ), );
+            ],
+          ),
+        );
+      }), );
   }
   updateAvatar(){
     Size size = MediaQuery.sizeOf(context);
@@ -462,10 +518,11 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
           FileImageWidget(imageFile: imageFile!, size: Size(size.width, size.height / 4),),
           SizedBox(height: Dimensions.spacingSizeDefault,),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GradientButton(onTap: (){
                 if(!provider.isLoading){
-                  Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
+                  provider.updateUserAvatar(successCallBack: (){
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
 
@@ -480,6 +537,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     provider.isLoading? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                             margin: EdgeInsets.only(right: Dimensions.spacingSizeSmall),
