@@ -32,7 +32,8 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   int selectedIndex = 0;
   bool showAppBar = true;
   late ScrollController scrollController;
- late IO.Socket socket;
+ //late IO.Socket socket;
+ /*
  void initSocket() {
    socket = IO.io(AppConfig.BASE_URL, <String, dynamic>{
      'autoConnect': false,
@@ -51,11 +52,12 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
    socket.onConnectError((err) => print(err));
    socket.onError((err) => print(err));
  }
+  */
 
   @override
   void initState() {
     super.initState();
-    initSocket();
+    // initSocket();
     super.initState();
     screens = [
       ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:const HomeScreen()),
@@ -78,27 +80,10 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     tabController.dispose();
   }
   bool showStreamContainer = false;
- void sendMessage() {
-   String message = "".trim();
-   if (message.isEmpty) return;
-
-   Map<String, dynamic> messageMap = {
-     'message': message,
-     //'senderId': userId, // Remplacez par l'ID de l'utilisateur actuel
-     // Ajoutez d'autres données si nécessaire
-   };
-
-   socket.emit('sendMessageEvent', messageMap);
- }
 
  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-
-    socket.on('getMessageEvent', (newMessage) {
-      // Ajoutez ici la logique pour gérer le nouveau message
-      // Par exemple, ajoutez le message à une liste de messages
-    });
 
 
     return AnnotatedRegion<SystemUiOverlayStyle>(

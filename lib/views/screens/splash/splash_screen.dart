@@ -10,6 +10,7 @@ import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,9 @@ class SplashScreenState extends State<SplashScreen> {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
           // :ignore_async gaps
           if(Provider.of<SplashProvider>(context, listen: false).userToken != null && Provider.of<SplashProvider>(context, listen: false).tokenIsValid == true){
+
+            print("TOKEN: ${Provider.of<SplashProvider>(context, listen: false).userToken} ");
+            print("TOKEN IS VALID: ${Provider.of<SplashProvider>(context, listen: false).tokenIsValid} ");
             route = Routes.mainScreen;
             setState(() {
               loadingText = "Chargement des chants";
@@ -68,7 +72,8 @@ class SplashScreenState extends State<SplashScreen> {
           Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
         },
         errorCallback: (){
-          //
+          ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Nous n'avons pas pu retrouver vos informations\n\nVeillez vous reconnecter", context: context));
+          Navigator.of(context).pushNamed(Routes.loginScreen);
         }
     );
   }
