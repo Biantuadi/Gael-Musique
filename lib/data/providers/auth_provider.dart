@@ -59,8 +59,12 @@ class AuthProvider with ChangeNotifier{
         print("LA RESPONSE: ${apiResponse.response}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
-          getUser();
-          successCallBack();
+
+          await getUser().then(
+              (){
+                successCallBack();
+              }
+          );
         }else{
           userUpdateError = apiResponse.response.data["message"];
           errorCallback();
@@ -175,8 +179,6 @@ class AuthProvider with ChangeNotifier{
     isLoading = false;
     notifyListeners();
     if(apiResponse != null){
-      print("LA RESPONSE: ${apiResponse.response}");
-      print("LA STATUS: ${apiResponse.response.statusCode}");
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;
         userEmail = data['user']['email'];
@@ -257,7 +259,7 @@ class AuthProvider with ChangeNotifier{
       loginError = "Erreur inconnue";
       errorCallback();
     }
-
+    isLoading =false;
     notifyListeners();
   }
   logOut(){

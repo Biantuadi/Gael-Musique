@@ -221,7 +221,7 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
 
               )),
-              provider.isLoading?  OverlayScreen(child: Column(
+              (provider.isLoading || provider.isLoadingData)?  OverlayScreen(child: Column(
                 children: [
                   Icon(Iconsax.emoji_happy4, size: Dimensions.iconSizeExtraLarge,),
                   SizedBox(height: Dimensions.spacingSizeDefault,),

@@ -38,12 +38,8 @@ class SplashScreenState extends State<SplashScreen> {
     Provider.of<SplashProvider>(context, listen: false).initConfig(
         successCallback: () async {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
-          // :ignore_async gaps
           if(Provider.of<SplashProvider>(context, listen: false).userToken != null && Provider.of<SplashProvider>(context, listen: false).tokenIsValid == true){
-
-            print("TOKEN: ${Provider.of<SplashProvider>(context, listen: false).userToken} ");
-            print("TOKEN IS VALID: ${Provider.of<SplashProvider>(context, listen: false).tokenIsValid} ");
-            route = Routes.mainScreen;
+             route = Routes.mainScreen;
             setState(() {
               loadingText = "Chargement des chants";
             });
