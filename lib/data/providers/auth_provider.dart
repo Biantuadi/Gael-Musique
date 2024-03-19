@@ -9,6 +9,7 @@ import 'package:Gael/data/models/app/user_updaate_model.dart';
 import 'package:Gael/data/models/preference_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/auth_repository.dart';
+import 'package:countries_info/countries_info.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthProvider with ChangeNotifier{
@@ -35,6 +36,31 @@ class AuthProvider with ChangeNotifier{
   bool isLoadingData = false;
   User? user;
   Map<String, dynamic> u = {};
+
+  String countrySearchKey = "";
+  String countryCode = "";
+  String countryFlag = "";
+
+  setInitialCountry(){
+    Countries allCountries = Countries();
+    List<Map<String, dynamic>> countries = allCountries.name(query: "congo");
+    countryCode = countries.last["idd"]["root"]??"- ";
+    countryCode += countries.last["idd"]["suffixes"] != null? countries.last["idd"]["suffixes"][0] :"-";
+    countryFlag = countries.last["flag"];
+  }
+
+  setCountrySearchKey(String value){
+    countrySearchKey = value;
+    notifyListeners();
+  }
+
+
+  setCountryFlagNCode({required String code, required String flag}){
+    countryCode = code;
+    countryFlag = flag;
+    notifyListeners();
+  }
+
 
   setUpdateUpdateNames({required String lastName, required String firstName}){
     if(user != null){

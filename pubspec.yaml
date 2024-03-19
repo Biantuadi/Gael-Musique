@@ -21,9 +21,6 @@ dependencies:
   image_fade: ^0.6.2
   shimmer: ^3.0.0
   image_picker: ^1.0.5
-  country_list_picker: ^1.0.2
-  country_picker: ^2.0.23
-  intl_phone_field: ^3.2.0
   countries_info: ^1.0.3
   flutter_carousel_widget: ^2.2.0
   just_audio: ^0.9.36
@@ -31,7 +28,6 @@ dependencies:
   wh_flutter_wave: ^0.0.4
   youtube_player_flutter: ^9.0.0
   video_player: ^2.8.2
-  phonecodes: ^0.0.3
 
 dev_dependencies:
   flutter_test:

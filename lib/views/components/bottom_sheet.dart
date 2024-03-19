@@ -1,12 +1,10 @@
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:country_picker/country_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void showCustomBottomSheet({required BuildContext context,required Widget content, Color? bgColor}) {
   Size size =  MediaQuery.sizeOf(context);
-
-
 
   showModalBottomSheet<dynamic>(
     isScrollControlled: true,
@@ -14,7 +12,7 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
     elevation: 10,
     backgroundColor: Colors.transparent,
     barrierColor: ThemeVariables.thirdColorBlack.withOpacity(0.5),
-    clipBehavior: Clip.antiAlias,
+    clipBehavior: Clip.hardEdge,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(Dimensions.radiusSizeDefault),
@@ -24,23 +22,27 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
     builder: (BuildContext context) {
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Wrap(
-              children: [
-                Container(
-                    width: size.width,
-                    padding: EdgeInsets.only(
-                        top:Dimensions.spacingSizeDefault,
-                        left:Dimensions.spacingSizeDefault,
-                        right:Dimensions.spacingSizeDefault,
-                      bottom: MediaQuery.of(context).viewInsets.bottom
-                    ),
-                    margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                    decoration: BoxDecoration(
-                      color: bgColor??Colors.black,
-                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
-                    ),
-                    child: content),
-              ],
+            return SafeArea(
+              child: Wrap(
+                children: [
+                  SafeArea(
+                    child: Container(
+                        width: size.width,
+                        padding: EdgeInsets.only(
+                            top:Dimensions.spacingSizeDefault,
+                            left:Dimensions.spacingSizeDefault,
+                            right:Dimensions.spacingSizeDefault,
+                          bottom: MediaQuery.of(context).viewInsets.bottom
+                        ),
+                        margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                        decoration: BoxDecoration(
+                          color: bgColor??Colors.black,
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
+                        ),
+                        child: content),
+                  ),
+                ],
+              ),
             );
           });
     },
