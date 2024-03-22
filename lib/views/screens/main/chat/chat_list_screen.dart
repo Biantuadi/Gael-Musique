@@ -57,8 +57,7 @@ class CchatListScreenState extends State<ChatListScreen> {
               // Utilize the input value here
               // print('Search query: $value');
             }, hintText: 'Recherche...',
-            prefixIcon: Icon(CupertinoIcons.search, color: Theme.of(context).primaryColor, size: Dimensions.iconSizeSmall,),
-          ),
+            ),
         ),
         SliverList.builder(
           itemCount: 10,

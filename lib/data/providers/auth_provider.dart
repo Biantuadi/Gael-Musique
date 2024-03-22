@@ -47,6 +47,7 @@ class AuthProvider with ChangeNotifier{
     countryCode = countries.last["idd"]["root"]??"- ";
     countryCode += countries.last["idd"]["suffixes"] != null? countries.last["idd"]["suffixes"][0] :"-";
     countryFlag = countries.last["flag"];
+
   }
 
   setCountrySearchKey(String value){
