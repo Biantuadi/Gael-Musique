@@ -17,6 +17,7 @@ class AppConfig {
    static const String userMeUrl = "users/me?userId"; // PASSER SON ID
    static const String userUrl = "users/";
    static const String avatarUpdateUrl = "users/avatar?userID=";
+   static const String passwordUpdate = "auth/updatePassword";
 
       /* GETS */
    static const String albumsUrl = "albums";
@@ -24,6 +25,7 @@ class AppConfig {
    static const String podcastsUrl = "podcasts";
    static const String eventsUrl = "events";
    static const String streamingsUrl = "streamings";
+
    // SHARED PREFERENCES
 
    static const String appTheme = "THEME";

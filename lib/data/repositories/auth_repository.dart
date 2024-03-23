@@ -42,6 +42,10 @@ class AuthRepository {
     Response response = await dioClient.put("${AppConfig.userUrl}$userId",data: userUpdate.toJson(),);
     return ApiResponse(response: response);
   }
+  Future<ApiResponse?> updateUserPassword({required Map<String, String> passwordMap})async{
+    Response response = await dioClient.put(AppConfig.passwordUpdate,data: passwordMap,);
+    return ApiResponse(response: response);
+  }
 
   Future<ApiResponse?> getUser()async{
 

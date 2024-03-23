@@ -76,7 +76,7 @@ class AuthProvider with ChangeNotifier{
     userUpdate = UserUpdate();
     notifyListeners();
   }
-  updateUser({required VoidCallback successCallBack, required VoidCallback errorCallback})async{
+  updateUser({required VoidCallback successCallBack, required VoidCallback errorCallback,})async{
     if(user != null && userUpdate.id != null) {
       isLoading = true;
       notifyListeners();
@@ -86,9 +86,63 @@ class AuthProvider with ChangeNotifier{
         print("LA RESPONSE: ${apiResponse.response}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
+          userEmail = data['user']['email'];
+          userName = data['user']['lastname'];
+          userFirstName = data['user']['firstname'];
+          userToken = data['token'];
+          userPhone = data['user']["phone"];
+          userBio = data['user']["bio"];
+          userProfileUrl = data['user']['avatar'];
+          userID = data['user']['_id'];
+          user = User.fromJson(data['user']);
+          userCreatedAt = data['user']["createdAt"];
+          notifyListeners();
 
-          await getUser().then(
-              (){
+          setUserVars().then(
+              (value){
+                successCallBack();
+              }
+          );
+        }else{
+          userUpdateError = apiResponse.response.data["message"];
+          errorCallback();
+          notifyListeners();
+        }
+      }else{
+        userUpdateError = "Erreur inconnue";
+        errorCallback();
+      }
+      isLoading = false;
+      emptyUpdateInfo();
+      notifyListeners();
+    }else{
+      userUpdateError = "informations manquantes...";
+    }
+    emptyUpdateInfo();
+  }
+  updateUserPassword({required VoidCallback successCallBack, required VoidCallback errorCallback,required Map<String, String> passwordMap })async{
+
+    if(user != null && userUpdate.id != null) {
+      isLoading = true;
+      notifyListeners();
+      ApiResponse? apiResponse = await authRepository.updateUserPassword(passwordMap: passwordMap);
+      if(apiResponse != null){
+        if(apiResponse.response.statusCode == 200){
+          Map<String, dynamic> data = apiResponse.response.data;
+          userEmail = data['user']['email'];
+          userName = data['user']['lastname'];
+          userFirstName = data['user']['firstname'];
+          userToken = data['token'];
+          userPhone = data['user']["phone"];
+          userBio = data['user']["bio"];
+          userProfileUrl = data['user']['avatar'];
+          userID = data['user']['_id'];
+          user = User.fromJson(data['user']);
+          userCreatedAt = data['user']["createdAt"];
+          notifyListeners();
+
+          setUserVars().then(
+              (value){
                 successCallBack();
               }
           );
@@ -236,9 +290,6 @@ class AuthProvider with ChangeNotifier{
     loginError = null;
     notifyListeners();
     ApiResponse? apiResponse = await authRepository.login(loginModel);
-    print("LA STRUCTURE LA DE RESPONSE: ${apiResponse?.response.data}");
-    print("LA STATUS CODE: ${apiResponse?.response.statusCode}");
-    print("LA STATUS MESG: ${apiResponse?.response.statusMessage}");
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
         Map<String, dynamic> data = apiResponse.response.data;

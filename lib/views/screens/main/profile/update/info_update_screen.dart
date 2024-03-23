@@ -27,6 +27,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
   String name = "";
   String firstName = "";
   String password = "";
+  String oldPassword = "";
   String email = "";
   String phone = "";
 
@@ -450,25 +451,31 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                        Text("Ancien mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
                           controller: TextEditingController(),
                           onChanged: (value) {
-                            //firstName = value;
+                            oldPassword = value;
+                          }, hintText: '******',
+                          //validator: (value)=>validatePassword(value),
+                        ),
+                        SizedBox(height: Dimensions.spacingSizeDefault,),
+                        Text("Nouveau mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
+                        SizedBox(height: Dimensions.spacingSizeSmall,),
+                        CustomTextField(
+                          controller: TextEditingController(),
+                          onChanged: (value) {
+                            password = value;
                           }, hintText: '******',
                           validator: (value)=>validatePassword(value),
                         ),
-                        SizedBox(height: Dimensions.spacingSizeDefault,),
                         Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
                           controller: TextEditingController(),
                           textInputType: TextInputType.text,
                           onChanged: (value) {
-                            // Utilize the input value here
-                            // print('Search query: $value');
-                            name = value;
                           }, hintText: '******',
                           validator:  (value){
                             if(value.toString() != password){
@@ -482,7 +489,19 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                     SizedBox(height: Dimensions.spacingSizeLarge,),
                     GradientButton(onTap: (){
                       if (personalFormKey.currentState!.validate()) {
-                        //provider.setUpdateUpdateNames(name: name, firstName: firstName);
+                        provider.updateUserPassword(
+                            successCallBack: (){
+                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text: 'Mot de passse mis à jour avec succès!', context: context));
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            errorCallback: (){
+                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
+                            },
+                            passwordMap: {
+                              "oldPassword": oldPassword,
+                              "newPassword": password
+                            });
                         //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
                       }
                     }, size: size, child: Row(
