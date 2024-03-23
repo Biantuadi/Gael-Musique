@@ -26,18 +26,15 @@ class SplashProvider with ChangeNotifier{
   //
 
   initConfig({required VoidCallback successCallback, required VoidCallback errorCallback})async{
-   // Connectivity  connectivity  = Connectivity();
     isFirstTime_ =  await splashRepository.isFirstTime();
-
     isLoading_ = true;
     notifyListeners();
     await splashRepository.setFirstTimeToFalse();
     if(isFirstTime_){
       isFirstTime_ = false;
     }
-
     userToken_ = await splashRepository.getUserToken();
-    tokenIsValid = await splashRepository.isTokenValid()??false;
+    tokenIsValid = await splashRepository.isTokenValid();
     if(userToken_ != null && tokenIsValid && userToken_ != "" && userToken_!=" "){
       success = true;
     }

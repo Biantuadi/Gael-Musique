@@ -24,12 +24,12 @@ class InfoUpdateScreen extends StatefulWidget{
 }
 class InfoUpdateScreenState extends State<InfoUpdateScreen>{
   final formKey = GlobalKey<FormState>();
-  String name = "";
-  String firstName = "";
-  String password = "";
-  String oldPassword = "";
-  String email = "";
-  String phone = "";
+  String? name = "";
+  String? firstName = "";
+  String? password = "";
+  String? oldPassword = "";
+  String? email = "";
+  String? phone = "";
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
   }
   canPop(){
     Size size = MediaQuery.sizeOf(context);
-    if(name.isNotEmpty || firstName.isNotEmpty){
+    if((name != "" && name != null) || (firstName != "" && firstName != null)){
       showCustomBottomSheet(content: Column(
         children: [
           Text("Les informations entrées seront perdues, voulez-vous vraiment quitter?", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),
@@ -291,7 +291,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                       ),
                       SizedBox(height: Dimensions.spacingSizeLarge,),
                       GradientButton(onTap: (){
-
                         if (personalFormKey.currentState!.validate()) {
                           provider.setUpdateUpdateNames(lastName: name, firstName: firstName);
                           if(provider.userUpdate.id != null && (name != "" || firstName != "" )){
@@ -300,8 +299,13 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                               Navigator.pop(context);
                               Navigator.pop(context);
                             }, errorCallback: (){
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(customSnack(text:Provider.of<AuthProvider>(context, listen: false).userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
                             });
+                          }
+                          else{
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Veillez insérer les informations pour continuer", context: context, bgColor: Colors.red));
                           }
                         }
                       }, size: size, child: Row(
@@ -363,9 +367,9 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         CustomTextField(
                           controller: TextEditingController(),
                           onChanged: (value) {
-                            firstName = value;
+                            email = value;
                           }, hintText: 'Athoms@gmail.com',
-                          validator: (value)=>validateEmail(value),
+                          validator:email != "" || email != null? (value)=>validateEmail(value):null,
                         ),
                         SizedBox(height: Dimensions.spacingSizeDefault,),
                         Text("Téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
@@ -374,29 +378,34 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           controller: TextEditingController(),
                           textInputType: const TextInputType.numberWithOptions(decimal: false,),
                           onChanged: (value) {
-                            // Utilize the input value here
-                            // print('Search query: $value');
-                            name = value;
+                            phone = value;
                           }, hintText: '00 243 826 037 382 ',
-                          validator: (value)=>validatePhoneNumber(value: value),
+                          validator:phone != "" || phone != null? (value)=>validatePhoneNumber(value: value): null,
 
                         ),
                       ],
                     ),
                     SizedBox(height: Dimensions.spacingSizeLarge,),
                     GradientButton(onTap: (){
-
                       if (personalFormKey.currentState!.validate()) {
-                        provider.setRegisterNames(name: name, firstName: firstName);
-                        if(provider.userUpdate.id != null){
+                       if(email != null || phone != null){
+                         email = email != "" ? email : null;
+                         phone = phone != "" ? phone : null;
+                         provider.setUpdateInfo(email: email, phone: phone);
                          provider.updateUser(successCallBack: (){
-                            ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "informations mises à jour aavec succès", context: context, bgColor: Colors.green));
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          }, errorCallback: (){
-                            ScaffoldMessenger.of(context).showSnackBar(customSnack(text: Provider.of<AuthProvider>(context, listen: false).userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
-                          });
-                        }
+                           ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "informations mises à jour aavec succès", context: context, bgColor: Colors.green));
+                           Navigator.pop(context);
+                           Navigator.pop(context);
+                         }, errorCallback: (){
+                           Navigator.pop(context);
+                           ScaffoldMessenger.of(context).showSnackBar(customSnack(text: Provider.of<AuthProvider>(context, listen: false).userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
+                         });
+                       }
+                       else{
+                         Navigator.pop(context);
+                         ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Vous devez insérer de nouvelles informations pour continuer", context: context, bgColor: Colors.red));
+                       }
+
                       }
                     }, size: size, child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -489,19 +498,27 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                     SizedBox(height: Dimensions.spacingSizeLarge,),
                     GradientButton(onTap: (){
                       if (personalFormKey.currentState!.validate()) {
-                        provider.updateUserPassword(
-                            successCallBack: (){
-                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text: 'Mot de passse mis à jour avec succès!', context: context));
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            errorCallback: (){
-                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
-                            },
-                            passwordMap: {
-                              "oldPassword": oldPassword,
-                              "newPassword": password
-                            });
+                       if(oldPassword != null && password != null){
+                         provider.updateUserPassword(
+                             successCallBack: (){
+                               ScaffoldMessenger.of(context).showSnackBar(customSnack(text: 'Mot de passse mis à jour avec succès!', context: context));
+                               Navigator.pop(context);
+                               Navigator.pop(context);
+                             },
+                             errorCallback: (){
+                               Navigator.pop(context);
+                               ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.userUpdateError?? "une erreur s'est produite", context: context, bgColor: Colors.red));
+                             },
+                             passwordMap: {
+                               "oldPassword": oldPassword!,
+                               "newPassword": password!
+                             });
+                       }
+                       else{
+                         Navigator.pop(context);
+                         ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Vous devez insérer le mot de passe pour continuer", context: context, bgColor: Colors.red
+                         ));
+                       }
                         //Navigator.pushNamed(context, Routes.registerInfoConfigScreen);
                       }
                     }, size: size, child: Row(

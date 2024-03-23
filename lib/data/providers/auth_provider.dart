@@ -63,11 +63,20 @@ class AuthProvider with ChangeNotifier{
   }
 
 
-  setUpdateUpdateNames({required String lastName, required String firstName}){
+  setUpdateUpdateNames({ String? lastName,  String? firstName}){
     if(user != null){
       userUpdate.id = user!.id;
       userUpdate.firstName = firstName;
       userUpdate.lastName = lastName;
+      notifyListeners();
+    }
+
+  }
+  setUpdateInfo({ String? email,  String? phone}){
+    if(user != null){
+      userUpdate.id = user!.id;
+      userUpdate.email = email;
+      userUpdate.phone = phone;
       notifyListeners();
     }
 
@@ -86,10 +95,11 @@ class AuthProvider with ChangeNotifier{
         print("LA RESPONSE: ${apiResponse.response}");
         if(apiResponse.response.statusCode == 200){
           Map<String, dynamic> data = apiResponse.response.data;
+          print('LA DATA RECUE: ${data}');
           userEmail = data['user']['email'];
           userName = data['user']['lastname'];
           userFirstName = data['user']['firstname'];
-          userToken = data['token'];
+          //userToken = data['token'];
           userPhone = data['user']["phone"];
           userBio = data['user']["bio"];
           userProfileUrl = data['user']['avatar'];
@@ -113,6 +123,7 @@ class AuthProvider with ChangeNotifier{
         errorCallback();
       }
       isLoading = false;
+      userUpdate = UserUpdate();
       emptyUpdateInfo();
       notifyListeners();
     }else{
@@ -121,46 +132,41 @@ class AuthProvider with ChangeNotifier{
     emptyUpdateInfo();
   }
   updateUserPassword({required VoidCallback successCallBack, required VoidCallback errorCallback,required Map<String, String> passwordMap })async{
+    isLoading = true;
+    notifyListeners();
+    ApiResponse? apiResponse = await authRepository.updateUserPassword(passwordMap: passwordMap);
+    if(apiResponse != null){
+      if(apiResponse.response.statusCode == 200){
+        Map<String, dynamic> data = apiResponse.response.data;
+        userEmail = data['user']['email'];
+        userName = data['user']['lastname'];
+        userFirstName = data['user']['firstname'];
+        userToken = data['token'];
+        userPhone = data['user']["phone"];
+        userBio = data['user']["bio"];
+        userProfileUrl = data['user']['avatar'];
+        userID = data['user']['_id'];
+        user = User.fromJson(data['user']);
+        userCreatedAt = data['user']["createdAt"];
+        notifyListeners();
 
-    if(user != null && userUpdate.id != null) {
-      isLoading = true;
-      notifyListeners();
-      ApiResponse? apiResponse = await authRepository.updateUserPassword(passwordMap: passwordMap);
-      if(apiResponse != null){
-        if(apiResponse.response.statusCode == 200){
-          Map<String, dynamic> data = apiResponse.response.data;
-          userEmail = data['user']['email'];
-          userName = data['user']['lastname'];
-          userFirstName = data['user']['firstname'];
-          userToken = data['token'];
-          userPhone = data['user']["phone"];
-          userBio = data['user']["bio"];
-          userProfileUrl = data['user']['avatar'];
-          userID = data['user']['_id'];
-          user = User.fromJson(data['user']);
-          userCreatedAt = data['user']["createdAt"];
-          notifyListeners();
-
-          setUserVars().then(
-              (value){
-                successCallBack();
-              }
-          );
-        }else{
-          userUpdateError = apiResponse.response.data["message"];
-          errorCallback();
-          notifyListeners();
-        }
+        setUserVars().then(
+                (value){
+              successCallBack();
+            }
+        );
       }else{
-        userUpdateError = "Erreur inconnue";
+        userUpdateError = apiResponse.response.data["message"];
         errorCallback();
+        notifyListeners();
       }
-      isLoading = false;
-      emptyUpdateInfo();
-      notifyListeners();
     }else{
-      userUpdateError = "informations manquantes...";
+      userUpdateError = "Erreur inconnue";
+      errorCallback();
     }
+    isLoading = false;
+    emptyUpdateInfo();
+    notifyListeners();
     emptyUpdateInfo();
   }
 
@@ -304,7 +310,6 @@ class AuthProvider with ChangeNotifier{
         user = User.fromJson(data['user']);
         userCreatedAt = data['user']["createdAt"];
         notifyListeners();
-
         setUserVars().then(
             (value){
               if(userToken != null){

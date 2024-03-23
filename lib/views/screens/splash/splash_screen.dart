@@ -68,8 +68,7 @@ class SplashScreenState extends State<SplashScreen> {
           Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
         },
         errorCallback: (){
-          ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Nous n'avons pas pu retrouver vos informations\n\nVeillez vous reconnecter", context: context));
-          Navigator.of(context).pushNamed(Routes.loginScreen);
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.landingScreen, (route) => false);
         }
     );
   }
