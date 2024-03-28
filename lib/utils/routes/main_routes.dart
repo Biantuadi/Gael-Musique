@@ -101,7 +101,7 @@ class Routes {
       case albumSongsScreen:
         return MaterialPageRoute(builder: (_) =>  AlbumSongsScreen(album: arguments as Album,));
       case songDetailsScreen:
-        return MaterialPageRoute(builder: (_) =>  SongDetailsScreen(song: arguments as Song,));
+        return MaterialPageRoute(builder: (_) => const SongDetailsScreen());
       case eventScreen:
         return MaterialPageRoute(builder: (_) =>  const EventsScreen());
       case noInternetScreen:

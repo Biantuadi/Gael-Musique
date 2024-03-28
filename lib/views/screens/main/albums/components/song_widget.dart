@@ -28,7 +28,8 @@ class SongWidget extends StatelessWidget{
         if( !Provider.of<SongProvider>(context, listen: false).audioPlayer.playing){
           Provider.of<SongProvider>(context, listen: false).playSong();
         }
-        Navigator.of(context).pushNamed(Routes.songDetailsScreen, arguments: song);
+        Navigator.of(context).pushNamed(Routes.songDetailsScreen);
+
       },
       child: Container(
         padding: EdgeInsets.all(Dimensions.spacingSizeSmall),

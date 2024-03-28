@@ -24,10 +24,9 @@ class SongProvider with ChangeNotifier{
   Duration songPosition =  Duration.zero;
   String songDurationStr = "";
   String songPositionStr = "";
-  String defaultSongUrl = "https://www.dropbox.com/s/v381wcr6ixsygrm/364%20C%27EST%20MON%20JOYEUX%20SERVICE.mp3?dl=1";
-
-
-
+  double songPositionInDouble = 0;
+  double songDurationInDouble = 0;
+  bool isLoading = false;
 
   playShuffled(){
     playShuffledSong = !playShuffledSong;
@@ -42,11 +41,17 @@ class SongProvider with ChangeNotifier{
       }
     }
   }
-  setCurrentSong(Song song){
+  setCurrentSong(Song song)async{
     currentSong = song;
-    audioPlayer.setUrl(currentSong!.songLink);
-
+    isLoading = true;
+    notifyListeners();
+    await audioPlayer.setUrl(currentSong!.songLink);
     onCompleted();
+    getSongPosition();
+    getSongDuration();
+    songDurationInDouble = songDuration.inSeconds.toDouble();
+
+    isLoading = false;
     notifyListeners();
   }
   onCompleted(){
@@ -68,18 +73,22 @@ class SongProvider with ChangeNotifier{
         }
       }
     }
-
+    notifyListeners();
   }
 
   playSong()async{
     if(currentSong != null && !audioPlayer.playing || songStopped){
         audioPlayer.play();
+        songIsPlaying = true;
     }
+    notifyListeners();
   }
   pauseSong()async{
     if(currentSong != null && audioPlayer.playing){
       await audioPlayer.pause();
+      songIsPlaying = false;
     }
+    notifyListeners();
   }
   String getAnySongDuration(Song song){
     Duration d = Duration.zero;
@@ -114,11 +123,11 @@ class SongProvider with ChangeNotifier{
     }
   }
 
-  String getSongDuration(){
+  String getSongStrDuration(){
     songDurationStr = getFormattedDuration(audioPlayer.duration??songDuration);
     return songDurationStr;
   }
-  String getSongPosition(){
+  String getSongStrPosition(){
     songPosition = audioPlayer.position ?? songPosition;
     songPositionStr = getFormattedDuration(songPosition);
     return songPositionStr;
@@ -128,6 +137,21 @@ class SongProvider with ChangeNotifier{
 
     return songPositionStr;
   }
+  getSongDuration()async{
+    audioPlayer.durationStream.listen((dur) {
+      songDuration = dur??Duration.zero;
+      notifyListeners();
+    });
+  }
+  getSongPosition()async{
+    audioPlayer.positionStream.listen((pos) {
+      songPosition = pos;
+      songPositionInDouble = songPosition.inSeconds.toDouble();
+      notifyListeners();
+    });
+  }
+
+
 
   seekSong({required Duration position}){
     if(currentSong != null){
