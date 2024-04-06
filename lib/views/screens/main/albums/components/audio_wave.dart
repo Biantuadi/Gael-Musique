@@ -98,7 +98,7 @@ class AudioWaveContainerState extends State<AudioWaveContainer>{
           left: BorderSide(color: ThemeVariables.thirdColor.withOpacity(0.5), width: widget.isFirst == true? 1: 0.5),
           right: BorderSide(color: ThemeVariables.thirdColor.withOpacity(0.5), width: widget.isLast == true? 1: 0.5),
         ),*/
-          color: widget.isSelected? ThemeVariables.primaryColor : ThemeVariables.thirdColor.withOpacity(0.7)
+          color: widget.isSelected? ThemeVariables.primaryColor : Colors.white.withOpacity(0.5)
       ),
 
     );
