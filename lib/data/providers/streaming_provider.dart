@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/repositories/streaming_repository.dart';
@@ -9,8 +8,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class StreamingProvider with ChangeNotifier {
   StreamingRepository streamRepository;
-  SocketProvider socketProvider;
-  StreamingProvider({required this.streamRepository, required this.socketProvider});
+
+  StreamingProvider({required this.streamRepository,});
   bool showStreamPlayContainer = false;
 
   List<Streaming> allStreaming = [];

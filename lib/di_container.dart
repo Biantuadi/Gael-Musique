@@ -39,7 +39,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ThemeRepository(sharedPreferences: sl(),));
   sl.registerLazySingleton(() => EventsRepository(sharedPreferences: sl(), dioClient: sl()));
 
-  sl.registerLazySingleton(() => SocketProvider());
+  sl.registerLazySingleton(() => SocketProvider(
+      chatProvider: sl(),
+      notificationProvider: sl(),
+      authProvider: sl(),
+      streamingProvider: sl(),
+      songProvider: sl(),
+    eventsProvider: sl()
+  ));
 
   sl.registerFactory(() => SplashProvider(splashRepository: sl(),));
   sl.registerFactory(() => ThemeProvider(themeRepository: sl()));
@@ -48,7 +55,7 @@ Future<void> init() async {
   sl.registerFactory(() => FavoriteProvider(favoriteRepository: sl(), socketProvider: sl()));
   sl.registerFactory(() => NotificationProvider(notificationRepository: sl()));
   sl.registerFactory(() => SongProvider(songRepository: sl()));
-  sl.registerFactory(() => StreamingProvider(streamRepository: sl(), socketProvider: sl()));
+  sl.registerFactory(() => StreamingProvider(streamRepository: sl()));
   sl.registerFactory(() => EventsProvider(eventsRepository: sl(), socketProvider: sl()));
 
   final sharedPreferences = await SharedPreferences.getInstance();
