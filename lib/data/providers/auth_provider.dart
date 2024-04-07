@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
@@ -13,7 +12,7 @@ import 'package:flutter/foundation.dart';
 class AuthProvider with ChangeNotifier{
   AuthRepository authRepository;
   AuthProvider({required this.authRepository});
-   RegisterModel registerModel = RegisterModel();
+  RegisterModel registerModel = RegisterModel();
   UserUpdate userUpdate = UserUpdate();
   bool isLoading = false;
   String? registerError;
@@ -34,10 +33,10 @@ class AuthProvider with ChangeNotifier{
   bool isLoadingData = false;
   User? user;
   Map<String, dynamic> u = {};
-
   String countrySearchKey = "";
   String countryCode = "";
   String countryFlag = "";
+
 
   setInitialCountry(){
     Countries allCountries = Countries();
@@ -343,8 +342,12 @@ class AuthProvider with ChangeNotifier{
     isLoading =false;
     notifyListeners();
   }
-  logOut(){
+  logOut()async{
+    isLoading = true;
+    notifyListeners();
     authRepository.logOut();
+    isLoading = false;
+    notifyListeners();
   }
   setUserVars()async{
     await authRepository.setUserToken(userToken!);

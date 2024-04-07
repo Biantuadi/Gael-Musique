@@ -97,7 +97,6 @@ class LoginScreenState extends State<LoginScreen> {
                                     Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                     SizedBox(height: Dimensions.spacingSizeSmall,),
                                     CustomTextField(
-                                      controller: TextEditingController(),
                                       onChanged: (value) {
                                           email = value;
                                       }, hintText: 'Athomsmbuma@gmail.com',
@@ -107,7 +106,6 @@ class LoginScreenState extends State<LoginScreen> {
                                     Text("Mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                     SizedBox(height: Dimensions.spacingSizeSmall,),
                                     CustomTextField(
-                                      controller: TextEditingController(),
                                       onChanged: (value) {
                                         password = value;
                                       }, hintText: '********',

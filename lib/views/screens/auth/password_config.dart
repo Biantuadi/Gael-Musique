@@ -95,7 +95,6 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                       Text("Entrez un mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                       SizedBox(height: Dimensions.spacingSizeSmall,),
                                       CustomTextField(
-                                        controller: TextEditingController(),
                                         isForPassword: true,
                                         onChanged: (value) {
                                           setState(() {
@@ -108,7 +107,6 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                       Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                       SizedBox(height: Dimensions.spacingSizeSmall,),
                                       CustomTextField(
-                                        controller: TextEditingController(),
                                         isForPassword: true,
                                         onChanged: (value) {
                                           confirmPassword = value;

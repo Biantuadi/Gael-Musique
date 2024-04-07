@@ -272,7 +272,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           Text("Prénom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                           SizedBox(height: Dimensions.spacingSizeSmall,),
                           CustomTextField(
-                            controller: TextEditingController(),
                             onChanged: (value) {
                               firstName = value;
                             }, hintText: 'Athoms',
@@ -281,7 +280,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           Text("Nom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                           SizedBox(height: Dimensions.spacingSizeSmall,),
                           CustomTextField(
-                            controller: TextEditingController(),
                             onChanged: (value) {
                               name = value;
                             }, hintText: 'Mbuma',
@@ -365,7 +363,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
-                          controller: TextEditingController(),
                           onChanged: (value) {
                             email = value;
                           }, hintText: 'Athoms@gmail.com',
@@ -375,7 +372,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         Text("Téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
-                          controller: TextEditingController(),
                           textInputType: const TextInputType.numberWithOptions(decimal: false,),
                           onChanged: (value) {
                             phone = value;
@@ -463,7 +459,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         Text("Ancien mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
-                          controller: TextEditingController(),
                           onChanged: (value) {
                             oldPassword = value;
                           }, hintText: '******',
@@ -473,7 +468,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         Text("Nouveau mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
-                          controller: TextEditingController(),
                           onChanged: (value) {
                             password = value;
                           }, hintText: '******',
@@ -482,7 +476,6 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         Text("Confirmez le mot de passe", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
-                          controller: TextEditingController(),
                           textInputType: TextInputType.text,
                           onChanged: (value) {
                           }, hintText: '******',

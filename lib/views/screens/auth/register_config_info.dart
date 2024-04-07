@@ -110,7 +110,6 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                                                       ],
                                                     ),
                                                     CustomTextField(
-                                                      controller: TextEditingController(),
                                                       initialValue: provider.countrySearchKey,
                                                       onChanged: (value) {
                                                         provider.setCountrySearchKey(value);
@@ -125,7 +124,6 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                                         },
                                         icon: Text(provider.countryFlag),
                                       ),
-                                      controller: TextEditingController(),
                                       onChanged: (value) {
                                         setState(() {
                                           phone = value;
@@ -137,7 +135,6 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                                     Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                     SizedBox(height: Dimensions.spacingSizeSmall,),
                                     CustomTextField(
-                                      controller: TextEditingController(),
                                       onChanged: (value) {
                                         setState(() {
                                           email = value;

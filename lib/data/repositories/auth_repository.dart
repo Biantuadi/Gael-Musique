@@ -48,12 +48,13 @@ class AuthRepository {
   }
 
   Future<ApiResponse?> getUser()async{
-
     String? userId = await getUserID();
 
     Response response = await dioClient.get("${AppConfig.userMeUrl}$userId",);
     return ApiResponse(response: response);
   }
+
+
   Future<ApiResponse?> login(LoginModel loginModel)async{
       Response response = await dioClient.post(AppConfig.loginUrl,data: loginModel.toJson());
       return ApiResponse(response: response);

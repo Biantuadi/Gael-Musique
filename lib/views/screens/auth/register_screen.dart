@@ -95,7 +95,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 Text("Prénom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
                                 CustomTextField(
-                                  controller: TextEditingController(),
                                   onChanged: (value) {
                                    firstName = value;
                                   }, hintText: 'Athoms',
@@ -105,7 +104,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 Text("Nom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                 SizedBox(height: Dimensions.spacingSizeSmall,),
                                 CustomTextField(
-                                  controller: TextEditingController(),
                                   onChanged: (value) {
                                     // Utilize the input value here
                                     // print('Search query: $value');

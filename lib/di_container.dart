@@ -51,7 +51,7 @@ Future<void> init() async {
   sl.registerFactory(() => SplashProvider(splashRepository: sl(),));
   sl.registerFactory(() => ThemeProvider(themeRepository: sl()));
   sl.registerFactory(() => AuthProvider(authRepository: sl()));
-  sl.registerFactory(() => ChatProvider(chatRepository: sl(), socketProvider: sl()));
+  sl.registerFactory(() => ChatProvider(chatRepository: sl()));
   sl.registerFactory(() => FavoriteProvider(favoriteRepository: sl(), socketProvider: sl()));
   sl.registerFactory(() => NotificationProvider(notificationRepository: sl()));
   sl.registerFactory(() => SongProvider(songRepository: sl()));

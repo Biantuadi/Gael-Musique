@@ -15,7 +15,7 @@ class CustomTextField extends StatefulWidget{
   final bool? isForPassword;
   final bool? isForChat;
   final TextInputType? textInputType;
-  const CustomTextField({super.key, required this.onChanged,  this.validator, this.initialValue, this.prefixIcon, this.suffixIcon, required this.hintText, this.maxLines, this.autofocus, this.focusNode, required TextEditingController controller, this.isForPassword, this.isForChat, this.textInputType});
+  const CustomTextField({super.key, required this.onChanged,  this.validator, this.initialValue, this.prefixIcon, this.suffixIcon, required this.hintText, this.maxLines, this.autofocus, this.focusNode,  this.isForPassword, this.isForChat, this.textInputType});
   @override
   CustomTextFieldState createState()=>CustomTextFieldState();
 }
