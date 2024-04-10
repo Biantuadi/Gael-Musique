@@ -16,6 +16,10 @@ class StreamingProvider with ChangeNotifier {
   List<Streaming> streamings = [];
   List<Streaming>? streamingToShow;
 
+  int streamingTotalItems = 0;
+  int streamingCurrentPage = 0;
+  int streamingTotalPages = 0;
+
   //STREAMING FILTERS
   bool? showEmission;
   bool? showSongs = true;
@@ -56,6 +60,8 @@ class StreamingProvider with ChangeNotifier {
     showStreamPlayContainer = false;
     notifyListeners();
   }
+
+
   getStreaming() async{
     //allStreaming = streamRepository.getStreaming();
     allStreaming = [];
@@ -63,9 +69,11 @@ class StreamingProvider with ChangeNotifier {
 
     if(response.statusCode == 200){
       List data = response.data["items"];
-      print("LA DATA STRUCTURE STREAMING: ${response.data}");
+      streamingTotalItems = response.data["totalItems"];
+      streamingCurrentPage = response.data["currentPage"];
+      streamingTotalPages = response.data["totalPages"];
       data.forEach((json) {
-      allStreaming.add(Streaming.fromJson(json));
+       allStreaming.add(Streaming.fromJson(json));
       });
     }
     streamingToShow = allStreaming;

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
@@ -49,8 +50,6 @@ class SplashScreenState extends State<SplashScreen> {
     String route = Routes.landingScreen;
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
 
-
-
     Provider.of<SplashProvider>(context, listen: false).initConfig(
         successCallback: () async {
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
@@ -76,6 +75,10 @@ class SplashScreenState extends State<SplashScreen> {
             setState(() {
               loadingText = "Chargement des streams";
             });
+             await Provider.of<ChatProvider>(context, listen: false).getUsers();
+             setState(() {
+               loadingText = "";
+             });
             await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
             setState(() {
               loadingText = "C'est fini!";

@@ -28,6 +28,10 @@ class SongProvider with ChangeNotifier{
   double songDurationInDouble = 0;
   bool isLoading = false;
 
+  int songsTotalItems = 0;
+  int songsCurrentPage = 0;
+  int songsTotalPages = 0;
+
   playShuffled(){
     playShuffledSong = !playShuffledSong;
     notifyListeners();
@@ -180,7 +184,9 @@ class SongProvider with ChangeNotifier{
     Response response = await songRepository.getSongs();
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      print("LA FIRST SONG: ${data[0]}");
+      songsTotalItems = response.data["totalItems"];
+      songsCurrentPage = response.data["currentPage"];
+      songsTotalPages = response.data["totalPages"];
       data.forEach((json){
         allSongs.add(Song.fromJson(json));
       });

@@ -24,7 +24,6 @@ class SplashProvider with ChangeNotifier{
   bool get  isFirstTime =>  isFirstTime_;
 
   //
-
   initConfig({required VoidCallback successCallback, required VoidCallback errorCallback})async{
     isFirstTime_ =  await splashRepository.isFirstTime();
     isLoading_ = true;

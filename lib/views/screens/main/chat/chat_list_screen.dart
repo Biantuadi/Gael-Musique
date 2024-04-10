@@ -1,3 +1,4 @@
+import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
@@ -16,7 +17,6 @@ class ChatListScreen extends StatefulWidget {
 }
 
 class ChatListScreenState extends State<ChatListScreen> {
-  final TextEditingController _searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
   bool showAppBar = true;
   @override
@@ -40,7 +40,7 @@ class ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SocketProvider>(builder: (ctx, provider, child){
+    return Consumer<ChatProvider>(builder: (ctx, provider, child){
       return CustomScrollView(
         slivers: [
           SliverList.list(children: [ Container(
@@ -56,7 +56,7 @@ class ChatListScreenState extends State<ChatListScreen> {
             backgroundColor: ThemeVariables.thirdColorBlack,
             title: CustomTextField(
               onChanged: (value) {
-              provider.chatProvider.setChatKeySearch(value);
+              provider.setChatKeySearch(value);
               }, hintText: 'Recherche...',
             ),
           ),

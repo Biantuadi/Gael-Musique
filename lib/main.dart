@@ -28,8 +28,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<SongProvider>()),
-      ChangeNotifierProvider(
-          create: (context) => di.sl<NotificationProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<NotificationProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<FavoriteProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),

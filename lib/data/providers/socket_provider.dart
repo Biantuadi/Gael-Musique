@@ -1,27 +1,14 @@
-import 'package:Gael/data/providers/events_provider.dart';
-import 'package:Gael/data/providers/song_provider.dart';
-import 'package:Gael/data/providers/streaming_provider.dart';
+import 'package:Gael/data/repositories/socket_repository.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
-import 'auth_provider.dart';
-import 'chat_provider.dart';
-import 'notification_provider.dart';
+
 
 class SocketProvider with ChangeNotifier{
-  final ChatProvider chatProvider;
-  final NotificationProvider notificationProvider;
-  final AuthProvider authProvider;
-  final StreamingProvider streamingProvider;
-  final EventsProvider eventsProvider;
-  final SongProvider songProvider;
+  final SocketRepository socketRepository;
   SocketProvider({
-    required this.chatProvider,
-    required this.notificationProvider,
-    required this.authProvider,
-    required this.streamingProvider,
-    required this.songProvider,
-    required this.eventsProvider
+    required this.socketRepository,
+
   });
 
   late io.Socket socket;
@@ -41,10 +28,7 @@ class SocketProvider with ChangeNotifier{
       socket.connect();
       socket.onConnect((_) {
         successCallback();
-        if(authProvider.userToken != null){
-          onConnected();
-        }
-
+        onConnected();
         // Ajoutez ici votre logique lorsque la connexion est établie
         // Par exemple, récupérez tous les messages ou écoutez les nouveaux messages
       });
@@ -74,13 +58,13 @@ class SocketProvider with ChangeNotifier{
     });
   }
 
-  void sendMessage({required String receiverId, required String message}) {
+  void sendMessage({required String receiverId, required String message, required String userId}) {
     message ="".trim();
     if (message.isEmpty) return;
 
     Map<String, dynamic> messageMap = {
       'message': message,
-      'senderId': authProvider.userID,
+      'senderId': userId,
       'receiverId': receiverId,
       // OTHERS PARAMS  DON'T FORGET
     };

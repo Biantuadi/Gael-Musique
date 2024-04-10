@@ -10,12 +10,17 @@ class EventsProvider with ChangeNotifier{
   EventsProvider({required this.eventsRepository, required this.socketProvider});
 
   List<Event>? events;
-
+  int eventTotalItems =0;
+  int eventCurrentPage =0;
+  int eventTotalPages =0;
   getEvents()async{
     Response response = await eventsRepository.getEvents();
     if(response.statusCode == 200){
       List data = response.data["items"];
       events = [];
+      eventTotalItems = response.data["totalItems"];
+      eventCurrentPage = response.data["currentPage"];
+      eventTotalPages = response.data["totalPages"];
       data.forEach((event) {
         events!.add(Event.fromJson(event));
       });
