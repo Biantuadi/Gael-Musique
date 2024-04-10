@@ -3,7 +3,6 @@ import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/screens/main/chat/components/chat_list_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:flutter/rendering.dart';
@@ -36,11 +35,21 @@ class ChatListScreenState extends State<ChatListScreen> {
         });
       }
     });
+    scrollController.addListener(loadMore);
   }
+
+  void loadMore(){
+    if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
+      Provider.of<ChatProvider>(context, listen: true).incrementCurrentPage();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
     return Consumer<ChatProvider>(builder: (ctx, provider, child){
+
       return CustomScrollView(
         slivers: [
           SliverList.list(children: [ Container(

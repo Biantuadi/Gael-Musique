@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
@@ -11,7 +10,6 @@ import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -60,7 +60,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-
+    SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor : Colors.transparent,

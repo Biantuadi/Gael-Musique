@@ -11,8 +11,8 @@ class SongRepository {
     final response = await dioClient.get(AppConfig.albumsUrl);
     return response;
   }
-  Future<Response> getSongs() async {
-    final response = await dioClient.get(AppConfig.songsUrl);
+  Future<Response> getSongs({int? page}) async {
+    final response = await dioClient.get(AppConfig.songsUrl, queryParameters: {"page": page});
     return response;
   }
 

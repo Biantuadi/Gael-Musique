@@ -1,3 +1,4 @@
+import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
@@ -22,6 +23,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
   void initState() {
     super.initState();
     Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -36,10 +38,17 @@ class _StreamingScreenState extends State<StreamingScreen> {
         });
       }
     });
+    scrollController.addListener(loadMore);
+  }
+  void loadMore(){
+    if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
+      Provider.of<StreamingProvider>(context, listen: true).incrementCurrentPage();
+    }
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
     return Consumer<StreamingProvider>(
         builder: (BuildContext context, provider, Widget? child) {
         return CustomScrollView(

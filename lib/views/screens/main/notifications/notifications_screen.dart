@@ -1,17 +1,15 @@
 
+import 'package:Gael/data/providers/notification_provider.dart';
+import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import '../../../components/streaming_widget.dart';
-
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
-
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
 }
@@ -41,12 +39,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         });
       }
     });
+    scrollController.addListener(loadMore);
+  }
+  void loadMore(){
+    if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
+      Provider.of<NotificationProvider>(context, listen: true).incrementCurrentPage();
+    }
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return Consumer<StreamingProvider>(
+    SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
+    return Consumer<NotificationProvider>(
         builder: (BuildContext context, provider, Widget? child) {
+
           return CustomScrollView(
             controller: scrollController,
             slivers: [
@@ -63,7 +69,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 sliver: SliverGrid.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: Dimensions.spacingSizeDefault, mainAxisSpacing: Dimensions.spacingSizeDefault, childAspectRatio: .8),
                   itemBuilder: (BuildContext ctx, int index){
-                    if(provider.streamingToShow == null){
+                  //  if(provider. == null){
                       return  Container(
                         width: size.width,
                         height: size.width * 2,
@@ -72,10 +78,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
                         ),
                       );
-                    }
-                    return Container();
+                    //}
+                  //  return Container();
                   },
-                  itemCount: provider.streamingToShow!.length,
+                  itemCount: 3//provider.streamingToShow!.length,
                 ),
               )
             ],

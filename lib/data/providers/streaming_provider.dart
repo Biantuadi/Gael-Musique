@@ -20,6 +20,14 @@ class StreamingProvider with ChangeNotifier {
   int streamingCurrentPage = 0;
   int streamingTotalPages = 0;
 
+
+  incrementCurrentPage(){
+    if(streamingCurrentPage < streamingTotalPages){
+      streamingCurrentPage++;
+      getStreaming();
+    }
+  }
+
   //STREAMING FILTERS
   bool? showEmission;
   bool? showSongs = true;
@@ -65,7 +73,9 @@ class StreamingProvider with ChangeNotifier {
   getStreaming() async{
     //allStreaming = streamRepository.getStreaming();
     allStreaming = [];
-    Response response = await streamRepository.getStreaming();
+    Response response = await streamRepository.getStreaming(
+        page: streamingCurrentPage>0? streamingCurrentPage:null
+    );
 
     if(response.statusCode == 200){
       List data = response.data["items"];

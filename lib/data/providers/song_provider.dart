@@ -180,8 +180,17 @@ class SongProvider with ChangeNotifier{
     audioPlayer.dispose();
     notifyListeners();
   }
+
+
+  incrementCurrentPage(){
+    if(songsCurrentPage < songsTotalPages){
+      songsCurrentPage++;
+      getSongs();
+    }
+  }
+
   getSongs()async{
-    Response response = await songRepository.getSongs();
+    Response response = await songRepository.getSongs(page: songsCurrentPage>0?songsCurrentPage:null );
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
       songsTotalItems = response.data["totalItems"];

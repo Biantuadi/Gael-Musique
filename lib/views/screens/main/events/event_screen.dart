@@ -1,4 +1,5 @@
 import 'package:Gael/data/providers/events_provider.dart';
+import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +42,17 @@ class EventsScreenState extends State<EventsScreen>{
         });
       }
     });
+    scrollController.addListener(loadMore);
+  }
+  void loadMore(){
+    if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
+      Provider.of<EventsProvider>(context, listen: true).incrementCurrentPage();
+    }
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
     return Consumer<EventsProvider>(
         builder: (BuildContext context, provider, Widget? child) {
           return Scaffold(

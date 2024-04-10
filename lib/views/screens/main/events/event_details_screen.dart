@@ -1,21 +1,14 @@
-import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/event_model.dart';
 import 'package:Gael/data/providers/events_provider.dart';
-import 'package:Gael/data/providers/song_provider.dart';
-import 'package:Gael/data/repositories/theme_repository.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/get_formatted_duration.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-
-import 'components/event_widget.dart';
 
 
 class EventDetailsScreen extends StatefulWidget{

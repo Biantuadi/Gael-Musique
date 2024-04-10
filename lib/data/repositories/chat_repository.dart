@@ -10,8 +10,10 @@ class ChatRepository {
   ChatRepository({required this.sharedPreferences, required this.dioClient});
 
 
-  Future<ApiResponse?> getUsers()async{
-    Response response = await dioClient.get(AppConfig.usersUrl,);
+  Future<ApiResponse?> getUsers({int? page})async{
+    Response response = await dioClient.get(AppConfig.usersUrl, queryParameters : {
+      "page":page
+    });
     return ApiResponse(response: response);
   }
 

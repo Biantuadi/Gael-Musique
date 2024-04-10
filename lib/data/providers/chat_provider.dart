@@ -18,17 +18,32 @@ class ChatProvider with ChangeNotifier{
     notifyListeners();
   }
 
+  int userTotalItems =0;
+  int userCurrentPage =0;
+  int userTotalPages =0;
+
+  incrementCurrentPage(){
+    if(userCurrentPage < userTotalPages){
+      userCurrentPage++;
+      getUsers();
+    }
+  }
+
+
   getUsers()async{
     isLoading = true;
     notifyListeners();
-    ApiResponse? apiResponse = await chatRepository.getUsers();
+    ApiResponse? apiResponse = await chatRepository.getUsers(page: userCurrentPage>0? userCurrentPage:null);
     isLoading = false;
     notifyListeners();
 
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
         print("LES USERS: ${apiResponse.response.data}");
-        List data = apiResponse.response.data;
+        List data = apiResponse.response.data["items"];
+        userTotalItems = apiResponse.response.data["totalItems"];
+        userCurrentPage = apiResponse.response.data["currentPage"];
+        userTotalPages = apiResponse.response.data["totalPages"];
         users = users??[];
        // users!.add(User.fromJson(data));
       }

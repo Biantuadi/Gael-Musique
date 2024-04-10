@@ -9,8 +9,10 @@ class StreamingRepository {
   StreamingRepository({required this.sharedPreferences, required this.dioClient});
 
 
- Future<Response> getStreaming()async{
-    Response response = await dioClient.get(AppConfig.streamingsUrl);
+ Future<Response> getStreaming({int? page})async{
+    Response response = await dioClient.get(AppConfig.streamingsUrl, queryParameters: {
+      "page":page
+    });
     return response;
   }
 

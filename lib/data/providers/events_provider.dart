@@ -13,6 +13,13 @@ class EventsProvider with ChangeNotifier{
   int eventTotalItems =0;
   int eventCurrentPage =0;
   int eventTotalPages =0;
+
+  incrementCurrentPage(){
+    if(eventCurrentPage < eventTotalPages){
+      eventCurrentPage++;
+      getEvents();
+    }
+  }
   getEvents()async{
     Response response = await eventsRepository.getEvents();
     if(response.statusCode == 200){
