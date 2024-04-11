@@ -39,11 +39,12 @@ class ChatProvider with ChangeNotifier{
 
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
-        print("LES USERS: ${apiResponse.response.data}");
-        List data = apiResponse.response.data["items"];
-        userTotalItems = apiResponse.response.data["totalItems"];
-        userCurrentPage = apiResponse.response.data["currentPage"];
-        userTotalPages = apiResponse.response.data["totalPages"];
+        print("LES USERS: ${apiResponse.response.data.keys}");
+
+        List data = apiResponse.response.data["users"]??[];
+        userTotalItems = apiResponse.response.data["totalUsers"]??0;
+        userCurrentPage = apiResponse.response.data["currentPage"]??0;
+        userTotalPages = apiResponse.response.data["totalPages"]??0;
         users = users??[];
        // users!.add(User.fromJson(data));
       }

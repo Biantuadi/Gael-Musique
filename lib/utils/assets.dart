@@ -23,4 +23,14 @@ class Assets{
   static String noInternet = "assets/icons/no_internet.svg";
   //static String pod2 = "assets/icons/pod2.jpg";
 
+  static String afriMoney = "assets/images/payment/afri-money-logo.jpg";
+  static String airtelMoney = "assets/images/payment/airtel-money.png";
+  static String mPesa = "assets/images/payment/m-pesa-logo.png";
+  static String mastercardCard = "assets/images/payment/marstercard-card.png";
+  static String mastercardLogo = "assets/images/payment/mastercard-logo.png";
+  static String orangeMoney = "assets/images/payment/orange-money.png";
+  static String paypal = "assets/images/payment/paypal-logo.png";
+  static String visaCard = "assets/images/payment/visa-card.png";
+  static String visa = "assets/images/payment/visa-logo.png";
+
 }

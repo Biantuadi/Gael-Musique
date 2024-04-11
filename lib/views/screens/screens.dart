@@ -40,3 +40,8 @@ export 'main/events/event_details_screen.dart';
 export 'not_internet_page.dart';
 
 
+// PAYMENT
+
+export 'main/payment/payment_details.dart';
+export 'main/payment/payments_screen.dart';
+

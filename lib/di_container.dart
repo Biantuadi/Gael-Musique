@@ -11,6 +11,7 @@ import 'package:Gael/data/repositories/theme_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'data/api/client/dio_client.dart';
 import 'data/providers/events_provider.dart';
+import 'data/providers/payment_provider.dart';
 import 'data/providers/socket_provider.dart';
 import 'data/providers/song_provider.dart';
 import 'data/providers/splash_provider.dart';
@@ -19,6 +20,7 @@ import 'data/repositories/chat_repository.dart';
 import 'data/repositories/events_repository.dart';
 import 'data/repositories/favorite_repository.dart';
 import 'data/repositories/notification_repository.dart';
+import 'data/repositories/payment_repository.dart';
 import 'data/repositories/socket_repository.dart';
 import 'data/repositories/song_repository.dart';
 import 'data/repositories/splash_repository.dart';
@@ -40,9 +42,11 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ThemeRepository(sharedPreferences: sl(),));
   sl.registerLazySingleton(() => EventsRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() =>  SocketRepository(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(() =>  PaymentRepository(sharedPreferences: sl(), dioClient: sl()));
 
 
 
+  sl.registerFactory(() => PaymentProvider(paymentRepository: sl(),));
   sl.registerFactory(() => SplashProvider(splashRepository: sl(),));
   sl.registerFactory(() => ThemeProvider(themeRepository: sl()));
   sl.registerFactory(() => AuthProvider(authRepository: sl()));

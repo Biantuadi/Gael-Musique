@@ -49,6 +49,11 @@ class Routes {
   static const String eventScreen = "EVENT-SCREEN";
   static const String eventDetailsScreen = "EVENT-DETAILS-SCREEN";
 
+  // PAYMENTS
+
+  static const String paymentsScreen = "PAYMENT-SCREEN";
+  static const String paymentDetailsScreen = "PAYMENT-DETAILS";
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final arguments = settings.arguments;
     switch (settings.name) {
@@ -106,6 +111,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) =>  const EventsScreen());
       case noInternetScreen:
         return MaterialPageRoute(builder: (_) =>  const NoInternetScreen());
+      case paymentScreen:
+        return MaterialPageRoute(builder: (_) =>  const PaymentScreen());
+      case paymentDetailsScreen:
+        return MaterialPageRoute(builder: (_) =>  const PaymentDetailsScreen());
       case eventDetailsScreen:
         return MaterialPageRoute(builder: (_) =>  EventDetailsScreen(event: arguments as Event,));
       default:
