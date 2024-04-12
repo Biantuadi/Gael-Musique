@@ -1,5 +1,5 @@
 class PaymentMean{
-  late String name;
+  late String? name;
   late String imgUrl;
   late bool isMpesa;
   late bool isOrangeMoney;
@@ -9,7 +9,7 @@ class PaymentMean{
   late bool isMasterCard;
 
   PaymentMean({
-    required this.name,
+    this.name,
     required this.imgUrl,
     this.isAirtelMoney = false,
     this.isOrangeMoney = false,

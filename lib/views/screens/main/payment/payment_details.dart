@@ -1,11 +1,14 @@
 import 'package:Gael/data/models/app/payment_mean.dart';
 import 'package:Gael/data/providers/payment_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+
+import 'components/card_widget.dart';
 
 class PaymentDetailsScreen extends StatefulWidget{
   const PaymentDetailsScreen({super.key});
@@ -23,11 +26,19 @@ class PaymentDetailsScreenState extends State<PaymentDetailsScreen>{
   void initState() {
     super.initState();
     selectedMean = Provider.of<PaymentProvider>(context, listen: false).paymentMeans.first;
+    Provider.of<PaymentProvider>(context, listen: false).setInitialPaymentMean();
+    Provider.of<PaymentProvider>(context, listen: false).setInitialCountry();
+
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
+      bottomSheet: Container(
+        padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+        child: GradientButton(onTap: (){
+        }, size: size, child: Text("Finir la transaction", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
+      ),
       body: Consumer<PaymentProvider>(builder: (ctx, provider, child){
 
         return CustomScrollView(
@@ -69,7 +80,7 @@ class PaymentDetailsScreenState extends State<PaymentDetailsScreen>{
                                       child: Image.asset(mean.imgUrl, width: size.width * .1, height: size.width * .1, fit: BoxFit.fitWidth,)),
                                 ),
                                 SizedBox(width: Dimensions.spacingSizeSmall,),
-                                Text(mean.name, style: Theme.of(context).textTheme.bodySmall,)
+                                Text(mean.name??'', style: Theme.of(context).textTheme.bodySmall,)
                               ],
                             ),
                           ))).toList(),
@@ -77,9 +88,11 @@ class PaymentDetailsScreenState extends State<PaymentDetailsScreen>{
                       onChanged: (value){
                         setState(() {
                           selectedMean =value!;
+                          provider.setPaymentMean(paymentMean: value);
                         });
                       }),
-                )
+                ),
+                const PaymentWidget()
               ]),
             )
           ],

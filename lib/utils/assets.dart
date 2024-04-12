@@ -32,5 +32,6 @@ class Assets{
   static String paypal = "assets/images/payment/paypal-logo.png";
   static String visaCard = "assets/images/payment/visa-card.png";
   static String visa = "assets/images/payment/visa-logo.png";
+  static String cardBG = "assets/images/payment/card-bg.png";
 
 }
