@@ -249,7 +249,7 @@ class PaymentWidgetState extends State<PaymentWidget>{
         Text("Adresse mail", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
         SizedBox(height: Dimensions.spacingSizeSmall,),
         CustomTextField(
-          textInputType: TextInputType.phone,
+          textInputType: TextInputType.emailAddress,
           onChanged: (value) {
             setState(() {
               phone = value;
