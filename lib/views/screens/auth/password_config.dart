@@ -1,6 +1,6 @@
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
-import 'package:Gael/utils/auth_validators/password_validator.dart';
+import 'package:Gael/utils/validators/password_validator.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/string_extensions.dart';

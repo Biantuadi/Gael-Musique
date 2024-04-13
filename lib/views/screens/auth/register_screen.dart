@@ -1,4 +1,4 @@
-import 'package:Gael/utils/auth_validators/string_validator.dart';
+import 'package:Gael/utils/validators/string_validator.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';

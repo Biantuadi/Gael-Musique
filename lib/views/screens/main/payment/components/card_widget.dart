@@ -1,10 +1,11 @@
 import 'package:Gael/data/providers/payment_provider.dart';
 import 'package:Gael/utils/assets.dart';
-import 'package:Gael/utils/auth_validators/card_num_validator.dart';
-import 'package:Gael/utils/auth_validators/email_validator.dart';
-import 'package:Gael/utils/auth_validators/phone_validator.dart';
-import 'package:Gael/utils/auth_validators/string_validator.dart';
+import 'package:Gael/utils/validators/card_num_validator.dart';
+import 'package:Gael/utils/validators/email_validator.dart';
+import 'package:Gael/utils/validators/phone_validator.dart';
+import 'package:Gael/utils/validators/string_validator.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/string_extensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
@@ -44,21 +45,43 @@ class PaymentWidgetState extends State<PaymentWidget>{
     return Consumer<PaymentProvider>(builder:(ctx, provider, child){
       return AnimatedContainer(
         duration: const Duration(seconds: 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-           (provider.paymentModel.paymentMean!.isMasterCard == true || provider.paymentModel.paymentMean!.isVisa == true)?
-           cardContent():
-           provider.paymentModel.paymentMean?.isPaypal == true?
-           payPalContent():
-           phoneContent()
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+             (provider.paymentModel.paymentMean!.isMasterCard == true || provider.paymentModel.paymentMean!.isVisa == true)?
+             cardContent():
+             provider.paymentModel.paymentMean?.isPaypal == true?
+             payPalContent():
+             phoneContent()
+            ],
+          ),
         ),
       );
     } );
   }
   Widget cardContent(){
     Size size = MediaQuery.sizeOf(context);
+    Wrap puce(){
+      List<Widget> children = [];
+      for(int i=0; i<9; i++){
+        children.add(
+          Container(
+            width: ((size.width *.1)/4) - Dimensions.spacingSizeExtraSmall *.1,
+            height: ((size.width *.1)/4) - Dimensions.spacingSizeExtraSmall*.1,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Dimensions.radiusSizeExtraSmall/5),
+              gradient: ThemeVariables.primaryGradient
+            ),
+          )
+        );
+      }
+      return Wrap(
+        spacing: Dimensions.spacingSizeExtraSmall/2,
+        runSpacing: Dimensions.spacingSizeExtraSmall/2,
+        children: children,
+      );
+    }
     return Consumer<PaymentProvider>(builder: (ctx, provider, child){
       return Column(
         children: [
@@ -70,7 +93,9 @@ class PaymentWidgetState extends State<PaymentWidget>{
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(Dimensions.spacingSizeDefault),
                     color: ThemeVariables.primaryColor,
-                  gradient: ThemeVariables.primaryGradient
+                  gradient: provider.paymentModel.paymentMean?.isMasterCard == true?
+                      ThemeVariables.greenGradient:
+                      ThemeVariables.blueCardGradient
                 ),
               ),
               Container(
@@ -85,7 +110,6 @@ class PaymentWidgetState extends State<PaymentWidget>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                   // provider.paymentModel.paymentMean?.isMasterCard == true?
                     Container(
                       alignment: Alignment.topLeft,
                       height: (size.width/2)/3,
@@ -104,22 +128,23 @@ class PaymentWidgetState extends State<PaymentWidget>{
                       height: (size.width *.1),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
-                        color: Colors.grey
+                        //color: ThemeVariables.primaryColor
                       ),
+                      child: puce(),
                     ),
                     SizedBox(
                       height: (size.width/2)/3,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(cardNumber??"0000 0000 0000 0000", style: Theme.of(context).textTheme.bodyMedium,),
+                          Text(cardNumber!=null? cardNumber!.groupLetters(4):"0000 0000 0000 0000", style: Theme.of(context).textTheme.bodyMedium,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("Expire date ${expireDate??""}", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white.withOpacity(0.7)),)
                             ],
                           ),
-                          Text(nameOnCard??"Mr JOHN KALOMBA", ),
+                          Text(nameOnCard??"Mme JEANNE-CHRISTINE MUTOMBO", ),
                         ],
                       ),
                     )
@@ -163,6 +188,7 @@ class PaymentWidgetState extends State<PaymentWidget>{
                     });
                     }, hintText: 'Numéro de la carte',
                   maxLines: 1,
+                  maxLenght: 16,
                   validator: (value){
                     return validateCardNumber(value);
                   },
@@ -192,7 +218,8 @@ class PaymentWidgetState extends State<PaymentWidget>{
                 nameOnCard = value;
                 nameOnCard = nameOnCard!.toUpperCase();
               });
-            }, hintText: 'Mr John KALOMBA',
+            }, hintText: 'Mme JEANNE-CHRISTINE MUTOMBO',
+            maxLenght: 40,
             maxLines: 1,
             validator: (value){
               return validateName(value: value, emptyMessage: 'Le nom est obligatoire', message: 'Le nom entré semble incorrect');

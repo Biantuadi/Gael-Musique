@@ -3,7 +3,7 @@ import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
-import 'package:Gael/utils/auth_validators/email_validator.dart';
+import 'package:Gael/utils/validators/email_validator.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';

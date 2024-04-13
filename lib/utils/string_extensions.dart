@@ -12,6 +12,20 @@ extension StringExtensions on String{
     string = replaceBy(charList: ["ÿ"], replaceStr: "y", string: string);
     return string;
   }
+  String groupLetters(int groupBy){
+    String string = this;
+    var buffer = StringBuffer();
+
+    if(string.length>4){
+     for(int i=0; i<string.length; i++){
+        buffer.write(string[i]);
+        if((i+1)%groupBy==0 &&  i!= string.length-1 ){
+         buffer.write(' ');
+        }
+      }
+    }
+    return buffer.toString();
+  }
 
 }
 

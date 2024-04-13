@@ -37,13 +37,14 @@ class PaymentDetailsScreenState extends State<PaymentDetailsScreen>{
       bottomSheet: Container(
         padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
         child: GradientButton(onTap: (){
-        }, size: size, child: Text("Finir la transaction", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
+        }, size: size, child: Text("Payer", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
       ),
       body: Consumer<PaymentProvider>(builder: (ctx, provider, child){
 
         return CustomScrollView(
           slivers: [
             SliverAppBar(
+              pinned: true,
               title: Text("Payment", style: Theme.of(context).textTheme.titleMedium,),
               leading: IconButton(onPressed: (){
                 Navigator.pop(context);
@@ -55,43 +56,40 @@ class PaymentDetailsScreenState extends State<PaymentDetailsScreen>{
               padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
               sliver: SliverList.list(children: [
                 Text("Moyen de payement ", style: Theme.of(context).textTheme.titleSmall,),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: Dimensions.spacingSizeDefault),
-                  child: DropdownButton(
-                    padding:  EdgeInsets.symmetric(vertical:Dimensions.spacingSizeDefault),
-                      isExpanded :true,
-                      itemHeight : kMinInteractiveDimension * 1.2,
-                      alignment: AlignmentDirectional.bottomCenter,
-                      items: provider.paymentMeans.map((mean) => DropdownMenuItem<PaymentMean>(
-                        value: mean,
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: Dimensions.spacingSizeSmall),
-                            padding: EdgeInsets.only(bottom: Dimensions.spacingSizeSmall),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(Dimensions.spacingSizeExtraSmall),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
-                                    color: Colors.white
-                                  ),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
-                                      child: Image.asset(mean.imgUrl, width: size.width * .1, height: size.width * .1, fit: BoxFit.fitWidth,)),
+                DropdownButton(
+                  padding:  EdgeInsets.symmetric(vertical:Dimensions.spacingSizeDefault),
+                    isExpanded :true,
+                    itemHeight : kMinInteractiveDimension * 1.2,
+                    alignment: AlignmentDirectional.bottomCenter,
+                    items: provider.paymentMeans.map((mean) => DropdownMenuItem<PaymentMean>(
+                      value: mean,
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: Dimensions.spacingSizeSmall),
+                          padding: EdgeInsets.only(bottom: Dimensions.spacingSizeSmall),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(Dimensions.spacingSizeExtraSmall),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
+                                  color: Colors.white
                                 ),
-                                SizedBox(width: Dimensions.spacingSizeSmall,),
-                                Text(mean.name??'', style: Theme.of(context).textTheme.bodySmall,)
-                              ],
-                            ),
-                          ))).toList(),
-                      value: selectedMean!,
-                      onChanged: (value){
-                        setState(() {
-                          selectedMean =value!;
-                          provider.setPaymentMean(paymentMean: value);
-                        });
-                      }),
-                ),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
+                                    child: Image.asset(mean.imgUrl, width: size.width * .1, height: size.width * .1, fit: BoxFit.fitWidth,)),
+                              ),
+                              SizedBox(width: Dimensions.spacingSizeSmall,),
+                              Text(mean.name??'', style: Theme.of(context).textTheme.bodySmall,)
+                            ],
+                          ),
+                        ))).toList(),
+                    value: selectedMean!,
+                    onChanged: (value){
+                      setState(() {
+                        selectedMean =value!;
+                        provider.setPaymentMean(paymentMean: value);
+                      });
+                    }),
                 const PaymentWidget()
               ]),
             )

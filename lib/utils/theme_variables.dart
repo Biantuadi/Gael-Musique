@@ -46,5 +46,19 @@ class ThemeVariables {
     end: Alignment.centerRight,
     colors: [ThemeVariables.primaryColor, ThemeVariables.secondaryColor],
   );
+  static const greenGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFF056042),
+      Color(0xFF003317)],
+  );
+  static const blueCardGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFF1C49DE),
+      Color(0xFF001B67)],
+  );
 
 }

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:Gael/data/providers/auth_provider.dart';
-import 'package:Gael/utils/auth_validators/email_validator.dart';
-import 'package:Gael/utils/auth_validators/password_validator.dart';
-import 'package:Gael/utils/auth_validators/phone_validator.dart';
+import 'package:Gael/utils/validators/email_validator.dart';
+import 'package:Gael/utils/validators/password_validator.dart';
+import 'package:Gael/utils/validators/phone_validator.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';

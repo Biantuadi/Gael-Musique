@@ -1,5 +1,5 @@
-import 'package:Gael/utils/auth_validators/email_validator.dart';
-import 'package:Gael/utils/auth_validators/phone_validator.dart';
+import 'package:Gael/utils/validators/email_validator.dart';
+import 'package:Gael/utils/validators/phone_validator.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
