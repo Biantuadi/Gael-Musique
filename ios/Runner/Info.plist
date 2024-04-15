@@ -3,10 +3,11 @@
 <plist version="1.0">
 <dict>
 <key>NSMicrophoneUsageDescription</key>
-<string>This app requires Mic permission.</string>
-<string>... explain why the app uses the microphone here ...</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+    <string>This app requires Mic permission.</string>
+    <key>Explanation</key>
+    <string>... explain why the app uses the microphone here ...</string>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Gael</string>
 	<key>CFBundleExecutable</key>
