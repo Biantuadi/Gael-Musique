@@ -62,6 +62,10 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     SongProvider songProvider = Provider.of<SongProvider>(context, listen: true);
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(

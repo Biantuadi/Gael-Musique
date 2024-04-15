@@ -272,6 +272,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           Text("Prénom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                           SizedBox(height: Dimensions.spacingSizeSmall,),
                           CustomTextField(
+                            initialValue: provider.user!.firstName,
                             onChanged: (value) {
                               firstName = value;
                             }, hintText: 'Athoms',
@@ -280,6 +281,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           Text("Nom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                           SizedBox(height: Dimensions.spacingSizeSmall,),
                           CustomTextField(
+                            initialValue: provider.user!.lastName,
                             onChanged: (value) {
                               name = value;
                             }, hintText: 'Mbuma',
@@ -363,6 +365,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         Text("Email", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
+                          initialValue: provider.user!.email,
                           onChanged: (value) {
                             email = value;
                           }, hintText: 'Athoms@gmail.com',
@@ -373,6 +376,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                         SizedBox(height: Dimensions.spacingSizeSmall,),
                         CustomTextField(
                           textInputType: const TextInputType.numberWithOptions(decimal: false,),
+                          initialValue: provider.user!.phone,
                           onChanged: (value) {
                             phone = value;
                           }, hintText: '00 243 826 037 382 ',
