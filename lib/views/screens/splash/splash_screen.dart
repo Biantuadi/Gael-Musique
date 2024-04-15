@@ -70,9 +70,7 @@ class SplashScreenState extends State<SplashScreen> {
               loadingText = "C'est presque fini!";
             });
             await Provider.of<EventsProvider>(context, listen: false).getEvents();
-            setState(() {
-              loadingText = "Chargement des streams";
-            });
+
              await Provider.of<ChatProvider>(context, listen: false).getUsers();
              setState(() {
                loadingText = "";

@@ -27,6 +27,7 @@ class SongProvider with ChangeNotifier{
   double songPositionInDouble = 0;
   double songDurationInDouble = 0;
   bool isLoading = false;
+  bool isLoadingData = false;
 
   int songsTotalItems = 0;
   int songsCurrentPage = 0;
@@ -190,6 +191,10 @@ class SongProvider with ChangeNotifier{
   }
 
   getSongs()async{
+    if(songsCurrentPage>0){
+      isLoadingData = true;
+      notifyListeners();
+    }
     Response response = await songRepository.getSongs(page: songsCurrentPage>0?songsCurrentPage:null );
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
@@ -199,6 +204,10 @@ class SongProvider with ChangeNotifier{
       data.forEach((json){
         allSongs.add(Song.fromJson(json));
       });
+      if(songsCurrentPage>0){
+        isLoadingData = true;
+        notifyListeners();
+      }
       notifyListeners();
     }
   }

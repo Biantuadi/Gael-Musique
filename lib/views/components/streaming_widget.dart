@@ -20,6 +20,7 @@ class StreamingWidget extends StatelessWidget{
     Size screenSize = MediaQuery.sizeOf(context);
     Size size = Size(screenSize.width *0.8, screenSize.width *2);
     User user =   Provider.of<AuthProvider>(context, listen: false).user!;
+
     return InkWell(
       onTap: (){
         if(Provider.of<StreamingProvider>(context, listen: false).currentStreaming == null){

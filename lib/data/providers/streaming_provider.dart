@@ -19,6 +19,7 @@ class StreamingProvider with ChangeNotifier {
   int streamingTotalItems = 0;
   int streamingCurrentPage = 0;
   int streamingTotalPages = 0;
+  bool isLoadingData = false;
 
 
   incrementCurrentPage(){
@@ -32,8 +33,10 @@ class StreamingProvider with ChangeNotifier {
   bool? showEmission;
   bool? showSongs = true;
   bool? showPodCast;
+  bool? showStreaming;
   bool? showRadio;
-  bool? showSanjola;
+  bool? showAll;
+
   Random random = Random();
   int randomIndex = 0;
 
@@ -73,6 +76,10 @@ class StreamingProvider with ChangeNotifier {
   getStreaming() async{
     //allStreaming = streamRepository.getStreaming();
     allStreaming = [];
+    if(streamingCurrentPage>0){
+      isLoadingData = true;
+      notifyListeners();
+    }
     Response response = await streamRepository.getStreaming(
         page: streamingCurrentPage>0? streamingCurrentPage:null
     );
@@ -86,6 +93,10 @@ class StreamingProvider with ChangeNotifier {
        allStreaming.add(Streaming.fromJson(json));
       });
     }
+    if(streamingCurrentPage>0){
+      isLoadingData = false;
+      notifyListeners();
+    }
     streamingToShow = allStreaming;
   }
 
@@ -94,7 +105,7 @@ class StreamingProvider with ChangeNotifier {
     showEmission = null;
     showRadio = null;
     showSongs = true;
-    showSanjola = null;
+    showAll = null;
     getFilteredStreamingToShow();
     notifyListeners();
   }
@@ -104,7 +115,7 @@ class StreamingProvider with ChangeNotifier {
     showEmission = null;
     showRadio = null;
     showSongs = null;
-    showSanjola = null;
+    showAll = null;
     getFilteredStreamingToShow();
     notifyListeners();
   }
@@ -114,7 +125,7 @@ class StreamingProvider with ChangeNotifier {
     showEmission = null;
     showRadio = true;
     showSongs = null;
-    showSanjola = null;
+    showAll = null;
     getFilteredStreamingToShow();
     notifyListeners();
   }
@@ -124,17 +135,17 @@ class StreamingProvider with ChangeNotifier {
     showEmission = true;
     showRadio = null;
     showSongs = null;
-    showSanjola = null;
+    showAll = null;
     getFilteredStreamingToShow();
     notifyListeners();
   }
 
-  setShowSanjola() {
+  setShowAll() {
     showPodCast = null;
     showEmission = null;
     showRadio = null;
     showSongs = null;
-    showSanjola = true;
+    showAll = true;
     getFilteredStreamingToShow();
     notifyListeners();
   }

@@ -1,4 +1,3 @@
-import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
