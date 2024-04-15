@@ -1,12 +1,11 @@
 import 'dart:math';
-import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
@@ -33,12 +32,16 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    var rng = new Random();
+    var rng = Random();
     for (var i = 0; i < 100; i++) {
       values.add(rng.nextInt(70) * 1.0);
     }
     return  Consumer<SongProvider>(
         builder: (BuildContext context, provider, Widget? child) {
+          StreamingProvider streamingProvider = Provider.of<StreamingProvider>(context, listen: true);
+          if(streamingProvider.streamingController.value.isPlaying ){
+            streamingProvider.pauseStreamingVideo();
+          }
           return Scaffold(
             appBar: AppBar(
               backgroundColor: ThemeVariables.thirdColorBlack,

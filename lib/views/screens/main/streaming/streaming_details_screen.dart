@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
@@ -29,7 +30,12 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+
     return Consumer<StreamingProvider>(builder: (context ,provider, child){
+      SongProvider songProvider = Provider.of<SongProvider>(context, listen: true);
+      if(provider.streamingController.value.isPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
+        songProvider.pauseSong();
+      }
       return Scaffold(
         appBar: AppBar(
           backgroundColor: ThemeVariables.thirdColorBlack,

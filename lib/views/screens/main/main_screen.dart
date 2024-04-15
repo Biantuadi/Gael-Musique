@@ -1,5 +1,6 @@
 import 'package:Gael/data/models/app/screen_model.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
+import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
@@ -61,6 +62,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
+    SongProvider songProvider = Provider.of<SongProvider>(context, listen: true);
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor : Colors.transparent,
@@ -73,7 +75,34 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           systemNavigationBarDividerColor: Colors.transparent,
         ),
         child: Consumer<StreamingProvider>(builder: (context, provider, child){
+          if(provider.streamingController.value.isPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
+            songProvider.pauseSong();
+          }
           return Scaffold(
+            floatingActionButton: GestureDetector(
+              onTap: (){
+                if(songProvider.audioPlayer.playing || songProvider.songIsPlaying){
+                  songProvider.pauseSong();
+                }else{
+                  songProvider.playSong();
+                }
+              },
+              child: Container(
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                  color: ThemeVariables.primaryColor
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  (songProvider.audioPlayer.playing || songProvider.songIsPlaying)?
+                  CupertinoIcons.pause_solid:
+                  CupertinoIcons.play_fill,
+                  color: ThemeVariables.backgroundBlack,
+                ),
+              ),
+            ),
+              floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
               bottomNavigationBar: BottomAppBar(
                 color: Colors.black,
                 padding: EdgeInsets.zero,
