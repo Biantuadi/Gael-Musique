@@ -29,7 +29,7 @@ class EventsProvider with ChangeNotifier{
       eventCurrentPage = response.data["currentPage"];
       eventTotalPages = response.data["totalPages"];
       data.forEach((event) {
-        events!.add(Event.fromJson(event));
+        events!.add(Event.fromJson(json : event));
       });
       notifyListeners();
     }

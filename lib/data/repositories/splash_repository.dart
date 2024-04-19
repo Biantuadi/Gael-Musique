@@ -1,6 +1,8 @@
 import 'package:Gael/data/api/client/dio_client.dart';
+import 'package:Gael/data/data_base/database_client.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SplashRepository{
   final SharedPreferences sharedPreferences;
@@ -52,5 +54,13 @@ class SplashRepository{
     }
     return false;
   }
+
+  getDataBase()async{
+    var db = DatabaseHelper.instance;
+    Database database = await  db.database;
+    return database;
+  }
+
+  
 
 }

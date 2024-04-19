@@ -217,7 +217,7 @@ class SongProvider with ChangeNotifier{
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
       data.forEach((json){
-        allAlbums.add(Album.fromJson(json));
+        allAlbums.add(Album.fromJson(json:json));
       });
 
       albumsToShow = allAlbums;

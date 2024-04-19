@@ -22,7 +22,7 @@ class Album{
     required this.imgAlbum,
   });
 
-  Album.fromJson(Map<String, dynamic> json){
+  Album.fromJson({required Map<String, dynamic> json, bool isForDB = false}){
     id = json["_id"];
     title = json["title"];
     subtitle = json["subtitle"];
@@ -37,6 +37,20 @@ class Album{
     userBuy = json["usersBuy"];
     year = json["year"];
     artist = json["artist"];
+  }
+
+  Map<String , dynamic> toJson(){
+    Map<String, dynamic> json = {};
+
+    json["_id"] = id;
+    json["title"] = title;
+    json["subtitle"] = subtitle;
+    json["createdAt"] = createdAt.toString();
+    json["imgAlbum"] = imgAlbum;
+    json["year"] = year;
+    json["artist"] = artist;
+
+    return json;
   }
 
 

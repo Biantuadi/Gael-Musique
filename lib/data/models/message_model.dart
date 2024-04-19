@@ -6,39 +6,40 @@ class Message{
   late String content;
   late DateTime sentAt;
   late bool read;
-  late User recipent;
-  late Chat chat;
-  late User expediteur;
+  late User user;
+    late String chatId;
 
   Message({
     required this.content,
     required this.sentAt,
     required this.read,
-    required this.recipent,
-    required this.expediteur,
-    required this.chat
+    required this.user,
+    required this.id,
+    required chatId
+
   });
 
-  Message.fromJson(Map<String, dynamic> json){
-    id = json["id"];
+  Message.fromJson({required Map<String, dynamic> json, bool isForBD = false}){
+    id = json["_id"];
+    chatId = json["chat_id"];
     content = json["content"];
-    chat = Chat.fromJson(json["chat"]);
     sentAt = DateTime.parse(json["created_at"]);
-    read = json["read"];
-    recipent = User.fromJson(json["recipent"]);
-    expediteur = User.fromJson(json["expediteur"]);
-
+    if(isForBD){
+      read =json["read"] == 1? true: false;
+    }else{
+      read = json["read"];
+    }
+    user = User.fromJson(json["user"]);
   }
 
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
-    json["id"] = id;
+    json["_id"] = id;
     json["content"] = content;
-    json["chat_id"] = chat.id;
     json["created_at"] = sentAt.toString();
     json["read"] = read;
-    json["recipent"] = recipent.toJson();
-    json["expediteur"] = expediteur.toJson();
+    json["user_id"] = user.id;
+    json["chat_id"] = chatId;
 
     return json;
   }

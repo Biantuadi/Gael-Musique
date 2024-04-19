@@ -34,13 +34,12 @@ class User{
     lastName = json["lastname"];
     firstName = json["firstname"];
     createdAt = DateTime.parse(json["createdAt"]);
-    role = json["role"];
     profileImage = json["avatar"];
     preferences =Preference.fromJson(json["preferences"]);
     bio = json["bio"]??"";
     phone = json["phone"]??"";
     role = json["role"];
-    isConected = json["isConected"];
+    isConected = json["isConected"]??false;
     eventInterest = json["eventInterest"] ?? [];
     email = json["email"];
   }

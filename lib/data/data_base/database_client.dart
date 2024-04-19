@@ -1,7 +1,15 @@
-/*
 import 'dart:io';
+import 'package:Gael/data/models/album_model.dart';
+import 'package:Gael/data/models/chat_model.dart';
+import 'package:Gael/data/models/event_model.dart';
+import 'package:Gael/data/models/event_ticket_model.dart';
+import 'package:Gael/data/models/message_model.dart';
+import 'package:Gael/data/models/song_model.dart';
+import 'package:Gael/data/models/user_model.dart';
+import 'package:Gael/utils/database_queries.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 
 class DatabaseHelper {
@@ -32,11 +40,299 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     // SQL code to create  table
-    await db.execute('''
+    await db.execute(DatabaseQueries.createAlbumTable());
+    await db.execute(DatabaseQueries.createSongTable());
+    await db.execute(DatabaseQueries.createUserTable());
+    await db.execute(DatabaseQueries.createEventTable());
+    await db.execute(DatabaseQueries.createEventTicketTable());
+    await db.execute(DatabaseQueries.createChatTable());
+    await db.execute(DatabaseQueries.createMessageTable());
+  }
 
-         )''');
+  // Inserting and updating a song
+  Future<Song> upsertSong(Song song) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM song WHERE _id = ?", [song.id]));
+    if (count == 0) {
+      await db.insert("song", song.toJson());
+    } else {
+      await db.update("song", song.toJson(), where: "_id = ?", whereArgs: [song.id]);
+    }
+    return song;
+  }
 
+  // Inserting and updating an album
+  Future<Album> upsertAlbum(Album album) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM album WHERE _id = ?", [album.id]));
+    if (count == 0) {
+      await db.insert("album", album.toJson());
+    } else {
+      await db.update("song", album.toJson(), where: "_id = ?", whereArgs: [album.id]);
+    }
+    return album;
+  }
+
+  // to insert or update USER
+  Future<User> upsertUser(User user) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM user WHERE _id = ?", [user.id]));
+    if (count == 0) {
+      await db.insert("user", user.toJson());
+    } else {
+      await db.update("user", user.toJson(), where: "_id = ?", whereArgs: [user.id]);
+    }
+    return user;
+  }
+
+  // to insert or update CHAT
+  Future<Chat> upsertChat(Chat chat) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM chat WHERE _id = ?", [chat.id]));
+    if (count == 0) {
+      await db.insert("chat", chat.toJson());
+    } else {
+      await db.update("chat", chat.toJson(), where: "_id = ?", whereArgs: [chat.id]);
+    }
+    return chat;
+  }
+
+
+  // to insert or update MESSAGE
+  Future<Message> upsertMessage(Message message) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM message WHERE _id = ?", [message.id]));
+    if (count == 0) {
+      await db.insert("message", message.toJson());
+    } else {
+      await db.update("message", message.toJson(), where: "_id = ?", whereArgs: [message.id]);
+    }
+    return message;
+  }
+
+  // to insert or update EVENT
+  Future<Event> upsertEvent(Event event) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM message WHERE _id = ?", [event.id]));
+    if (count == 0) {
+      await db.insert("event", event.toJson());
+    } else {
+      await db.update("event", event.toJson(), where: "_id = ?", whereArgs: [event.id]);
+    }
+    return event;
+  }
+
+  // to insert or update EVENT TICKET
+  Future<EventTicket> upsertEventTicket(EventTicket ticket) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM eventTicket WHERE _id = ?", [ticket.id]));
+    if (count == 0) {
+      await db.insert("eventTicket", ticket.toJson());
+    } else {
+      await db.update("eventTicket", ticket.toJson(), where: "_id = ?", whereArgs: [ticket.id]);
+    }
+    return ticket;
+  }
+
+  // GET A SONG
+  Future<Song?> fetchSong(String id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("song", where: "_id = ?", whereArgs: [id]);
+    if(results.isNotEmpty){
+      var result = results[0];
+      return Song.fromJson(result);
+    }
+    return null;
+  }
+
+  // GET USER
+  Future<User?> fetchUser(String id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("user", where: "_id = ?", whereArgs: [id]);
+    if(results.isNotEmpty){
+      User.fromJson(results[0]);
+    }
+    return null;
+  }
+
+  // GET ALBUM
+  Future<Album?> fetchAlbum(String id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("album", where: "_id = ?", whereArgs: [id]);
+    if(results.isNotEmpty){
+      var result = results[0];
+      List<Song> songs = await fetchAlbumSongs(result["_id"]);
+      Album album = Album.fromJson(json: result);
+      album.songs = songs;
+      return album;
+    }
+    return null;
+  }
+
+  // GET CHAT
+  Future<Chat?> fetchChat(String id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("chat", where: "_id = ?", whereArgs: [id]);
+    
+    if(results.isNotEmpty){
+      var chat = results[0];
+      chat["user1"] = await fetchUser(chat["user1"]);
+      chat["user2"] = await fetchUser(chat["user2"]);
+      return Chat.fromJson(json :chat);
+    }
+    
+    return null;
+  }
+
+  // GET MESSAGE
+  Future<Message?> fetchMessage(String id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("message", where: "_id = ?", whereArgs: [id]);
+    if(results.isNotEmpty){
+      var message = results[0];
+      message["user"] = await fetchUser(message["user"]);
+      return Message.fromJson(json:message);
+    }
+    return null;
+  }
+
+  // EVENT
+
+  Future<Event?> fetchEvent(String id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("event", where: "_id = ?", whereArgs: [id]);
+    if(results.isNotEmpty){
+      return Event.fromJson(json: results[0]);
+    }
+    return null;
+  }
+
+  Future<EventTicket?> fetchEventTicket(String userId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("eventTicket", where: "user_id = ?", whereArgs: [userId]);
+    if(results.isNotEmpty){
+      var ticket = results[0];
+      ticket["user_id"] = await fetchUser(ticket["user_id"]);
+      return EventTicket.fromJson(ticket);
+    }
+    return null;
+  }
+  Future<List<Song>> fetchSongs() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("song");
+    List<Song> songs = [];
+    for (var result in results) {
+      Song song = Song.fromJson(result);
+      songs.add(song);
+    }
+    return songs;
+  }
+  Future<List<Song>> fetchAlbumSongs(String albumId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("song" ,  where: "album_id = ?", whereArgs: [albumId]);
+    List<Song> songs = [];
+    for (var result in results) {
+      Song song = Song.fromJson(result);
+      songs.add(song);
+    }
+    return songs;
+  }
+  Future<List<Album>> fetchAlbums() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("album");
+    List<Album> albums = [];
+    for (var result in results) {
+      List<Song> songs = await fetchAlbumSongs(result["_id"]);
+      Album album = Album.fromJson(json: result);
+      album.songs = songs;
+      albums.add(album);
+    }
+    return albums;
+  }
+  Future<List<User>> fetchUsers() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("user");
+    List<User> users = [];
+    for (var result in results) {
+      users.add(User.fromJson(result));
+    }
+    return users;
+  }
+  Future<List<Chat>> fetchChats(String userId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.rawQuery("SELECT * FROM chat WHERE user1=$userId OR user2=$userId");
+    List<Chat> chats = [];
+    for (var chat in results) {
+      chat["user1"] = await fetchUser(chat["user1"]);
+      chat["user2"] = await fetchUser(chat["user2"]);
+      chats.add(Chat.fromJson(json: chat));
+    }
+    return chats;
+  }
+  Future<List<Message>> fetchMessages(String chatId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.rawQuery("SELECT * FROM message WHERE chat_id=$chatId");
+    List<Message> messages = [];
+    for (var result in results) {
+      result["user"] = await fetchUser(result["user"]);
+      messages.add(Message.fromJson(json: result));
+    }
+    return messages;
+  }
+  Future<List<Event>> fetchEvents() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.rawQuery("SELECT * FROM event");
+    List<Event> events = [];
+    for (var result in results) {
+      events.add(Event.fromJson(json: result));
+    }
+    return events;
+  }
+  Future<List<EventTicket>> fetchEventTickets(String userId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.rawQuery("SELECT * FROM eventTicket WHERE user=$userId");
+    List<EventTicket> tickets = [];
+    for (var result in results) {
+      result["user_id"] = await fetchUser(result["user_id"]);
+      tickets.add(EventTicket.fromJson(result));
+    }
+    return tickets;
+  }
+
+  Future<void> deleteSong(String id) async {
+    Database db = await instance.database;
+    await db.delete("song", where: "id = ?", whereArgs: [id]);
+  }
+  Future<void> deleteAlbum(String id) async {
+    Database db = await instance.database;
+    await db.delete("album", where: "id = ?", whereArgs: [id]);
+  }
+  Future<void> deleteUser(String id) async {
+    Database db = await instance.database;
+    await db.delete("user", where: "id = ?", whereArgs: [id]);
+  }
+  Future<void> deleteChat(String id) async {
+    Database db = await instance.database;
+    await db.delete("chat", where: "id = ?", whereArgs: [id]);
+  }
+  Future<void> deleteMessage(String id) async {
+    Database db = await instance.database;
+    await db.delete("message", where: "id = ?", whereArgs: [id]);
+  }
+  Future<void> deleteEvent(String id) async {
+    Database db = await instance.database;
+    await db.delete("event", where: "id = ?", whereArgs: [id]);
+  }
+  Future<void> deleteEventTicket(String id) async {
+    Database db = await instance.database;
+    await db.delete("eventTicket", where: "id = ?", whereArgs: [id]);
   }
 
 }
- */

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ThemeVariables {
   ThemeVariables._();
 
-  static const Color primaryColor = Color(0xFFDE901C);
+  static const Color primaryColor  = Color(0xFFDE901C);
   static const Color secondaryColor = Color(0xFFFFC54B);
   static const Color thirdColor = Color(0xFF2D2100);
   static const Color backgroundBlack = Color(0xFF161615);

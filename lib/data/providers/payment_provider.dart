@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 class PaymentProvider with ChangeNotifier{
   PaymentRepository paymentRepository;
   PaymentProvider({required this.paymentRepository});
-
   List<PaymentMean> paymentMeans = PaymentRepository.paymentMeans;
 
   PaymentModel paymentModel = PaymentModel();

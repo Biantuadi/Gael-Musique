@@ -22,13 +22,13 @@ class Event{
     required this.endTime
   });
 
-  Event.fromJson(Map<String, dynamic> json){
+  Event.fromJson({required Map<String, dynamic> json, bool isForBD=false}){
     id = json["_id"];
     datetime = DateTime.parse(json["date"]);
     title = json["title"];
     createdAt = DateTime.parse(json["createdAt"]);
     image = json["img"];
-    tickets = json["tickets"];
+    tickets = json["tickets"]??[];
     startTime = json["startTime"]??"";
     endTime = json["endTime"]??"";
     location = json["location"];
