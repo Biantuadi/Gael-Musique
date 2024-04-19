@@ -61,6 +61,4 @@ class SplashRepository{
     return database;
   }
 
-  
-
 }
