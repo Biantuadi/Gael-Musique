@@ -45,6 +45,8 @@ class SongProvider with ChangeNotifier{
   int songsCurrentPage = 0;
   int songsTotalPages = 0;
 
+
+
   playShuffled(){
     playShuffledSong = !playShuffledSong;
     notifyListeners();
@@ -62,11 +64,30 @@ class SongProvider with ChangeNotifier{
     currentSong = song;
     isLoading = true;
     notifyListeners();
-    await audioPlayer.setUrl(currentSong!.songLink);
-    onCompleted();
-    getSongPosition();
-    getSongDuration();
-    songDurationInDouble = songDuration.inSeconds.toDouble();
+    bool audioFileExists = false;
+    if (song.songLink != "" || song.bdSongPath != null){
+      File audioFile = File(song.bdSongPath!);
+      await audioFile.exists().then((value) {
+          audioFileExists = true;
+      });
+      if(audioFileExists){
+        await audioPlayer.setFilePath(song.bdSongPath!).then((value){
+          onCompleted();
+          getSongPosition();
+          getSongDuration();
+          songDurationInDouble = songDuration.inSeconds.toDouble();
+        });
+      }
+    }
+    else{
+      await audioPlayer.setUrl(currentSong!.songLink).then((value){
+        onCompleted();
+        getSongPosition();
+        getSongDuration();
+        songDurationInDouble = songDuration.inSeconds.toDouble();
+        downloadSongAudio(song: song);
+      });
+    }
 
     isLoading = false;
     notifyListeners();
