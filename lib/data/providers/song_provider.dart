@@ -219,11 +219,21 @@ class SongProvider with ChangeNotifier{
   incrementCurrentPage(){
     if(songsCurrentPage < songsTotalPages){
       songsCurrentPage++;
-      getSongs();
+      getSongsFromApi();
     }
   }
 
-  getSongs()async{
+  getSongsFromDB()async{
+    allSongs = await songRepository.getSongsFromDb();
+    notifyListeners();
+  }
+
+  getAlbumsFromDB()async{
+    allAlbums = await songRepository.getAlbumsFromDb();
+    notifyListeners();
+  }
+
+  getSongsFromApi()async{
     if(songsCurrentPage>0){
       isLoadingData = true;
       notifyListeners();

@@ -7,10 +7,11 @@ class DatabaseQueries{
         CREATE TABLE IF NOT EXISTS song (
           _id VARCHAR(300) PRIMARY KEY,
           title VARCHAR(300) NOT NULL,
-          album_id VARCHAR(300) NOT NULL,
-          FOREIGN KEY (album_id) REFERENCES album (_id)
+          albumId VARCHAR(300) NOT NULL,
+          FOREIGN KEY (albumId) REFERENCES album (_id)
           ON DELETE NO ACTION ON UPDATE NO ACTION,
           imgSong VARCHAR(300) NOT NULL,
+          bdCoverPath VARCHAR(300) NOT NULL,
           createdAt VARCHAR(300) NOT NULL,
           songLink VARCHAR(300) NOT NULL,
           bdSongPath VARCHAR(300),
@@ -25,6 +26,7 @@ class DatabaseQueries{
           title VARCHAR(300) NOT NULL,
           subTitle VARCHAR(300) NOT NULL,
           imgAlbum VARCHAR(300) NOT NULL,
+          bdImgAlbum VARCHAR(300) NOT NULL,          
           artist VARCHAR(300) NOT NULL,
           createdAt VARCHAR(300) NOT NULL,
           year INTEGER NULL,
@@ -40,6 +42,7 @@ class DatabaseQueries{
           role VARCHAR(300) NOT NULL,
           email VARCHAR(100) NOT NULL,
           profileImage VARCHAR(300) NOT NULL,
+          bdAvatarPath VARCHAR(300) NOT NULL,
           phone VARCHAR(20) NOT NULL,
           bio TEXT,
           createdAt VARCHAR(300) NOT NULL,
@@ -67,7 +70,7 @@ class DatabaseQueries{
           user VARCHAR(300) NOT NULL,
           FOREIGN KEY (user) REFERENCES user (_id)
           ON DELETE NO ACTION ON UPDATE NO ACTION,
-          chat_id VARCHAR(300) NOT NULL,
+          chatId VARCHAR(300) NOT NULL,
           FOREIGN KEY (chat_id) REFERENCES chat (_id)
           ON DELETE NO ACTION ON UPDATE NO ACTION,
           content TEXT,
@@ -82,13 +85,13 @@ class DatabaseQueries{
           _id VARCHAR(300) PRIMARY KEY,
           title VARCHAR(300) NOT NULL,
           img VARCHAR(300) NOT NULL,
+          bdCover VARCHAR(300) NOT NULL,
           description TEXT,
           date VARCHAR(300) NOT NULL,
           location VARCHAR(50) NOT NULL,
           startTime VARCHAR(30) NOT NULL,
           endTime VARCHAR(30) NOT NULL,
           createdAt VARCHAR(300) NOT NULL,
-          read INTERGER
          )
         """;
     }
@@ -96,10 +99,10 @@ class DatabaseQueries{
         return """
         CREATE TABLE IF NOT EXISTS eventTicket (
           _id VARCHAR(300) PRIMARY KEY,
-          user_id VARCHAR(300) NOT NULL,
-          FOREIGN KEY (user_id) REFERENCES user (_id)
+          userId VARCHAR(300) NOT NULL,
+          FOREIGN KEY (userId) REFERENCES user (_id)
           ON DELETE NO ACTION ON UPDATE NO ACTION,
-          event_id VARCHAR(300) NOT NULL,
+          eventId VARCHAR(300) NOT NULL,
           FOREIGN KEY (event_id) REFERENCES event (_id)
           ON DELETE NO ACTION ON UPDATE NO ACTION,
           createdAt VARCHAR(300) NOT NULL,

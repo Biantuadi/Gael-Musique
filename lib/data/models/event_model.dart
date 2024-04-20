@@ -2,6 +2,7 @@ class Event{
   late String id;
   late String title;
   late String image;
+  late String bdCoverPath;
   late String location;
   late String description;
   late List<dynamic> tickets;
@@ -16,6 +17,7 @@ class Event{
     required this.tickets,
     required this.datetime,
     required this.image,
+    required this.bdCoverPath,
     required this.createdAt,
     required this.description,
     required this.startTime,
@@ -28,6 +30,7 @@ class Event{
     title = json["title"];
     createdAt = DateTime.parse(json["createdAt"]);
     image = json["img"];
+    bdCoverPath = json["bdCover"];
     tickets = json["tickets"]??[];
     startTime = json["startTime"]??"";
     endTime = json["endTime"]??"";

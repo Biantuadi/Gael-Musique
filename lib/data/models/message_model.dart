@@ -21,9 +21,9 @@ class Message{
 
   Message.fromJson({required Map<String, dynamic> json, bool isForBD = false}){
     id = json["_id"];
-    chatId = json["chat_id"];
+    chatId = json["chatId"];
     content = json["content"];
-    sentAt = DateTime.parse(json["created_at"]);
+    sentAt = DateTime.parse(json["createdAt"]);
     if(isForBD){
       read =json["read"] == 1? true: false;
     }else{
@@ -36,10 +36,10 @@ class Message{
     Map<String, dynamic> json = {};
     json["_id"] = id;
     json["content"] = content;
-    json["created_at"] = sentAt.toString();
+    json["createdAt"] = sentAt.toString();
     json["read"] = read;
-    json["user_id"] = user.id;
-    json["chat_id"] = chatId;
+    json["userId"] = user.id;
+    json["chatId"] = chatId;
 
     return json;
   }

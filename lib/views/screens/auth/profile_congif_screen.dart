@@ -130,7 +130,7 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                             GradientButton(onTap: ()async{
 
                               provider.setUserVars();
-                              await Provider.of<SongProvider>(context, listen: false).getSongs();
+                              await Provider.of<SongProvider>(context, listen: false).getSongsFromApi();
                               await Provider.of<SongProvider>(context, listen: false).getAlbums();
                               await Provider.of<EventsProvider>(context, listen: false).getEvents();
                               await Provider.of<StreamingProvider>(context, listen: false).getStreaming();

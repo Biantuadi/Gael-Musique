@@ -7,6 +7,7 @@ class Song{
   late int year;
   late DateTime createdAt;
   late String? bdSongPath;
+  late String? bdCoverPath;
   late String image;
   Song({
     required this.album,
@@ -17,6 +18,7 @@ class Song{
     required this.year,
     required this.image,
     this.bdSongPath,
+    this.bdCoverPath,
   });
 
   Song.fromJson(Map<String, dynamic> json){
@@ -24,10 +26,11 @@ class Song{
     title = json["title"];
     createdAt = DateTime.parse(json["createdAt"]);
     image = json["imgSong"]??"";
-    album = json["album"]??json['album_id'];
+    album = json["album"]??json['albumId'];
     year = json["year"];
     songLink = json["songLink"];
     bdSongPath = json["bdSongPath"];
+    bdSongPath = json["bdCoverPath"];
 
   }
 
@@ -42,6 +45,7 @@ class Song{
     json["year"] = year;
     json["songLink"] = songLink;
     json["bdSongPath"] = bdSongPath;
+    json["bdCoverPath"] = bdSongPath;
     return json;
   }
 

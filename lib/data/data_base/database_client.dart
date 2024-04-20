@@ -214,9 +214,16 @@ class DatabaseHelper {
     return null;
   }
 
-  Future<EventTicket?> fetchEventTicket(String userId) async {
+  Future<EventTicket?> fetchEventTicket({required String userId, String? eventId}) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> results = await db.query("eventTicket", where: "user_id = ?", whereArgs: [userId]);
+    List<Map<String, dynamic>> results = [];
+    String query = "SELECT * FROM eventTicket WHERE user_id=$userId ";
+
+    if(eventId != null){
+      query += "AND event_id=$eventId";
+    }
+
+    results = await db.rawQuery(query);
     if(results.isNotEmpty){
       var ticket = results[0];
       ticket["user_id"] = await fetchUser(ticket["user_id"]);

@@ -20,7 +20,7 @@ class Chat {
     id = json["_id"]??json['id'];
     user1 =  User.fromJson(json["user1"]);
     user2 =  User.fromJson(json["user2"]);
-    createdAt = DateTime.parse(json["created_at"]);
+    createdAt = DateTime.parse(json["createdAt"]);
     messages = messages.isNotEmpty? messages : [];
     if(json["message"] != null){
       json["message"].forEach(

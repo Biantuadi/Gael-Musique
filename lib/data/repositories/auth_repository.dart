@@ -1,12 +1,13 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert';
 import 'dart:io';
 import 'package:Gael/data/api/client/dio_client.dart';
+import 'package:Gael/data/data_base/database_client.dart';
 import 'package:Gael/data/models/app/login_model.dart';
 import 'package:Gael/data/models/app/register_model.dart';
 import 'package:Gael/data/models/app/response_model.dart';
 import 'package:Gael/data/models/app/user_updaate_model.dart';
+import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +26,6 @@ class AuthRepository {
     File? file = avatar;
     String fileName = '';
     fileName = file.path.split('/').last;
-    print("LA FILE: ${file.path}");
     FormData formData = FormData.fromMap({
       'avatar': await MultipartFile.fromFile(file.path, filename: fileName),
     });
@@ -140,4 +140,32 @@ class AuthRepository {
     sharedPreferences.remove(AppConfig.sharedFirstName);
     sharedPreferences.remove(AppConfig.sharedUserID);
   }
+
+  Future<List<User>> getUsersFromDb() async{
+    var db = DatabaseHelper.instance;
+    await db.fetchUsers().then(
+            (value){
+          return value;
+        }
+    );
+    return [];
+  }
+
+  Future<User?> getOneUserFromDB({required String userID})async{
+    var db = DatabaseHelper.instance;
+    await db.fetchUser(userID).then((value)=>value);
+    return null;
+  }
+
+  upsertUser({required User user})async{
+    var db = DatabaseHelper.instance;
+    await db.upsertUser(user);
+  }
+
+  deleteUser({required String id}){
+    var db = DatabaseHelper.instance;
+    db.deleteUser(id);
+  }
+
+
 }

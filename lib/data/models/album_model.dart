@@ -7,6 +7,7 @@ class Album{
   late String artist;
   late int year;
   late String? imgAlbum;
+  late String? bdImgAlbum;
   late List<Song> songs;
   late List<dynamic> userBuy;
   late DateTime createdAt;
@@ -28,6 +29,7 @@ class Album{
     subtitle = json["subtitle"];
     createdAt = DateTime.parse(json["createdAt"]);
     imgAlbum = json["imgAlbum"];
+    bdImgAlbum = json["bdImgAlbum"];
     if(json["songs"] != null){
       songs = [];
       json["songs"].forEach((song){

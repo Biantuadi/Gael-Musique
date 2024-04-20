@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-
 import 'components/album_widget.dart';
 
 class AlbumScreen extends StatefulWidget{
@@ -25,7 +24,7 @@ class AlbumScreenState extends State<AlbumScreen>{
   @override
   void initState() {
     super.initState();
-    Provider.of<SongProvider>(context, listen: false).getSongs();
+    Provider.of<SongProvider>(context, listen: false).getSongsFromApi();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {

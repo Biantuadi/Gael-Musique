@@ -8,6 +8,7 @@ class User{
   late String profileImage;
   late String phone;
   late String bio;
+  late String bdAvatarPath;
   late String? role;
   late Preference preferences;
   late DateTime createdAt;
@@ -23,6 +24,7 @@ class User{
     required this.lastName,
     required this.preferences,
     required this.profileImage,
+     this.bdAvatarPath = "",
      this.role,
     this.isConected,
     this.eventInterest
@@ -34,11 +36,12 @@ class User{
     lastName = json["lastname"];
     firstName = json["firstname"];
     createdAt = DateTime.parse(json["createdAt"]);
-    profileImage = json["avatar"];
+    profileImage = json["avatar"]??"";
     preferences =Preference.fromJson(json["preferences"]);
     bio = json["bio"]??"";
     phone = json["phone"]??"";
     role = json["role"];
+    bdAvatarPath = json["bdAvatarPath"];
     isConected = json["isConected"]??false;
     eventInterest = json["eventInterest"] ?? [];
     email = json["email"];
@@ -53,6 +56,7 @@ class User{
     json["avatar"] = profileImage;
     json["preferences"] = preferences.toJson();
     json["bio"] = bio;
+    json["bdAvatarPath"] = bdAvatarPath;
     json["phone"] = phone;
     json["role"] = role;
     json["isConected"] = isConected;

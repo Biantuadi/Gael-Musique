@@ -56,7 +56,7 @@ class SplashScreenState extends State<SplashScreen> {
             setState(() {
               loadingText = "Chargement des chants";
             });
-            await Provider.of<SongProvider>(context, listen: false).getSongs().then(
+            await Provider.of<SongProvider>(context, listen: false).getSongsFromApi().then(
                 (value)async{
                   setState(() {
                     loadingText = "Chargement des albums";
