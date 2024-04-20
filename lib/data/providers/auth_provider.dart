@@ -6,6 +6,7 @@ import 'package:Gael/data/models/app/user_updaate_model.dart';
 import 'package:Gael/data/models/preference_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/auth_repository.dart';
+import 'package:Gael/utils/download_utils.dart';
 import 'package:countries_info/countries_info.dart';
 import 'package:flutter/foundation.dart';
 
@@ -87,7 +88,6 @@ class AuthProvider with ChangeNotifier{
       isLoading = true;
       notifyListeners();
       ApiResponse? apiResponse = await authRepository.updateUserInfo(userUpdate: userUpdate);
-
       if(apiResponse != null){
         print("LA RESPONSE: ${apiResponse.response}");
         if(apiResponse.response.statusCode == 200){
@@ -102,9 +102,9 @@ class AuthProvider with ChangeNotifier{
           userProfileUrl = data['user']['avatar'];
           userID = data['user']['_id'];
           user = User.fromJson(data['user']);
+          saveAvatar();
           userCreatedAt = data['user']["createdAt"];
           notifyListeners();
-
           setUserVars().then(
               (value){
                 successCallBack();
@@ -145,6 +145,7 @@ class AuthProvider with ChangeNotifier{
         userID = data['user']['_id'];
         user = User.fromJson(data['user']);
         userCreatedAt = data['user']["createdAt"];
+        saveAvatar();
         notifyListeners();
 
         setUserVars().then(
@@ -197,6 +198,7 @@ class AuthProvider with ChangeNotifier{
         authRepository.setUserProfileUrl(userProfileUrl??"");
         authRepository.setUserToken(userToken??"");
         getUser();
+        saveAvatar();
         successCallBack();
       }else{
         avatarUpdateError = apiResponse.response.data["message"];
@@ -232,6 +234,7 @@ class AuthProvider with ChangeNotifier{
           userID = data['user']['_id'];
           user = User.fromJson(data['user']);
           userCreatedAt = data['user']["createdAt"];
+          saveAvatar();
           setUserVars().then(
                   (value){
                     isLoadingData = true;
@@ -315,11 +318,8 @@ class AuthProvider with ChangeNotifier{
                 successCallBack();
                 isLoadingData = false;
               }
-
             }
-
         );
-
         loginError = null;
       }
       else{
@@ -361,7 +361,7 @@ class AuthProvider with ChangeNotifier{
     await authRepository.setUserTokenDate(DateTime.now());
     await authRepository.setUserCreatedAt(userCreatedAt??"");
     getUserVars();
-
+    saveAvatar();
   }
   getUserVars()async{
     userProfileUrl = await authRepository.getUserProfileUrl();
@@ -385,6 +385,23 @@ class AuthProvider with ChangeNotifier{
         preferences: Preference(theme: '', language: '', notifications: true),
         profileImage: userProfileUrl??""
     );
+    saveAvatar();
     notifyListeners();
+  }
+
+  saveAvatar()async{
+    if(user != null){
+      final regex = RegExp(r'\s+');
+      String userName = "${user!.firstName} ${user!.firstName}";
+      String fileName = "${userName.replaceAll(regex,"_")}.mp3";
+      await convert64BaseToFile(
+          base64String: userProfileUrl??user!.profileImage,
+          fileName: fileName,
+          onSuccess: (path)async{
+            user!.bdAvatarPath = path;
+            await authRepository.upsertUser(user: user!);
+          }
+      );
+    }
   }
 }

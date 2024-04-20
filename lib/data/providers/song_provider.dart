@@ -3,12 +3,11 @@ import 'dart:math';
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/repositories/song_repository.dart';
+import 'package:Gael/utils/download_utils.dart';
 import 'package:Gael/utils/get_formatted_duration.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 
@@ -269,41 +268,9 @@ class SongProvider with ChangeNotifier{
 
   }
 
-  Future<String> createFolderInAppDocDir(String folderName) async {
-    final Directory? downloadsDir = await getExternalStorageDirectory();
-    if(downloadsDir != null){
 
-    }
-    final Directory directory = Directory(path.join(downloadsDir!.path,folderName ));
-    if (await directory.exists()) {
-      return directory.path;
-    } else {
-      final Directory newDirectory = await directory.create(recursive: true);
-      //final noMediaPath = path.join(directory.path, '.nomedia');
-      //File(noMediaPath).create();
-      return newDirectory.path;
-    }
-  }
 
-  getPermission()async{
-    var permission = await Permission.storage.status;
-    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    if(permission.isGranted == false){
-      if(Platform.isAndroid){
-        AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
-        int sdkVersion = androidDeviceInfo.version.sdkInt;
-        if(sdkVersion >= 30){
-          await Permission.audio.request();
-        }else if(sdkVersion >= 30 && sdkVersion < 33){
-          await Permission.storage.request();
-        }else {
-          await Permission.storage.request();
-        }
-      }else{
-        permission =  await Permission.storage.request();
-      }
-    }
-  }
+
   downloadSongAudio({required Song song})async{
     currentDownloadingSongId = song.id;
     notifyListeners();
@@ -319,13 +286,17 @@ class SongProvider with ChangeNotifier{
     var permission = await Permission.audio.status;
 
     if(permission.isGranted){
-      response = await download(url: url, savePath: filePath);
+      response = await download(url: url, savePath: filePath, onDownloading: (receivedData,totalByte ){
+        double percentDouble = receivedData * 100 / totalByte;
+        downloadPercent = percentDouble.toInt();
+        notifyListeners();
+      });
 
       if (response?.statusCode == 200){
         downloadedSuccessfully = true;
-        downloadSuccessCallBack(song, filePath, response!);
+        onSuccessSongDownload(response!, audioPath: filePath, song: song);
       }else{
-        downloadError = "Vous devez autoriser Le recueil a utiliser votre stockage";
+        downloadError = "Vous devez autoriser L'app à utiliser votre stockage";
         notifyListeners();
         downloadErrorCallBack();
       }
@@ -337,24 +308,18 @@ class SongProvider with ChangeNotifier{
     downloadHadStarted = false;
     notifyListeners();
   }
-  Future<Response?>download({required String url, required String savePath})async{
-    downloadHadStarted = true;
-    Dio dio = Dio();
-    Uri uri = Uri.parse(url);
-    notifyListeners();
-    final response = dio.downloadUri(uri, savePath, onReceiveProgress: (receivedData,totalByte ){
-      double percentDouble = receivedData * 100 / totalByte;
-      downloadPercent = percentDouble.toInt();
-      notifyListeners();
-    });
-    return response;
-  }
 
   bool isCurrentDownloadingSongId(int id)=>id == currentDownloadingSongId;
 
-  downloadSuccessCallBack(Song song, String filePath, Response response)async{
+  onSuccessSongDownload(Response response, {required Song song, String? audioPath, String? imagePath})async{
     downloadedSuccessfully = true;
-    song.bdSongPath = filePath;
+    if(audioPath != null){
+      song.bdSongPath = audioPath;
+    }
+    if(imagePath != null){
+      song.bdCoverPath = imagePath;
+    }
+
     await songRepository.upsertSong(song: song);
   }
   downloadErrorCallBack(){
@@ -370,6 +335,73 @@ class SongProvider with ChangeNotifier{
     downloadPercent = 0;
     currentDownloadingSongId = null;
     notifyListeners();
+  }
+
+  downloadSongCover(Song song)async{
+    String url = song.image;
+    final regex = RegExp(r'\s+');
+    String fileName = "${song.title.replaceAll(regex,"_")}.jpg";
+    String filePath = "";
+    await createFolderInAppDocDir("songs-images").then((value) {
+      filePath = path.join(value, fileName);
+    });
+    await getPermission();
+    var permission = await Permission.photos.status;
+    Response? response;
+    if(permission.isGranted){
+      response = await download(url: url, savePath: filePath, onDownloading: (receivedData,totalByte ){
+        double percentDouble = receivedData * 100 / totalByte;
+        downloadPercent = percentDouble.toInt();
+        notifyListeners();
+      });
+
+      if (response?.statusCode == 200){
+        downloadedSuccessfully = true;
+        onSuccessSongDownload( response!, song: song,imagePath:filePath,);
+      }else{
+        downloadError = "Vous devez autoriser l'app à utiliser votre stockage";
+        notifyListeners();
+        downloadErrorCallBack();
+      }
+      notifyListeners();
+    }else{
+      permission = await Permission.storage.request();
+      //downloadErrorCallBack();
+    }
+  }
+
+  downloadAlbumCover(Album album)async{
+    String url = album.imgAlbum??'';
+    final regex = RegExp(r'\s+');
+    String fileName = "${album.title.replaceAll(regex,"_")}.jpg";
+    String filePath = "";
+    await createFolderInAppDocDir("album-images").then((value) {
+      filePath = path.join(value, fileName);
+    });
+    await getPermission();
+    var permission = await Permission.photos.status;
+    Response? response;
+    if(permission.isGranted){
+      response = await download(url: url, savePath: filePath, onDownloading: (receivedData,totalByte ){
+        double percentDouble = receivedData * 100 / totalByte;
+        downloadPercent = percentDouble.toInt();
+        notifyListeners();
+      });
+
+      if (response?.statusCode == 200){
+        downloadedSuccessfully = true;
+        album.bdImgAlbum = filePath;
+        await songRepository.upsertAlbum(album: album);
+      }else{
+        downloadError = "Vous devez autoriser l'app à utiliser votre stockage";
+        notifyListeners();
+        downloadErrorCallBack();
+      }
+      notifyListeners();
+    }else{
+      permission = await Permission.storage.request();
+      //downloadErrorCallBack();
+    }
   }
 
 
