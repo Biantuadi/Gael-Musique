@@ -36,17 +36,18 @@ class ChatProvider with ChangeNotifier{
     ApiResponse? apiResponse = await chatRepository.getUsers(page: userCurrentPage>0? userCurrentPage:null);
     isLoading = false;
     notifyListeners();
-
     if(apiResponse != null){
       if(apiResponse.response.statusCode == 200){
         print("LES USERS: ${apiResponse.response.data.keys}");
-
         List data = apiResponse.response.data["users"]??[];
         userTotalItems = apiResponse.response.data["totalUsers"]??0;
         userCurrentPage = apiResponse.response.data["currentPage"]??0;
         userTotalPages = apiResponse.response.data["totalPages"]??0;
         users = users??[];
-       // users!.add(User.fromJson(data));
+        data.forEach((user) {
+          users!.add(User.fromJson(user));
+        });
+
       }
     }else{
       getUserError = "Erreur inconnue";

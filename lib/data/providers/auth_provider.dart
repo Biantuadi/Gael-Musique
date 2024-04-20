@@ -349,6 +349,13 @@ class AuthProvider with ChangeNotifier{
     isLoading = false;
     notifyListeners();
   }
+  getUserFromDB()async{
+    String? userID = await authRepository.getUserID();
+    if(userID != null){
+      user = await authRepository.getOneUserFromDB(userID: userID);
+      notifyListeners();
+    }
+  }
   setUserVars()async{
     await authRepository.setUserToken(userToken!);
     await authRepository.setUserBio(userBio??"");

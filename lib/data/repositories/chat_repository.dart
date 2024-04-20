@@ -3,6 +3,7 @@ import 'package:Gael/data/data_base/database_client.dart';
 import 'package:Gael/data/models/app/response_model.dart';
 import 'package:Gael/data/models/chat_model.dart';
 import 'package:Gael/data/models/message_model.dart';
+import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,5 +71,31 @@ class ChatRepository {
     var db = DatabaseHelper.instance;
     db.deleteMessage(id);
   }
+  Future<List<User>> getUsersFromDb() async{
+    var db = DatabaseHelper.instance;
+    await db.fetchUsers().then(
+            (value){
+          return value;
+        }
+    );
+    return [];
+  }
+
+  Future<User?> getOneUserFromDB({required String userID})async{
+    var db = DatabaseHelper.instance;
+    await db.fetchUser(userID).then((value)=>value);
+    return null;
+  }
+
+  upsertUser({required User user})async{
+    var db = DatabaseHelper.instance;
+    await db.upsertUser(user);
+  }
+
+  deleteUser({required String id}){
+    var db = DatabaseHelper.instance;
+    db.deleteUser(id);
+  }
+
 
 }
