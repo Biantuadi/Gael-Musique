@@ -40,7 +40,7 @@ class StreamingProvider with ChangeNotifier {
   Random random = Random();
   int randomIndex = 0;
 
-  late YoutubePlayerController streamingController;
+  late YoutubePlayerController streamingController = YoutubePlayerController(initialVideoId: "");
   Streaming? currentStreaming;
 
   setCurrentStreaming({required Streaming streaming, bool autoPlay=true}){

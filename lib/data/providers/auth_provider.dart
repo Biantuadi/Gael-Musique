@@ -392,15 +392,16 @@ class AuthProvider with ChangeNotifier{
         preferences: Preference(theme: '', language: '', notifications: true),
         profileImage: userProfileUrl??""
     );
-    saveAvatar();
     notifyListeners();
+    saveAvatar();
+
   }
 
   saveAvatar()async{
-    if(user != null){
+    if(user != null && userProfileUrl != null){
       final regex = RegExp(r'\s+');
       String userName = "${user!.firstName} ${user!.firstName}";
-      String fileName = "${userName.replaceAll(regex,"_")}.mp3";
+      String fileName = "${userName.replaceAll(regex,"_")}.jpg";
       await convert64BaseToFile(
           base64String: userProfileUrl??user!.profileImage,
           fileName: fileName,
@@ -409,6 +410,7 @@ class AuthProvider with ChangeNotifier{
             await authRepository.upsertUser(user: user!);
           }
       );
+      notifyListeners();
     }
   }
 }

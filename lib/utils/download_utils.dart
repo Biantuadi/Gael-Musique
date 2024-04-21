@@ -8,22 +8,26 @@ import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 
 convert64BaseToFile({required String base64String,required String fileName, required Function onSuccess})async{
-  String filePath = "";
-  await createFolderInAppDocDir("64images").then((value) {
-    filePath = path.join(value, fileName);
-  });
+  try{
+    String filePath = "";
+    await createFolderInAppDocDir("64images").then((value) {
+      filePath = path.join(value, fileName);
+    });
+    Uint8List imageBytes = base64Decode(base64String.substring(base64String.indexOf(',')+1));
+    File file = File(filePath);
+    file.exists().then((value){
+      if(value){
 
-  Uint8List imageBytes = base64Decode(base64String);
-  File file = File(filePath);
-  file.exists().then((value){
-    if(value){
-
-    }
-    else{
-      file.writeAsBytes(imageBytes);
-      onSuccess(filePath);
-    }
-  });
+      }
+      else{
+        file.writeAsBytes(imageBytes);
+        onSuccess(filePath);
+      }
+    });
+  }
+     catch(e){
+    print("FILE ERROR: $e");
+     }
 
 }
 

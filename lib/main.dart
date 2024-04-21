@@ -24,6 +24,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await di.init();
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),

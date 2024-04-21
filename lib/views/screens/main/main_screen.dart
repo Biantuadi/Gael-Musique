@@ -83,27 +83,19 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
             songProvider.pauseSong();
           }
           return Scaffold(
-            floatingActionButton: GestureDetector(
-              onTap: (){
+            floatingActionButton: IconButton(
+              onPressed: (){
                 if(songProvider.audioPlayer.playing || songProvider.songIsPlaying){
                   songProvider.pauseSong();
                 }else{
                   songProvider.playSong();
                 }
               },
-              child: Container(
-                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-                  color: ThemeVariables.primaryColor
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  (songProvider.audioPlayer.playing || songProvider.songIsPlaying)?
-                  CupertinoIcons.pause_solid:
-                  CupertinoIcons.play_fill,
-                  color: ThemeVariables.backgroundBlack,
-                ),
+              icon: Icon(
+                (songProvider.audioPlayer.playing || songProvider.songIsPlaying)?
+                CupertinoIcons.pause_solid:
+                CupertinoIcons.play_fill,
+                color: ThemeVariables.backgroundBlack,
               ),
             ),
               floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,

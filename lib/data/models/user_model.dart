@@ -41,7 +41,7 @@ class User{
     bio = json["bio"]??"";
     phone = json["phone"]??"";
     role = json["role"];
-    bdAvatarPath = json["bdAvatarPath"];
+    bdAvatarPath = json["bdAvatarPath"]??"";
     isConected = json["isConected"]??false;
     eventInterest = json["eventInterest"] ?? [];
     email = json["email"];

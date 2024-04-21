@@ -30,7 +30,7 @@ class Event{
     title = json["title"];
     createdAt = DateTime.parse(json["createdAt"]);
     image = json["img"];
-    bdCoverPath = json["bdCover"];
+    bdCoverPath = json["bdCover"]??"";
     tickets = json["tickets"]??[];
     startTime = json["startTime"]??"";
     endTime = json["endTime"]??"";

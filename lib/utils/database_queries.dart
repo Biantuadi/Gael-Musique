@@ -16,7 +16,7 @@ class DatabaseQueries{
           songLink VARCHAR(300) NOT NULL,
           bdSongPath VARCHAR(300),
           year INTEGER NULL,
-         )
+         );
         """;
     }
     static String createAlbumTable(){
@@ -30,7 +30,7 @@ class DatabaseQueries{
           artist VARCHAR(300) NOT NULL,
           createdAt VARCHAR(300) NOT NULL,
           year INTEGER NULL,
-         )
+         );
         """;
     }
     static String createUserTable(){
@@ -46,7 +46,7 @@ class DatabaseQueries{
           phone VARCHAR(20) NOT NULL,
           bio TEXT,
           createdAt VARCHAR(300) NOT NULL,
-         )
+         );
         """;
     }
     static String createChatTable(){
@@ -60,7 +60,7 @@ class DatabaseQueries{
           FOREIGN KEY (user2) REFERENCES user (_id)
           ON DELETE NO ACTION ON UPDATE NO ACTION,
           createdAt VARCHAR(300) NOT NULL,
-         )
+         );
         """;
     }
     static String createMessageTable(){
@@ -76,7 +76,7 @@ class DatabaseQueries{
           content TEXT,
           sentAt VARCHAR(300) NOT NULL,
           read INTERGER
-         )
+         );
         """;
     }
     static String createEventTable(){
@@ -92,7 +92,7 @@ class DatabaseQueries{
           startTime VARCHAR(30) NOT NULL,
           endTime VARCHAR(30) NOT NULL,
           createdAt VARCHAR(300) NOT NULL,
-         )
+         );
         """;
     }
     static String createEventTicketTable(){
@@ -107,7 +107,7 @@ class DatabaseQueries{
           ON DELETE NO ACTION ON UPDATE NO ACTION,
           createdAt VARCHAR(300) NOT NULL,
           price INTERGER
-         )
+         );
         """;
     }
 
