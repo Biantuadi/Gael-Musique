@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:Gael/data/models/streaming_model.dart';
-import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/repositories/streaming_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -106,7 +105,6 @@ class StreamingProvider with ChangeNotifier {
     showRadio = null;
     showSongs = true;
     showAll = null;
-    getFilteredStreamingToShow();
     notifyListeners();
   }
 
@@ -116,7 +114,6 @@ class StreamingProvider with ChangeNotifier {
     showRadio = null;
     showSongs = null;
     showAll = null;
-    getFilteredStreamingToShow();
     notifyListeners();
   }
 
@@ -126,7 +123,6 @@ class StreamingProvider with ChangeNotifier {
     showRadio = true;
     showSongs = null;
     showAll = null;
-    getFilteredStreamingToShow();
     notifyListeners();
   }
 
@@ -136,7 +132,6 @@ class StreamingProvider with ChangeNotifier {
     showRadio = null;
     showSongs = null;
     showAll = null;
-    getFilteredStreamingToShow();
     notifyListeners();
   }
 
@@ -146,18 +141,9 @@ class StreamingProvider with ChangeNotifier {
     showRadio = null;
     showSongs = null;
     showAll = true;
-    getFilteredStreamingToShow();
     notifyListeners();
   }
 
 
 
-  getFilteredStreamingToShow() {
-    streamingToShow = allStreaming
-        .where((streaming) =>
-            streaming.isRadio == showRadio &&
-            streaming.isPodcast == showPodCast &&
-            streaming.isEmission == showEmission)
-        .toList();
-  }
 }

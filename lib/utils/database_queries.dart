@@ -19,6 +19,19 @@ class DatabaseQueries{
          );
         """;
     }
+    static String createStreamingTable(){
+        return """
+        CREATE TABLE IF NOT EXISTS streaming (
+          _id VARCHAR(300) PRIMARY KEY,
+          title VARCHAR(300) NOT NULL,
+          cover VARCHAR(300) NOT NULL,
+          bdCoverPath VARCHAR(300) NOT NULL,
+          createdAt VARCHAR(300) NOT NULL,
+          description TEXT NOT NULL,
+          videoLink VARCHAR(300) NULL,
+         );
+        """;
+    }
     static String createAlbumTable(){
         return """
         CREATE TABLE IF NOT EXISTS album (

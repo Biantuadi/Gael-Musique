@@ -1,21 +1,24 @@
+import 'package:Gael/data/models/event_model.dart';
+import 'package:Gael/data/models/user_model.dart';
+
 class EventTicket{
   late String id;
-  late String eventId;
-  late String userId;
+  late Event event;
+  late User user;
   late double price;
   late DateTime createdAt;
   EventTicket({
-    required this.eventId,
+    required this.event,
     required this.id,
     required this.createdAt,
     required this.price,
-    required this.userId,
+    required this.user,
   });
 
-  EventTicket.fromJson(Map<String, dynamic> json){
+  EventTicket.fromJson({required Map<String, dynamic> json, bool isForDB = false}){
     id = json["id"];
-    userId = json["user"];
-    eventId = json["event"];
+    user = User.fromJson(json["user"]);
+    event = Event.fromJson(json: json["event"]);
     createdAt = DateTime.parse(json["createdAt"]);
     price = json["price"];
 
@@ -24,8 +27,8 @@ class EventTicket{
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
     json["id"] = id;
-    json["user"] = userId;
-    json["event"] = eventId.toString();
+    json["user"] = user;
+    json["event"] = user.toString();
     json["createdAt"] = createdAt.toString();
     json["price"] = price;
 

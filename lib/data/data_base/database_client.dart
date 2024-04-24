@@ -5,6 +5,7 @@ import 'package:Gael/data/models/event_model.dart';
 import 'package:Gael/data/models/event_ticket_model.dart';
 import 'package:Gael/data/models/message_model.dart';
 import 'package:Gael/data/models/song_model.dart';
+import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/utils/database_queries.dart';
 import 'package:path_provider/path_provider.dart';
@@ -47,6 +48,7 @@ class DatabaseHelper {
     await db.execute(DatabaseQueries.createEventTicketTable());
     await db.execute(DatabaseQueries.createChatTable());
     await db.execute(DatabaseQueries.createMessageTable());
+    await db.execute(DatabaseQueries.createStreamingTable());
   }
 
   // Inserting and updating a song
@@ -60,6 +62,17 @@ class DatabaseHelper {
       await db.update("song", song.toJson(), where: "_id = ?", whereArgs: [song.id]);
     }
     return song;
+  }
+  Future<Streaming> upsertStreaming(Streaming streaming) async {
+    Database db = await instance.database;
+    var count = Sqflite.firstIntValue(await db.rawQuery(
+        "SELECT COUNT(*) FROM streaming WHERE _id = ?", [streaming.id]));
+    if (count == 0) {
+      await db.insert("streaming", streaming.toJson());
+    } else {
+      await db.update("streaming", streaming.toJson(), where: "_id = ?", whereArgs: [streaming.id]);
+    }
+    return streaming;
   }
 
   // Inserting and updating an album
@@ -151,6 +164,16 @@ class DatabaseHelper {
     }
     return null;
   }
+  // GET A STREAMING
+  Future<Streaming?> fetchStreaming(String id) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("streaming", where: "_id = ?", whereArgs: [id]);
+    if(results.isNotEmpty){
+      var result = results[0];
+      return Streaming.fromJson(result);
+    }
+    return null;
+  }
 
   // GET USER
   Future<User?> fetchUser(String id) async {
@@ -217,7 +240,7 @@ class DatabaseHelper {
   Future<EventTicket?> fetchEventTicket({required String userId, String? eventId}) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> results = [];
-    String query = "SELECT * FROM eventTicket WHERE user_id=$userId ";
+    String query = "SELECT * FROM eventTicket WHERE userId=$userId ";
 
     if(eventId != null){
       query += "AND event_id=$eventId";
@@ -226,8 +249,8 @@ class DatabaseHelper {
     results = await db.rawQuery(query);
     if(results.isNotEmpty){
       var ticket = results[0];
-      ticket["user_id"] = await fetchUser(ticket["user_id"]);
-      return EventTicket.fromJson(ticket);
+      ticket["userId"] = await fetchUser(ticket["userId"]);
+      return EventTicket.fromJson(json:ticket);
     }
     return null;
   }
@@ -240,6 +263,16 @@ class DatabaseHelper {
       songs.add(song);
     }
     return songs;
+  }
+  Future<List<Streaming>> fetchStreamings() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> results = await db.query("streaming");
+    List<Streaming> streamings = [];
+    for (var result in results) {
+      Streaming streaming = Streaming.fromJson(result);
+      streamings.add(streaming);
+    }
+    return streamings;
   }
   Future<List<Song>> fetchAlbumSongs(String albumId) async {
     Database db = await instance.database;
@@ -307,8 +340,8 @@ class DatabaseHelper {
     List<Map<String, dynamic>> results = await db.rawQuery("SELECT * FROM eventTicket WHERE user=$userId");
     List<EventTicket> tickets = [];
     for (var result in results) {
-      result["user_id"] = await fetchUser(result["user_id"]);
-      tickets.add(EventTicket.fromJson(result));
+      result["userId"] = await fetchUser(result["userId"]);
+      tickets.add(EventTicket.fromJson(json :result));
     }
     return tickets;
   }
@@ -316,6 +349,10 @@ class DatabaseHelper {
   Future<void> deleteSong(String id) async {
     Database db = await instance.database;
     await db.delete("song", where: "id = ?", whereArgs: [id]);
+  }
+  Future<void> deleteStreaming(String id) async {
+    Database db = await instance.database;
+    await db.delete("streaming", where: "id = ?", whereArgs: [id]);
   }
   Future<void> deleteAlbum(String id) async {
     Database db = await instance.database;
