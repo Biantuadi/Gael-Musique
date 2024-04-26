@@ -38,8 +38,8 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
     }
     return  Consumer2<SongProvider, StreamingProvider>(
         builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
-          if(streamingProvider.streamingController.value.isPlaying ){
-            streamingProvider.pauseStreamingVideo();
+          if(streamingProvider.videoPlayerController.value.isPlaying ){
+            streamingProvider.dispose();
           }
           return Scaffold(
             appBar: AppBar(

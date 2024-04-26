@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.sizeOf(context);
     Widget spacing()=>SizedBox(height: Dimensions.spacingSizeDefault,);
     List<Album> albums = Provider.of<SongProvider>(context, listen: false).allAlbums;
-    List<Streaming> streamings = Provider.of<StreamingProvider>(context, listen: false).allStreaming;
+    List<Streaming> streamings = Provider.of<StreamingProvider>(context, listen: false).allStreaming??[];
     if(streamings.length >= 4){
         streamings = streamings.sublist(0, 4);
     }

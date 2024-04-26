@@ -61,7 +61,7 @@ class StreamSongWidgetState extends State<StreamSongWidget>{
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(widget.song.title, style: Theme.of(context).textTheme.titleSmall,),
+                  Text(widget.song.title, style: Theme.of(context).textTheme.titleSmall, textAlign: TextAlign.center,),
                   SizedBox(height: Dimensions.spacingSizeSmall/3,),
                   Text('${widget.song.year}', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
                   SizedBox(height: Dimensions.spacingSizeSmall/3,),
@@ -81,7 +81,7 @@ class StreamSongWidgetState extends State<StreamSongWidget>{
                       }else{
                         widget.provider.playSong();
                       }
-                    }, icon: Icon(((widget.provider.songIsPlaying || widget.provider.audioPlayer.playing) && thisIsCurrentSong)? CupertinoIcons.play_fill : CupertinoIcons.pause_fill, size: Dimensions.iconSizeSmall, color: Colors.white,)),
+                    }, icon: Icon(((widget.provider.songIsPlaying || widget.provider.audioPlayer.playing) && thisIsCurrentSong)? CupertinoIcons.pause_fill : CupertinoIcons.play_fill, size: Dimensions.iconSizeSmall, color: Colors.white,)),
                     StreamAudioWaves(maxHeight: Dimensions.iconSizeDefault, songIsPlaying: ((widget.provider.songIsPlaying || widget.provider.audioPlayer.playing) && thisIsCurrentSong),),
                   ],
                 )

@@ -74,11 +74,11 @@ class _StreamingScreenState extends State<StreamingScreen> {
   }
 
   getData(){
-    Provider.of<StreamingProvider>(context, listen: false).allStreaming.forEach((stream) {
+    Provider.of<StreamingProvider>(context, listen: false).allStreaming!.forEach((stream) {
       songAndStreams.add(SongAndStreamRelated(isValid: true, streaming: stream));
       streamOnly.add(SongAndStreamRelated(isValid: true, streaming: stream));
     });
-    Provider.of<SongProvider>(context, listen: true).allSongs.forEach((song) {
+    Provider.of<SongProvider>(context, listen: false).allSongs.forEach((song) {
       songAndStreams.add(SongAndStreamRelated(isValid: true, song: song));
       songsOnly.add(SongAndStreamRelated(isValid: true, song: song));
     });
@@ -137,13 +137,13 @@ class _StreamingScreenState extends State<StreamingScreen> {
                         SizedBox(width: Dimensions.spacingSizeDefault,),
                         StreamingFilter(title: 'Tous', onTap: () {
                           setShowAll();
-                        }, isSelected: streamProvider.setShowAll(),),
+                        }, isSelected: showAll,),
                         StreamingFilter(title: 'Chants', onTap: () {
                           setShowSongsOnly();
-                        }, isSelected: streamProvider.showSongs,),
+                        }, isSelected: showOnlySongs,),
                         StreamingFilter(title: 'Streaming', onTap: () {
                           setShowStreamingOnly();
-                        }, isSelected: streamProvider.showEmission,),
+                        }, isSelected: showOnlyStreaming,),
                         SizedBox(width: Dimensions.spacingSizeDefault,)
                       ],
                     ),
@@ -166,16 +166,6 @@ class _StreamingScreenState extends State<StreamingScreen> {
                 sliver: SliverGrid.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: Dimensions.spacingSizeDefault, mainAxisSpacing: Dimensions.spacingSizeDefault, childAspectRatio: .8),
                   itemBuilder: (BuildContext ctx, int index){
-                    if(streamProvider.streamingToShow == null){
-                      return  Container(
-                        width: size.width,
-                        height: size.width * 2,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
-                        ),
-                      );
-                    }
                     if(showOnlyStreaming){
                       return StreamingWidget(streaming: streamOnly[index].streaming!,);
                     }
@@ -184,12 +174,14 @@ class _StreamingScreenState extends State<StreamingScreen> {
                     }
                     SongAndStreamRelated songAndStreamRelated = songAndStreams[index];
                     if(songAndStreamRelated.streamIsNotNull()){
-                      return StreamingWidget(streaming: streamOnly[index].streaming!,);
+                      return StreamingWidget(streaming: songAndStreams[index].streaming!,);
                     }
                     if(songAndStreamRelated.songIsNotNull()){
-                      return StreamSongWidget(song: songsOnly[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
+                      return StreamSongWidget(song: songAndStreams[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
                     }
-                    return Container();
+                    return Container(
+
+                    );
                   },
                   itemCount: showAll? songAndStreams.length : showOnlySongs? songsOnly.length : showOnlyStreaming? streamOnly.length : 0,
                 ),
@@ -197,7 +189,12 @@ class _StreamingScreenState extends State<StreamingScreen> {
 
               SliverList.list(children: [
                 (streamProvider.isLoadingData || songProvider.isLoadingData)?
-                    CircularProgressIndicator(color: Colors.orange, strokeWidth: 1,):const SizedBox()
+                    Center(
+                      child: SizedBox(
+                        height: Dimensions.iconSizeDefault,
+                        width: Dimensions.iconSizeDefault,
+                          child: const CircularProgressIndicator(color: ThemeVariables.primaryColor, strokeWidth: 1,)),
+                    ):const SizedBox()
               ])
 
             ],

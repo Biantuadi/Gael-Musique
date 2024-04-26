@@ -91,6 +91,7 @@ class SongProvider with ChangeNotifier{
     isLoading = false;
     notifyListeners();
   }
+
   onCompleted(){
     if(audioPlayer.duration != null){
       if(audioPlayer.duration!.inSeconds.toDouble() == audioPlayer.position.inSeconds.toDouble()){
@@ -112,7 +113,6 @@ class SongProvider with ChangeNotifier{
     }
     notifyListeners();
   }
-
   playSong()async{
     if(currentSong != null && !audioPlayer.playing || songStopped){
         audioPlayer.play();
@@ -133,7 +133,6 @@ class SongProvider with ChangeNotifier{
   }
 
   playNext(){
-
     if(currentAlbum !=null){
       int indexOf = currentAlbum!.songs.indexOf(currentSong!);
       if(indexOf < currentAlbum!.songs.length - 2){
@@ -187,8 +186,6 @@ class SongProvider with ChangeNotifier{
       notifyListeners();
     });
   }
-
-
 
   seekSong({required Duration position}){
     if(currentSong != null){
@@ -246,10 +243,8 @@ class SongProvider with ChangeNotifier{
       data.forEach((json){
         allSongs.add(Song.fromJson(json));
       });
-      if(songsCurrentPage>0){
-        isLoadingData = true;
-        notifyListeners();
-      }
+
+      isLoadingData = false;
       notifyListeners();
     }
   }

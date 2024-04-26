@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'home/home_screen.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -79,8 +80,10 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           systemNavigationBarDividerColor: Colors.transparent,
         ),
         child: Consumer3<StreamingProvider,SongProvider, SocketProvider>(builder: (context, streamProvider,songProvider,socketProvider, child){
-          if(streamProvider.streamingController.value.isPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
-            songProvider.pauseSong();
+          if(streamProvider.videoPlayerHasBeenInitialized){
+            if(streamProvider.videoPlayerController.value.isPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
+              songProvider.pauseSong();
+            }
           }
           return Scaffold(
             floatingActionButton: IconButton(
@@ -127,14 +130,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                 SizedBox(
                                   width: size.width/3,
                                   height: size.height * .1,
-                                  child: YoutubePlayer(
-                                      controller: streamProvider.streamingController,
-                                      aspectRatio: (size.width/ 3)/ (size.height * .1),
-                                      width: size.width/3,
-                                    actionsPadding: EdgeInsets.zero,
-                                    thumbnail: const SizedBox(height: 0, width: 0,),
-                                    bufferIndicator: const SizedBox(height: 0, width: 0,),
-                                                                    ),
+                                  child: VideoPlayer(streamProvider.videoPlayerController),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(
@@ -153,17 +149,17 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                   ),
                                 ),
                                 IconButton(onPressed: (){
-                                  if(streamProvider.streamingController.value.isPlaying){
+                                  if(streamProvider.videoPlayerController.value.isPlaying){
                                     setState(() {
-                                      streamProvider.streamingController.pause();
+                                      streamProvider.videoPlayerController.pause();
                                     });
                                   }else{
                                     setState(() {
-                                      streamProvider.streamingController.play();
+                                      streamProvider.videoPlayerController.play();
                                     });
                                   }
-                                  streamProvider.playStreamVideo();
-                                }, icon:  Icon(streamProvider.streamingController.value.isPlaying ? CupertinoIcons.pause_solid:CupertinoIcons.play_arrow_solid)),
+                                  streamProvider.playVideo();
+                                }, icon:  Icon(streamProvider.videoPlayerController.value.isPlaying ? CupertinoIcons.pause_solid:CupertinoIcons.play_arrow_solid)),
                                 IconButton(onPressed: (){
                                   streamProvider.disposePlayer();
                                 }, icon: const Icon(CupertinoIcons.multiply)),

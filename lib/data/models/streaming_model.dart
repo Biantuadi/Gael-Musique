@@ -27,7 +27,7 @@ class Streaming{
     title = json["title"];
     description = json["description"];
     cover = json["thumbnail"];
-    bdCoverPath = json["bdCoverPath"];
+    bdCoverPath = json["bdCoverPath"]??"";
     videoLink = json["videoLink"];
     createdAt = DateTime.parse(json["createdAt"]);
    // date = DateTime.parse(json["date"]);
