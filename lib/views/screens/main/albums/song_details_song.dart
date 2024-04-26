@@ -36,9 +36,8 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
     for (var i = 0; i < 100; i++) {
       values.add(rng.nextInt(70) * 1.0);
     }
-    return  Consumer<SongProvider>(
-        builder: (BuildContext context, provider, Widget? child) {
-          StreamingProvider streamingProvider = Provider.of<StreamingProvider>(context, listen: true);
+    return  Consumer2<SongProvider, StreamingProvider>(
+        builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
           if(streamingProvider.streamingController.value.isPlaying ){
             streamingProvider.pauseStreamingVideo();
           }
@@ -48,7 +47,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
               leading: IconButton(onPressed: (){
                 Navigator.pop(context);
               },icon: const Icon(Iconsax.arrow_left, color: Colors.white,),),
-              title: Text(provider.currentAlbum!.title, style: Theme.of(context).textTheme.titleMedium,),
+              title: Text(songProvider.currentAlbum!.title, style: Theme.of(context).textTheme.titleMedium,),
               centerTitle: true,
             ),
               body: Stack(
@@ -66,10 +65,10 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          NetWorkImageWidget(size: Size(size.width * 0.8, size.width *0.6), imageUrl: provider.currentAlbum!.imgAlbum??'', radius: Dimensions.radiusSizeDefault,),
+                          NetWorkImageWidget(size: Size(size.width * 0.8, size.width *0.6), imageUrl: songProvider.currentAlbum!.imgAlbum??'', radius: Dimensions.radiusSizeDefault,),
                           SizedBox(height: Dimensions.spacingSizeSmall,),
-                          Text(provider.currentAlbum!.artist, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: ThemeVariables.primaryColor),),
-                          Text(provider.currentSong!.title, style: Theme.of(context).textTheme.titleMedium,),
+                          Text(songProvider.currentAlbum!.artist, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: ThemeVariables.primaryColor),),
+                          Text(songProvider.currentSong!.title, style: Theme.of(context).textTheme.titleMedium,),
                           SizedBox(height: Dimensions.spacingSizeSmall,),
                           Container(
                             padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
@@ -90,7 +89,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                             height: size.width / 6,
                             alignment: Alignment.center,
                             padding: EdgeInsets.symmetric(horizontal: Dimensions.spacingSizeDefault),
-                            child: provider.isLoading? const CircularProgressIndicator(
+                            child: songProvider.isLoading? const CircularProgressIndicator(
                               strokeWidth: 4,
                               color: ThemeVariables.primaryColor,
                             ): Stack(
@@ -99,9 +98,9 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                 AudioWaves(
                                   screenWidth: size.width - 2* Dimensions.spacingSizeDefault,
                                   maxHeight: size.height /15,
-                                  songIsPlaying: provider.audioPlayer.playing,
-                                  songPosition:provider.songPosition.inSeconds.toDouble() != 0.0?((provider.songPosition.inSeconds.toDouble()-1)): provider.songPositionInDouble,
-                                  totalDuration: provider.audioPlayer.duration!.inSeconds.toDouble(),
+                                  songIsPlaying: songProvider.audioPlayer.playing,
+                                  songPosition:songProvider.songPosition.inSeconds.toDouble() != 0.0?((songProvider.songPosition.inSeconds.toDouble()-1)): songProvider.songPositionInDouble,
+                                  totalDuration: songProvider.audioPlayer.duration!.inSeconds.toDouble(),
                                 ),
                                 SliderTheme(
                                     data: SliderTheme.of(context).copyWith(
@@ -117,15 +116,15 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                       widthFactor: 1.15,
                                       child: Slider(
                                         min: 0,
-                                        max:provider.audioPlayer.duration!.inSeconds.toDouble(),
+                                        max:songProvider.audioPlayer.duration!.inSeconds.toDouble(),
                                         thumbColor: Colors.transparent,
                                         inactiveColor: Colors.transparent,
                                         activeColor: Colors.transparent,
-                                        value:provider.songPosition.inSeconds.toDouble() != 0.0?((provider.songPosition.inSeconds.toDouble()-1)): provider.songPositionInDouble,
+                                        value:songProvider.songPosition.inSeconds.toDouble() != 0.0?((songProvider.songPosition.inSeconds.toDouble()-1)): songProvider.songPositionInDouble,
                                         onChanged: (double value) {
                                           setState(() {
-                                            if(provider.songPosition.inSeconds.toDouble() < provider.songDuration.inSeconds.toDouble()){
-                                              provider.audioPlayer.seek(Duration(seconds: value.toInt()));
+                                            if(songProvider.songPosition.inSeconds.toDouble() < songProvider.songDuration.inSeconds.toDouble()){
+                                              songProvider.audioPlayer.seek(Duration(seconds: value.toInt()));
                                             }
                                           });
 
@@ -141,8 +140,8 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(provider.getSongStrPosition(), style: Theme.of(context).textTheme.titleSmall,),
-                                Text("-${provider.getSongReminder(provider.audioPlayer.duration ?? Duration.zero , provider.audioPlayer.position)}", style: Theme.of(context).textTheme.titleSmall,),
+                                Text(songProvider.getSongStrPosition(), style: Theme.of(context).textTheme.titleSmall,),
+                                Text("-${songProvider.getSongReminder(songProvider.audioPlayer.duration ?? Duration.zero , songProvider.audioPlayer.position)}", style: Theme.of(context).textTheme.titleSmall,),
                               ],
                             ),
                           ),
@@ -165,7 +164,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      provider.playPost();
+                                      songProvider.playPost();
                                     },
                                     icon: Icon(
                                       Iconsax.previous,
@@ -176,14 +175,14 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                   IconButton(
                                     color: ThemeVariables.primaryColor,
                                     onPressed: () async{
-                                      if(provider.audioPlayer.playing){
-                                        provider.pauseSong();
+                                      if(songProvider.audioPlayer.playing){
+                                        songProvider.pauseSong();
                                       }else{
-                                        provider.playSong();
+                                        songProvider.playSong();
                                       }
                                     },
                                     icon: Icon(
-                                      provider.songIsPlaying?
+                                      songProvider.songIsPlaying?
                                       CupertinoIcons.pause_circle:
                                       CupertinoIcons.play_circle_fill,
                                       size: Dimensions.iconSizeExtraLarge * 2,
@@ -192,7 +191,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                   ),
                                   IconButton(
                                     onPressed: (){
-                                      provider.playNext();
+                                      songProvider.playNext();
                                     },
                                     icon: Icon(
                                       Iconsax.next,

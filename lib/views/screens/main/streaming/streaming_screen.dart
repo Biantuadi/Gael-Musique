@@ -94,10 +94,8 @@ class _StreamingScreenState extends State<StreamingScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
-    SongProvider songProvider = Provider.of<SongProvider>(context, listen: true);
-    return Consumer<StreamingProvider>(
-        builder: (BuildContext context, provider, Widget? child) {
+       return Consumer3<StreamingProvider, SongProvider, SocketProvider>(
+        builder: (BuildContext context, streamProvider, songProvider, socketProvider,Widget? child) {
         return Scaffold(
           body: CustomScrollView(
             controller: scrollController,
@@ -139,13 +137,13 @@ class _StreamingScreenState extends State<StreamingScreen> {
                         SizedBox(width: Dimensions.spacingSizeDefault,),
                         StreamingFilter(title: 'Tous', onTap: () {
                           setShowAll();
-                        }, isSelected: provider.setShowAll(),),
+                        }, isSelected: streamProvider.setShowAll(),),
                         StreamingFilter(title: 'Chants', onTap: () {
                           setShowSongsOnly();
-                        }, isSelected: provider.showSongs,),
+                        }, isSelected: streamProvider.showSongs,),
                         StreamingFilter(title: 'Streaming', onTap: () {
                           setShowStreamingOnly();
-                        }, isSelected: provider.showEmission,),
+                        }, isSelected: streamProvider.showEmission,),
                         SizedBox(width: Dimensions.spacingSizeDefault,)
                       ],
                     ),
@@ -168,7 +166,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
                 sliver: SliverGrid.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: Dimensions.spacingSizeDefault, mainAxisSpacing: Dimensions.spacingSizeDefault, childAspectRatio: .8),
                   itemBuilder: (BuildContext ctx, int index){
-                    if(provider.streamingToShow == null){
+                    if(streamProvider.streamingToShow == null){
                       return  Container(
                         width: size.width,
                         height: size.width * 2,
@@ -198,7 +196,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
               ),
 
               SliverList.list(children: [
-                (provider.isLoadingData || songProvider.isLoadingData)?
+                (streamProvider.isLoadingData || songProvider.isLoadingData)?
                     CircularProgressIndicator(color: Colors.orange, strokeWidth: 1,):const SizedBox()
               ])
 

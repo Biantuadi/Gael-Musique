@@ -78,8 +78,8 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           systemStatusBarContrastEnforced: false,
           systemNavigationBarDividerColor: Colors.transparent,
         ),
-        child: Consumer<StreamingProvider>(builder: (context, provider, child){
-          if(provider.streamingController.value.isPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
+        child: Consumer3<StreamingProvider,SongProvider, SocketProvider>(builder: (context, streamProvider,songProvider,socketProvider, child){
+          if(streamProvider.streamingController.value.isPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
             songProvider.pauseSong();
           }
           return Scaffold(
@@ -104,11 +104,11 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                 padding: EdgeInsets.zero,
                 elevation: 0.1,
                 shadowColor: Colors.grey,
-                height: provider.showStreamPlayContainer? size.height * .2 : size.height * .08,
+                height: streamProvider.showStreamPlayContainer? size.height * .2 : size.height * .08,
                 child:Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    provider.showStreamPlayContainer?
+                    streamProvider.showStreamPlayContainer?
                         GestureDetector(
                           onTap: (){
                               Navigator.pushNamed(context, Routes.streamingDetailsScreen);
@@ -128,7 +128,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                   width: size.width/3,
                                   height: size.height * .1,
                                   child: YoutubePlayer(
-                                      controller: provider.streamingController,
+                                      controller: streamProvider.streamingController,
                                       aspectRatio: (size.width/ 3)/ (size.height * .1),
                                       width: size.width/3,
                                     actionsPadding: EdgeInsets.zero,
@@ -147,25 +147,25 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Text(provider.currentStreaming!.title, style: Theme.of(context).textTheme.titleSmall,overflow: TextOverflow.ellipsis,),
-                                      Text(provider.currentStreaming!.description, style: Theme.of(context).textTheme.bodySmall, overflow: TextOverflow.ellipsis,),
+                                      Text(streamProvider.currentStreaming!.title, style: Theme.of(context).textTheme.titleSmall,overflow: TextOverflow.ellipsis,),
+                                      Text(streamProvider.currentStreaming!.description, style: Theme.of(context).textTheme.bodySmall, overflow: TextOverflow.ellipsis,),
                                     ],
                                   ),
                                 ),
                                 IconButton(onPressed: (){
-                                  if(provider.streamingController.value.isPlaying){
+                                  if(streamProvider.streamingController.value.isPlaying){
                                     setState(() {
-                                      provider.streamingController.pause();
+                                      streamProvider.streamingController.pause();
                                     });
                                   }else{
                                     setState(() {
-                                      provider.streamingController.play();
+                                      streamProvider.streamingController.play();
                                     });
                                   }
-                                  provider.playStreamVideo();
-                                }, icon:  Icon(provider.streamingController.value.isPlaying ? CupertinoIcons.pause_solid:CupertinoIcons.play_arrow_solid)),
+                                  streamProvider.playStreamVideo();
+                                }, icon:  Icon(streamProvider.streamingController.value.isPlaying ? CupertinoIcons.pause_solid:CupertinoIcons.play_arrow_solid)),
                                 IconButton(onPressed: (){
-                                  provider.disposePlayer();
+                                  streamProvider.disposePlayer();
                                 }, icon: const Icon(CupertinoIcons.multiply)),
                               ],
                             ),

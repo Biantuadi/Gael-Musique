@@ -1,4 +1,5 @@
 import 'package:Gael/data/providers/song_provider.dart';
+import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +44,11 @@ class AlbumScreenState extends State<AlbumScreen>{
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return Consumer<SongProvider>(
-        builder: (BuildContext context, provider, Widget? child) {
+    return Consumer2<SongProvider, StreamingProvider>(
+        builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
+          if(streamingProvider.streamingController.value.isPlaying){
+            streamingProvider.pauseStreamingVideo();
+          }
           return CustomScrollView(
             controller: scrollController,
             slivers: [
@@ -61,7 +65,7 @@ class AlbumScreenState extends State<AlbumScreen>{
 
               SliverPadding(
                 padding: EdgeInsets.only(top :Dimensions.spacingSizeDefault),
-                sliver:SliverList.list(children: provider.allAlbums.map((album) => AlbumWidget(album: album,)).toList()),
+                sliver:SliverList.list(children: songProvider.allAlbums.map((album) => AlbumWidget(album: album,)).toList()),
 
               )
             ],
