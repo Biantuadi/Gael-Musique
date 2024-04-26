@@ -30,7 +30,7 @@ class Streaming{
     bdCoverPath = json["bdCoverPath"]??"";
     videoLink = json["videoLink"];
     createdAt = DateTime.parse(json["createdAt"]);
-   // date = DateTime.parse(json["date"]);
+    date = DateTime.parse(json["date"]);
   }
 
   Map<String, dynamic> toJson(){

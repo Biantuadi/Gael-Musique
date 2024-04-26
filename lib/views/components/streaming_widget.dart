@@ -25,12 +25,25 @@ class StreamingWidget extends StatelessWidget{
       onTap: (){
         if(Provider.of<StreamingProvider>(context, listen: false).currentStreaming == null){
            Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
+           if(Provider.of<StreamingProvider>(context, listen: false).videoPlayerHasBeenInitialized){
+             Navigator.pushNamed(
+               context,
+               Routes.streamingDetailsScreen,
+             );
+           }
         }else{
           if(streaming.id != Provider.of<StreamingProvider>(context, listen: false).currentStreaming!.id){
             Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
+            if(Provider.of<StreamingProvider>(context, listen: false).videoPlayerHasBeenInitialized){
+              Navigator.pushNamed(
+                context,
+                Routes.streamingDetailsScreen,
+              );
+            }
+
           }
         }
-        Navigator.pushNamed(context, Routes.streamingDetailsScreen,);
+
       },
       child: Container(
         width: size.width,

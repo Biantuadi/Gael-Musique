@@ -64,6 +64,7 @@ class SongProvider with ChangeNotifier{
     isLoading = true;
     notifyListeners();
     bool audioFileExists = false;
+    currentAlbum = allAlbums.firstWhere((album) => album.id == song.album);
     if (song.songLink != "" || song.bdSongPath != null){
       File audioFile = File(song.bdSongPath!);
       await audioFile.exists().then((value) {
@@ -84,7 +85,7 @@ class SongProvider with ChangeNotifier{
         getSongPosition();
         getSongDuration();
         songDurationInDouble = songDuration.inSeconds.toDouble();
-        downloadSongAudio(song: song);
+
       });
     }
 

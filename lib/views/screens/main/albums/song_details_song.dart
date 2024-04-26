@@ -38,8 +38,10 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
     }
     return  Consumer2<SongProvider, StreamingProvider>(
         builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
-          if(streamingProvider.videoPlayerController.value.isPlaying ){
-            streamingProvider.dispose();
+          if(streamingProvider.videoPlayerHasBeenInitialized){
+            if(streamingProvider.videoPlayerController.value.isPlaying ){
+              streamingProvider.pauseVideo();
+            }
           }
           return Scaffold(
             appBar: AppBar(
@@ -47,7 +49,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
               leading: IconButton(onPressed: (){
                 Navigator.pop(context);
               },icon: const Icon(Iconsax.arrow_left, color: Colors.white,),),
-              title: Text(songProvider.currentAlbum!.title, style: Theme.of(context).textTheme.titleMedium,),
+              title: Text(songProvider.currentAlbum!=null? songProvider.currentAlbum!.title : "", style: Theme.of(context).textTheme.titleMedium,),
               centerTitle: true,
             ),
               body: Stack(
@@ -75,10 +77,12 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                optionWidget(text: 'Aimer', iconData: Iconsax.heart4),
-                                optionWidget(text: 'Playlist', iconData: Iconsax.music_playlist),
-                                optionWidget(text: 'Télécharger', iconData: Iconsax.check),
-                                optionWidget(text: 'Partager', iconData: Iconsax.share),
+                                optionWidget(text: 'Aimer', iconData: Iconsax.heart4, onTap: (){}),
+                                optionWidget(text: 'Playlist', iconData: Iconsax.music_playlist, onTap: (){}),
+                                optionWidget(text: 'Télécharger', iconData: Iconsax.check, onTap: (){
+                                  songProvider.downloadSongAudio(song: songProvider.currentSong!);
+                                }),
+                                optionWidget(text: 'Partager', iconData: Iconsax.share, onTap: (){}),
 
                               ],
                             ),
@@ -225,13 +229,16 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
     );
   }
 
-  Widget optionWidget({required String text, required IconData iconData}){
-    return Column(
-      children: [
-        Icon(iconData, size: Dimensions.iconSizeSmall,),
-        SizedBox(height: Dimensions.spacingSizeExtraSmall,),
-        Text(text, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10, fontWeight: FontWeight.bold),)
-      ],
+  Widget optionWidget({required String text, required IconData iconData, required VoidCallback onTap}){
+    return GestureDetector(
+      onTap:()=> onTap(),
+      child: Column(
+        children: [
+          Icon(iconData, size: Dimensions.iconSizeSmall,),
+          SizedBox(height: Dimensions.spacingSizeExtraSmall,),
+          Text(text, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10, fontWeight: FontWeight.bold),)
+        ],
+      ),
     );
   }
 

@@ -91,15 +91,21 @@ class StreamingProvider with ChangeNotifier {
   }
   setCurrentStreaming({required Streaming streaming, bool autoPlay=true})async{
     allStreaming = allStreaming?? [];
-    streamings = allStreaming!.where((str) => str.id != currentStreaming!.id).toList();
-    randomIndex = random.nextInt(streamings.length-1 );
-    
+    randomIndex = 0;
+
     if(currentStreaming != streaming){
       currentStreaming = streaming;
       videoPlayerHasBeenInitialized = true;
       Uri uri = Uri.parse(streaming.videoLink);
       videoPlayerController = VideoPlayerController.networkUrl(uri);
-      videoPlayerController.play();
+      notifyListeners();
+      if(videoPlayerHasBeenInitialized){
+        await videoPlayerController.play();
+      }
+      if(currentStreaming != null){
+        streamings = allStreaming!.where((str) => str.id != currentStreaming!.id).toList();
+        randomIndex = random.nextInt(streamings.length-1 );
+      }
     }
     showStreamPlayContainer = true;
     notifyListeners();
