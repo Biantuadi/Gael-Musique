@@ -14,6 +14,8 @@ class User{
   late DateTime createdAt;
   late bool? isConected;
   late List<String>? eventInterest;
+  late List<String> favoriteStreaming;
+  late List<String> favoriteSongs;
   User({
     required this.phone,
     required this.firstName,
@@ -24,6 +26,8 @@ class User{
     required this.lastName,
     required this.preferences,
     required this.profileImage,
+    this.favoriteSongs = const [],
+    this.favoriteStreaming = const [],
      this.bdAvatarPath = "",
      this.role,
     this.isConected,
@@ -44,6 +48,8 @@ class User{
     bdAvatarPath = json["bdAvatarPath"]??"";
     isConected = json["isConected"]??false;
     eventInterest = json["eventInterest"] ?? [];
+    favoriteStreaming = json["favoriteStreaming"] ?? [];
+    favoriteSongs = json["favoriteSongs"] ?? [];
     email = json["email"];
   }
 
@@ -61,6 +67,8 @@ class User{
     json["role"] = role;
     json["isConected"] = isConected;
     json["eventInterest"] = eventInterest;
+    json["favoriteStreaming"] = favoriteStreaming;
+    json["favoriteSongs"] = favoriteSongs;
 
     return json;
   }

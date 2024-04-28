@@ -231,7 +231,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
 
   Widget optionWidget({required String text, required IconData iconData, required VoidCallback onTap}){
     return GestureDetector(
-      onTap:()=> onTap(),
+      onTap:()=>onTap(),
       child: Column(
         children: [
           Icon(iconData, size: Dimensions.iconSizeSmall,),
