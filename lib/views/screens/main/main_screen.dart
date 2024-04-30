@@ -12,12 +12,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:pod_player/pod_player.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'home/home_screen.dart';
 import 'package:Gael/utils/dimensions.dart';
-
 
 class MainScreen extends StatefulWidget{
   const MainScreen({super.key});
@@ -62,12 +60,10 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    SongProvider songProvider = Provider.of<SongProvider>(context, listen: true);
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor : Colors.transparent,
@@ -81,7 +77,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
         ),
         child: Consumer3<StreamingProvider,SongProvider, SocketProvider>(builder: (context, streamProvider,songProvider,socketProvider, child){
           if(streamProvider.videoPlayerHasBeenInitialized){
-            if(streamProvider.videoPlayerController.value.isPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
+            if(streamProvider.podPlayerController.isVideoPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
               songProvider.pauseSong();
             }
           }
@@ -130,7 +126,14 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                 SizedBox(
                                   width: size.width/3,
                                   height: size.height * .1,
-                                  child: VideoPlayer(streamProvider.videoPlayerController),
+                                  child:
+                                  AspectRatio(
+                                    aspectRatio: (size.height * .1) /(size.width/3),
+                                    child: PodVideoPlayer(
+                                      controller: streamProvider.podPlayerController,
+                                      videoAspectRatio: (size.height * .1) /(size.width/3),
+                                    ),
+                                  ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(
@@ -149,17 +152,17 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                   ),
                                 ),
                                 IconButton(onPressed: (){
-                                  if(streamProvider.videoPlayerController.value.isPlaying){
+                                  if(streamProvider.podPlayerController.isVideoPlaying){
                                     setState(() {
-                                      streamProvider.videoPlayerController.pause();
+                                      streamProvider.podPlayerController.pause();
                                     });
                                   }else{
                                     setState(() {
-                                      streamProvider.videoPlayerController.play();
+                                      streamProvider.podPlayerController.play();
                                     });
                                   }
                                   streamProvider.playVideo();
-                                }, icon:  Icon(streamProvider.videoPlayerController.value.isPlaying ? CupertinoIcons.pause_solid:CupertinoIcons.play_arrow_solid)),
+                                }, icon:  Icon(streamProvider.podPlayerController.isVideoPlaying ? CupertinoIcons.pause_solid:CupertinoIcons.play_arrow_solid)),
                                 IconButton(onPressed: (){
                                   streamProvider.disposePlayer();
                                 }, icon: const Icon(CupertinoIcons.multiply)),

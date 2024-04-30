@@ -39,7 +39,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
     return  Consumer2<SongProvider, StreamingProvider>(
         builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
           if(streamingProvider.videoPlayerHasBeenInitialized){
-            if(streamingProvider.videoPlayerController.value.isPlaying ){
+            if(streamingProvider.podPlayerController.isVideoPlaying ){
               streamingProvider.pauseVideo();
             }
           }

@@ -4,7 +4,8 @@ import 'package:Gael/data/repositories/streaming_repository.dart';
 import 'package:Gael/utils/get_formatted_duration.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:video_player/video_player.dart';
+import 'package:pod_player/pod_player.dart';
+//import 'package:video_player/video_player.dart';
 
 class StreamingProvider with ChangeNotifier {
   StreamingRepository streamRepository;
@@ -22,9 +23,10 @@ class StreamingProvider with ChangeNotifier {
   bool isLoadingData = false;
 
   Streaming? currentStreaming;
-  late VideoPlayerController videoPlayerController;
-  bool videoPlayerHasBeenInitialized = false;
+  //late VideoPlayerController videoPlayerController;
+  late PodPlayerController podPlayerController;
 
+  bool videoPlayerHasBeenInitialized = false;
   Duration videoDuration =  Duration.zero;
   Duration videoPosition =  Duration.zero;
   String videoDurationStr = "";
@@ -42,12 +44,10 @@ class StreamingProvider with ChangeNotifier {
 
   Random random = Random();
   int randomIndex = 0;
-  
 
   playNext(){
     allStreaming = allStreaming ??[];
     if(currentStreaming != null){
-
       int indexOf = allStreaming!.indexOf(currentStreaming!);
       if(indexOf < allStreaming!.length - 2){
         currentStreaming = allStreaming![indexOf+1];
@@ -72,11 +72,11 @@ class StreamingProvider with ChangeNotifier {
   }
 
   String getallStreamingtrDuration(){
-    videoDurationStr = getFormattedDuration(videoPlayerController.value.duration);
+    videoDurationStr = getFormattedDuration(podPlayerController.totalVideoLength);
     return videoDurationStr;
   }
   String getallStreamingtrPosition(){
-    videoPosition = videoPlayerController.value.position;
+    videoPosition = podPlayerController.currentVideoPosition;
     videoPositionStr = getFormattedDuration(videoPosition);
     return videoPositionStr;
   }
@@ -96,12 +96,16 @@ class StreamingProvider with ChangeNotifier {
     if(currentStreaming != streaming){
       currentStreaming = streaming;
       videoPlayerHasBeenInitialized = true;
-      Uri uri = Uri.parse(streaming.videoLink);
-      videoPlayerController = VideoPlayerController.networkUrl(uri);
+      podPlayerController = PodPlayerController(
+          playVideoFrom: PlayVideoFrom.youtube(streaming.videoLink),
+        podPlayerConfig: const PodPlayerConfig(
+          autoPlay: true,
+          isLooping: false,
+          videoQualityPriority: [720, 360]
+        )
+      )..initialise();
       notifyListeners();
-      if(videoPlayerHasBeenInitialized){
-        await videoPlayerController.play();
-      }
+      podPlayerController.play();
       if(currentStreaming != null){
         streamings = allStreaming!.where((str) => str.id != currentStreaming!.id).toList();
         randomIndex = random.nextInt(streamings.length-1 );
@@ -111,14 +115,14 @@ class StreamingProvider with ChangeNotifier {
     notifyListeners();
   }
   playVideo(){
-    videoPlayerController.play();
+    podPlayerController.play();
   }
 
   pauseVideo(){
-    videoPlayerController.pause();
+    podPlayerController.pause();
   }
   disposePlayer(){
-    videoPlayerController.dispose();
+    podPlayerController.dispose();
     showStreamPlayContainer = false;
     notifyListeners();
   }

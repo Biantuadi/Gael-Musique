@@ -46,7 +46,7 @@ class AlbumScreenState extends State<AlbumScreen>{
     Size size = MediaQuery.sizeOf(context);
     return Consumer2<SongProvider, StreamingProvider>(
         builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
-          if(streamingProvider.videoPlayerController.value.isPlaying){
+          if(streamingProvider.podPlayerController.isVideoPlaying){
             streamingProvider.pauseVideo();
           }
           return CustomScrollView(
