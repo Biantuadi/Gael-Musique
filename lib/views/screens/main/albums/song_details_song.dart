@@ -3,6 +3,7 @@ import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,12 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                 optionWidget(text: 'Aimer', iconData: Iconsax.heart4, onTap: (){}),
                                 optionWidget(text: 'Playlist', iconData: Iconsax.music_playlist, onTap: (){}),
                                 optionWidget(text: 'Télécharger', iconData: Iconsax.check, onTap: (){
-                                  songProvider.downloadSongAudio(song: songProvider.currentSong!);
+                                  songProvider.downloadSongAudio(
+                                      song: songProvider.currentSong!,
+                                    onSuccess: (){
+                                        ScaffoldMessenger.of(context).showSnackBar(customSnack(text: 'Téléchargement terminé', context: context, bgColor: Colors.teal), );
+                                    }
+                                  );
                                 }),
                                 optionWidget(text: 'Partager', iconData: Iconsax.share, onTap: (){}),
 
@@ -221,6 +227,30 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                     ),
                   ),
                 ),
+                (songProvider.downloadPercent != 0 || songProvider.downloadPercent != 100)?
+                Positioned(
+                  bottom: MediaQuery.of(context).padding.bottom,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                           height: Dimensions.iconSizeSmall/5,
+                          decoration: BoxDecoration(
+                            color: ThemeVariables.iconInactive,
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+                          ),
+                          width: size.width,
+                                        ),
+                        Container(
+                           height: Dimensions.iconSizeSmall/5,
+                          decoration: BoxDecoration(
+                            color: ThemeVariables.primaryColor,
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+                          ),
+                          width: songProvider.downloadPercent.toDouble(),
+                                        ),
+                      ],
+                    )): const SizedBox()
               ],
             ),
 

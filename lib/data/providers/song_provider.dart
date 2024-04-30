@@ -66,7 +66,7 @@ class SongProvider with ChangeNotifier{
     bool audioFileExists = false;
     currentAlbum = allAlbums.firstWhere((album) => album.id == song.album);
     if (song.songLink != "" || song.bdSongPath != null){
-      File audioFile = File(song.bdSongPath!);
+      File audioFile = File(song.bdSongPath??'');
       await audioFile.exists().then((value) {
           audioFileExists = true;
       });
@@ -267,7 +267,7 @@ class SongProvider with ChangeNotifier{
 
 
 
-  downloadSongAudio({required Song song})async{
+  downloadSongAudio({required Song song, required VoidCallback onSuccess})async{
     currentDownloadingSongId = song.id;
     notifyListeners();
     Response? response;
@@ -291,6 +291,7 @@ class SongProvider with ChangeNotifier{
       if (response?.statusCode == 200){
         downloadedSuccessfully = true;
         onSuccessSongDownload(response!, audioPath: filePath, song: song);
+        onSuccess();
       }else{
         downloadError = "Vous devez autoriser L'app à utiliser votre stockage";
         notifyListeners();
