@@ -33,12 +33,10 @@ class SongRepository {
     var db = DatabaseHelper.instance;
     db.upsertSong(song);
   }
-
   deleteSong({required String songId}){
     var db = DatabaseHelper.instance;
     db.deleteSong(songId);
   }
-
   Future<List<Song>> getAlbumSongsFromDb(String albumId) async{
     List<Song> songs = [];
     var db = DatabaseHelper.instance;
@@ -49,7 +47,6 @@ class SongRepository {
     );
     return songs;
   }
-
   Future<List<Album>> getAlbumsFromDb() async{
     var db = DatabaseHelper.instance;
     await db.fetchAlbums().then(
