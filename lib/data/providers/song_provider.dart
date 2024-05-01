@@ -8,6 +8,7 @@ import 'package:Gael/utils/get_formatted_duration.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 
@@ -165,7 +166,7 @@ class SongProvider with ChangeNotifier{
     return songDurationStr;
   }
   String getSongStrPosition(){
-    songPosition = audioPlayer.position ?? songPosition;
+    songPosition = audioPlayer.position;
     songPositionStr = getFormattedDuration(songPosition);
     return songPositionStr;
   }
@@ -306,6 +307,7 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
   }
 
+  // ignore: unrelated_type_equality_checks
   bool isCurrentDownloadingSongId(int id)=>id == currentDownloadingSongId;
 
   onSuccessSongDownload(Response response, {required Song song, String? audioPath, String? imagePath})async{

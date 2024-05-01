@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/chat_model.dart';

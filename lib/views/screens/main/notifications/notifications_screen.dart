@@ -1,4 +1,6 @@
 
+// ignore_for_file: unused_local_variable, prefer_const_literals_to_create_immutables
+
 import 'package:Gael/data/providers/notification_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';

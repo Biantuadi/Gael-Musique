@@ -41,7 +41,7 @@ class SongWidget extends StatelessWidget{
           crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
-           NetWorkImageWidget(size: Size(size.width * 0.15, size.width * 0.15), imageUrl: albumImgUrl??"", radius: Dimensions.radiusSizeDefault,),
+           NetWorkImageWidget(size: Size(size.width * 0.15, size.width * 0.15), imageUrl: albumImgUrl, radius: Dimensions.radiusSizeDefault,),
            Expanded(child: Container(
               padding: EdgeInsets.only(left: Dimensions.spacingSizeSmall),
               width: size.width * 0.8 - Dimensions.spacingSizeSmall,

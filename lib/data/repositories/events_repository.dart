@@ -1,6 +1,6 @@
 import 'package:Gael/data/api/client/dio_client.dart';
 import 'package:Gael/data/data_base/database_client.dart';
-import 'package:Gael/data/models/chat_model.dart';
+// import 'package:Gael/data/models/chat_model.dart';
 import 'package:Gael/data/models/event_model.dart';
 import 'package:Gael/data/models/event_ticket_model.dart';
 import 'package:Gael/utils/config/app_config.dart';
@@ -23,6 +23,7 @@ class EventsRepository {
   }
 
   Future<List<Event>> getEventsFromDb() async{
+    // ignore: unused_local_variable
     String userId = await getUserID() ?? '';
     List<Event> events = [];
     var db = DatabaseHelper.instance;

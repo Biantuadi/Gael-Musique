@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_escapes
+
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';

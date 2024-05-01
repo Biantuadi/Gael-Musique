@@ -1,8 +1,8 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, unreachable_switch_case
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/event_model.dart';
-import 'package:Gael/data/models/song_model.dart';
-import 'package:Gael/data/models/streaming_model.dart';
+// import 'package:Gael/data/models/song_model.dart';
+// import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/views/screens/screens.dart';
 import 'package:flutter/material.dart';
 

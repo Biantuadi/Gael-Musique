@@ -1,3 +1,5 @@
+ // ignore_for_file: avoid_function_literals_in_foreach_calls, avoid_print
+
  import 'package:Gael/data/models/app/response_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/chat_repository.dart';

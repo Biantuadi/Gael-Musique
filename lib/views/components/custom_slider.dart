@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, must_be_immutable
+
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'dart:math';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/repositories/streaming_repository.dart';
