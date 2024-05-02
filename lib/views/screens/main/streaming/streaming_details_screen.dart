@@ -32,93 +32,97 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
       if(streamingProvider.podPlayerController.isVideoPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
         songProvider.pauseSong();
       }
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: ThemeVariables.thirdColorBlack,
-          leading: IconButton(onPressed: (){
-            Navigator.pop(context);
-          },icon: const Icon(Iconsax.arrow_left, color: Colors.white,),),
-          title: Text(streamingProvider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: size.height/3,
-                width: size.width,
-                child: AspectRatio(
-                  aspectRatio: (size.height/3)/(size.width),
-                  child: PodVideoPlayer(
-                  controller: streamingProvider.podPlayerController,
+      return PopScope(
+        onPopInvoked: (value){
+          streamingProvider.setState();
+        },
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: ThemeVariables.thirdColorBlack,
+              leading: IconButton(onPressed: (){
+                Navigator.pop(context);
+              },icon: const Icon(Iconsax.arrow_left, color: Colors.white,),),
+              title: Text(streamingProvider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
+              centerTitle: true,
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: size.height/3,
+                    width: size.width,
+                    child: AspectRatio(
+                      aspectRatio: (size.height/3)/(size.width),
+                      child: PodVideoPlayer(
+                        controller: streamingProvider.podPlayerController,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(height: Dimensions.spacingSizeSmall,),
-
-              Container(
-                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
+                  SizedBox(height: Dimensions.spacingSizeSmall,),
+                  Container(
+                    padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(streamingProvider.currentStreaming!.createdAt.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
-                        Text(streamingProvider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
-                        SizedBox(height: Dimensions.spacingSizeSmall,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(streamingProvider.currentStreaming!.createdAt.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
+                            Text(streamingProvider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
+                            SizedBox(height: Dimensions.spacingSizeSmall,),
+                          ],
+                        ),
+                        IconButton(
+                            onPressed: (){
+
+                            },
+                            icon: const Icon(Iconsax.audio_square))
                       ],
                     ),
-                    IconButton(
-                        onPressed: (){
-
-                        },
-                        icon: const Icon(Iconsax.audio_square))
-                  ],
-                ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
+                    child: Wrap(
+                      spacing: Dimensions.spacingSizeDefault,
+                      children: const [
+                        VideoButton(text: 'partager', icon: CupertinoIcons.share,),
+                        VideoButton(text: 'liker', icon: CupertinoIcons.hand_thumbsup,),
+                        VideoButton(text: 'soutenir', icon: CupertinoIcons.money_dollar,),
+                      ],
+                    ),
+                  ),
+                  Container(
+                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(streamingProvider.currentStreaming!.description, style: Theme.of(context).textTheme.bodyMedium,),
+                          Text(streamingProvider.currentStreaming!.date.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),)
+                        ],
+                      )
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
+                    child: Text("Suivez aussi...", style: Theme.of(context).textTheme.titleMedium,),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                    child: NetWorkImageWidget(imageUrl: streamingProvider.streamings[streamingProvider.randomIndex].cover, size: Size(size.width, size.width *.3),)
+                    ,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: streamingProvider.streamings.map((e) => DetStreamingCard(streaming: e, width: size.width/3,)).toList(),
+                    ),
+                  ),
+                  SizedBox(height: Dimensions.spacingSizeLarge,)
+                ],
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
-                child: Wrap(
-                  spacing: Dimensions.spacingSizeDefault,
-                  children: const [
-                    VideoButton(text: 'partager', icon: CupertinoIcons.share,),
-                    VideoButton(text: 'liker', icon: CupertinoIcons.hand_thumbsup,),
-                    VideoButton(text: 'soutenir', icon: CupertinoIcons.money_dollar,),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(streamingProvider.currentStreaming!.description, style: Theme.of(context).textTheme.bodyMedium,),
-                  Text(streamingProvider.currentStreaming!.date.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),)
-                  ],
-                )
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault),
-                child: Text("Suivez aussi...", style: Theme.of(context).textTheme.titleMedium,),
-              ),
-              Container(
-                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                child: NetWorkImageWidget(imageUrl: streamingProvider.streamings[streamingProvider.randomIndex].cover, size: Size(size.width, size.width *.3),)
-                ,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: streamingProvider.streamings.map((e) => DetStreamingCard(streaming: e, width: size.width/3,)).toList(),
-                ),
-              ),
-              SizedBox(height: Dimensions.spacingSizeLarge,)
-            ],
-          ),
-        ),
+            ),
+          )
       );
     });
   }

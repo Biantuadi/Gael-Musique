@@ -22,6 +22,10 @@ class StreamingProvider with ChangeNotifier {
   int streamingTotalPages = 0;
   bool isLoadingData = false;
 
+  setState(){
+    notifyListeners();
+  }
+
   Streaming? currentStreaming;
   //late VideoPlayerController videoPlayerController;
   late PodPlayerController podPlayerController;
@@ -92,7 +96,6 @@ class StreamingProvider with ChangeNotifier {
   setCurrentStreaming({required Streaming streaming, bool autoPlay=true})async{
     allStreaming = allStreaming?? [];
     randomIndex = 0;
-
     if(currentStreaming != streaming){
       currentStreaming = streaming;
       videoPlayerHasBeenInitialized = true;
@@ -101,7 +104,7 @@ class StreamingProvider with ChangeNotifier {
         podPlayerConfig: const PodPlayerConfig(
           autoPlay: true,
           isLooping: false,
-          videoQualityPriority: [720, 360]
+          videoQualityPriority: [720, 360, ]
         )
       )..initialise();
       notifyListeners();
@@ -116,14 +119,17 @@ class StreamingProvider with ChangeNotifier {
   }
   playVideo(){
     podPlayerController.play();
+    notifyListeners();
   }
 
   pauseVideo(){
     podPlayerController.pause();
+    notifyListeners();
   }
   disposePlayer(){
     podPlayerController.dispose();
     showStreamPlayContainer = false;
+    currentStreaming = null;
     notifyListeners();
   }
 

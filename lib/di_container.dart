@@ -31,7 +31,6 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   sl.registerLazySingleton(() => DioClient(AppConfig.BASE_URL, sl(),  sharedPreferences: sl()));
-
   sl.registerLazySingleton(() => SplashRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => AuthRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => ChatRepository(sharedPreferences: sl(), dioClient: sl()));

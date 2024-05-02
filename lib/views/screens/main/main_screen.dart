@@ -4,6 +4,7 @@ import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
 import 'package:Gael/views/screens/main/notifications/notifications_screen.dart';
 import 'package:Gael/views/screens/main/profile/profile_screen.dart';
@@ -57,6 +58,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   }
   bool showStreamContainer = false;
 
+
  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -64,6 +66,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor : Colors.transparent,
@@ -81,6 +84,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
               songProvider.pauseSong();
             }
           }
+
           return Scaffold(
             floatingActionButton: IconButton(
               onPressed: (){
@@ -127,12 +131,24 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                   width: size.width/3,
                                   height: size.height * .1,
                                   child:
-                                  AspectRatio(
+                                 AspectRatio(
                                     aspectRatio: (size.height * .1) /(size.width/3),
-                                    child: PodVideoPlayer(
+                                    child:
+                                        streamProvider.podPlayerController.isVideoPlaying?
+                                    PodVideoPlayer(
                                       controller: streamProvider.podPlayerController,
                                       videoAspectRatio: (size.height * .1) /(size.width/3),
-                                    ),
+                                      matchFrameAspectRatioToVideo: true,
+                                      matchVideoAspectRatioToFrame: true,
+
+                                    ) :
+                                   SizedBox(
+                                     width: size.width/3,
+                                     height: size.height * .1,
+                                     child: NetWorkImageWidget(
+                                       imageUrl: streamProvider.currentStreaming!= null? streamProvider.currentStreaming!.cover :'',
+                                       size: Size(size.width/3, size.height * .1), radius: 0,),
+                                   ),
                                   ),
                                 ),
                                 Container(
@@ -155,10 +171,12 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                   if(streamProvider.podPlayerController.isVideoPlaying){
                                     setState(() {
                                       streamProvider.podPlayerController.pause();
+                                      streamProvider.pauseVideo();
                                     });
                                   }else{
                                     setState(() {
                                       streamProvider.podPlayerController.play();
+                                      streamProvider.playVideo();
                                     });
                                   }
                                   streamProvider.playVideo();

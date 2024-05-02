@@ -65,7 +65,7 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
     bool audioFileExists = false;
     currentAlbum = allAlbums.firstWhere((album) => album.id == song.album);
-    if (song.songLink != "" || song.bdSongPath != null){
+    if (song.songLink != "" && song.bdSongPath != null){
       File audioFile = File(song.bdSongPath??'');
       await audioFile.exists().then((value) {
           audioFileExists = true;
