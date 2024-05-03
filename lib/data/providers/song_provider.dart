@@ -44,7 +44,13 @@ class SongProvider with ChangeNotifier{
   int songsCurrentPage = 0;
   int songsTotalPages = 0;
 
-
+  String getAlbumCoverUrl (String albumID){
+    String cover = "";
+    if(allAlbums.where((album) => album.id == albumID).isNotEmpty){
+      cover = allAlbums.where((album) => album.id == albumID).first.imgAlbum??'';
+    }
+    return cover;
+  }
 
   playShuffled(){
     playShuffledSong = !playShuffledSong;
@@ -65,30 +71,31 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
     bool audioFileExists = false;
     currentAlbum = allAlbums.firstWhere((album) => album.id == song.album);
-    if (song.songLink != "" && song.bdSongPath != null){
-      File audioFile = File(song.bdSongPath??'');
-      await audioFile.exists().then((value) {
-          audioFileExists = true;
-      });
-      if(audioFileExists){
-        await audioPlayer.setFilePath(song.bdSongPath!).then((value){
-          onCompleted();
-          getSongPosition();
-          getSongDuration();
-          songDurationInDouble = songDuration.inSeconds.toDouble();
-        });
-      }
-    }
-    else{
-      await audioPlayer.setUrl(currentSong!.songLink).then((value){
-        onCompleted();
-        getSongPosition();
-        getSongDuration();
-        songDurationInDouble = songDuration.inSeconds.toDouble();
+    if(currentSong != song){
+     if (song.songLink != "" && song.bdSongPath != null){
+       File audioFile = File(song.bdSongPath??'');
+       await audioFile.exists().then((value) {
+         audioFileExists = true;
+       });
+       if(audioFileExists){
+         await audioPlayer.setFilePath(song.bdSongPath!).then((value){
+           onCompleted();
+           getSongPosition();
+           getSongDuration();
+           songDurationInDouble = songDuration.inSeconds.toDouble();
+         });
+       }
+     }
+     else{
+       await audioPlayer.setUrl(currentSong!.songLink).then((value){
+         onCompleted();
+         getSongPosition();
+         getSongDuration();
+         songDurationInDouble = songDuration.inSeconds.toDouble();
 
-      });
-    }
-
+       });
+     }
+   }
     isLoading = false;
     notifyListeners();
   }

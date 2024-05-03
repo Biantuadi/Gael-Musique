@@ -86,21 +86,28 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           }
 
           return Scaffold(
-            floatingActionButton: IconButton(
-              onPressed: (){
+            floatingActionButton:songProvider.audioPlayer.playing? GestureDetector(
+              onTap: (){
                 if(songProvider.audioPlayer.playing || songProvider.songIsPlaying){
                   songProvider.pauseSong();
                 }else{
                   songProvider.playSong();
                 }
               },
-              icon: Icon(
-                (songProvider.audioPlayer.playing || songProvider.songIsPlaying)?
-                CupertinoIcons.pause_solid:
-                CupertinoIcons.play_fill,
-                color: ThemeVariables.backgroundBlack,
+              child: Container(
+                padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
+                decoration: BoxDecoration(
+                    color: ThemeVariables.primaryColor,
+                    borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall)
+                ),
+                child: Icon(
+                  (songProvider.audioPlayer.playing || songProvider.songIsPlaying)?
+                  CupertinoIcons.pause_solid:
+                  CupertinoIcons.play_fill,
+                  color: ThemeVariables.backgroundBlack,
+                ),
               ),
-            ),
+            ): Container(),
               floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
               bottomNavigationBar: BottomAppBar(
                 color: Colors.black,

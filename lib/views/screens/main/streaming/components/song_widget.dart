@@ -38,6 +38,7 @@ class StreamSongWidgetState extends State<StreamSongWidget>{
   @override
   Widget build(BuildContext context) {
     Size size = widget.size;
+    String albumCover = widget.provider.getAlbumCoverUrl(widget.song.album);
       return GestureDetector(
         onTap: (){
           if(widget.provider.thisSongIsCurrent(widget.song) == false){
@@ -50,7 +51,7 @@ class StreamSongWidgetState extends State<StreamSongWidget>{
         },
         child: Stack(
           children: [
-            NetWorkImageWidget(size: Size(size.width, size.width), imageUrl: widget.song.image, radius: Dimensions.radiusSizeDefault,),
+            NetWorkImageWidget(size: Size(size.width, size.width), imageUrl: albumCover, radius: Dimensions.radiusSizeDefault,),
             Container(
               padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
               margin: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault, vertical: Dimensions.spacingSizeSmall/2),
