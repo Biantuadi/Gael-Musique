@@ -13,9 +13,9 @@ class StreamingProvider with ChangeNotifier {
   StreamingProvider({required this.streamRepository,});
   bool showStreamPlayContainer = false;
 
-  List<Streaming>? allStreaming;
+  List<Streaming> allStreaming = [];
   List<Streaming> streamings = [];
-  List<Streaming>? streamingToShow;
+  List<Streaming> streamingToShow = [];
 
   int streamingTotalItems = 0;
   int streamingCurrentPage = 0;

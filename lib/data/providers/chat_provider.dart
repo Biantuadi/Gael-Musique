@@ -1,4 +1,6 @@
  import 'package:Gael/data/models/app/response_model.dart';
+import 'package:Gael/data/models/chat_model.dart';
+import 'package:Gael/data/models/message_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/chat_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -10,9 +12,8 @@ class ChatProvider with ChangeNotifier{
   List<User>? users ;
   bool isLoading = false;
   String? getUserError;
-
+  List<Chat> chats = [];
   String? chatKeySearch;
-
   setChatKeySearch(String key)async{
     chatKeySearch = key;
     notifyListeners();
@@ -25,12 +26,12 @@ class ChatProvider with ChangeNotifier{
   incrementCurrentPage(){
     if(userCurrentPage < userTotalPages){
       userCurrentPage++;
-      getUsers();
+      getUsersFromApi();
     }
   }
 
 
-  getUsers()async{
+  getUsersFromApi()async{
     isLoading = true;
     notifyListeners();
     ApiResponse? apiResponse = await chatRepository.getUsers(page: userCurrentPage>0? userCurrentPage:null);
@@ -44,10 +45,10 @@ class ChatProvider with ChangeNotifier{
         userCurrentPage = apiResponse.response.data["currentPage"]??0;
         userTotalPages = apiResponse.response.data["totalPages"]??0;
         users = users??[];
-        data.forEach((user) {
+        data.forEach((user) async{
           users!.add(User.fromJson(user));
+          await chatRepository.upsertUser(user: User.fromJson(user));
         });
-
       }
     }else{
       getUserError = "Erreur inconnue";
@@ -55,4 +56,25 @@ class ChatProvider with ChangeNotifier{
     isLoading = false;
     notifyListeners();
   }
+
+  upsertChat(Chat chat)async{
+    await chatRepository.upsertChat(chat: chat);
+  }
+  upsertMessage(Message message)async{
+    await chatRepository.upsertMessage(message: message);
+  }
+
+  getUsersFromDB()async{
+    users = users??[];
+    users = await chatRepository.getUsersFromDb();
+    notifyListeners();
+  }
+  getChatsFromDB()async{
+    chats = chats??[];
+    chats = await chatRepository.getChatsFromDb();
+    notifyListeners();
+  }
+
+
+
 }

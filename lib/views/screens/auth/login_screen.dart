@@ -137,7 +137,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   provider.login(LoginModel(email: email, password: password), successCallBack: ()async{
                                     await Provider.of<SongProvider>(context, listen: false).getSongsFromApi();
                                     await Provider.of<SongProvider>(context, listen: false).getAlbums();
-                                    await Provider.of<EventsProvider>(context, listen: false).getEvents();
+                                    await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
                                     await Provider.of<StreamingProvider>(context, listen: false).getStreaming().then((value){
                                       Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
                                     });

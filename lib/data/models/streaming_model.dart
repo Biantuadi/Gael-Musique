@@ -1,11 +1,13 @@
 
 import 'package:Gael/data/models/user_model.dart';
 
+import 'app/image_util_model.dart';
+
 class Streaming{
   late String id;
   late String cover;
   late String title;
-  late String bdCoverPath;
+  late String? bdCoverPath;
   late String description;
   late DateTime createdAt;
   late String videoLink;
@@ -18,7 +20,7 @@ class Streaming{
     required this.createdAt,
     required this.description,
     required this.videoLink,
-    required this.bdCoverPath,
+     this.bdCoverPath,
     required this.date
   });
 
@@ -27,7 +29,7 @@ class Streaming{
     title = json["title"];
     description = json["description"];
     cover = json["thumbnail"];
-    bdCoverPath = json["bdCoverPath"]??"";
+    bdCoverPath = json["bdCoverPath"];
     videoLink = json["videoLink"];
     createdAt = DateTime.parse(json["createdAt"]);
     date = DateTime.parse(json["date"]);
@@ -52,6 +54,12 @@ class Streaming{
         }
     }
     return false;
+  }
+  ImageUtilMap imageCover(){
+    if(bdCoverPath != "" || bdCoverPath != null){
+      return ImageUtilMap(imagePath: bdCoverPath!, isFromInternet: false);
+    }
+    return ImageUtilMap(imagePath: cover, isFromInternet: true);
   }
 
 

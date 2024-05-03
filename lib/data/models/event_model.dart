@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
+
+import 'app/image_util_model.dart';
+
 class Event{
   late String id;
   late String title;
   late String image;
-  late String bdCoverPath;
+  late String? bdCoverPath;
   late String location;
   late String description;
   late List<dynamic> tickets;
@@ -17,7 +21,7 @@ class Event{
     required this.tickets,
     required this.datetime,
     required this.image,
-    required this.bdCoverPath,
+     this.bdCoverPath,
     required this.createdAt,
     required this.description,
     required this.startTime,
@@ -30,7 +34,7 @@ class Event{
     title = json["title"];
     createdAt = DateTime.parse(json["createdAt"]);
     image = json["img"];
-    bdCoverPath = json["bdCover"]??"";
+    bdCoverPath = json["bdCover"];
     tickets = json["tickets"]??[];
     startTime = json["startTime"]??"";
     endTime = json["endTime"]??"";
@@ -41,7 +45,7 @@ class Event{
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
     json["_id"] = id;
-    json["date"] = datetime;
+    json["date"] = datetime.toString();
     json["title"] = title;
     json["createdAt"] = createdAt.toString();
     json["img"] = image;
@@ -50,6 +54,13 @@ class Event{
     json["location"] = location;
     json["description"] = description;
     return json;
+  }
+
+  ImageUtilMap imageCover(){
+    if(bdCoverPath != "" || bdCoverPath != null){
+      return ImageUtilMap(imagePath: bdCoverPath!, isFromInternet: false);
+    }
+    return ImageUtilMap(imagePath: image, isFromInternet: true);
   }
 
 }

@@ -89,7 +89,6 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                   );
                                 }),
                                 optionWidget(text: 'Partager', iconData: Iconsax.share, onTap: (){}),
-
                               ],
                             ),
                           ),
@@ -206,14 +205,13 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                     icon: Icon(
                                       Iconsax.next,
                                       size: Dimensions.iconSizeDefault,
-                                      //color: repeatSong? Colors.red : null,
                                     ),
                                   ),
                                 ],
                               ),
                               IconButton(
                                 onPressed: () {
-                                  //provider.playPost();
+                                  songProvider.playPost();
                                 },
                                 icon: Icon(
                                   Iconsax.shuffle,

@@ -17,6 +17,10 @@ class EventsRepository {
     Response response = await dioClient.get(AppConfig.eventsUrl);
     return response;
   }
+  Future<Response> getTickets()async{
+    Response response = await dioClient.get(AppConfig.userTicketsUrl);
+    return response;
+  }
 
   Future<String?> getUserID()async{
     return  sharedPreferences.getString(AppConfig.sharedUserID);

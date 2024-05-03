@@ -132,7 +132,7 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                               provider.setUserVars();
                               await Provider.of<SongProvider>(context, listen: false).getSongsFromApi();
                               await Provider.of<SongProvider>(context, listen: false).getAlbums();
-                              await Provider.of<EventsProvider>(context, listen: false).getEvents();
+                              await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
                               await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
                               if(imageFile != null){
                                 provider.updateUserAvatar(successCallBack: (){

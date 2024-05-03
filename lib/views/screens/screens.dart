@@ -16,7 +16,7 @@ export 'main/profile/courses_screen.dart';
 export 'main/profile/event_screen.dart';
 export 'main/profile/favorite_screen.dart';
 export 'main/profile/settings_screen.dart';
-export 'main/profile/payment_screen.dart';
+export 'main/profile/tickets/payment_screen.dart';
 export 'main/profile/update/info_update_screen.dart';
 export 'main/profile/update/password_update.dart';
 

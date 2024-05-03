@@ -186,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
           SizedBox(height: Dimensions.spacingSizeDefault,),
-          FileImageWidget(imageFile: imageFile!, size: Size(size.width, size.height / 4),),
+          FileImageWidget(imagePath: imageFile!.path, size: Size(size.width, size.height / 4),),
           SizedBox(height: Dimensions.spacingSizeDefault,),
           Row(
             children: [

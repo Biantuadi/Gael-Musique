@@ -1,4 +1,6 @@
 
+import 'app/image_util_model.dart';
+
 class Song{
   late String id;
   late String title;
@@ -41,12 +43,18 @@ class Song{
     json["createdAt"] = createdAt.toString();
     ///json["artist"] = artist;
     json["imgSong"] = image;
-    json["album"] = album;
+    json["albumId"] = album;
     json["year"] = year;
     json["songLink"] = songLink;
     json["bdSongPath"] = bdSongPath;
     json["bdCoverPath"] = bdSongPath;
     return json;
+  }
+  ImageUtilMap imageCover(){
+    if(bdCoverPath != "" || bdCoverPath != null){
+      return ImageUtilMap(imagePath: bdCoverPath!, isFromInternet: false);
+    }
+    return ImageUtilMap(imagePath: image, isFromInternet: true);
   }
 
 }

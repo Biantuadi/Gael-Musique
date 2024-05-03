@@ -4,34 +4,29 @@ import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class NoInternetScreen extends StatefulWidget{
-  const NoInternetScreen({super.key});
-
-  @override
-  NoInternetScreenState createState()=>NoInternetScreenState();
-}
-class NoInternetScreenState extends State<NoInternetScreen>{
+class NoInternetWidget extends StatelessWidget{
+  final VoidCallback voidCallback;
+  const NoInternetWidget({super.key, required this.voidCallback});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return Scaffold(
-      body: Center(
+    return Center(
         child: Column(
           children: [
-            Text("Aucune connexion internet", style: Theme.of(context).textTheme.bodyMedium,),
+            Text("Vous êtes hors ligne", style: Theme.of(context).textTheme.bodyMedium,),
             SizedBox(height: Dimensions.spacingSizeDefault,),
             ClipRRect(
               borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-              child: SvgPicture.asset(Assets.noInternet, width: size.width, height: size.width * 3/4, fit: BoxFit.cover,),
+              child: SvgPicture.asset(Assets.noInternet, width: size.width/3,),
             ),
             GradientButton(onTap: (){
-
+              voidCallback();
             }, size: Size(size.width/4, 50),
-                child: Text("Rafraîchir",style: Theme.of(context).textTheme.bodyMedium)),
+                child: Text("Continuer",style: Theme.of(context).textTheme.bodyMedium)),
           ],
         ),
-      ),
-    );
+      )
+    ;
   }
   
 }

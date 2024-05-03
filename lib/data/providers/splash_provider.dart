@@ -9,6 +9,7 @@ class SplashProvider with ChangeNotifier{
   bool success = false;
   bool isLoading_ = false;
   bool tokenIsValid = false;
+  bool isOfflineMode = false;
   // STYLE
 
   double captionFontSize = 14;
@@ -24,9 +25,13 @@ class SplashProvider with ChangeNotifier{
   bool get  isFirstTime =>  isFirstTime_;
 
   //
+  setIsOfflineMode(bool isOffline){
+    splashRepository.setOfflineMode(isOffline);
+  }
   initConfig({required VoidCallback successCallback, required VoidCallback errorCallback})async{
     isFirstTime_ =  await splashRepository.isFirstTime();
     isLoading_ = true;
+    isOfflineMode = await splashRepository.isOfflineMode();
     notifyListeners();
     await splashRepository.setFirstTimeToFalse();
     if(isFirstTime_){

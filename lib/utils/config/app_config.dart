@@ -24,12 +24,14 @@ class AppConfig {
    static const String songsUrl = "songs";
    static const String podcastsUrl = "podcasts";
    static const String eventsUrl = "events";
+   static const String userTicketsUrl = "tickets";
    static const String streamingsUrl = "streamings";
 
    // SHARED PREFERENCES
 
    static const String appTheme = "THEME";
    static const String isFirstTime = "IS-FIRST-TIME";
+   static const String isOffLineMode = "IS-OFFLINE-MODE";
 
    /* auth */
    static const String sharedToken = "USER-TOKEN";

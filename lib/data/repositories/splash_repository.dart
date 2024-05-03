@@ -38,8 +38,14 @@ class SplashRepository{
   Future<String?> getUserBio()async{
     return  sharedPreferences.getString(AppConfig.sharedUserBio);
   }
+  Future<bool> isOfflineMode()async{
+    return  sharedPreferences.getBool(AppConfig.isOffLineMode)?? false;
+  }
   setFirstTimeToFalse()async{
       await sharedPreferences.setBool(AppConfig.isFirstTime, false);
+  }
+  setOfflineMode(bool isOffline)async{
+    await sharedPreferences.setBool(AppConfig.isOffLineMode, isOffline);
   }
 
   Future<bool> isTokenValid()async{

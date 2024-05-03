@@ -1,5 +1,7 @@
 import 'package:Gael/data/models/preference_model.dart';
 
+import 'app/image_util_model.dart';
+
 class User{
   late String id;
   late String firstName;
@@ -8,7 +10,7 @@ class User{
   late String profileImage;
   late String phone;
   late String bio;
-  late String bdAvatarPath;
+  late String? bdAvatarPath;
   late String? role;
   late Preference preferences;
   late DateTime createdAt;
@@ -28,7 +30,7 @@ class User{
     required this.profileImage,
     this.favoriteSongs = const [],
     this.favoriteStreaming = const [],
-     this.bdAvatarPath = "",
+     this.bdAvatarPath,
      this.role,
     this.isConected,
     this.eventInterest
@@ -45,7 +47,7 @@ class User{
     bio = json["bio"]??"";
     phone = json["phone"]??"";
     role = json["role"];
-    bdAvatarPath = json["bdAvatarPath"]??"";
+    bdAvatarPath = json["bdAvatarPath"];
     isConected = json["isConected"]??false;
     eventInterest = json["eventInterest"] ?? [];
     favoriteStreaming = json["favoriteStreaming"] ?? [];
@@ -72,5 +74,13 @@ class User{
 
     return json;
   }
+
+  ImageUtilMap imageCover(){
+    if(bdAvatarPath != "" || bdAvatarPath != null){
+      return ImageUtilMap(imagePath: bdAvatarPath!, isFromInternet: false);
+    }
+    return ImageUtilMap(imagePath: profileImage, isFromInternet: true);
+  }
+
 
 }

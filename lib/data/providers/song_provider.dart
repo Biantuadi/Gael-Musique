@@ -232,6 +232,7 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
   }
 
+
   getAlbumsFromDB()async{
     allAlbums = await songRepository.getAlbumsFromDb();
     notifyListeners();
@@ -248,8 +249,9 @@ class SongProvider with ChangeNotifier{
       songsTotalItems = response.data["totalItems"];
       songsCurrentPage = response.data["currentPage"];
       songsTotalPages = response.data["totalPages"];
-      data.forEach((json){
+      data.forEach((json)async{
         allSongs.add(Song.fromJson(json));
+        await songRepository.upsertSong(song: Song.fromJson(json));
       });
 
       isLoadingData = false;
@@ -258,11 +260,11 @@ class SongProvider with ChangeNotifier{
   }
   getAlbums() async {
     Response response = await songRepository.getAlbums();
-
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      data.forEach((json){
+      data.forEach((json)async{
         allAlbums.add(Album.fromJson(json:json));
+        await songRepository.upsertAlbum(album: Album.fromJson(json:json));
       });
 
       albumsToShow = allAlbums;

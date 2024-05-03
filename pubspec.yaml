@@ -32,6 +32,8 @@ dependencies:
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.0
   pod_player: ^0.2.2
+  connectivity_plus: ^6.0.3
+  pretty_qr_code: ^3.3.0
   #better_player: ^0.0.63
 
 

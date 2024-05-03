@@ -109,8 +109,6 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SongDetailsScreen());
       case eventScreen:
         return MaterialPageRoute(builder: (_) =>  const EventsScreen());
-      case noInternetScreen:
-        return MaterialPageRoute(builder: (_) =>  const NoInternetScreen());
       case paymentScreen:
         return MaterialPageRoute(builder: (_) =>  const PaymentScreen());
       case paymentDetailsScreen:

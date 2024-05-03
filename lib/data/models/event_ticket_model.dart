@@ -27,7 +27,7 @@ class EventTicket{
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
     json["id"] = id;
-    json["user"] = user;
+    json["userId"] = user.id;
     json["event"] = user.toString();
     json["createdAt"] = createdAt.toString();
     json["price"] = price;
