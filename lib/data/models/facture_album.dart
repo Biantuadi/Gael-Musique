@@ -13,7 +13,7 @@ class FactureAlbum{
   });
 
   FactureAlbum.fromJson(Map<String, dynamic> json){
-    id = json["id"];
+    id = json["_id"];
     userId = json["user"];
     albumId = json["album"];
     createdAt = DateTime.parse(json["created_at"]);
@@ -23,7 +23,7 @@ class FactureAlbum{
 
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
-    json["id"] = id;
+    json["_id"] = id;
     json["artist"] = userId;
     json["album"] = albumId.toString();
     json["created_at"] = createdAt.toString();

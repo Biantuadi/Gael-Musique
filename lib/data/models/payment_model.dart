@@ -20,7 +20,7 @@ class PaymentModel{
 
   });
   PaymentModel.fromJson(Map<String, dynamic> json){
-    id = json["id"];
+    id = json["_id"];
     isCard = json["isCard"];
     cvsCode = json["cvsCode"];
     cardNumber = json["cardNumber"];
@@ -32,7 +32,7 @@ class PaymentModel{
 
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
-    json["id"] = id;
+    json["_id"] = id;
     json["isCard"] = isCard;
     json["cvsCode"] = cvsCode;
     json["cardNumber"] = cardNumber;

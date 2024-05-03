@@ -16,7 +16,7 @@ class EventTicket{
   });
 
   EventTicket.fromJson({required Map<String, dynamic> json, bool isForDB = false}){
-    id = json["id"];
+    id = json["_id"];
     user = User.fromJson(json["user"]);
     event = Event.fromJson(json: json["event"]);
     createdAt = DateTime.parse(json["createdAt"]);
@@ -26,7 +26,7 @@ class EventTicket{
 
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
-    json["id"] = id;
+    json["_id"] = id;
     json["userId"] = user.id;
     json["event"] = user.toString();
     json["createdAt"] = createdAt.toString();

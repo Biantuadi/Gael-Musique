@@ -33,7 +33,7 @@ class Chat {
 
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
-     json["id"] = id;
+     json["_id"] = id;
      json["user1_id"] = user1.id;
      json["user2_id"] = user2.id;
      json["created_at"] = createdAt.toString();

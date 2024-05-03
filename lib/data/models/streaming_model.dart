@@ -37,7 +37,7 @@ class Streaming{
 
   Map<String, dynamic> toJson(){
     Map<String, dynamic> json = {};
-    json["id"] = id;
+    json["_id"] = id;
     json["title"] = title;
     json["description"] = description;
     json["cover"] = cover;

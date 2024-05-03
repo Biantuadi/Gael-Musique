@@ -15,7 +15,7 @@ class NotificationModel{
     required this.read,
 });
   NotificationModel.fromJson(Map<String, dynamic> json){
-    id = json["id"];
+    id = json["_id"];
     title = json["title"];
     dateTime = DateTime.parse(json["created_at"]);
     message = json["message"];
@@ -26,7 +26,7 @@ class NotificationModel{
 
   Map<String, dynamic> toJson({bool isForBd = false}){
     Map<String, dynamic> json = {};
-    json["id"] = id;
+    json["_id"] = id;
     json["title"]=title;
     json["created_at"] = dateTime.toString();
     json["message"] = message;
