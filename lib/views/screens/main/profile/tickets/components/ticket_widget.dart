@@ -22,6 +22,7 @@ class TicketWidgetState extends State<TicketWidget>{
     // TODO: implement build
     Size size  = MediaQuery.sizeOf(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
@@ -33,14 +34,17 @@ class TicketWidgetState extends State<TicketWidget>{
           child: Row(
             children: [
               widget.eventTicket.event.imageCover().isFromInternet?
-              NetWorkImageWidget(imageUrl:  widget.eventTicket.event.image, size: Size(size.width/4, size.width/5)):
+              NetWorkImageWidget(imageUrl:  widget.eventTicket.event.image, size: Size(size.width/4, size.width/3)):
               FileImageWidget(imagePath:  widget.eventTicket.event.imageCover().imagePath, size: Size(size.width/4, size.width/5)),
               SizedBox(width: Dimensions.spacingSizeSmall,),
               Expanded(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text( widget.eventTicket.event.title, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white),),
                   Text("ID: ${ widget.eventTicket.id}", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white)),
+                  SizedBox(height: Dimensions.spacingSizeSmall,),
                   Text("PRIX: ${ widget.eventTicket.price} \$", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white)),
+                  SizedBox(height: Dimensions.spacingSizeSmall,),
                   Row(
                     children: [
                       GradientButton(onTap: (){
@@ -59,24 +63,27 @@ class TicketWidgetState extends State<TicketWidget>{
           ),
         ),])),
         showQR?
-            Column(
-              children: [
-                Container(
-                  width: size.width,
-                  height: size.width * .8,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-                    color: ThemeVariables.thirdColor
+            Container(
+              padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+              child: Column(
+                children: [
+                  Container(
+                    width: size.width,
+                    height: size.width * .8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                      color: ThemeVariables.thirdColor
+                    ),
                   ),
-                ),
-                SizedBox(height: Dimensions.spacingSizeDefault,),
-                SecondaryButton(onTap: (){
-                  setState(() {
-                    showQR = !showQR;
-                  });
-                }, size: Size(size.width, 50),child: Text("fermer", style:Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white), ))
-
-              ],
+                  SizedBox(height: Dimensions.spacingSizeDefault,),
+                  SecondaryButton(onTap: (){
+                    setState(() {
+                      showQR = !showQR;
+                    });
+                  }, size: Size(size.width, 50),child: Text("fermer", style:Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white), ))
+              
+                ],
+              ),
             ) : Container()
     ]);
   }

@@ -21,12 +21,8 @@ class SecondaryButton extends StatelessWidget {
         height: screenSize.height,
         padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-          gradient: const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [ThemeVariables.primaryColor, ThemeVariables.secondaryColor],
-          ),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
+          border: Border.all(color: Colors.white)
         ),
         child:  Center(
           child: child,

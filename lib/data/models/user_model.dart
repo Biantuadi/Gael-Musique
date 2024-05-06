@@ -39,8 +39,8 @@ class User{
 
   User.fromJson(Map<String, dynamic> json){
     id = json["_id"];
-    lastName = json["lastname"];
-    firstName = json["firstname"];
+    lastName = json["lastname"]??'';
+    firstName = json["firstname"]??"";
     createdAt = DateTime.parse(json["createdAt"]);
     profileImage = json["avatar"]??"";
     preferences =Preference.fromJson(json["preferences"]);
@@ -57,20 +57,20 @@ class User{
 
   Map<String, dynamic> toJson(){
     Map<String, dynamic> json = {};
-    json["_id"] = id;
-    json["lastName"] = lastName;
+    json["_id"] = id.toString();
+    json["lastName"] = lastName.toString();
     json["firstName"] = firstName.toString();
-    json["role"] = role;
-    json["avatar"] = profileImage;
-    json["preferences"] = preferences.toJson();
+    json["role"] = role.toString();
+    json["avatar"] = profileImage.toString();
+    //json["preferences"] = preferences.toJson();
     json["bio"] = bio;
-    json["bdAvatarPath"] = bdAvatarPath;
-    json["phone"] = phone;
-    json["role"] = role;
-    json["isConected"] = isConected;
-    json["eventInterest"] = eventInterest;
-    json["favoriteStreaming"] = favoriteStreaming;
-    json["favoriteSongs"] = favoriteSongs;
+    json["bdAvatarPath"] = bdAvatarPath.toString();
+    json["email"] = email.toString();
+    json["role"] = role.toString();
+    json["createdAt"] = createdAt.toString();
+   // json["eventInterest"] = eventInterest;
+ //   json["favoriteStreaming"] = favoriteStreaming;
+   // json["favoriteSongs"] = favoriteSongs;
 
     return json;
   }

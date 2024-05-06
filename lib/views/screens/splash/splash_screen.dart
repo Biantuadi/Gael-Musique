@@ -11,6 +11,7 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/screens/not_internet_page.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
+
+  String route = Routes.landingScreen;
+
   @override
   void initState() {
     super.initState();
@@ -33,8 +37,42 @@ class SplashScreenState extends State<SplashScreen> {
     initSocket();
   }
 
+
   String loadingText = "Chargement...";
   Connectivity connectivity = Connectivity();
+
+  Future noInternetCallBacks()async{
+    showCustomBottomSheet(
+        context: context,
+        content: NoInternetWidget(
+          voidCallback: () async{
+            await Provider.of<SongProvider>(context, listen: false).getSongsFromDB().then(
+                    (value)async{
+                  await Provider.of<SongProvider>(context, listen: false).getAlbumsFromDB().then((value)async{
+                  });
+                }
+            );
+            await Provider.of<EventsProvider>(context, listen: false).getEventsFromDB();
+            await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
+            await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
+            Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+          },
+        ));
+  }
+
+  Future internetCallBacks()async{
+    await Provider.of<SongProvider>(context, listen: false).getSongsFromApi().then(
+            (value)async{
+          await Provider.of<SongProvider>(context, listen: false).getAlbums().then((value)async{
+          });
+        }
+    );
+    await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
+    await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
+    await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+    await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
+    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+  }
   void initSocket(){
     Provider.of<SocketProvider>(context, listen: false).initSocket(
       successCallback: (){
@@ -49,69 +87,37 @@ class SplashScreenState extends State<SplashScreen> {
 
 
   void _route(){
-    String route = Routes.landingScreen;
+
     Provider.of<ThemeProvider>(context, listen: false).getTheme();
 
     Provider.of<SplashProvider>(context, listen: false).initConfig(
         successCallback: () async {
-
           await Provider.of<AuthProvider>(context, listen: false).getUserVars();
-          if(Provider.of<SplashProvider>(context, listen: false).userToken != null && Provider.of<SplashProvider>(context, listen: false).tokenIsValid == true){
+          if(
+          Provider.of<SplashProvider>(context, listen: false).userToken != null
+              && Provider.of<SplashProvider>(context, listen: false).tokenIsValid == true){
             route = Routes.mainScreen;
             if(Provider.of<SplashProvider>(context, listen: false).isOfflineMode){
-              showCustomBottomSheet(
-                  context: context,
-                  content: NoInternetWidget(
-                    voidCallback: () async{
-                      await Provider.of<SongProvider>(context, listen: false).getSongsFromDB().then(
-                              (value)async{
-                            await Provider.of<SongProvider>(context, listen: false).getAlbumsFromDB().then((value)async{
-                            });
-                          }
-                      );
-                      await Provider.of<EventsProvider>(context, listen: false).getEventsFromDB();
-                      await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
-                      await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
-                    },
-                  ));
+              await noInternetCallBacks();
             }else{
-              
-              connectivity.checkConnectivity().then((value)async{
-                if(value.isNotEmpty){
-                  if(value.contains(ConnectivityResult.ethernet) || value.contains(ConnectivityResult.mobile) || value.contains(ConnectivityResult.wifi) ){
-                    await Provider.of<SongProvider>(context, listen: false).getSongsFromApi().then(
-                            (value)async{
-                          await Provider.of<SongProvider>(context, listen: false).getAlbums().then((value)async{
-                          });
-                        }
-                    );
-                    await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
-                    await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
-                    await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
-                    await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
-                  }else{
-                    showCustomBottomSheet(
-                        context: context,
-                        content: NoInternetWidget(
-                          voidCallback: () async{
-                            await Provider.of<SongProvider>(context, listen: false).getSongsFromDB().then(
-                                    (value)async{
-                                  await Provider.of<SongProvider>(context, listen: false).getAlbumsFromDB().then((value)async{
-                                  });
-                                }
-                            );
-                            await Provider.of<EventsProvider>(context, listen: false).getEventsFromDB();
-                            await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
-                            await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
-                          },
-                        ));
+                 connectivity.checkConnectivity().then((value)async{
+                  if(value.isNotEmpty){
+                    if(value.contains(ConnectivityResult.ethernet) || value.contains(ConnectivityResult.mobile) || value.contains(ConnectivityResult.wifi) ){
+                      await internetCallBacks();
+                    }else{
+                      await noInternetCallBacks();
+                    }
                   }
-                }
-              });
+                });
             }
 
+          }else{
+            ScaffoldMessenger.of(context).showSnackBar(
+              customSnack(text: "Informations non retrouvées, veillez vous connecter!", context: context, bgColor: Colors.red)
+            );
+            Navigator.pushNamed(context, Routes.landingScreen);
           }
-          Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+
         },
         errorCallback: (){
           Navigator.of(context).pushNamedAndRemoveUntil(Routes.landingScreen, (route) => false);

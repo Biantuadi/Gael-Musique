@@ -54,6 +54,7 @@ class DatabaseHelper {
   // Inserting and updating a song
   Future<Song> upsertSong(Song song) async {
     Database db = await instance.database;
+    print("LA SONG: ${song.toJson()}");
     var count = Sqflite.firstIntValue(await db.rawQuery(
         "SELECT COUNT(*) FROM song WHERE _id = ?", [song.id]));
     if (count == 0) {
@@ -83,7 +84,7 @@ class DatabaseHelper {
     if (count == 0) {
       await db.insert("album", album.toJson());
     } else {
-      await db.update("song", album.toJson(), where: "_id = ?", whereArgs: [album.id]);
+      await db.update("album", album.toJson(), where: "_id = ?", whereArgs: [album.id]);
     }
     return album;
   }
@@ -276,7 +277,7 @@ class DatabaseHelper {
   }
   Future<List<Song>> fetchAlbumSongs(String albumId) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> results = await db.query("song" ,  where: "album_id = ?", whereArgs: [albumId]);
+    List<Map<String, dynamic>> results = await db.query("song" ,  where: "albumId = ?", whereArgs: [albumId]);
     List<Song> songs = [];
     for (var result in results) {
       Song song = Song.fromJson(result);

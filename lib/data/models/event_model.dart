@@ -49,15 +49,16 @@ class Event{
     json["title"] = title;
     json["createdAt"] = createdAt.toString();
     json["img"] = image;
-    json["tickets"] = tickets;
-    json["time"] = startTime;
+   // json["tickets"] = tickets;
+    json["startTime"] = startTime;
+    json["endTime"] = endTime;
     json["location"] = location;
     json["description"] = description;
     return json;
   }
 
   ImageUtilMap imageCover(){
-    if(bdCoverPath != "" || bdCoverPath != null){
+    if(bdCoverPath != "" && bdCoverPath != null){
       return ImageUtilMap(imagePath: bdCoverPath!, isFromInternet: false);
     }
     return ImageUtilMap(imagePath: image, isFromInternet: true);

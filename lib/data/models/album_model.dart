@@ -26,7 +26,7 @@ class Album{
   Album.fromJson({required Map<String, dynamic> json, bool isForDB = false}){
     id = json["_id"];
     title = json["title"];
-    subtitle = json["subtitle"];
+    subtitle = json["subtitle"]??'';
     createdAt = DateTime.parse(json["createdAt"]);
     imgAlbum = json["imgAlbum"];
     bdImgAlbum = json["bdImgAlbum"];
@@ -36,7 +36,7 @@ class Album{
         songs.add(Song.fromJson(song));
       });
     }
-    userBuy = json["usersBuy"];
+    userBuy = json["usersBuy"]??[];
     year = json["year"];
     artist = json["artist"];
   }

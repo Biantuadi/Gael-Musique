@@ -17,12 +17,15 @@ class NoInternetWidget extends StatelessWidget{
             SizedBox(height: Dimensions.spacingSizeDefault,),
             ClipRRect(
               borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-              child: SvgPicture.asset(Assets.noInternet, width: size.width/3,),
+              child: SvgPicture.asset(Assets.noInternet, width: size.width,),
             ),
-            GradientButton(onTap: (){
-              voidCallback();
-            }, size: Size(size.width/4, 50),
-                child: Text("Continuer",style: Theme.of(context).textTheme.bodyMedium)),
+            SizedBox(
+              width: size.width,
+              child: GradientButton(onTap: (){
+                voidCallback();
+              }, size: Size(size.width/4, 50),
+                  child: Text("Continuer",style: Theme.of(context).textTheme.bodyMedium)),
+            ),
           ],
         ),
       )

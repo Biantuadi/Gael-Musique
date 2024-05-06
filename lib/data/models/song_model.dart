@@ -38,16 +38,16 @@ class Song{
 
   Map<String, dynamic> toJson(){
     Map<String, dynamic> json = {};
-    json["_id"] = id;
-    json["title"] = title;
+    json["_id"] = id.toString();
+    json["title"] = title.toString();
     json["createdAt"] = createdAt.toString();
     ///json["artist"] = artist;
-    json["imgSong"] = image;
-    json["albumId"] = album;
-    json["year"] = year;
-    json["songLink"] = songLink;
-    json["bdSongPath"] = bdSongPath;
-    json["bdCoverPath"] = bdSongPath;
+    json["imgSong"] = image.toString();
+    json["albumId"] = album.toString();
+    json["year"] = year.toString();
+    json["songLink"] = songLink.toString();
+    json["bdSongPath"] = bdSongPath.toString();
+    json["bdCoverPath"] = bdSongPath.toString();
     return json;
   }
   ImageUtilMap imageCover(){
