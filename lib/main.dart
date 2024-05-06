@@ -1,3 +1,5 @@
+import 'package:Gael/data/providers/podcasts_provider.dart';
+import 'package:Gael/data/providers/radio_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/config/app_config.dart';
@@ -39,6 +41,8 @@ void main() async {
       ChangeNotifierProvider(create: (context) => di.sl<EventsProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<SocketProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<PaymentProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<RadiosProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<PodcastsProvider>()),
     ],
     child: const MainApp(),
   ));

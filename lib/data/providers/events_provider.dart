@@ -7,8 +7,7 @@ import 'package:flutter/foundation.dart';
 
 class EventsProvider with ChangeNotifier{
   EventsRepository eventsRepository;
-  SocketProvider socketProvider;
-  EventsProvider({required this.eventsRepository, required this.socketProvider});
+  EventsProvider({required this.eventsRepository});
 
   List<Event>? events;
   List<EventTicket>? tickets;

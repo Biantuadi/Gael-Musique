@@ -2,8 +2,7 @@ import 'package:Gael/data/models/user_model.dart';
 
 import 'app/image_util_model.dart';
 
-class Podcast{
-
+class RadioModel{
   late String id;
   late String cover;
   late String title;
@@ -13,7 +12,7 @@ class Podcast{
   late String videoLink;
   late DateTime date;
 
-  Podcast({
+  RadioModel({
     required this.cover,
     required this.id,
     required this.title,
@@ -24,7 +23,7 @@ class Podcast{
     required this.date
   });
 
-  Podcast.fromJson(Map<String, dynamic> json){
+  RadioModel.fromJson(Map<String, dynamic> json){
     id = json["_id"]??"";
     title = json["title"];
     description = json["description"];
@@ -48,7 +47,7 @@ class Podcast{
   }
 
   bool isFavorite({required User user}){
-    if(user.favoritePodcasts != []){
+    if(user.favoriteRadios != []){
       if(user.favoriteStreaming.contains(id)){
         return true;
       }

@@ -18,6 +18,8 @@ class User{
   late List<String>? eventInterest;
   late List<String> favoriteStreaming;
   late List<String> favoriteSongs;
+  late List<String> favoriteRadios;
+  late List<String> favoritePodcasts;
   User({
     required this.phone,
     required this.firstName,
@@ -30,6 +32,8 @@ class User{
     required this.profileImage,
     this.favoriteSongs = const [],
     this.favoriteStreaming = const [],
+    this.favoritePodcasts = const [],
+    this.favoriteRadios = const [],
      this.bdAvatarPath,
      this.role,
     this.isConected,
@@ -51,6 +55,8 @@ class User{
     isConected = json["isConected"]??false;
     eventInterest = json["eventInterest"] ?? [];
     favoriteStreaming = json["favoriteStreaming"] ?? [];
+    favoritePodcasts = json["favoritePodcasts"] ?? [];
+    favoriteRadios = json["favoriteRadios"] ?? [];
     favoriteSongs = json["favoriteSongs"] ?? [];
     email = json["email"];
   }

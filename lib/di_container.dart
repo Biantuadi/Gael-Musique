@@ -2,7 +2,11 @@ import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/favorite_provider.dart';
 import 'package:Gael/data/providers/notification_provider.dart';
+import 'package:Gael/data/providers/podcasts_provider.dart';
+import 'package:Gael/data/providers/radio_provider.dart';
 import 'package:Gael/data/repositories/auth_repository.dart';
+import 'package:Gael/data/repositories/podcast_repository.dart';
+import 'package:Gael/data/repositories/radio_repository.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -42,6 +46,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => EventsRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() =>  SocketRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() =>  PaymentRepository(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(() =>  PodCastsRepository(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(() =>  RadioRepository(sharedPreferences: sl(), dioClient: sl()));
 
 
 
@@ -54,7 +60,9 @@ Future<void> init() async {
   sl.registerFactory(() => NotificationProvider(notificationRepository: sl()));
   sl.registerFactory(() => SongProvider(songRepository: sl()));
   sl.registerFactory(() => StreamingProvider(streamRepository: sl()));
-  sl.registerFactory(() => EventsProvider(eventsRepository: sl(), socketProvider: sl()));
+  sl.registerFactory(() => EventsProvider(eventsRepository: sl()));
+  sl.registerFactory(() => RadiosProvider(radiosRepository: sl()));
+  sl.registerFactory(() => PodcastsProvider(podcastsRepository: sl()));
 
   sl.registerLazySingleton(() => SocketProvider(socketRepository: sl()
   ));

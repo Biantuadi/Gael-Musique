@@ -24,6 +24,7 @@ class AppConfig {
    static const String songsUrl = "songs";
    static const String podcastsUrl = "podcasts";
    static const String eventsUrl = "events";
+   static const String radiosUrl = "radios";
    static const String userTicketsUrl = "tickets";
    static const String streamingsUrl = "streamings";
 

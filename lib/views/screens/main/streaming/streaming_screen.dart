@@ -1,12 +1,16 @@
-import 'package:Gael/data/models/stream_and_song_related.dart';
+import 'package:Gael/data/models/app/discover_models_related.dart';
+import 'package:Gael/data/providers/podcasts_provider.dart';
+import 'package:Gael/data/providers/radio_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/screens/main/streaming/components/podcastWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'components/radio_widget.dart';
 import 'components/song_widget.dart';
 import 'components/streaming_filter_widget.dart';
 import '../../../components/streaming_widget.dart';
@@ -22,11 +26,15 @@ class _StreamingScreenState extends State<StreamingScreen> {
   ScrollController scrollController = ScrollController();
 
   List<Widget> pageContent=[];
-  List<SongAndStreamRelated> songAndStreams=[];
-  List<SongAndStreamRelated> songsOnly=[];
-  List<SongAndStreamRelated> streamOnly=[];
+  List<DiscoverModelsRelated> songAndStreams=[];
+  List<DiscoverModelsRelated> songsOnly=[];
+  List<DiscoverModelsRelated> streamOnly=[];
+  List<DiscoverModelsRelated> radiosOnly=[];
+  List<DiscoverModelsRelated> podcastsOnly=[];
   bool showOnlySongs = false;
   bool showOnlyStreaming = false;
+  bool showOnlyPodcasts = false;
+  bool showOnlyRadios = false;
   bool showAll = true;
 
   bool showHeader = true;
@@ -57,6 +65,25 @@ class _StreamingScreenState extends State<StreamingScreen> {
       showOnlySongs = true;
     });
   }
+  setShowPodcastsOnly(){
+    setState(() {
+      showAll = false;
+      showOnlyStreaming = false;
+      showOnlySongs = false;
+      showOnlyRadios = false;
+      showOnlyPodcasts = true;
+    });
+  }
+  setShowRadiosOnly(){
+    setState(() {
+      showAll = false;
+      showOnlyStreaming = false;
+      showOnlySongs = false;
+      showOnlyRadios = true;
+      showOnlyPodcasts = false;
+    });
+  }
+
   setShowAll(){
     setState(() {
       showAll = true;
@@ -75,14 +102,24 @@ class _StreamingScreenState extends State<StreamingScreen> {
 
   getData(){
     Provider.of<StreamingProvider>(context, listen: false).allStreaming!.forEach((stream) {
-      songAndStreams.add(SongAndStreamRelated(isValid: true, streaming: stream));
-      streamOnly.add(SongAndStreamRelated(isValid: true, streaming: stream));
+      songAndStreams.add(DiscoverModelsRelated(streaming: stream));
+      streamOnly.add(DiscoverModelsRelated( streaming: stream));
     });
     Provider.of<SongProvider>(context, listen: false).allSongs.forEach((song) {
-      songAndStreams.add(SongAndStreamRelated(isValid: true, song: song));
-      songsOnly.add(SongAndStreamRelated(isValid: true, song: song));
+      songAndStreams.add(DiscoverModelsRelated( song: song));
+      songsOnly.add(DiscoverModelsRelated( song: song));
     });
     songAndStreams.sort((a, b)=> a.getCreatedDate()!.microsecondsSinceEpoch.compareTo(b.getCreatedDate()!.microsecondsSinceEpoch));
+
+    Provider.of<PodcastsProvider>(context, listen: false).podcasts!.forEach((podcast) {
+      songAndStreams.add(DiscoverModelsRelated(podcast: podcast));
+      podcastsOnly.add(DiscoverModelsRelated( podcast: podcast));
+    });
+
+    Provider.of<RadiosProvider>(context, listen: false).radios!.forEach((radio) {
+      songAndStreams.add(DiscoverModelsRelated(radio: radio));
+      streamOnly.add(DiscoverModelsRelated( radio: radio));
+    });
 
   }
   void loadMore(){
@@ -94,8 +131,8 @@ class _StreamingScreenState extends State<StreamingScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-       return Consumer3<StreamingProvider, SongProvider, SocketProvider>(
-        builder: (BuildContext context, streamProvider, songProvider, socketProvider,Widget? child) {
+       return Consumer5<StreamingProvider, SongProvider, SocketProvider, PodcastsProvider, RadiosProvider>(
+        builder: (BuildContext context, streamProvider, songProvider, socketProvider,podcastsProvider, radiosProvider, Widget? child) {
         return Scaffold(
           body: CustomScrollView(
             controller: scrollController,
@@ -144,6 +181,12 @@ class _StreamingScreenState extends State<StreamingScreen> {
                         StreamingFilter(title: 'Streaming', onTap: () {
                           setShowStreamingOnly();
                         }, isSelected: showOnlyStreaming,),
+                        StreamingFilter(title: 'Podcats', onTap: () {
+                          setShowPodcastsOnly();
+                        }, isSelected: showOnlyPodcasts,),
+                        StreamingFilter(title: 'Radios', onTap: () {
+                          setShowRadiosOnly();
+                        }, isSelected: showOnlyRadios,),
                         SizedBox(width: Dimensions.spacingSizeDefault,)
                       ],
                     ),
@@ -172,29 +215,47 @@ class _StreamingScreenState extends State<StreamingScreen> {
                     if(showOnlySongs){
                       return StreamSongWidget(song: songsOnly[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
                     }
-                    SongAndStreamRelated songAndStreamRelated = songAndStreams[index];
-                    if(songAndStreamRelated.streamIsNotNull()){
+                    DiscoverModelsRelated discoverRelated = songAndStreams[index];
+                    if(discoverRelated.streamIsNotNull()){
                       return StreamingWidget(streaming: songAndStreams[index].streaming!,);
                     }
-                    if(songAndStreamRelated.songIsNotNull()){
+                    if(discoverRelated.songIsNotNull()){
                       return StreamSongWidget(song: songAndStreams[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
                     }
+                    if(discoverRelated.radioIsNotNull()){
+                      return RadioWidget(radio: songAndStreams[index].radio!,);
+                    }
+                    if(discoverRelated.podcastIsNotNull()){
+                      return PodcastWidget(podcast: songAndStreams[index].podcast!,);
+                    }
+
                     return Container(
 
                     );
                   },
-                  itemCount: showAll? songAndStreams.length : showOnlySongs? songsOnly.length : showOnlyStreaming? streamOnly.length : 0,
+                  itemCount: showAll? songAndStreams.length : showOnlySongs? songsOnly.length : showOnlyStreaming? streamOnly.length: showOnlyRadios? radiosOnly.length: showOnlyPodcasts? podcastsOnly.length : 0,
                 ),
               ),
 
+
               SliverList.list(children: [
-                (streamProvider.isLoadingData || songProvider.isLoadingData)?
+
+                (streamProvider.isLoadingData || songProvider.isLoadingData || radiosProvider.isLoadingData || podcastsProvider.isLoadingData)?
                     Center(
                       child: SizedBox(
                         height: Dimensions.iconSizeDefault,
                         width: Dimensions.iconSizeDefault,
                           child: const CircularProgressIndicator(color: ThemeVariables.primaryColor, strokeWidth: 1,)),
-                    ):const SizedBox()
+                    ):const SizedBox(),
+
+
+                (showAll || showOnlySongs ||  showOnlyStreaming || showOnlyRadios|| showOnlyPodcasts)?
+                Center(
+                  child: Text("Nothing to show", style: Theme.of(context).textTheme.bodySmall,),
+                ) : Container()
+
+
+
               ])
 
             ],

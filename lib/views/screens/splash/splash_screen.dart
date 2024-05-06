@@ -1,5 +1,7 @@
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/chat_provider.dart';
+import 'package:Gael/data/providers/podcasts_provider.dart';
+import 'package:Gael/data/providers/radio_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/splash_provider.dart';
@@ -68,6 +70,8 @@ class SplashScreenState extends State<SplashScreen> {
         }
     );
     await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
+    await Provider.of<RadiosProvider>(context, listen: false).getRadiosFromAPi();
+    await Provider.of<PodcastsProvider>(context, listen: false).getPodcastsFromAPi();
     await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
     await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
     await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
