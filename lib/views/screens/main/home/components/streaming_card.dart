@@ -2,7 +2,7 @@ import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
-import 'package:Gael/views/components/images/image_asset_widget.dart';
+// import 'package:Gael/views/components/images/image_asset_widget.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

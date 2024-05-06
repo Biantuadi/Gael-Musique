@@ -63,6 +63,7 @@ class MainApp extends StatelessWidget {
 
     return Consumer<ThemeProvider>(
         builder: (BuildContext context, provider, Widget? child) {
+          // ignore: unused_local_variable
           bool isDark = provider.isDark;
           return MaterialApp(
         themeMode: provider.themeMode,

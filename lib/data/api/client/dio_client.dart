@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, avoid_single_cascade_in_expression_statements, await_only_futures, use_rethrow_when_possible
+
 import 'dart:io';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:dio/dio.dart';

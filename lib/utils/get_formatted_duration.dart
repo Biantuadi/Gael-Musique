@@ -1,6 +1,8 @@
 
 
 
+// ignore_for_file: unused_local_variable
+
 String getFormattedDate(DateTime dateTime){
   int day = dateTime.day;
   int month = dateTime.month;

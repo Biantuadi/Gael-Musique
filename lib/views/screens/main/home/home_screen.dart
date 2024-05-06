@@ -1,13 +1,15 @@
+// ignore_for_file: avoid_print
+
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
-import 'package:Gael/data/providers/auth_provider.dart';
-import 'package:Gael/data/providers/events_provider.dart';
+// import 'package:Gael/data/providers/auth_provider.dart';
+// import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:Gael/views/components/buttons/button_gradient.dart';
+// import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/layouts/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

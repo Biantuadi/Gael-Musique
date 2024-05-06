@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/utils/dimensions.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, prefer_const_literals_to_create_immutables
+
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -13,7 +15,6 @@ class AlbumScreen extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return AlbumScreenState();
   }
 

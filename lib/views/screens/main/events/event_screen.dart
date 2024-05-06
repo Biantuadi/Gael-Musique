@@ -1,7 +1,9 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconsax/iconsax.dart';

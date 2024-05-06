@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/podcasts_provider.dart';
