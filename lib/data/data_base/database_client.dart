@@ -54,7 +54,6 @@ class DatabaseHelper {
   // Inserting and updating a song
   Future<Song> upsertSong(Song song) async {
     Database db = await instance.database;
-    print("LA SONG: ${song.toJson()}");
     var count = Sqflite.firstIntValue(await db.rawQuery(
         "SELECT COUNT(*) FROM song WHERE _id = ?", [song.id]));
     if (count == 0) {
