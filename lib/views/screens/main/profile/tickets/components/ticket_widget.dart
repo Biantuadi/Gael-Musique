@@ -64,42 +64,46 @@ class TicketWidgetState extends State<TicketWidget>{
             ],
           ),
         ),])),
-        showQR?
-            Container(
-              padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-              child: Column(
-                children: [
-                  Container(
-                    width: size.width,
-                    height: size.width * .8,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(
-                      vertical: Dimensions.radiusSizeDefault* 2
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
-                      color: Colors.white
-                    ),
-                    child: PrettyQrView.data(
-                      data: widget.eventTicket.id,
-                      decoration:  PrettyQrDecoration(
+
+        AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          padding:
+          EdgeInsets.all(Dimensions.spacingSizeDefault),
+          child:
+              showQR?
+          Column(
+            children: [
+              Container(
+                width: size.width,
+                height: size.width * .8,
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(
+                    vertical: Dimensions.radiusSizeDefault* 2
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                    color: Colors.white
+                ),
+                child: PrettyQrView.data(
+                    data: widget.eventTicket.id,
+                    decoration:  PrettyQrDecoration(
                         image: PrettyQrDecorationImage(
                             image: AssetImage(Assets.logoPNG),
-                          colorFilter: ColorFilter.mode(Colors.black, BlendMode.color)
+                            colorFilter: ColorFilter.mode(Colors.black, BlendMode.color)
                         )
                     )
-                    ),
-                  ),
-                  SizedBox(height: Dimensions.spacingSizeDefault,),
-                  SecondaryButton(onTap: (){
-                    setState(() {
-                      showQR = !showQR;
-                    });
-                  }, size: Size(size.width, 50),child: Text("fermer", style:Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white), ))
-              
-                ],
+                ),
               ),
-            ) : Container()
+              SizedBox(height: Dimensions.spacingSizeDefault,),
+              SecondaryButton(onTap: (){
+                setState(() {
+                  showQR = !showQR;
+                });
+              }, size: Size(size.width, 50),child: Text("fermer", style:Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white), ))
+
+            ],
+          ): Container(),
+        )
     ]);
   }
 }
