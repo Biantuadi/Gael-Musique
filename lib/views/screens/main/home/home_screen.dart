@@ -98,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
                               child: HomeCard(onTap: (){
-                                Navigator.pushNamed(context, Routes.albumScreen);
+                                // Navigator.pushNamed(context, Routes.albumScreen);
+                                print("Navigate to albums screen");
                               }, iconData: Iconsax.music, title: "Albums", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                             Padding(
@@ -159,8 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: (){
-                                  Navigator.pushNamed(context, Routes.albumScreen);
-                                  print("HELLO WORLD");
+                                  // Navigator.pushNamed(context, Routes.albumScreen);
+                                  print("Navigate to albums screen");
                                 },
                                 child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
                               ),

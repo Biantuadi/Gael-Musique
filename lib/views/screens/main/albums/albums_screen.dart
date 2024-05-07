@@ -15,10 +15,11 @@ class AlbumScreen extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
+    // TODO: implement createState
     return AlbumScreenState();
   }
-
 }
+
 class AlbumScreenState extends State<AlbumScreen>{
   ScrollController scrollController = ScrollController();
 
