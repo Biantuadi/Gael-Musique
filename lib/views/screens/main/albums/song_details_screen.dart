@@ -39,10 +39,11 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
     return  Consumer2<SongProvider, StreamingProvider>(
         builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
           if(streamingProvider.videoPlayerHasBeenInitialized){
-            if(streamingProvider.podPlayerController.isVideoPlaying ){
+            if(streamingProvider.podPlayerController.isVideoPlaying == true){
               streamingProvider.pauseVideo();
             }
           }
+
           return Scaffold(
             appBar: AppBar(
               backgroundColor: ThemeVariables.thirdColorBlack,
@@ -118,7 +119,6 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                       activeTrackColor: Colors.transparent,
                                       thumbColor: Colors.transparent,
                                       inactiveTrackColor: Colors.transparent,
-
                                     ),
                                     child: FractionallySizedBox(
                                       widthFactor: 1.15,

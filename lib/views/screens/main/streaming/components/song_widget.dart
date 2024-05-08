@@ -2,9 +2,11 @@ import 'package:Gael/data/models/song_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'audio_wave.dart';
 
@@ -42,7 +44,11 @@ class StreamSongWidgetState extends State<StreamSongWidget>{
       return GestureDetector(
         onTap: (){
           if(widget.provider.thisSongIsCurrent(widget.song) == false){
-            widget.provider.setCurrentSong(widget.song);
+            widget.provider.setCurrentSong(song: widget.song, onError: (err){
+              ScaffoldMessenger.of(context).showSnackBar(
+                customSnack(text: err??"Une erreur s'est produite", context: context, bgColor: Colors.red)
+              );
+            });
           }
           if(!widget.provider.audioPlayer.playing || !widget.provider.songIsPlaying){
             Provider.of<SongProvider>(context, listen: false).playSong();
@@ -52,6 +58,18 @@ class StreamSongWidgetState extends State<StreamSongWidget>{
         child: Stack(
           children: [
             NetWorkImageWidget(size: Size(size.width, size.width), imageUrl: albumCover, radius: Dimensions.radiusSizeDefault,),
+            Opacity(
+              opacity: .5,
+              child: Container(
+                height: size.height,
+                width: size.width,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                ),
+
+              ),
+            ),
             Container(
               padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
               margin: EdgeInsets.symmetric(horizontal :Dimensions.spacingSizeDefault, vertical: Dimensions.spacingSizeSmall/2),

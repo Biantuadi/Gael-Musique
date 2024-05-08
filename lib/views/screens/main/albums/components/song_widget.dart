@@ -3,6 +3,7 @@ import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -22,7 +23,14 @@ class SongWidget extends StatelessWidget{
       onTap: (){
 
         if(Provider.of<SongProvider>(context, listen: false).thisSongIsCurrent(song) == false){
-          Provider.of<SongProvider>(context, listen: false).setCurrentSong(song);
+          Provider.of<SongProvider>(context, listen: false).setCurrentSong(
+           song:   song,
+            onError: (err){
+              ScaffoldMessenger.of(context).showSnackBar(
+                  customSnack(text: err??"Une erreur s'est produite", context: context, bgColor: Colors.red)
+              );
+            }
+          );
         }
         if( !Provider.of<SongProvider>(context, listen: false).audioPlayer.playing){
           Provider.of<SongProvider>(context, listen: false).playSong();

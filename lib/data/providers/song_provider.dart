@@ -22,6 +22,7 @@ class SongProvider with ChangeNotifier{
   Album? currentAlbum;
   Song? currentSong;
   AudioPlayer audioPlayer = AudioPlayer();
+  String? audioPLayerError;
   bool songIsPlaying = false;
   bool playNextSong = false;
   bool songStopped = true;
@@ -66,28 +67,64 @@ class SongProvider with ChangeNotifier{
       }
     }
   }
-  setCurrentSong(Song song)async{
-    currentSong = song;
+  setCurrentSong({required Song song, required Function onError})async{
+    audioPLayerError = null;
     isLoading = true;
     notifyListeners();
     bool audioFileExists = false;
     currentAlbum = allAlbums.firstWhere((album) => album.id == song.album);
     if(currentSong != song){
+      currentSong = song;
      if (song.songLink != "" && song.bdSongPath != null){
        File audioFile = File(song.bdSongPath??'');
        await audioFile.exists().then((value) {
          audioFileExists = true;
        });
        if(audioFileExists){
-         await audioPlayer.setFilePath(song.bdSongPath!).then((value){
-           onCompleted();
-           getSongPosition();
-           getSongDuration();
-           songDurationInDouble = songDuration.inSeconds.toDouble();
+         try{
+           await audioPlayer.setFilePath(song.bdSongPath!).then((value){
+             onCompleted();
+             getSongPosition();
+             getSongDuration();
+             songDurationInDouble = songDuration.inSeconds.toDouble();
 
-         });
+           });
+         }catch (e){
+           audioPLayerError = "L'audio player rencontre un problème, veillez réessayer";
+           onError(audioPLayerError);
+           songIsPlaying = false;
+           downloadSongAudio(song: song, onSuccess: (){});
+         }
        }
        else{
+         try{
+           await audioPlayer.setUrl(currentSong!.songLink).then((value){
+             onCompleted();
+             getSongPosition();
+             getSongDuration();
+             songDurationInDouble = songDuration.inSeconds.toDouble();
+
+           });
+         }catch (e){
+           try{
+             await audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(currentSong!.songLink))).then((value){
+               onCompleted();
+               getSongPosition();
+               getSongDuration();
+               songDurationInDouble = songDuration.inSeconds.toDouble();
+             });
+           }
+           catch (e){
+             audioPLayerError = "L'audio player rencontre un problème, veillez réessayer";
+             onError(audioPLayerError);
+             songIsPlaying = false;
+             downloadSongAudio(song: song, onSuccess: (){});
+           }
+         }
+       }
+     }
+     else{
+       try{
          await audioPlayer.setUrl(currentSong!.songLink).then((value){
            onCompleted();
            getSongPosition();
@@ -95,16 +132,23 @@ class SongProvider with ChangeNotifier{
            songDurationInDouble = songDuration.inSeconds.toDouble();
 
          });
+       }catch (e){
+         try{
+           await audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(currentSong!.songLink))).then((value){
+             onCompleted();
+             getSongPosition();
+             getSongDuration();
+             songDurationInDouble = songDuration.inSeconds.toDouble();
+           });
+         }
+         catch (e){
+           audioPLayerError = "L'audio player rencontre un problème, veillez réessayer";
+           onError(audioPLayerError);
+           songIsPlaying = false;
+           downloadSongAudio(song: song, onSuccess: (){});
+         }
        }
-     }
-     else{
-       await audioPlayer.setUrl(currentSong!.songLink).then((value){
-         onCompleted();
-         getSongPosition();
-         getSongDuration();
-         songDurationInDouble = songDuration.inSeconds.toDouble();
 
-       });
      }
    }
     isLoading = false;
