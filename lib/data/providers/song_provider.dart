@@ -90,14 +90,7 @@ class SongProvider with ChangeNotifier{
              songDurationInDouble = songDuration.inSeconds.toDouble();
            });
          }catch (e){
-           audioPLayerError = "Audio introuvable...Nous tentons de la rétéléchager";
-           onError(audioPLayerError);
-           songIsPlaying = false;
-           songDurationInDouble = 0;
-           songPositionInDouble= 0;
-           songDuration = Duration.zero;
-           songPosition = Duration.zero;
-           downloadSongAudio(song: song, onSuccess: (){});
+           onAudioError(song, onError);
          }
        }
        else{
@@ -118,14 +111,7 @@ class SongProvider with ChangeNotifier{
              });
            }
            catch (e){
-             audioPLayerError = "L'audio player rencontre un problème, veillez réessayer";
-             onError(audioPLayerError);
-             songIsPlaying = false;
-             downloadSongAudio(song: song, onSuccess: (){});
-             songDurationInDouble = 0;
-             songPositionInDouble= 0;
-             songDuration = Duration.zero;
-             songPosition = Duration.zero;
+             onAudioError(song, onError);
            }
          }
        }
@@ -148,15 +134,7 @@ class SongProvider with ChangeNotifier{
            });
          }
          catch (e) {
-           audioPLayerError =
-           "L'audio player rencontre un problème, veillez réessayer";
-           onError(audioPLayerError);
-           songIsPlaying = false;
-           downloadSongAudio(song: song, onSuccess: () {});
-           songDurationInDouble = 0;
-           songPositionInDouble= 0;
-           songDuration = Duration.zero;
-           songPosition = Duration.zero;
+           onAudioError(song, onError);
          }
 
 
@@ -164,6 +142,18 @@ class SongProvider with ChangeNotifier{
     isLoading = false;
     notifyListeners();
   }}
+  onAudioError(Song song, Function onError){
+    audioPLayerError =
+    "L'audio player rencontre un problème, veillez réessayer";
+    onError(audioPLayerError);
+    songIsPlaying = false;
+    downloadSongAudio(song: song, onSuccess: () {});
+    songDurationInDouble = 0;
+    songPositionInDouble= 0;
+    songDuration = Duration.zero;
+    songPosition = Duration.zero;
+    songIsPlaying =false;
+  }
 
   onCompleted(){
     if(audioPlayer.duration != null){

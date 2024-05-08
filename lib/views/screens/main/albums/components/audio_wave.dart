@@ -33,10 +33,14 @@ class AudioWavesState extends State<AudioWaves>{
       if(i==99){
         isLast = true;
       }
-      if(maxRandomNum <= 2^32 && maxRandomNum <= pow(2, 32)){
-        randomHeight = random.nextInt(maxRandomNum);
+      if(widget.totalDuration != 0 || widget.songPosition != 0){
+        if(maxRandomNum <= 2^32 && maxRandomNum <= pow(2, 32)){
+          randomHeight = random.nextInt(maxRandomNum);
+        }else{
+          randomHeight = random.nextInt(200);
+        }
       }else{
-        randomHeight = random.nextInt(200);
+        randomHeight = 1;
       }
       containers.add(
           AudioWaveContainer(
