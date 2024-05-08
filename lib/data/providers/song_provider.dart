@@ -84,6 +84,16 @@ class SongProvider with ChangeNotifier{
            getSongPosition();
            getSongDuration();
            songDurationInDouble = songDuration.inSeconds.toDouble();
+
+         });
+       }
+       else{
+         await audioPlayer.setUrl(currentSong!.songLink).then((value){
+           onCompleted();
+           getSongPosition();
+           getSongDuration();
+           songDurationInDouble = songDuration.inSeconds.toDouble();
+
          });
        }
      }

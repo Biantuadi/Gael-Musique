@@ -109,7 +109,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                   maxHeight: size.height /15,
                                   songIsPlaying: songProvider.audioPlayer.playing,
                                   songPosition:songProvider.songPosition.inSeconds.toDouble() != 0.0?((songProvider.songPosition.inSeconds.toDouble()-1)): songProvider.songPositionInDouble,
-                                  totalDuration: songProvider.audioPlayer.duration!.inSeconds.toDouble(),
+                                  totalDuration: songProvider.songDuration.inSeconds.toDouble(),
                                 ),
                                 SliderTheme(
                                     data: SliderTheme.of(context).copyWith(
@@ -125,7 +125,7 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                       widthFactor: 1.15,
                                       child: Slider(
                                         min: 0,
-                                        max:songProvider.audioPlayer.duration!.inSeconds.toDouble(),
+                                        max:songProvider.songDuration.inSeconds.toDouble(),
                                         thumbColor: Colors.transparent,
                                         inactiveColor: Colors.transparent,
                                         activeColor: Colors.transparent,
@@ -136,7 +136,6 @@ class SongDetailsScreenState extends State<SongDetailsScreen>{
                                               songProvider.audioPlayer.seek(Duration(seconds: value.toInt()));
                                             }
                                           });
-
                                         },
                                       ),
                                     )
