@@ -15,10 +15,11 @@ class AlbumScreen extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
+    // TODO: implement createState
     return AlbumScreenState();
   }
-
 }
+
 class AlbumScreenState extends State<AlbumScreen>{
   ScrollController scrollController = ScrollController();
 
@@ -48,8 +49,8 @@ class AlbumScreenState extends State<AlbumScreen>{
     return Consumer2<SongProvider, StreamingProvider>(
         builder: (BuildContext context, songProvider,streamingProvider, Widget? child) {
           if(streamingProvider.videoPlayerHasBeenInitialized){
-            if(streamingProvider.podPlayerController.isVideoPlaying){
-              streamingProvider.pauseVideo();
+            if(streamingProvider.podPlayerController.isVideoPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
+              songProvider.pauseSong();
             }
           }
           return CustomScrollView(

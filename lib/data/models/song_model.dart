@@ -31,8 +31,8 @@ class Song{
     album = json["album"]??json['albumId'];
     year = json["year"];
     songLink = json["songLink"];
-    bdSongPath = json["bdSongPath"];
-    bdSongPath = json["bdCoverPath"];
+    bdSongPath = json["bdSongPath"]??"";
+    bdSongPath = json["bdCoverPath"]??"";
 
   }
 

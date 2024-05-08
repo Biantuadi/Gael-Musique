@@ -75,10 +75,11 @@ class SongProvider with ChangeNotifier{
     currentAlbum = allAlbums.firstWhere((album) => album.id == song.album);
     if(currentSong != song){
       currentSong = song;
+
      if (song.songLink != "" && song.bdSongPath != null){
-       File audioFile = File(song.bdSongPath??'');
+       File audioFile = File(song.bdSongPath??'-');
        await audioFile.exists().then((value) {
-         audioFileExists = true;
+         audioFileExists = value;
        });
        if(audioFileExists){
          try{
@@ -87,12 +88,15 @@ class SongProvider with ChangeNotifier{
              getSongPosition();
              getSongDuration();
              songDurationInDouble = songDuration.inSeconds.toDouble();
-
            });
          }catch (e){
-           audioPLayerError = "L'audio player rencontre un problème, veillez réessayer";
+           audioPLayerError = "Audio introuvable...Nous tentons de la rétéléchager";
            onError(audioPLayerError);
            songIsPlaying = false;
+           songDurationInDouble = 0;
+           songPositionInDouble= 0;
+           songDuration = Duration.zero;
+           songPosition = Duration.zero;
            downloadSongAudio(song: song, onSuccess: (){});
          }
        }
@@ -103,7 +107,6 @@ class SongProvider with ChangeNotifier{
              getSongPosition();
              getSongDuration();
              songDurationInDouble = songDuration.inSeconds.toDouble();
-
            });
          }catch (e){
            try{
@@ -119,41 +122,48 @@ class SongProvider with ChangeNotifier{
              onError(audioPLayerError);
              songIsPlaying = false;
              downloadSongAudio(song: song, onSuccess: (){});
+             songDurationInDouble = 0;
+             songPositionInDouble= 0;
+             songDuration = Duration.zero;
+             songPosition = Duration.zero;
            }
          }
        }
      }
-     else{
-       try{
-         await audioPlayer.setUrl(currentSong!.songLink).then((value){
+     else {
+       try {
+         await audioPlayer.setUrl(currentSong!.songLink).then((value) {
            onCompleted();
            getSongPosition();
            getSongDuration();
            songDurationInDouble = songDuration.inSeconds.toDouble();
-
          });
-       }catch (e){
-         try{
-           await audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(currentSong!.songLink))).then((value){
+       } catch (e) {
+         try {
+           await audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(currentSong!.songLink))).then((value) {
              onCompleted();
              getSongPosition();
              getSongDuration();
              songDurationInDouble = songDuration.inSeconds.toDouble();
            });
          }
-         catch (e){
-           audioPLayerError = "L'audio player rencontre un problème, veillez réessayer";
+         catch (e) {
+           audioPLayerError =
+           "L'audio player rencontre un problème, veillez réessayer";
            onError(audioPLayerError);
            songIsPlaying = false;
-           downloadSongAudio(song: song, onSuccess: (){});
+           downloadSongAudio(song: song, onSuccess: () {});
+           songDurationInDouble = 0;
+           songPositionInDouble= 0;
+           songDuration = Duration.zero;
+           songPosition = Duration.zero;
          }
-       }
 
-     }
-   }
+
+   }}
     isLoading = false;
     notifyListeners();
-  }
+  }}
 
   onCompleted(){
     if(audioPlayer.duration != null){

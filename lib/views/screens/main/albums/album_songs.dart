@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 import 'components/song_widget.dart';
 
-class AlbumSongsScreen extends StatefulWidget{
+class AlbumSongsScreen extends StatefulWidget {
   final Album album;
   const AlbumSongsScreen({super.key, required this.album});
 
@@ -20,9 +20,9 @@ class AlbumSongsScreen extends StatefulWidget{
   State<StatefulWidget> createState() {
     return AlbumSongsScreenState();
   }
-
 }
-class AlbumSongsScreenState extends State<AlbumSongsScreen>{
+
+class AlbumSongsScreenState extends State<AlbumSongsScreen> {
   ScrollController scrollController = ScrollController();
 
   bool showHeader = true;
@@ -30,7 +30,8 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
   @override
   void initState() {
     super.initState();
-    Provider.of<SongProvider>(context, listen: false).setCurrentAlbum(widget.album);
+    Provider.of<SongProvider>(context, listen: false)
+        .setCurrentAlbum(widget.album);
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -46,159 +47,274 @@ class AlbumSongsScreenState extends State<AlbumSongsScreen>{
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Consumer<SongProvider>(
         builder: (BuildContext context, provider, Widget? child) {
-          return Scaffold(
-            body: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                CustomScrollView(
-                  controller: scrollController,
-                  slivers: [
-                    SliverAppBar(
-                      leading: IconButton(icon: const Icon(Iconsax.arrow_left, ), onPressed: (){
-                        Navigator.pop(context);
-                      },),
-                      //title: Text(widget.album.title,style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
-                      pinned: true,
-                      backgroundColor:Colors.black,
-                      actions: [
-                        IconButton(onPressed: (){
-                          provider.playShuffled();
-                        }, icon:  Icon(Iconsax.shuffle, color:provider.playShuffledSong?ThemeVariables.primaryColor:Colors.white,)),
-                        IconButton(onPressed: (){}, icon:const  Icon(CupertinoIcons.search, color: Colors.white,)),
-                      ],
+      return Scaffold(
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverAppBar(
+                  leading: IconButton(
+                    icon: const Icon(
+                      Iconsax.arrow_left,
                     ),
-
-                    SliverList.list(children: [
-                      Container(
-                        color: Colors.black,
-                        child: Stack(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  NetWorkImageWidget(size: Size(size.width / 2, size.width * 0.5), imageUrl: widget.album.imgAlbum??"", radius: Dimensions.radiusSizeDefault,),
-                                  SizedBox(width: Dimensions.spacingSizeDefault,),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(widget.album.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
-                                        Text(widget.album.artist, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
-                                        Text("${widget.album.songs.length} singles", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),),
-                                        SizedBox(height: Dimensions.spacingSizeDefault,),
-                                        GradientButton(onTap: (){
-                                            if(provider.currentSong != null){
-                                                if(provider.audioPlayer.playing){
-                                                  provider.pauseSong();
-                                                }else{
-                                                  provider.playSong();
-                                                }
-                                            }else{
-                                              provider.setFirstSong();
-                                              if(provider.audioPlayer.playing){
-                                                provider.pauseSong();
-                                              }else{
-                                                provider.playSong();
-                                              }
-                                            }
-                                        }, size: Size(size.width/5, 40), child: Text(provider.audioPlayer.playing?"Pause":"Lire", style: Theme.of(context).textTheme.titleSmall,))
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-
-                    widget.album.songs.isEmpty?
-
-                    SliverPadding(
-                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                      sliver:SliverList.list(children: [
-                        Center(child: Text("Aucun chant trouvé", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),),
-                      ]),
-                    ) :SliverPadding(
-                        padding: EdgeInsets.only(top : Dimensions.spacingSizeDefault),
-                        sliver: SliverList.builder(
-                            itemCount:widget.album.songs.length ,
-                            itemBuilder: (BuildContext ctx, int i){
-                              return SongWidget(song: widget.album.songs[i],albumImgUrl: widget.album.imgAlbum??"", isPlaying: provider.thisSongIsCurrent( widget.album.songs[i]),);
-                            })),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  //title: Text(widget.album.title,style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
+                  pinned: true,
+                  backgroundColor: Colors.black,
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          provider.playShuffled();
+                        },
+                        icon: Icon(
+                          Iconsax.shuffle,
+                          color: provider.playShuffledSong
+                              ? ThemeVariables.primaryColor
+                              : Colors.white,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          CupertinoIcons.search,
+                          color: Colors.white,
+                        )),
                   ],
                 ),
-                provider.currentSong != null && provider.currentAlbum != null?
-                    provider.currentSong!.album == provider.currentAlbum!.id?
-                Container(
-                  margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                  child: Container(
-                    width: size.width,
-                    padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                SliverList.list(children: [
+                  Container(
+                    color: Colors.black,
+                    child: Stack(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(provider.currentSong!.title, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-                            Text("- ${provider.getSongReminder(provider.audioPlayer.duration ?? Duration.zero , provider.audioPlayer.position)}", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
-                          ],
-                        ),
-                        //SizedBox(height: Dimensions.spacingSizeDefault,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: size.width * 0.7,
-                              child: Slider(
-                                min: 0,
-                                max:provider.audioPlayer.duration !=  null ?provider.audioPlayer.duration!.inSeconds.toDouble() :0,
-                                thumbColor: Colors.white,
-                                inactiveColor: ThemeVariables.thirdColorBlack,
-                                activeColor: Colors.white,
-                                value: provider.audioPlayer.position.inSeconds.toDouble() != 0.0?((provider.audioPlayer.position.inSeconds.toDouble() -1)): provider.audioPlayer.position.inSeconds.toDouble() ,
-                                onChanged: (double value) {
-                                  setState(() {
-                                    if(provider.audioPlayer.position.inSeconds.toDouble()  < provider.audioPlayer.duration!.inSeconds.toDouble()){
-                                      provider.seekSong(position: Duration(seconds: value.toInt()));
-                                    }
-                                  });
-
-                                },
+                        Padding(
+                          padding:
+                              EdgeInsets.all(Dimensions.spacingSizeDefault),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              NetWorkImageWidget(
+                                size: Size(size.width / 2, size.width * 0.5),
+                                imageUrl: widget.album.imgAlbum ?? "",
+                                radius: Dimensions.radiusSizeDefault,
                               ),
-                            ),
-                            IconButton(onPressed: (){
-                              if(provider.audioPlayer.playing){
-                                provider.pauseSong();
-                              }else {
-                                provider.playSong();
-                              }
-                            }, icon: Icon( provider.audioPlayer.playing? Iconsax.pause :Iconsax.play, color: Colors.white,))
-                          ],
-                        )
+                              SizedBox(
+                                width: Dimensions.spacingSizeDefault,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.album.title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(color: Colors.white),
+                                    ),
+                                    Text(
+                                      widget.album.artist,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(color: Colors.grey),
+                                    ),
+                                    Text(
+                                      "${widget.album.songs.length} singles",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(color: Colors.grey),
+                                    ),
+                                    SizedBox(
+                                      height: Dimensions.spacingSizeDefault,
+                                    ),
+                                    GradientButton(
+                                        onTap: () {
+                                          if (provider.currentSong != null) {
+                                            if (provider.audioPlayer.playing) {
+                                              provider.pauseSong();
+                                            } else {
+                                              provider.playSong();
+                                            }
+                                          } else {
+                                            provider.setFirstSong();
+                                            if (provider.audioPlayer.playing) {
+                                              provider.pauseSong();
+                                            } else {
+                                              provider.playSong();
+                                            }
+                                          }
+                                        },
+                                        size: Size(size.width / 5, 40),
+                                        child: Text(
+                                          provider.audioPlayer.playing
+                                              ? "Pause"
+                                              : "Lire",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ))
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ):const SizedBox(height: 0, width: 0,): const SizedBox(height: 0,)
+                ]),
+                widget.album.songs.isEmpty
+                    ? SliverPadding(
+                        padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                        sliver: SliverList.list(children: [
+                          Center(
+                            child: Text(
+                              "Aucun chant trouvé",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ]),
+                      )
+                    : SliverPadding(
+                        padding:
+                            EdgeInsets.only(top: Dimensions.spacingSizeDefault),
+                        sliver: SliverList.builder(
+                            itemCount: widget.album.songs.length,
+                            itemBuilder: (BuildContext ctx, int i) {
+                              return SongWidget(
+                                song: widget.album.songs[i],
+                                albumImgUrl: widget.album.imgAlbum ?? "",
+                                isPlaying: provider
+                                    .thisSongIsCurrent(widget.album.songs[i]),
+                              );
+                            })),
               ],
             ),
-          );
-        }
-    );
+            provider.currentSong != null && provider.currentAlbum != null
+                ? provider.currentSong!.album == provider.currentAlbum!.id
+                    ? Container(
+                        margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                        child: Container(
+                          width: size.width,
+                          padding:
+                              EdgeInsets.all(Dimensions.spacingSizeDefault),
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusSizeDefault)),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(provider.currentSong!.title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                  Text(
+                                    "- ${provider.getSongReminder(provider.songDuration ?? Duration.zero, provider.audioPlayer.position)}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              //SizedBox(height: Dimensions.spacingSizeDefault,),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.7,
+                                    child: Slider(
+                                      min: 0,
+                                      max: provider.songDuration != null
+                                          ? provider.songDuration.inSeconds
+                                              .toDouble()
+                                          : 0,
+                                      thumbColor: Colors.white,
+                                      inactiveColor:
+                                          ThemeVariables.thirdColorBlack,
+                                      activeColor: Colors.white,
+                                      value:
+                                          provider.audioPlayer.position
+                                                      .inSeconds
+                                                      .toDouble() !=
+                                                  0.0
+                                              ? ((provider.audioPlayer.position
+                                                      .inSeconds
+                                                      .toDouble() -
+                                                  1))
+                                              : provider.audioPlayer.position
+                                                  .inSeconds
+                                                  .toDouble(),
+                                      onChanged: (double value) {
+                                        setState(() {
+                                          if (provider.audioPlayer.position
+                                                  .inSeconds
+                                                  .toDouble() <
+                                              provider.songDuration.inSeconds
+                                                  .toDouble()) {
+                                            provider.seekSong(
+                                                position: Duration(
+                                                    seconds: value.toInt()));
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        if (provider.audioPlayer.playing) {
+                                          provider.pauseSong();
+                                        } else {
+                                          provider.playSong();
+                                        }
+                                      },
+                                      icon: Icon(
+                                        provider.audioPlayer.playing
+                                            ? Iconsax.pause
+                                            : Iconsax.play,
+                                        color: Colors.white,
+                                      ))
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : const SizedBox(
+                        height: 0,
+                        width: 0,
+                      )
+                : const SizedBox(
+                    height: 0,
+                  )
+          ],
+        ),
+      );
+    });
   }
 }

@@ -7,37 +7,46 @@ import 'package:provider/provider.dart';
 
 import 'components/ticket_widget.dart';
 
-class PaymentScreen extends StatefulWidget{
+class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
 
   @override
-  PaymentScreenState createState()=> PaymentScreenState();
+  PaymentScreenState createState() => PaymentScreenState();
 }
-class PaymentScreenState extends State<PaymentScreen>{
+
+class PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
-    return Consumer2<EventsProvider, AuthProvider>(builder: (ctx, eventProvider,authProvider, child){
+    return Consumer2<EventsProvider, AuthProvider>(
+        builder: (ctx, eventProvider, authProvider, child) {
       return Scaffold(
         appBar: AppBar(
-          leading: IconButton(icon: const Icon(Iconsax.arrow_left, ), onPressed: (){
-            Navigator.pop(context);
-          },),
-          title: Text("Tickets", style: Theme.of(context).textTheme.titleMedium,),
+          leading: IconButton(
+            icon: const Icon(
+              Iconsax.arrow_left,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(
+            "Tickets",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
         body: CustomScrollView(
           slivers: [
             SliverList.builder(
-              itemCount: 10,
+              itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
-                  return TicketWidget(
-                    eventTicket: EventTicket(
-                        event: eventProvider.events!.last,
-                        id: 'hxjUSuygVYhhIINSYZHSBJyz-j',
-                        createdAt: DateTime.now(),
-                        price: 10,
-                        user: authProvider.user!
-                    ),
-                  );
+                return TicketWidget(
+                  eventTicket: EventTicket(
+                      event: eventProvider.events!.last,
+                      id: 'hxjUSuygVYhhIINSYZHSBJyz-j',
+                      createdAt: DateTime.now(),
+                      price: 10,
+                      user: authProvider.user!),
+                );
               },
             )
           ],
