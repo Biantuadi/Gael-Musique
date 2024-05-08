@@ -57,7 +57,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     SocketProvider socketProvider = Provider.of<SocketProvider>(context, listen: true);
     return Consumer<NotificationProvider>(
         builder: (BuildContext context, provider, Widget? child) {
-
           return CustomScrollView(
             controller: scrollController,
             slivers: [

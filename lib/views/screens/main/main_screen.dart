@@ -84,7 +84,6 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
               songProvider.pauseSong();
             }
           }
-
           return Scaffold(
             floatingActionButton:songProvider.audioPlayer.playing? GestureDetector(
               onTap: (){
