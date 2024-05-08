@@ -1,6 +1,7 @@
 
 // ignore_for_file: unused_local_variable, prefer_const_literals_to_create_immutables
 
+import 'package:Gael/data/models/notification_model.dart';
 import 'package:Gael/data/providers/notification_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
@@ -9,6 +10,8 @@ import 'package:Gael/utils/theme_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+
+import 'components/notification_widget.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -68,23 +71,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
               SliverPadding(
                 padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                sliver: SliverGrid.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: Dimensions.spacingSizeDefault, mainAxisSpacing: Dimensions.spacingSizeDefault, childAspectRatio: .8),
-                  itemBuilder: (BuildContext ctx, int index){
-                  //  if(provider. == null){
-                      return  Container(
-                        width: size.width,
-                        height: size.width * 2,
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
-                        ),
+                sliver: SliverList.builder(
+                  itemCount: 10,
+                    itemBuilder: (ctx, index){
+                      return NotificationWidget(
+                        notification: NotificationModel(
+                            id: 'wvttesuia$index',
+                            title: 'Account notification',
+                            message: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet vitae nemo tempore, accusantium, quaerat laborum ex quibusdam natus aperiam beatae at officia, suscipit mollitia saepe incidunt provident! Ratione, quam molestias!',
+                            dateTime: DateTime.now(),
+                            read: false)
+                        ,
                       );
-                    //}
-                  //  return Container();
-                  },
-                  itemCount: 3//provider.streamingToShow!.length,
-                ),
+                    }),
               )
             ],
           );
