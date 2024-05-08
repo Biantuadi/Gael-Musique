@@ -15,7 +15,7 @@ export 'main/profile/about_screen.dart';
 export 'main/profile/courses_screen.dart';
 export 'main/profile/event_screen.dart';
 export 'main/profile/favorite_screen.dart';
-export 'main/profile/settings_screen.dart';
+export 'main/profile/settings/settings_screen.dart';
 export 'main/profile/tickets/payment_screen.dart';
 export 'main/profile/update/info_update_screen.dart';
 export 'main/profile/update/password_update.dart';
@@ -34,7 +34,7 @@ export 'auth/profile_congif_screen.dart';
 
 export 'main/albums/album_songs.dart';
 export 'main/albums/albums_screen.dart';
-export 'main/albums/song_details_song.dart';
+export 'main/albums/song_details_screen.dart';
 export 'main/events/event_screen.dart';
 export 'main/events/event_details_screen.dart';
 export 'not_internet_page.dart';

@@ -3,11 +3,12 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
+import 'package:Gael/views/screens/main/profile/component/option_switch_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
-import 'component/profile_option_tile.dart';
+import '../component/profile_option_tile.dart';
 
 class SettingsScreen extends StatefulWidget{
   const SettingsScreen({super.key});
@@ -16,6 +17,8 @@ class SettingsScreen extends StatefulWidget{
   SettingsScreenState createState()=> SettingsScreenState();
 }
 class SettingsScreenState extends State<SettingsScreen>{
+  bool isOffline = false;
+  bool saveData = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +33,25 @@ class SettingsScreenState extends State<SettingsScreen>{
           padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
           child: Column(
             children: [
+              ProfileSwitch(
+                iconData: Iconsax.wifi,label: 'Mode Offline', isActive: isOffline, onChanged: (value){
+                  setState(() {
+                    isOffline = value as bool;
+                  });
+              },),
+              ProfileSwitch(iconData: Iconsax.save_2  ,label: 'Conserver les données de transaction', isActive: saveData, onChanged: (value){
+                setState(() {
+                  saveData =  value as bool;
+                });
+              },),
+              ProfileOption(label: 'Modifier', iconData: Iconsax.edit, voidCallback: (){
+                Navigator.pushNamed(context, Routes.infoUpdateScreen);
+              },),
               ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
               ProfileOption(label: 'A propos', iconData: Iconsax.info_circle, voidCallback: () {
                 Navigator.pushNamed(context, Routes.aboutScreen);
               },),
-          
-          
+
             ],
           ),
         ),
