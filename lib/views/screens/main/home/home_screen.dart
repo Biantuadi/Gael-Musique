@@ -162,8 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: (){
-                                  // Navigator.pushNamed(context, Routes.albumScreen);
-                                  print("Navigate to albums screen");
+                                  Navigator.pushNamed(context, Routes.albumScreen);
                                 },
                                 child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
                               ),
