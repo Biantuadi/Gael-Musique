@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:Gael/data/models/app/screen_model.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
@@ -181,45 +179,36 @@ class MainScreenState extends State<MainScreen>
                                                     Routes
                                                         .streamingDetailsScreen);
                                               },
-                                              child: streamProvider
-                                                          .podPlayerController !=
-                                                      null
-                                                  ? PodVideoPlayer(
-                                                      controller: streamProvider
-                                                          .podPlayerController!,
-                                                      videoAspectRatio:
-                                                          (size.height * .1) /
-                                                              (size.width / 3),
-                                                      matchFrameAspectRatioToVideo:
-                                                          true,
-                                                      matchVideoAspectRatioToFrame:
-                                                          true,
-                                                      alwaysShowProgressBar:
-                                                          false,
-                                                      overlayBuilder:
-                                                          (builder) {
-                                                        return const SizedBox();
-                                                      },
-                                                    )
-                                                  : const SizedBox(),
-                                            )
+                                              child: PodVideoPlayer(
+                                                onLoading: (context) {
+                                                  return const SizedBox();
+                                                },
+                                                controller: streamProvider
+                                                    .podPlayerController!,
+                                                videoAspectRatio:
+                                                    (size.height * .1) /
+                                                        (size.width / 3),
+                                                matchFrameAspectRatioToVideo:
+                                                    true,
+                                                matchVideoAspectRatioToFrame:
+                                                    true,
+                                                alwaysShowProgressBar: false,
+                                                overlayBuilder: (builder) {
+                                                  return const SizedBox();
+                                                },
+                                              ))
                                           : SizedBox(
                                               width: size.width / 3,
                                               height: size.height * .1,
-                                              child: streamProvider
-                                                          .currentStreaming
-                                                          ?.cover !=
-                                                      null
-                                                  ? NetWorkImageWidget(
-                                                      imageUrl: streamProvider
-                                                              .currentStreaming
-                                                              ?.cover ??
-                                                          '',
-                                                      size: Size(size.width / 3,
-                                                          size.height * .1),
-                                                      radius: 0,
-                                                    )
-                                                  : null,
+                                              child: NetWorkImageWidget(
+                                                imageUrl: streamProvider
+                                                        .currentStreaming
+                                                        ?.cover ??
+                                                    'https://img.freepik.com/psd-gratuit/illustration-3d-personne-lunettes-soleil_23-2149436188.jpg',
+                                                size: Size(size.width / 3,
+                                                    size.height * .1),
+                                                radius: 0,
+                                              ),
                                             ),
                                     ),
                                   ),
