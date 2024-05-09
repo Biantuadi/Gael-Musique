@@ -34,7 +34,7 @@ class EventWidget extends StatelessWidget{
                   children: [
                     Text(event.title, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
                     SizedBox(height: Dimensions.spacingSizeSmall/2,),
-                    Text(event.description, style: Theme.of(context).textTheme.bodySmall,),
+                    Text(event.description, style: Theme.of(context).textTheme.bodySmall, maxLines: 3, overflow: TextOverflow.ellipsis,),
                     SizedBox(height: Dimensions.spacingSizeSmall/2,),
                     Row(
                       children: [

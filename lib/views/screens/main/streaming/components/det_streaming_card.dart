@@ -14,11 +14,13 @@ class DetStreamingCard extends StatelessWidget{
   Widget build(BuildContext context) {
    return GestureDetector(
      onTap: (){
-
        if(Provider.of<StreamingProvider>(context, listen: false).currentStreaming == null){
+
          Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
+
        }else{
          if(streaming.id != Provider.of<StreamingProvider>(context, listen: false).currentStreaming!.id){
+
            Provider.of<StreamingProvider>(context, listen: false).setCurrentStreaming(streaming:streaming, autoPlay: true);
          }
        }

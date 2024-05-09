@@ -97,29 +97,52 @@ class StreamingProvider with ChangeNotifier {
   }
   setCurrentStreaming({required Streaming streaming, bool autoPlay=true})async{
     allStreaming = allStreaming?? [];
+
     randomIndex = 0;
     if(currentStreaming != streaming){
       currentStreaming = streaming;
-      videoPlayerHasBeenInitialized = true;
-      podPlayerController = PodPlayerController(
+      if(videoPlayerHasBeenInitialized){
+          podPlayerController.changeVideo(
+              playVideoFrom: PlayVideoFrom.youtube(streaming.videoLink),
+            playerConfig: const PodPlayerConfig(
+              autoPlay: true,
+              isLooping: true,
+              videoQualityPriority: [720, 360, ],
+            ),
+
+          ).then((value){
+            podPlayerController.play();
+            playVideo();
+            Timer(const Duration(seconds: 1), () {
+              videoIsPlaying = true;
+            });
+
+          });
+      }else {
+        podPlayerController = PodPlayerController(
           playVideoFrom: PlayVideoFrom.youtube(streaming.videoLink),
           podPlayerConfig: const PodPlayerConfig(
-          autoPlay: true,
-          isLooping: false,
-          videoQualityPriority: [720, 360, ],
-        ),
-      )..initialise().then((value){
-        podPlayerController.play();
-        Timer(const Duration(seconds: 1), () {
-          videoIsPlaying = true;
+            autoPlay: true,
+            isLooping: false,
+            videoQualityPriority: [720, 360, ],
+          ),
+        )..initialise().then((value){
+          podPlayerController.play();
+          Timer(const Duration(seconds: 1), () {
+            videoIsPlaying = true;
+          });
         });
-      });
+      }
+
       notifyListeners();
       if(currentStreaming != null){
         streamings = allStreaming.where((str) => str.id != currentStreaming!.id).toList();
         randomIndex = random.nextInt(streamings.length-1 );
       }
+    }else{
+
     }
+    videoPlayerHasBeenInitialized = true;
     showStreamPlayContainer = true;
     notifyListeners();
   }

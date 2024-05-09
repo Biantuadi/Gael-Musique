@@ -141,7 +141,9 @@ class PasswordConfigScreenState extends State<PasswordConfigScreen> {
                                                     text: "les conditions d'utilisation",
                                                     recognizer: TapGestureRecognizer()
                                                     // ignore: avoid_print
-                                                      ..onTap = () => print('hello world'),
+                                                      ..onTap = () {
+                                                      Navigator.pushNamed(context, Routes.useConditionsScreen);
+                                                      },
                                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                                         color: Colors.white,
                                                         fontWeight: FontWeight.bold

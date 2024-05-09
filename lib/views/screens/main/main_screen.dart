@@ -151,6 +151,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                         matchFrameAspectRatioToVideo: true,
                                         matchVideoAspectRatioToFrame: true,
                                         alwaysShowProgressBar: false,
+
                                         overlayBuilder: (builder){
                                           return const SizedBox();
                                         },

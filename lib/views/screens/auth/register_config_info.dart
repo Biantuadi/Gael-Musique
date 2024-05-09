@@ -92,6 +92,7 @@ class RegisterConfigScreenState extends State<RegisterConfigScreen> {
                                     Text("Numéro de téléphone", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
                                     SizedBox(height: Dimensions.spacingSizeSmall,),
                                     CustomTextField(
+                                      textInputType: TextInputType.phone,
                                       prefixIcon: IconButton(
                                         onPressed: (){
                                           showCustomBottomSheet(

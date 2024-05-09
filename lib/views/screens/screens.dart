@@ -31,6 +31,7 @@ export 'auth/register_screen.dart';
 export 'auth/register_config_info.dart';
 export 'auth/password_config.dart';
 export 'auth/profile_congif_screen.dart';
+export 'auth/use_conditions_screen.dart';
 
 export 'main/albums/album_songs.dart';
 export 'main/albums/albums_screen.dart';

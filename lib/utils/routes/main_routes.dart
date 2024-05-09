@@ -16,6 +16,7 @@ class Routes {
   static const String registerInfoConfigScreen = "REGISTER-INFO-SCREEN";
   static const String registerPasswordConfigScreen = "REGISTER-PASSWORD-SCREEN";
   static const String registerProfileConfigScreen = "REGISTER-PROFILE-SCREEN";
+  static const String useConditionsScreen = "REGISTER-USE-CONDITIONS-SCREEN";
 
   // App
   static const String mainScreen = "MAIN-SCREEN";
@@ -71,6 +72,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) =>  const PasswordConfigScreen());
       case registerProfileConfigScreen:
         return MaterialPageRoute(builder: (_) =>  const ProfileConfigScreen());
+      case useConditionsScreen:
+        return MaterialPageRoute(builder: (_) =>  UseConditionsScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case chatListScreen:
