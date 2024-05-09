@@ -93,7 +93,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
-                              child: HomeCard(onTap: (){}, iconData: Iconsax.book, title: "Enseignements", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
+                              child: HomeCard(onTap: (){
+
+                              }, iconData: Iconsax.book, title: "Enseignements", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),

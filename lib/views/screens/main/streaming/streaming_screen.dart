@@ -63,6 +63,8 @@ class _StreamingScreenState extends State<StreamingScreen> {
       showAll = false;
       showOnlyStreaming = false;
       showOnlySongs = true;
+      showOnlyRadios = false;
+      showOnlyPodcasts = false;
     });
   }
   setShowPodcastsOnly(){
@@ -89,6 +91,8 @@ class _StreamingScreenState extends State<StreamingScreen> {
       showAll = true;
       showOnlyStreaming = false;
       showOnlySongs = false;
+      showOnlyRadios = false;
+      showOnlyPodcasts = false;
     });
   }
 
@@ -97,6 +101,8 @@ class _StreamingScreenState extends State<StreamingScreen> {
       showAll = false;
       showOnlyStreaming = true;
       showOnlySongs = false;
+      showOnlyRadios = false;
+      showOnlyPodcasts = false;
     });
   }
 
@@ -228,7 +234,6 @@ class _StreamingScreenState extends State<StreamingScreen> {
                     if(discoverRelated.podcastIsNotNull()){
                       return PodcastWidget(podcast: songAndStreams[index].podcast!,);
                     }
-
                     return Container(
 
                     );
