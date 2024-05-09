@@ -108,9 +108,11 @@ class StreamingProvider with ChangeNotifier {
           isLooping: false,
           videoQualityPriority: [720, 360, ]
         )
-      )..initialise();
+      )..initialise().then((value){
+        podPlayerController.play();
+      });
       notifyListeners();
-      podPlayerController.play();
+
       if(currentStreaming != null){
         streamings = allStreaming!.where((str) => str.id != currentStreaming!.id).toList();
         randomIndex = random.nextInt(streamings.length-1 );
