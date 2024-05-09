@@ -1,6 +1,7 @@
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/get_formatted_duration.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,7 +60,7 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
                       ),
                     ),
                   ),
-                  SizedBox(height: Dimensions.spacingSizeSmall,),
+                  //SizedBox(height: Dimensions.spacingSizeSmall,),
                   Container(
                     padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                     child: Row(
@@ -69,7 +70,7 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(streamingProvider.currentStreaming!.createdAt.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
+                            Text(getFormattedDate(streamingProvider.currentStreaming!.createdAt), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),),
                             Text(streamingProvider.currentStreaming!.title, style: Theme.of(context).textTheme.titleMedium,),
                             SizedBox(height: Dimensions.spacingSizeSmall,),
                           ],
@@ -99,7 +100,7 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(streamingProvider.currentStreaming!.description, style: Theme.of(context).textTheme.bodyMedium,),
-                          Text(streamingProvider.currentStreaming!.date.toString(), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),)
+                          Text(getFormattedDate(streamingProvider.currentStreaming!.date), style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),)
                         ],
                       )
                   ),

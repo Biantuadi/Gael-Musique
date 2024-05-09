@@ -98,8 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
                               child: HomeCard(onTap: (){
-                                // Navigator.pushNamed(context, Routes.albumScreen);
-                                print("Navigate to albums screen");
+                                Navigator.pushNamed(context, Routes.albumScreen);
+                                //print("Navigate to albums screen");
                               }, iconData: Iconsax.music, title: "Albums", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                             Padding(

@@ -25,7 +25,7 @@ class DetStreamingCard extends StatelessWidget{
 
      },
      child: Container(
-       padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
+       padding: EdgeInsets.all(Dimensions.spacingSizeExtraSmall * .8),
        margin: EdgeInsets.only(left :Dimensions.spacingSizeSmall),
        decoration: BoxDecoration(
          color: ThemeVariables.iconInactive.withOpacity(0.3),

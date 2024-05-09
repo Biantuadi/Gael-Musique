@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
-
+import 'dart:async';
 import 'dart:math';
 import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/repositories/streaming_repository.dart';
@@ -103,18 +103,20 @@ class StreamingProvider with ChangeNotifier {
       videoPlayerHasBeenInitialized = true;
       podPlayerController = PodPlayerController(
           playVideoFrom: PlayVideoFrom.youtube(streaming.videoLink),
-        podPlayerConfig: const PodPlayerConfig(
+          podPlayerConfig: const PodPlayerConfig(
           autoPlay: true,
           isLooping: false,
-          videoQualityPriority: [720, 360, ]
-        )
+          videoQualityPriority: [720, 360, ],
+        ),
       )..initialise().then((value){
         podPlayerController.play();
+        Timer(const Duration(seconds: 1), () {
+          videoIsPlaying = true;
+        });
       });
       notifyListeners();
-
       if(currentStreaming != null){
-        streamings = allStreaming!.where((str) => str.id != currentStreaming!.id).toList();
+        streamings = allStreaming.where((str) => str.id != currentStreaming!.id).toList();
         randomIndex = random.nextInt(streamings.length-1 );
       }
     }
@@ -123,11 +125,16 @@ class StreamingProvider with ChangeNotifier {
   }
   playVideo(){
     podPlayerController.play();
+    Timer(const Duration(seconds: 1), () {
+      videoIsPlaying = true;
+    });
     notifyListeners();
   }
 
   pauseVideo(){
     podPlayerController.pause();
+    podPlayerController.pause();
+    videoIsPlaying = false;
     notifyListeners();
   }
   disposePlayer(){

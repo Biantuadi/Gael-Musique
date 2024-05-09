@@ -140,13 +140,21 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                  AspectRatio(
                                     aspectRatio: (size.height * .1) /(size.width/3),
                                     child:
-                                        streamProvider.podPlayerController.isVideoPlaying?
-                                    PodVideoPlayer(
-                                      controller: streamProvider.podPlayerController,
-                                      videoAspectRatio: (size.height * .1) /(size.width/3),
-                                      matchFrameAspectRatioToVideo: true,
-                                      matchVideoAspectRatioToFrame: true,
-
+                                        streamProvider.podPlayerController.isVideoPlaying && streamProvider.videoIsPlaying?
+                                    GestureDetector(
+                                      onTap: (){
+                                        Navigator.pushNamed(context, Routes.streamingDetailsScreen);
+                                      },
+                                      child: PodVideoPlayer(
+                                        controller: streamProvider.podPlayerController,
+                                        videoAspectRatio: (size.height * .1) /(size.width/3),
+                                        matchFrameAspectRatioToVideo: true,
+                                        matchVideoAspectRatioToFrame: true,
+                                        alwaysShowProgressBar: false,
+                                        overlayBuilder: (builder){
+                                          return const SizedBox();
+                                        },
+                                      ),
                                     ) :
                                    SizedBox(
                                      width: size.width/3,
@@ -176,12 +184,13 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                 IconButton(onPressed: (){
                                   if(streamProvider.podPlayerController.isVideoPlaying){
                                     setState(() {
-                                      streamProvider.podPlayerController.pause();
+                                      //streamProvider.podPlayerController.pause();
                                       streamProvider.pauseVideo();
+                                      Navigator.pushNamed(context, Routes.streamingDetailsScreen);
                                     });
                                   }else{
                                     setState(() {
-                                      streamProvider.podPlayerController.play();
+                                     // streamProvider.podPlayerController.play();
                                       streamProvider.playVideo();
                                     });
                                   }
