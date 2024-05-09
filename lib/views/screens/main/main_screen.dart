@@ -179,24 +179,41 @@ class MainScreenState extends State<MainScreen>
                                                     Routes
                                                         .streamingDetailsScreen);
                                               },
-                                              child: PodVideoPlayer(
-                                                onLoading: (context) {
-                                                  return const SizedBox();
-                                                },
-                                                controller: streamProvider
-                                                    .podPlayerController!,
-                                                videoAspectRatio:
-                                                    (size.height * .1) /
-                                                        (size.width / 3),
-                                                matchFrameAspectRatioToVideo:
-                                                    true,
-                                                matchVideoAspectRatioToFrame:
-                                                    true,
-                                                alwaysShowProgressBar: false,
-                                                overlayBuilder: (builder) {
-                                                  return const SizedBox();
-                                                },
-                                              ))
+                                              child: SizedBox(
+                                                width: size.width / 3,
+                                                height: size.height * .1,
+                                                child: NetWorkImageWidget(
+                                                  imageUrl: streamProvider
+                                                          .currentStreaming
+                                                          ?.cover ??
+                                                      'https://img.freepik.com/psd-gratuit/illustration-3d-personne-lunettes-soleil_23-2149436188.jpg',
+                                                  size: Size(size.width / 3,
+                                                      size.height * .1),
+                                                  radius: 0,
+                                                ),
+                                              ),
+                                              // child: streamProvider
+                                              //             .podPlayerController !=
+                                              //         null
+                                              //     ? PodVideoPlayer(
+                                              //         controller: streamProvider
+                                              //             .podPlayerController!,
+                                              //         videoAspectRatio:
+                                              //             (size.height * .1) /
+                                              //                 (size.width / 3),
+                                              //         matchFrameAspectRatioToVideo:
+                                              //             true,
+                                              //         matchVideoAspectRatioToFrame:
+                                              //             true,
+                                              //         alwaysShowProgressBar:
+                                              //             false,
+                                              //         overlayBuilder:
+                                              //             (builder) {
+                                              //           return const SizedBox();
+                                              //         },
+                                              //       )
+                                              //     : null,
+                                            )
                                           : SizedBox(
                                               width: size.width / 3,
                                               height: size.height * .1,
