@@ -40,6 +40,10 @@
 	<true/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cette application nécessite l'autorisation d'accéder à votre bibliothèque de photos pour que vous puissiez télécharger et partager des images avec d'autres utilisateurs.</string>
+	<key>aps-environment</key>
+	<string>production</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
