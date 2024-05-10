@@ -30,6 +30,8 @@
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires Mic permission.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cette application nécessite l'autorisation d'accéder à votre bibliothèque de photos pour que vous puissiez télécharger et partager des images avec d'autres utilisateurs.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -40,17 +42,11 @@
 	<true/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Cette application nécessite l'autorisation d'accéder à votre bibliothèque de photos pour que vous puissiez télécharger et partager des images avec d'autres utilisateurs.</string>
-	<key>aps-environment</key>
-	<string>production</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
+	<key>aps-environment</key>
+	<string>production</string>
 </dict>
 </plist>

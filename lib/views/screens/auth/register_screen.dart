@@ -97,7 +97,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 CustomTextField(
                                   onChanged: (value) {
                                    firstName = value;
-                                  }, hintText: 'Athoms',
+                                  }, hintText: 'Votre prénom',
                                   validator: (value)=>validateName(value: value, emptyMessage: 'Le prénom est obligatoire', message: "Le prenom entré n'est pas valide"),
                                 ),
                                 SizedBox(height: Dimensions.spacingSizeDefault,),
@@ -108,7 +108,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                                     // Utilize the input value here
                                     // print('Search query: $value');
                                     name = value;
-                                  }, hintText: 'Mbuma',
+                                  }, hintText: 'Votre nom',
                                   validator: (value)=>validateName(value: value, emptyMessage: 'Le nom est obligatoire', message: "Le nom entré n'est pas valide"),
 
                                 ),
