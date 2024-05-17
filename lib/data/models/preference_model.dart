@@ -11,9 +11,9 @@ class Preference{
   });
 
   Preference.fromJson(Map<String, dynamic> json){
-    theme = json["theme"];
-    language = json["language"];
-    notifications = json["notifications"];
+    theme = json["theme"]??"";
+    language = json["language"]??"";
+    notifications = json["notifications"]??false;
 
   }
 

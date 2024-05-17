@@ -15,6 +15,15 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class PaymentScreenState extends State<PaymentScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<EventsProvider>(context, listen: false).getTicketsFromAPi();
+    Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<EventsProvider, AuthProvider>(
@@ -39,14 +48,14 @@ class PaymentScreenState extends State<PaymentScreen> {
             SliverList.builder(
               itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
-                return TicketWidget(
+                return eventProvider.events != null? TicketWidget(
                   eventTicket: EventTicket(
                       event: eventProvider.events!.last,
                       id: 'hxjUSuygVYhhIINSYZHSBJyz-j',
                       createdAt: DateTime.now(),
                       price: 10,
                       user: authProvider.user!),
-                );
+                ) : Container();
               },
             )
           ],

@@ -51,8 +51,12 @@ class SplashScreenState extends State<SplashScreen> {
   void _route() async{
     await Provider.of<ThemeProvider>(context, listen: false).getTheme();
     await Provider.of<AuthProvider>(context, listen: false).getUserVars();
-      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
-
+      if(!Provider.of<ConfigProvider>(context, listen: false).isFirstTime){
+        Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+      }else {
+        Provider.of<ConfigProvider>(context, listen: false).initConfig();
+        Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
+      }
   }
 
   @override

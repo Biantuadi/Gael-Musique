@@ -78,10 +78,10 @@ class _LandingScreenState extends State<LandingScreen> {
                   children: [
                     GradientButton(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.loginScreen);
+                        Navigator.pushNamed(context, Routes.mainScreen);
                       },
                       size: Size(width*0.35, height * 0.07),
-                      child: Text("Press me", style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      child: Text("Get started", style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: Colors.black, 
                         fontWeight: FontWeight.w600,
                         fontSize: 16

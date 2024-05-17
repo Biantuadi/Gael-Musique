@@ -142,7 +142,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                 }
               },
               child: Container(
-                padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
+                padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                 decoration: BoxDecoration(
                     color: ThemeVariables.primaryColor,
                     borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall)

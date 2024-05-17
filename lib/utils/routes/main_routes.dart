@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors, unreachable_switch_case
 import 'package:Gael/data/models/album_model.dart';
+import 'package:Gael/data/models/chat_model.dart';
 import 'package:Gael/data/models/event_model.dart';
 // import 'package:Gael/data/models/song_model.dart';
 // import 'package:Gael/data/models/streaming_model.dart';
@@ -79,7 +80,7 @@ class Routes {
       case chatListScreen:
         return MaterialPageRoute(builder: (_) => const MainScreen(initialIndex: 2));
       case chatDetailScreen:
-        return MaterialPageRoute(builder: (_) => const ChatDetailScreen());
+        return MaterialPageRoute(builder: (_) =>  ChatDetailScreen(chat:  arguments as Chat,));
       case radioScreen:
         return MaterialPageRoute(builder: (_) => const MainScreen(initialIndex: 1));
       case streamingDetailsScreen:

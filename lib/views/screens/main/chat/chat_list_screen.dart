@@ -57,7 +57,7 @@ class ChatListScreenState extends State<ChatListScreen> {
   @override
   void initState() {
     super.initState();
-    getData();
+
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -73,6 +73,7 @@ class ChatListScreenState extends State<ChatListScreen> {
       }
     });
     scrollController.addListener(loadMore);
+    getData();
   }
 
   void loadMore() {
@@ -97,7 +98,7 @@ class ChatListScreenState extends State<ChatListScreen> {
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.all(Dimensions.spacingSizeSmall),
+                  padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                   decoration: BoxDecoration(
                       color: ThemeVariables.primaryColor,
                       borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall)
@@ -128,6 +129,8 @@ class ChatListScreenState extends State<ChatListScreen> {
               SliverAppBar(
                 pinned: true,
                 backgroundColor: ThemeVariables.thirdColorBlack,
+                leading: const SizedBox(),
+                leadingWidth: 0,
                 title: CustomTextField(
                   initialValue: chatProvider.chatKeySearch,
                   onChanged: (value) {

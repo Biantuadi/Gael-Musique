@@ -3,6 +3,7 @@
 import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/theme_variables.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,6 +30,7 @@ class EventsScreenState extends State<EventsScreen>{
   @override
   void initState() {
     super.initState();
+    Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
 
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
@@ -75,19 +77,27 @@ class EventsScreenState extends State<EventsScreen>{
 
                     SliverList.list(children: []),
 
-                    provider.events!.isEmpty?
+                    provider.events != null?
+                        provider.events!.isNotEmpty?
                     SliverPadding(
-                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                      sliver:SliverList.list(children: [
-                        Center(child: Text("Aucun évenement trouvé", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),),
-                      ]),
-                    ) :SliverPadding(
                         padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                         sliver: SliverList.builder(
                             itemCount:provider.events!.length ,
                             itemBuilder: (BuildContext ctx, int i){
-                              return EventWidget(event: provider.events![i],);
-                            })),
+                              return EventWidget(event: provider.events!.toList()[1],);
+                            })):SliverPadding(
+                          padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                          sliver:SliverList.list(children: [
+                            Center(child: Text("Aucun évenement trouvé", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),),),
+                          ]),
+                        )  : SliverPadding(
+                      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                      sliver:SliverList.list(children: const [
+                        Center(child:CircularProgressIndicator(color: ThemeVariables.primaryColor, strokeWidth: 1,)),
+
+                      ]),
+                    )
+                    ,
                   ],
                 ),
 

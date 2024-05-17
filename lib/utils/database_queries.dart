@@ -56,7 +56,7 @@ class DatabaseQueries{
           dbId INTEGER PRIMARY KEY,
           lastName VARCHAR(300) NOT NULL,
           firstName VARCHAR(300) NOT NULL,
-          role VARCHAR(300) NOT NULL,
+          role VARCHAR(300),
           email VARCHAR(100) NOT NULL,
           avatar TEXT NOT NULL,
           bdAvatarPath VARCHAR(300),
@@ -73,6 +73,7 @@ class DatabaseQueries{
           dbId INTEGER PRIMARY KEY,
           user2 VARCHAR(300) NOT NULL,
           createdAt VARCHAR(300) NOT NULL,
+          updatedAt VARCHAR(300) NOT NULL,
           user1 VARCHAR(300) NOT NULL,
           FOREIGN KEY (user1) REFERENCES user (_id)
           ON DELETE NO ACTION ON UPDATE NO ACTION,

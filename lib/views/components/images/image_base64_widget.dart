@@ -21,7 +21,7 @@ class Base64ImageWidget extends StatefulWidget{
 class Base64ImageWidgetState extends State<Base64ImageWidget>{
   @override
   Widget build(BuildContext context) {
-    if(widget.base64String.toLowerCase().contains("http") && widget.base64String.length < 100){
+    if(!widget.base64String.toLowerCase().contains("data:application/octet-stream;base64") && widget.base64String.length < 100){
         return NetWorkImageWidget(imageUrl: widget.base64String, size: widget.size);
     }
     Uint8List bytes = base64Decode(widget.base64String.substring(widget.base64String.indexOf(',')+1));

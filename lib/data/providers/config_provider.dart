@@ -24,7 +24,7 @@ class ConfigProvider with ChangeNotifier{
   setIsOfflineMode(bool isOffline){
     splashRepository.setOfflineMode(isOffline);
   }
-  initConfig({required VoidCallback successCallback, required VoidCallback errorCallback})async{
+  initConfig()async{
     isFirstTime_ =  await splashRepository.isFirstTime();
     isLoading_ = true;
     isOfflineMode = await splashRepository.isOfflineMode();
@@ -36,11 +36,6 @@ class ConfigProvider with ChangeNotifier{
 
     isLoading_ = false;
     notifyListeners();
-    if(success){
-      successCallback();
-    }else{
-      errorCallback();
-    }
 
 
   }

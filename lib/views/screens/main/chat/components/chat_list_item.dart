@@ -1,4 +1,5 @@
 import 'package:Gael/data/models/chat_model.dart';
+import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
@@ -9,52 +10,74 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ChatListItem extends StatelessWidget {
- final Chat chat;
+class ChatListItem extends StatefulWidget {
+  final Chat chat;
+
   const ChatListItem({
     Key? key,
     required this.chat,
   }) : super(key: key);
+  @override
+  ChatListItemState createState()=>ChatListItemState();
+}
+class ChatListItemState extends State<ChatListItem> {
+  User? user1;
+  User? user2;
+  String userName = "";
+  bool isOnline = false;
+  bool isLastMessageMine = true;
+  bool isReceivedMessage = false;
+  String imageUrl = "";
+  String lastMessage = "";
+  bool isReadMessage = false;
+  String lastMessageTime  = "" ;
+  getInfo()async{
+      user1 = widget.chat.user1;
+      user2 = widget.chat.user2;
+      userName = user1!=null? "${user1!.firstName} ${user1!.lastName}" : "";
+      isOnline = user1 != null? user1!.isConected??false : false;
+      imageUrl = user1 != null? user1!.profileImage : "";
+      if(user2 != null && user1 != null){
+        if(Provider.of<AuthProvider>(context, listen: false).user!.id == user1!.id){
+          userName = "${user2!.firstName} ${user2!.lastName}";
+          isOnline = user2!.isConected??false;
+          imageUrl = user2!.profileImage;
+        }
+      }
 
+      if(widget.chat.messages.isNotEmpty){
+        lastMessage = widget.chat.messages.last.content;
+        if(widget.chat.messages.last.user == Provider.of<AuthProvider>(context, listen: false).user){
+          isLastMessageMine = true;
+          isReceivedMessage = widget.chat.messages.last.read;
+        }
+        isReadMessage = widget.chat.messages.last.read;
+
+      }
+
+      if(widget.chat.messages.isNotEmpty){
+        lastMessageTime =  "${widget.chat.messages.last.sentAt.hour}:${widget.chat.messages.last.sentAt.minute}";
+      }
+
+  }
+  @override
+  void initState() {
+    super.initState();
+    getInfo();
+  }
   @override
   Widget build(BuildContext context) {
-    String userName = "${chat.user1.firstName} ${chat.user1.lastName}";
-    bool isOnline = chat.user1.isConected??false;
-    bool isLastMessageMine = true;
-    bool isReceivedMessage = false;
-    String imageUrl = chat.user1.profileImage;
-    if(Provider.of<AuthProvider>(context, listen: false).user!.id == chat.user1.id){
-      userName = "${chat.user2.firstName} ${chat.user2.lastName}";
-      isOnline = chat.user2.isConected??false;
-      imageUrl = chat.user2.profileImage;
-    }
-    String lastMessage = "";
-    bool isReadMessage = false;
-    if(chat.messages.isNotEmpty){
-      lastMessage = chat.messages.last.content;
-      if(chat.messages.last.user == Provider.of<AuthProvider>(context, listen: false).user){
-        isLastMessageMine = true;
-        isReceivedMessage = chat.messages.last.read;
-      }
-       isReadMessage = chat.messages.last.read;
-
-    }
-
-    String lastMessageTime  = "" ;
-    if(chat.messages.isNotEmpty){
-      lastMessageTime =  "${chat.messages.last.sentAt.hour}:${chat.messages.last.sentAt.minute}";
-    }
     return ListTile(
       style: ListTileStyle.list,
       contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.spacingSizeDefault, vertical: 0),
       onTap: () {
-        Navigator.pushNamed(context, Routes.chatDetailScreen);
+        Navigator.pushNamed(context, Routes.chatDetailScreen, arguments: widget.chat);
         },
       leading: buildLeading(isOnline, imageUrl),
       titleAlignment:ListTileTitleAlignment.center,
       title: Text(
         userName,
-        style:  Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600),
+        style:  Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
       ),
       subtitle: buildSubtitle(context,isLastMessageMine,isReadMessage,lastMessage, isReceivedMessage),
       trailing: Text(

@@ -56,7 +56,7 @@ class ChatRepository {
 
   upsertChat({required Chat chat})async{
     var db = DatabaseHelper.instance;
-    db.upsertChat(chat);
+    return db.upsertChat(chat);
   }
 
   upsertMessage({required Message message})async{

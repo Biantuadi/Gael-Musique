@@ -7,6 +7,7 @@ import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/repositories/chat_repository.dart';
 import 'package:Gael/utils/string_extensions.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatProvider with ChangeNotifier{
   ChatRepository chatRepository;
@@ -25,8 +26,10 @@ class ChatProvider with ChangeNotifier{
     chatsToShow = chatsToShow??[];
     if(chatKeySearch != ""){
       chatsToShow = chatsToShow!.where((chat){
-        String name1 = "${chat.user1.firstName} ${chat.user1.lastName}";
-        String name2 = "${chat.user2.firstName} ${chat.user2.lastName}";
+        User? user1 = chat.user1;
+        User? user2 = chat.user2;
+        String name1 =user1 != null? "${user1.firstName} ${user1.lastName}" : "";
+        String name2 = user2 != null ?"${user2.firstName} ${user2.lastName}" : "";
         return(
             name1.replaceSpecials().contains(key.replaceSpecials()) &&
                 name2.replaceSpecials().contains(key.replaceSpecials())
@@ -79,7 +82,9 @@ class ChatProvider with ChangeNotifier{
         users = users??[];
         usersToShow = usersToShow??[];
         data.forEach((user) async{
-          users!.add(User.fromJson(user));
+          if(!users!.contains(User.fromJson(user))){
+            users!.add(User.fromJson(user));
+          }
           await chatRepository.upsertUser(user: User.fromJson(user));
         });
         usersToShow = users;
@@ -91,12 +96,27 @@ class ChatProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  upsertChat(Chat chat)async{
-    await chatRepository.upsertChat(chat: chat);
+  Future<Chat?> upsertChat(Chat chat)async{
+    return await chatRepository.upsertChat(chat: chat);
   }
   upsertMessage(Message message)async{
     await chatRepository.upsertMessage(message: message);
   }
+  createChat({required String user1, required String user2,}) async{
+    var uuid = const Uuid();
+
+    Chat? chat= await upsertChat(
+        Chat(
+            id: uuid.v7(),
+            user1Id: user1,
+            user2Id: user2,
+            updatedAt: DateTime.now()
+        ));
+    getChatsFromDB();
+    return chat;
+  }
+
+
 
   getUsersFromDB()async{
     users = users??[];
