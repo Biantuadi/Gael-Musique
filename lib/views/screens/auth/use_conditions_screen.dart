@@ -14,14 +14,14 @@ class UseConditionsScreenState extends State<UseConditionsScreen>{
   final WebViewController controller = WebViewController();
     @override
   void initState() {
-    // TODO: implement initState
+    /// TODO: implement initState
     super.initState();
     controller..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
       NavigationDelegate(
       onProgress: (int progress) {
-      // Update loading bar.
+      
       },
       onPageStarted: (String url) {},
       onPageFinished: (String url) {},
@@ -41,13 +41,15 @@ class UseConditionsScreenState extends State<UseConditionsScreen>{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    /// TO DO IMPLEMENT
     return Scaffold(
       appBar: AppBar(
         title: Text("Conditions d'utilisation",style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),),
         backgroundColor:ThemeVariables.thirdColorBlack,
       ),
-      body: WebViewWidget(controller: controller),
+      body: WebViewWidget(
+          controller: controller,
+      ),
     );
   }
 }

@@ -2,10 +2,11 @@ import 'package:Gael/data/models/streaming_model.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
-// import 'package:Gael/views/components/images/image_asset_widget.dart';
+import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class StreamingCard extends StatelessWidget{
   final Streaming streaming;
@@ -43,6 +44,50 @@ class StreamingCard extends StatelessWidget{
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class StreamingCardShimmer extends StatelessWidget{
+  final double size;
+  const StreamingCardShimmer({super.key , required this.size});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //height: size * 3/2,
+      width: size,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            height:  size * 4/3,
+            width: size,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+            ),
+            child: Shimmer.fromColors(
+                baseColor: ThemeVariables.iconInactive,
+                highlightColor: Colors.grey,
+                child: SizedBox(height:  size * 4/3,
+                  width: size,)
+            ),
+          ),
+          SizedBox(height: Dimensions.spacingSizeSmall,),
+          SizedBox(
+            width: size,
+            child: Shimmer.fromColors(
+                baseColor: ThemeVariables.iconInactive,
+                highlightColor: Colors.grey,
+                child: SizedBox(height:  size * 4/3,
+                  width: size,)
+            ),
+          ),
+        ],
       ),
     );
   }

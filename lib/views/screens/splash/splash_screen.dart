@@ -1,22 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:Gael/data/providers/auth_provider.dart';
-import 'package:Gael/data/providers/chat_provider.dart';
-import 'package:Gael/data/providers/podcasts_provider.dart';
-import 'package:Gael/data/providers/radio_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
-import 'package:Gael/data/providers/song_provider.dart';
-import 'package:Gael/data/providers/splash_provider.dart';
-import 'package:Gael/data/providers/events_provider.dart';
-import 'package:Gael/data/providers/streaming_provider.dart';
+import 'package:Gael/data/providers/config_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
-import 'package:Gael/views/components/bottom_sheet.dart';
-import 'package:Gael/views/components/custom_snackbar.dart';
-import 'package:Gael/views/screens/not_internet_page.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,43 +33,10 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
 
-  String loadingText = "Chargement...";
   Connectivity connectivity = Connectivity();
 
-  Future noInternetCallBacks()async{
-    showCustomBottomSheet(
-        context: context,
-        content: NoInternetWidget(
-          voidCallback: () async{
-            await Provider.of<SongProvider>(context, listen: false).getSongsFromDB().then(
-                    (value)async{
-                  await Provider.of<SongProvider>(context, listen: false).getAlbumsFromDB().then((value)async{
-                  });
-                }
-            );
-            await Provider.of<EventsProvider>(context, listen: false).getEventsFromDB();
-            await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
-            await Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
-            Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
-          },
-        ));
-  }
 
-  Future internetCallBacks()async{
-    await Provider.of<SongProvider>(context, listen: false).getSongsFromApi().then(
-            (value)async{
-          await Provider.of<SongProvider>(context, listen: false).getAlbums().then((value)async{
-          });
-        }
-    );
-    await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
-    await Provider.of<RadiosProvider>(context, listen: false).getRadiosFromAPi();
-    await Provider.of<PodcastsProvider>(context, listen: false).getPodcastsFromAPi();
-    await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
-    await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
-    await Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
-    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
-  }
+
   void initSocket(){
     Provider.of<SocketProvider>(context, listen: false).initSocket(
       successCallback: (){
@@ -90,45 +48,11 @@ class SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  void _route() async{
+    await Provider.of<ThemeProvider>(context, listen: false).getTheme();
+    await Provider.of<AuthProvider>(context, listen: false).getUserVars();
+      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
 
-
-  void _route(){
-
-    Provider.of<ThemeProvider>(context, listen: false).getTheme();
-
-    Provider.of<SplashProvider>(context, listen: false).initConfig(
-        successCallback: () async {
-          await Provider.of<AuthProvider>(context, listen: false).getUserVars();
-          if(
-          Provider.of<SplashProvider>(context, listen: false).userToken != null
-              && Provider.of<SplashProvider>(context, listen: false).tokenIsValid == true){
-            route = Routes.mainScreen;
-            if(Provider.of<SplashProvider>(context, listen: false).isOfflineMode){
-              await noInternetCallBacks();
-            }else{
-                 connectivity.checkConnectivity().then((value)async{
-                  if(value.isNotEmpty){
-                    if(value.contains(ConnectivityResult.ethernet) || value.contains(ConnectivityResult.mobile) || value.contains(ConnectivityResult.wifi) ){
-                      await internetCallBacks();
-                    }else{
-                      await noInternetCallBacks();
-                    }
-                  }
-                });
-            }
-
-          }else{
-            ScaffoldMessenger.of(context).showSnackBar(
-              customSnack(text: "Informations non retrouvées, veillez vous connecter!", context: context, bgColor: Colors.red)
-            );
-            Navigator.pushNamed(context, Routes.landingScreen);
-          }
-
-        },
-        errorCallback: (){
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.landingScreen, (route) => false);
-        }
-    );
   }
 
   @override
@@ -138,7 +62,7 @@ class SplashScreenState extends State<SplashScreen> {
       body: SizedBox(
         height: size.height,
         width: size.height,
-        child: Consumer<SplashProvider>(
+        child: Consumer<ConfigProvider>(
             builder: (BuildContext context, provider, Widget? child) {
           return Stack(
             alignment: Alignment.center,
@@ -185,7 +109,7 @@ class SplashScreenState extends State<SplashScreen> {
                         bottom: 30,
                         child: Column(
                           children: [
-                            Provider.of<SplashProvider>(context,
+                            Provider.of<ConfigProvider>(context,
                                 listen: true)
                                 .isFirstTime
                                 ? Container(
@@ -202,8 +126,7 @@ class SplashScreenState extends State<SplashScreen> {
                               height: 0,
                               width: 0,
                             ),
-                            Text(loadingText, style: Theme.of(context).textTheme.bodySmall,),
-                            SizedBox(height: Dimensions.spacingSizeDefault,),
+                            SizedBox(height: Dimensions.spacingSizeExtraSmall,),
                             const CircularProgressIndicator(
                               color: Colors.white,
                               strokeWidth: 1,

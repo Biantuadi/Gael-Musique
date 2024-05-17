@@ -1,11 +1,18 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/chat_provider.dart';
+import 'package:Gael/data/providers/config_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/bottom_sheet.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/fields/custom_text_field.dart';
 import 'package:Gael/views/screens/main/chat/components/chat_list_item.dart';
+import 'package:Gael/views/screens/not_internet_page.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +27,33 @@ class ChatListScreen extends StatefulWidget {
 class ChatListScreenState extends State<ChatListScreen> {
   ScrollController scrollController = ScrollController();
   bool showAppBar = true;
+  Connectivity connectivity = Connectivity();
+  getData(){
+    Provider.of<ChatProvider>(context, listen: false).getChatsFromDB();
+    if(Provider.of<ConfigProvider>(context, listen: false).isOfflineMode){
+      Provider.of<ChatProvider>(context, listen: false).getUsersFromDB();
+    }else{
+      connectivity.checkConnectivity().then((value){
+        if(value.contains(ConnectivityResult.wifi) || value.contains(ConnectivityResult.mobile)){
+          Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
+        }else{
+          showCustomBottomSheet(
+              context: context,
+              content: NoInternetWidget(
+                voidCallback: () {
+                  Navigator.pop(context);
+                },
+              )
+          );
+        }
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    getData();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -49,9 +80,9 @@ class ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SocketProvider socketProvider =
-        Provider.of<SocketProvider>(context, listen: true);
-    return Consumer<ChatProvider>(builder: (ctx, provider, child) {
+    Size size = MediaQuery.sizeOf(context);
+    return Consumer3<ChatProvider, SocketProvider, AuthProvider>(builder: (ctx, chatProvider, socketProvider,authProvider,child) {
+      if(authProvider.userIsAuthenticated){
       return CustomScrollView(
         slivers: [
           SliverList.list(children: [
@@ -74,28 +105,44 @@ class ChatListScreenState extends State<ChatListScreen> {
             backgroundColor: ThemeVariables.thirdColorBlack,
             title: CustomTextField(
               onChanged: (value) {
-                provider.setChatKeySearch(value);
+                chatProvider.setChatKeySearch(value);
               },
               hintText: 'Recherche...',
             ),
           ),
           SliverList.builder(
-            itemCount: 5,
+            itemCount: chatProvider.users != null? chatProvider.users!.length : 10,
             itemBuilder: (context, index) {
-              return ChatListItem(
-                isLastMessageMine: false,
-                isReceivedMessage: false,
-                isReadMessage: true,
-                isOnline: true,
-                userName: 'User $index',
-                imageUrl:
-                    'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg',
-                lastMessage: 'Last message $index',
-                lastMessageTime: '10:00',
-              );
+              if(chatProvider.users != null){
+                return ChatListItem(chat: chatProvider.chats![index],  );
+              }
+              return const ChatItemShimmer();
+
             },
           ),
         ],
+      );}
+      return SingleChildScrollView(
+        child: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Veillez vous connecter", style: Theme.of(context).textTheme.bodyLarge,),
+                SizedBox(height: Dimensions.spacingSizeSmall,),
+                SizedBox(
+                  width: size.width,
+                  child: GradientButton(onTap: () {
+                    Navigator.pushNamed(context, Routes.loginScreen);
+                  }, size: Size(size.width, 50),
+                  child: Text('connexion', style: Theme.of(context).textTheme.titleSmall,),),
+                )
+              ],
+            ),
+          ),
+        ),
       );
     });
   }

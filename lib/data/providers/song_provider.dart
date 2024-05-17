@@ -16,8 +16,8 @@ import 'package:permission_handler/permission_handler.dart';
 class SongProvider with ChangeNotifier{
   SongRepository songRepository;
   SongProvider({required this.songRepository});
-  List<Album> allAlbums = [];
-  List<Song> allSongs = [];
+  List<Album>? allAlbums;
+  List<Song>? allSongs;
   List<Album>? albumsToShow;
   Album? currentAlbum;
   Song? currentSong;
@@ -48,9 +48,12 @@ class SongProvider with ChangeNotifier{
 
   String getAlbumCoverUrl (String albumID){
     String cover = "";
-    if(allAlbums.where((album) => album.id == albumID).isNotEmpty){
-      cover = allAlbums.where((album) => album.id == albumID).first.imgAlbum??'';
+    if(allAlbums != null){
+      if(allAlbums!.where((album) => album.id == albumID).isNotEmpty){
+        cover = allAlbums!.where((album) => album.id == albumID).first.imgAlbum??'';
+      }
     }
+
     return cover;
   }
 
@@ -72,7 +75,9 @@ class SongProvider with ChangeNotifier{
     isLoading = true;
     notifyListeners();
     bool audioFileExists = false;
-    currentAlbum = allAlbums.firstWhere((album) => album.id == song.album);
+    if(allAlbums != null){
+      currentAlbum = allAlbums!.firstWhere((album) => album.id == song.album);
+    }
     if(currentSong != song){
       currentSong = song;
 
@@ -304,8 +309,10 @@ class SongProvider with ChangeNotifier{
       songsTotalItems = response.data["totalItems"];
       songsCurrentPage = response.data["currentPage"];
       songsTotalPages = response.data["totalPages"];
+      allAlbums = allAlbums??[];
+      allSongs = allSongs??[];
       data.forEach((json)async{
-        allSongs.add(Song.fromJson(json));
+        allSongs!.add(Song.fromJson(json));
         await songRepository.upsertSong(song: Song.fromJson(json));
       });
 
@@ -317,8 +324,9 @@ class SongProvider with ChangeNotifier{
     Response response = await songRepository.getAlbums();
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
+      allAlbums = allAlbums??[];
       data.forEach((json)async{
-        allAlbums.add(Album.fromJson(json:json));
+        allAlbums!.add(Album.fromJson(json:json));
         await songRepository.upsertAlbum(album: Album.fromJson(json:json));
       });
 

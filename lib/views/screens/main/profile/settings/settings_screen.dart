@@ -3,6 +3,7 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
 import 'package:Gael/views/components/buttons/button_gradient.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/screens/main/profile/component/option_switch_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -24,7 +25,12 @@ class SettingsScreenState extends State<SettingsScreen>{
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: const Icon(Iconsax.arrow_left, ), onPressed: (){
-          Navigator.pop(context);
+          if(!Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+            Navigator.pushNamed(context, Routes.mainScreen, arguments: 0);
+          }else{
+            Navigator.pop(context);
+          }
+
         },),
         title: Text("Paramètres", style: Theme.of(context).textTheme.titleMedium,),
       ),
@@ -47,7 +53,17 @@ class SettingsScreenState extends State<SettingsScreen>{
               ProfileOption(label: 'Modifier', iconData: Iconsax.edit, voidCallback: (){
                 Navigator.pushNamed(context, Routes.infoUpdateScreen);
               },),
-              ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
+              ProfileOption(
+                label:
+                Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated?
+                'Déconnexion' : "Connexion", iconData: Iconsax.logout4, voidCallback: (){
+                  if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+                    logoutBottomSheet();
+                  }else{
+                    Navigator.pushNamed(context, Routes.loginScreen);
+                  }
+
+              },),
               ProfileOption(label: 'A propos', iconData: Iconsax.info_circle, voidCallback: () {
                 Navigator.pushNamed(context, Routes.aboutScreen);
               },),
@@ -71,7 +87,10 @@ class SettingsScreenState extends State<SettingsScreen>{
             children: [
               GradientButton(onTap: (){
                 Provider.of<AuthProvider>(context, listen: false).logOut();
-                Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    customSnack(text: "Déconnexion réussie", context: context)
+                );
               },
                   size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
               SizedBox(width: Dimensions.spacingSizeDefault,),

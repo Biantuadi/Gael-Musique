@@ -18,7 +18,7 @@ import 'data/providers/events_provider.dart';
 import 'data/providers/payment_provider.dart';
 import 'data/providers/socket_provider.dart';
 import 'data/providers/song_provider.dart';
-import 'data/providers/splash_provider.dart';
+import 'data/providers/config_provider.dart';
 import 'data/providers/streaming_provider.dart';
 import 'data/repositories/chat_repository.dart';
 import 'data/repositories/events_repository.dart';
@@ -27,7 +27,7 @@ import 'data/repositories/notification_repository.dart';
 import 'data/repositories/payment_repository.dart';
 import 'data/repositories/socket_repository.dart';
 import 'data/repositories/song_repository.dart';
-import 'data/repositories/splash_repository.dart';
+import 'data/repositories/config_repository.dart';
 import 'data/repositories/streaming_repository.dart';
 
 
@@ -35,7 +35,7 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   sl.registerLazySingleton(() => DioClient(AppConfig.BASE_URL, sl(),  sharedPreferences: sl()));
-  sl.registerLazySingleton(() => SplashRepository(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(() => ConfigRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => AuthRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => ChatRepository(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(() => FavoriteRepository(sharedPreferences: sl(), dioClient: sl()));
@@ -52,7 +52,7 @@ Future<void> init() async {
 
 
   sl.registerFactory(() => PaymentProvider(paymentRepository: sl(),));
-  sl.registerFactory(() => SplashProvider(splashRepository: sl(),));
+  sl.registerFactory(() => ConfigProvider(splashRepository: sl(),));
   sl.registerFactory(() => ThemeProvider(themeRepository: sl()));
   sl.registerFactory(() => AuthProvider(authRepository: sl()));
   sl.registerFactory(() => ChatProvider(chatRepository: sl()));

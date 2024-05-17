@@ -1,7 +1,9 @@
 import 'package:Gael/data/models/app/screen_model.dart';
+import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
+import 'package:Gael/data/utils.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
@@ -9,17 +11,20 @@ import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
 import 'package:Gael/views/screens/main/notifications/notifications_screen.dart';
 import 'package:Gael/views/screens/main/profile/profile_screen.dart';
 import 'package:Gael/views/screens/main/streaming/streaming_screen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:provider/provider.dart';
+import '../../../data/providers/config_provider.dart';
 import 'home/home_screen.dart';
 import 'package:Gael/utils/dimensions.dart';
 
 class MainScreen extends StatefulWidget{
-  const MainScreen({super.key});
+  final int? initialIndex;
+  const MainScreen({super.key, required this.initialIndex});
 
   @override
   MainScreenState createState()=>MainScreenState();
@@ -31,24 +36,61 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   int selectedIndex = 0;
   bool showAppBar = true;
   late ScrollController scrollController;
+  Connectivity connectivity =  Connectivity();
+  bool userIsAuthenticated = false;
+
 
   @override
   void initState() {
     super.initState();
-    super.initState();
-    screens = [
-      ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:const HomeScreen()),
-      ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const StreamingScreen()),
-      ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()),
-      ScreenModel(icon: Iconsax.notification, activeIcon: Iconsax.notification1, content:  const NotificationsScreen()),
-      ScreenModel(icon: Iconsax.user, activeIcon: Iconsax.user, content:  const ProfileScreen()),
-    ];
+    selectedIndex = widget.initialIndex??0;
+
+    screens.add(ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content:const HomeScreen()));
+    if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+      screens.add(ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()));
+    }
+    screens.add( ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const StreamingScreen()));
+    if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+      screens.add(ScreenModel(icon: Iconsax.notification, activeIcon: Iconsax.notification1, content:  const NotificationsScreen()));
+    }
+    screens.add(ScreenModel(
+        icon:Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated?
+        Iconsax.user : Iconsax.setting_2,
+        activeIcon: Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated?
+        Iconsax.user : Iconsax.setting,
+        content:  const ProfileScreen()));
+
+    if(widget.initialIndex != null){
+      if(widget.initialIndex! > 4){
+        selectedIndex = screens.length - 1;
+      }else{
+        selectedIndex = 0;
+      }
+    }
+
     tabController = TabController(length: screens.length, vsync: this);
     tabController.addListener(() {
       setState(() {
         selectedIndex = tabController.index;
       });
     });
+  }
+
+
+ getData(){
+      if(Provider.of<ConfigProvider>(context, listen: false).isOfflineMode){
+         noInternetCallBacks(context);
+      }else{
+        connectivity.checkConnectivity().then((value)async{
+          if(value.isNotEmpty){
+            if(value.contains(ConnectivityResult.ethernet) || value.contains(ConnectivityResult.mobile) || value.contains(ConnectivityResult.wifi) ){
+              await internetCallBacks(context);
+            }else{
+              await noInternetCallBacks(context);
+            }
+          }
+        });
+      }
   }
 
   @override
@@ -224,9 +266,16 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                           ),
                           controller: tabController,
                           onTap: (index){
-                            setState(() {
-                              tabController.index = index;
-                            });
+
+                            if(tabController.index == screens.length - 1){
+                              if(!Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+                                Navigator.pushNamed(context, Routes.settingsScreen);
+                              }
+                            }else{
+                              setState(() {
+                                tabController.index = index;
+                              });
+                            }
                           },
 
                           tabs:screens.map((screen) => Tab(

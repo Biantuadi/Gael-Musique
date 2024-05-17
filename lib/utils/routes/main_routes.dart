@@ -61,9 +61,9 @@ class Routes {
       case landingScreen:
         return MaterialPageRoute(builder: (_) => const LandingScreen());
       case mainScreen:
-        return MaterialPageRoute(builder: (_) =>  const MainScreen());
+        return MaterialPageRoute(builder: (_) =>   MainScreen(initialIndex: arguments as int?,));
       case loginScreen:
-        return MaterialPageRoute(builder: (_) =>   const LoginScreen());
+        return MaterialPageRoute(builder: (_) =>   LoginScreen(onSuccessRoute: arguments as String?,));
       case registerScreen:
         return MaterialPageRoute(builder: (_) =>  const RegisterScreen());
       case registerInfoConfigScreen:
@@ -75,19 +75,19 @@ class Routes {
       case useConditionsScreen:
         return MaterialPageRoute(builder: (_) =>  UseConditionsScreen());
       case homeScreen:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => const MainScreen(initialIndex: 0));
       case chatListScreen:
-        return MaterialPageRoute(builder: (_) => const ChatListScreen());
+        return MaterialPageRoute(builder: (_) => const MainScreen(initialIndex: 2));
       case chatDetailScreen:
         return MaterialPageRoute(builder: (_) => const ChatDetailScreen());
       case radioScreen:
-        return MaterialPageRoute(builder: (_) => const StreamingScreen());
+        return MaterialPageRoute(builder: (_) => const MainScreen(initialIndex: 1));
       case streamingDetailsScreen:
         return MaterialPageRoute(builder: (_) =>  StreamingDetailsScreen());
       case favoritesScreen:
         return MaterialPageRoute(builder: (_) => const FavoriteScreen());
       case profileScreen:
-        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+        return MaterialPageRoute(builder: (_) => const MainScreen(initialIndex: 4));
       case aboutScreen:
         return MaterialPageRoute(builder: (_) => const AboutScreen());
       case coursesScreen:

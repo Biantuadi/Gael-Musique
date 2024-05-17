@@ -15,9 +15,9 @@ class StreamingProvider with ChangeNotifier {
   StreamingProvider({required this.streamRepository,});
   bool showStreamPlayContainer = false;
 
-  List<Streaming> allStreaming = [];
-  List<Streaming> streamings = [];
-  List<Streaming> streamingToShow = [];
+  List<Streaming>? allStreaming;
+  List<Streaming>? streamings ;
+  List<Streaming>? streamingToShow;
 
   int streamingTotalItems = 0;
   int streamingCurrentPage = 0;
@@ -135,9 +135,11 @@ class StreamingProvider with ChangeNotifier {
       }
 
       notifyListeners();
-      if(currentStreaming != null){
-        streamings = allStreaming.where((str) => str.id != currentStreaming!.id).toList();
-        randomIndex = random.nextInt(streamings.length-1 );
+      if(allStreaming != null){
+        if(currentStreaming != null){
+          streamings = allStreaming!.where((str) => str.id != currentStreaming!.id).toList();
+          randomIndex = random.nextInt(streamings!.length-1 );
+        }
       }
     }else{
 
@@ -172,7 +174,7 @@ class StreamingProvider with ChangeNotifier {
     allStreaming = [];
     if(streamingCurrentPage>0){
       isLoadingData = true;
-      notifyListeners();
+
     }
     Response response = await streamRepository.getStreaming(
         page: streamingCurrentPage>0? streamingCurrentPage:null

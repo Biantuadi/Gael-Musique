@@ -1,6 +1,6 @@
 import 'package:Gael/data/providers/podcasts_provider.dart';
 import 'package:Gael/data/providers/radio_provider.dart';
-import 'package:Gael/data/providers/splash_provider.dart';
+import 'package:Gael/data/providers/config_provider.dart';
 import 'package:Gael/data/providers/theme_provider.dart';
 import 'package:Gael/utils/config/app_config.dart';
 import 'package:Gael/utils/dimensions.dart';
@@ -30,7 +30,7 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<ConfigProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<SongProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<NotificationProvider>()),

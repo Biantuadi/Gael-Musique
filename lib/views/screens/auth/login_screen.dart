@@ -17,7 +17,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final String? onSuccessRoute;
+  const LoginScreen({super.key,  this.onSuccessRoute,});
 
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -28,12 +29,13 @@ class LoginScreenState extends State<LoginScreen> {
   bool showPositional = true;
   String email = "";
   String password = "";
+  String? onSuccessRoute;
 
   @override
   void initState() {
 
     super.initState();
-    //Provider.of<AuthProvider>(context, listen: false).nullAuthVars();
+    onSuccessRoute = widget.onSuccessRoute;
   }
 
   @override
@@ -139,7 +141,10 @@ class LoginScreenState extends State<LoginScreen> {
                                     await Provider.of<SongProvider>(context, listen: false).getAlbums();
                                     await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
                                     await Provider.of<StreamingProvider>(context, listen: false).getStreaming().then((value){
-                                      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, onSuccessRoute?? Routes.mainScreen,
+                                              (route) => false);
                                     });
 
                                   },

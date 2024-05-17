@@ -19,7 +19,8 @@ class StreamingWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.sizeOf(context);
     Size size = Size(screenSize.width *0.8, screenSize.width *2);
-    User user =   Provider.of<AuthProvider>(context, listen: false).user!;
+
+    User? user =   Provider.of<AuthProvider>(context, listen: false).user;
 
     return InkWell(
       onTap: (){
@@ -58,7 +59,10 @@ class StreamingWidget extends StatelessWidget{
             Opacity(
               opacity: .6,
                 child: NetWorkImageWidget(imageUrl: streaming.cover, size: size,)),
-            IconButton(onPressed: (){}, icon: Icon(streaming.isFavorite(user: user)? Iconsax.heart5 : Iconsax.heart4,color: (streaming.isFavorite(user: user)? ThemeVariables.primaryColor : Colors.white ))),
+            IconButton(
+                onPressed: (){},
+                icon: Icon(
+                    streaming.isFavorite(user)? Iconsax.heart5 : Iconsax.heart4,color: (streaming.isFavorite(user)? ThemeVariables.primaryColor : Colors.white ))),
             Center(child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

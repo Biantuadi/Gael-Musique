@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import 'component/profile_option_tile.dart';
 import 'component/user_cart_widget.dart';
 
@@ -27,6 +26,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
   @override
    Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -321,7 +327,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       
               GradientButton(onTap: (){
                 Provider.of<AuthProvider>(context, listen: false).logOut();
-                Navigator.pushNamedAndRemoveUntil(context, Routes.landingScreen, (route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    customSnack(text: "Déconnexion réussie", context: context)
+                );
               },
                size: Size(size.width / 5, 50), child: Text("Oui", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white), )),
               SizedBox(width: Dimensions.spacingSizeDefault,),

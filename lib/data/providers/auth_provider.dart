@@ -39,6 +39,8 @@ class AuthProvider with ChangeNotifier{
   String countrySearchKey = "";
   String countryCode = "";
   String countryFlag = "";
+  bool tokenIsValid = false;
+  bool userIsAuthenticated = false;
 
 
   setInitialCountry(){
@@ -246,6 +248,7 @@ class AuthProvider with ChangeNotifier{
                     }
 
                     isLoadingData = false;
+                    userIsAuthenticated = true;
               }
           );
         }else{
@@ -323,6 +326,7 @@ class AuthProvider with ChangeNotifier{
             }
         );
         loginError = null;
+        userIsAuthenticated = true;
       }
       else{
         if(apiResponse.response.data is int || apiResponse.response.data is double){
@@ -349,7 +353,7 @@ class AuthProvider with ChangeNotifier{
     notifyListeners();
     authRepository.logOut();
     isLoading = false;
-    notifyListeners();
+    getUserVars();
   }
   getUserFromDB()async{
     String? userID = await authRepository.getUserID();
@@ -372,28 +376,34 @@ class AuthProvider with ChangeNotifier{
     getUserVars();
     saveAvatar();
   }
-  getUserVars()async{
-    userProfileUrl = await authRepository.getUserProfileUrl();
-    userPhone = await authRepository.getUserPhone();
-    userName = await authRepository.getUserName();
-    userFirstName = await authRepository.getUserFirstName();
+  Future getUserVars()async{
+    userIsAuthenticated = false;
+    tokenIsValid = await authRepository.isTokenValid();
     userToken = await authRepository.getUserToken();
-    userEmail = await authRepository.getUserEmail();
-    userID = await authRepository.getUserID();
-    userTokenIsValid = await authRepository.isTokenValid();
-    userCreatedAt = await authRepository.getUserCreatedAt();
-    DateTime? createdAtDate = DateTime.tryParse(userCreatedAt??"");
-    user = User(
-        phone: userPhone??"",
-        firstName: userFirstName??"",
-        id: userID??"",
-        bio: '',
-        createdAt: createdAtDate??DateTime.now(),
-        email: userEmail??'',
-        lastName: userName ??"",
-        preferences: Preference(theme: '', language: '', notifications: true),
-        profileImage: userProfileUrl??""
-    );
+    if(userToken != null && tokenIsValid){
+      userProfileUrl = await authRepository.getUserProfileUrl();
+      userPhone = await authRepository.getUserPhone();
+      userName = await authRepository.getUserName();
+      userFirstName = await authRepository.getUserFirstName();
+      userEmail = await authRepository.getUserEmail();
+      userID = await authRepository.getUserID();
+      userTokenIsValid = await authRepository.isTokenValid();
+      userCreatedAt = await authRepository.getUserCreatedAt();
+      DateTime? createdAtDate = DateTime.tryParse(userCreatedAt??"");
+      user = User(
+          phone: userPhone??"",
+          firstName: userFirstName??"",
+          id: userID??"",
+          bio: '',
+          createdAt: createdAtDate??DateTime.now(),
+          email: userEmail??'',
+          lastName: userName ??"",
+          preferences: Preference(theme: '', language: '', notifications: true),
+          profileImage: userProfileUrl??""
+      );
+      userIsAuthenticated = true;
+    }
+
     notifyListeners();
     saveAvatar();
 

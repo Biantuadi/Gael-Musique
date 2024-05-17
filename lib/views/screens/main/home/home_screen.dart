@@ -2,6 +2,8 @@
 
 import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/models/streaming_model.dart';
+import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/config_provider.dart';
 // import 'package:Gael/data/providers/auth_provider.dart';
 // import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
@@ -9,8 +11,11 @@ import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/bottom_sheet.dart';
 // import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/layouts/custom_header.dart';
+import 'package:Gael/views/screens/not_internet_page.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -30,11 +35,35 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController scrollController = ScrollController();
+  Connectivity connectivity = Connectivity();
   bool showAppBar = true;
+  getData(){
+    if(Provider.of<ConfigProvider>(context, listen: false).isOfflineMode){
+      Provider.of<SongProvider>(context, listen: false).getAlbumsFromDB();
+      Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+    }else{
+      connectivity.checkConnectivity().then((value){
+        if(value.contains(ConnectivityResult.wifi) || value.contains(ConnectivityResult.mobile)){
+          Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+          Provider.of<SongProvider>(context, listen: false).getAlbums();
+        }else{
+          showCustomBottomSheet(
+              context: context,
+              content: NoInternetWidget(
+                voidCallback: () {
+                  Navigator.pop(context);
+                },
+              )
+          );
+        }
+      });
+    }
+  }
   @override
   void initState() {
-    // 
+
     super.initState();
+    getData();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -58,26 +87,23 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
     Size size = MediaQuery.sizeOf(context);
     Widget spacing()=>SizedBox(height: Dimensions.spacingSizeDefault,);
-    List<Album> albums = Provider.of<SongProvider>(context, listen: false).allAlbums;
-    List<Streaming> streamings = Provider.of<StreamingProvider>(context, listen: false).allStreaming??[];
-    if(streamings.length >= 4){
-        streamings = streamings.sublist(0, 4);
-    }
 
-  //Uint8List bytes = base64Decode(Provider.of<AuthProvider>(context, listen: false).userProfileUrl!);
-    return  Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomHeader(
-              showLogo: true,
-              showAvatar: true,
-            ) ,
-            Expanded(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
+    return  Consumer3<AuthProvider, SongProvider, StreamingProvider>(builder: (
+    context, authProvider, songProvider, streamProvider, child
+    ){
+      return Scaffold(
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CustomHeader(
+                showLogo: true,
+                showAvatar: true,
+              ) ,
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       spacing(),
@@ -141,10 +167,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Center(
                           child: Column(
                             children: [
+
                               Wrap(
                                 spacing: Dimensions.spacingSizeSmall,
                                 alignment: WrapAlignment.spaceEvenly,
-                                children: streamings.map((streaming) => StreamingCard(streaming: streaming, size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),)).toList(),
+                                children:
+                                streamProvider.allStreaming != null?
+                                streamProvider.allStreaming!.length>= 4?
+
+                                streamProvider.allStreaming!.sublist(0,4).
+                                map((streaming) => StreamingCard(
+                                  streaming: streaming,
+                                  size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),)).toList():
+                                streamProvider.allStreaming!.
+                                map((streaming) => StreamingCard(
+                                  streaming: streaming,
+                                  size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),)).toList():
+                                    List<Widget>.generate(4, (index) => StreamingCardShimmer(size: (size.width/4) - (Dimensions.spacingSizeDefault * 4/3),))
+                                ,
                               ),
 
                             ],
@@ -162,8 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: (){
-                                  // Navigator.pushNamed(context, Routes.albumScreen);
-                                  print("Navigate to albums screen");
+                                  Navigator.pushNamed(context, Routes.albumScreen);
                                 },
                                 child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
                               ),
@@ -174,24 +213,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: size.height/4,
                         child: ListView.builder(
-                          padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                            itemCount: albums.length >= 4? 4 : albums.length,
+                            padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+                            itemCount: songProvider.allAlbums == null?
+                            5:
+                            songProvider.allAlbums!.length >= 4? 4 : songProvider.allAlbums!.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index){
-                            Album album = albums[index];
-                              return HomeAlbumCard(album: album,screenSize: size,);
-                            }),
-                      ),
-                      SizedBox(height: Dimensions.spacingSizeLarge * 3,)
+                              if(songProvider.allAlbums != null){
+                                Album album = songProvider.allAlbums![index];
+                                return HomeAlbumCard(album: album,screenSize: size,);
+                              }
+                              return HomeAlbumCardShimmer(screenSize: size);}
+                        ),
 
-                    ],
+                      )],
                   ),
+                ),
               ),
-            ),
-        
-          ],
+
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

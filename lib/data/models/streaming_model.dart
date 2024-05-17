@@ -47,11 +47,13 @@ class Streaming{
     return json;
   }
 
-  bool isFavorite({required User user}){
-    if(user.favoriteStreaming != []){
+  bool isFavorite( User? user){
+    if(user != null){
+      if(user.favoriteStreaming != []){
         if(user.favoriteStreaming.contains(id)){
           return true;
         }
+      }
     }
     return false;
   }

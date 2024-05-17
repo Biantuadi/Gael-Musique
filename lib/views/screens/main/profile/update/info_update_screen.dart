@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/validators/email_validator.dart';
 import 'package:Gael/utils/validators/password_validator.dart';
 import 'package:Gael/utils/validators/phone_validator.dart';
@@ -37,7 +38,12 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(icon: const Icon(Iconsax.arrow_left, ), onPressed: (){
-            Navigator.pop(context);
+
+            if(!Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+              Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+            } else{
+              Navigator.pop(context);
+            }
           },),
           title: Text("Mise à jour", style: Theme.of(context).textTheme.titleMedium,),
         ),

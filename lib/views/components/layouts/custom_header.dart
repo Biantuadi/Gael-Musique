@@ -3,7 +3,9 @@
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/images/image_base64_widget.dart';
 // import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +90,8 @@ class CustomHeader extends StatelessWidget {
         showMemoryImage = true;
       }
     }
-    return Container(
+    Size size = MediaQuery.sizeOf(context);
+    return provider.userIsAuthenticated? Container(
       decoration: BoxDecoration(
         border: Border.all(
           color: ThemeVariables.primaryColor,
@@ -107,7 +110,13 @@ class CustomHeader extends StatelessWidget {
         ),
         child: showCircular ?const CircularProgressIndicator(strokeWidth: 2, color: ThemeVariables.primaryColor,) : Icon(Iconsax.personalcard),
       ): Base64ImageWidget(base64String: provider.userProfileUrl??"", size: Size(Dimensions.iconSizeExtraLarge * 1.2, Dimensions.iconSizeExtraLarge*1.2), radius: Dimensions.iconSizeExtraLarge,),
-    );
+    ) :
+    GradientButton(
+        onTap: (){
+          Navigator.pushNamed(context, Routes.loginScreen);
+        },
+        size: Size(size.width/3, 40),
+        child: Text("connexion", style: Theme.of(context).textTheme.titleSmall,));
   }
 
   // text span

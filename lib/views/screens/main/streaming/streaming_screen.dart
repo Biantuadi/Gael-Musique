@@ -26,7 +26,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
   ScrollController scrollController = ScrollController();
 
   List<Widget> pageContent=[];
-  List<DiscoverModelsRelated> songAndStreams=[];
+  List<DiscoverModelsRelated> dataToShow=[];
   List<DiscoverModelsRelated> songsOnly=[];
   List<DiscoverModelsRelated> streamOnly=[];
   List<DiscoverModelsRelated> radiosOnly=[];
@@ -85,7 +85,6 @@ class _StreamingScreenState extends State<StreamingScreen> {
       showOnlyPodcasts = false;
     });
   }
-
   setShowAll(){
     setState(() {
       showAll = true;
@@ -95,7 +94,6 @@ class _StreamingScreenState extends State<StreamingScreen> {
       showOnlyPodcasts = false;
     });
   }
-
   setShowStreamingOnly(){
     setState(() {
       showAll = false;
@@ -106,32 +104,52 @@ class _StreamingScreenState extends State<StreamingScreen> {
     });
   }
 
-  getData(){
-    Provider.of<StreamingProvider>(context, listen: false).allStreaming!.forEach((stream) {
-      songAndStreams.add(DiscoverModelsRelated(streaming: stream));
-      streamOnly.add(DiscoverModelsRelated( streaming: stream));
-    });
-    Provider.of<SongProvider>(context, listen: false).allSongs.forEach((song) {
-      songAndStreams.add(DiscoverModelsRelated( song: song));
-      songsOnly.add(DiscoverModelsRelated( song: song));
-    });
-    songAndStreams.sort((a, b)=> a.getCreatedDate()!.microsecondsSinceEpoch.compareTo(b.getCreatedDate()!.microsecondsSinceEpoch));
+  getData()async{
+    await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
+      Provider.of<StreamingProvider>(context, listen: false).allStreaming!.forEach((stream) {
+        if((!dataToShow.contains(DiscoverModelsRelated(streaming: stream)) && !streamOnly.contains(DiscoverModelsRelated(streaming: stream)))){
+          dataToShow.add(DiscoverModelsRelated(streaming: stream));
+          streamOnly.add(DiscoverModelsRelated( streaming: stream));
+        }
 
-    Provider.of<PodcastsProvider>(context, listen: false).podcasts!.forEach((podcast) {
-      songAndStreams.add(DiscoverModelsRelated(podcast: podcast));
-      podcastsOnly.add(DiscoverModelsRelated( podcast: podcast));
-    });
+      });
+    await Provider.of<SongProvider>(context, listen: false).getSongsFromApi();
+      Provider.of<SongProvider>(context, listen: false).allSongs!.forEach((song) {
+        if((!dataToShow.contains(DiscoverModelsRelated( song: song)) && !songsOnly.contains(DiscoverModelsRelated( song: song))) ){
+          dataToShow.add(DiscoverModelsRelated( song: song));
+          songsOnly.add(DiscoverModelsRelated( song: song));
+        }
+      });
 
-    Provider.of<RadiosProvider>(context, listen: false).radios!.forEach((radio) {
-      songAndStreams.add(DiscoverModelsRelated(radio: radio));
-      streamOnly.add(DiscoverModelsRelated( radio: radio));
-    });
+    await Provider.of<PodcastsProvider>(context, listen: false).getPodcastsFromAPi();
+      Provider.of<PodcastsProvider>(context, listen: false).podcasts!.forEach((podcast) {
+        if((!dataToShow.contains(DiscoverModelsRelated(podcast: podcast)) && !podcastsOnly.contains(DiscoverModelsRelated(podcast: podcast)))){
+          dataToShow.add(DiscoverModelsRelated(podcast: podcast));
+          podcastsOnly.add(DiscoverModelsRelated( podcast: podcast));
+        }
+      });
+
+   await Provider.of<RadiosProvider>(context, listen: false).getRadiosFromAPi();
+      Provider.of<RadiosProvider>(context, listen: false).radios!.forEach((radio) {
+
+        if((!dataToShow.contains(DiscoverModelsRelated(radio: radio)) && !radiosOnly.contains(DiscoverModelsRelated(radio: radio)))){
+          dataToShow.add(DiscoverModelsRelated(radio: radio));
+          streamOnly.add(DiscoverModelsRelated( radio: radio));
+        }
+
+      });
+
+    dataToShow.sort((a, b)=> a.getCreatedDate()!.microsecondsSinceEpoch.compareTo(b.getCreatedDate()!.microsecondsSinceEpoch));
+
 
   }
   void loadMore(){
     if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
       Provider.of<StreamingProvider>(context, listen: true).incrementCurrentPage();
       Provider.of<SongProvider>(context, listen: true).incrementCurrentPage();
+      Provider.of<RadiosProvider>(context, listen: true).incrementCurrentPage();
+      Provider.of<PodcastsProvider>(context, listen: true).incrementCurrentPage();
+      getData();
     }
   }
   @override
@@ -221,24 +239,24 @@ class _StreamingScreenState extends State<StreamingScreen> {
                     if(showOnlySongs){
                       return StreamSongWidget(song: songsOnly[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
                     }
-                    DiscoverModelsRelated discoverRelated = songAndStreams[index];
+                    DiscoverModelsRelated discoverRelated = dataToShow[index];
                     if(discoverRelated.streamIsNotNull()){
-                      return StreamingWidget(streaming: songAndStreams[index].streaming!,);
+                      return StreamingWidget(streaming: discoverRelated.streaming!,);
                     }
                     if(discoverRelated.songIsNotNull()){
-                      return StreamSongWidget(song: songAndStreams[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
+                      return StreamSongWidget(song: dataToShow[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
                     }
                     if(discoverRelated.radioIsNotNull()){
-                      return RadioWidget(radio: songAndStreams[index].radio!,);
+                      return RadioWidget(radio: dataToShow[index].radio!,);
                     }
                     if(discoverRelated.podcastIsNotNull()){
-                      return PodcastWidget(podcast: songAndStreams[index].podcast!,);
+                      return PodcastWidget(podcast: dataToShow[index].podcast!,);
                     }
                     return Container(
 
                     );
                   },
-                  itemCount: showAll? songAndStreams.length : showOnlySongs? songsOnly.length : showOnlyStreaming? streamOnly.length: showOnlyRadios? radiosOnly.length: showOnlyPodcasts? podcastsOnly.length : 0,
+                  itemCount: showAll? dataToShow.length : showOnlySongs? songsOnly.length : showOnlyStreaming? streamOnly.length: showOnlyRadios? radiosOnly.length: showOnlyPodcasts? podcastsOnly.length : 0,
                 ),
               ),
 

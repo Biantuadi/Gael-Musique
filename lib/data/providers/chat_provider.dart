@@ -14,7 +14,7 @@ class ChatProvider with ChangeNotifier{
   List<User>? users ;
   bool isLoading = false;
   String? getUserError;
-  List<Chat> chats = [];
+  List<Chat>? chats;
   String? chatKeySearch;
   setChatKeySearch(String key)async{
     chatKeySearch = key;

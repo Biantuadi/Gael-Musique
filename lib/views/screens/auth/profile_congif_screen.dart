@@ -144,7 +144,10 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                                  }
                                 }, avatar: imageFile!);
                               }else{
-                                Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Routes.mainScreen,
+                                        (route) => false);
                               }
 
                             }, size: size, child:

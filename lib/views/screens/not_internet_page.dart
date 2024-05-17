@@ -14,6 +14,7 @@ class NoInternetWidget extends StatelessWidget{
         child: Column(
           children: [
             Text("Vous êtes hors ligne", style: Theme.of(context).textTheme.bodyMedium,),
+            Text("Veillez vérifier votre connexion.", style: Theme.of(context).textTheme.bodySmall,),
             SizedBox(height: Dimensions.spacingSizeDefault,),
             ClipRRect(
               borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
@@ -24,7 +25,7 @@ class NoInternetWidget extends StatelessWidget{
               child: GradientButton(onTap: (){
                 voidCallback();
               }, size: Size(size.width/4, 50),
-                  child: Text("Continuer",style: Theme.of(context).textTheme.bodyMedium)),
+                  child: Text("Retour",style: Theme.of(context).textTheme.bodyMedium)),
             ),
           ],
         ),

@@ -69,7 +69,13 @@ class AlbumScreenState extends State<AlbumScreen>{
 
               SliverPadding(
                 padding: EdgeInsets.only(top :Dimensions.spacingSizeDefault),
-                sliver:SliverList.list(children: songProvider.allAlbums.map((album) => AlbumWidget(album: album,)).toList()),
+                sliver:SliverList.list(
+                    children:
+          songProvider.allAlbums != null?
+                    songProvider.allAlbums!.map((album) => AlbumWidget(album: album,)).toList():
+          List<Widget>.generate(10, (index) => const AlbumWidgetShimmer())
+
+                ),
 
               )
             ],

@@ -110,13 +110,13 @@ class StreamingDetailsScreenState extends State<StreamingDetailsScreen>{
                   ),
                   Container(
                     padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                    child: NetWorkImageWidget(imageUrl: streamingProvider.streamings[streamingProvider.randomIndex].cover, size: Size(size.width, size.width *.3),)
+                    child: NetWorkImageWidget(imageUrl: streamingProvider.streamings![streamingProvider.randomIndex].cover, size: Size(size.width, size.width *.3),)
                     ,
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: streamingProvider.streamings.map((e) => DetStreamingCard(streaming: e, width: size.width/3,)).toList(),
+                      children: streamingProvider.streamings!.map((e) => DetStreamingCard(streaming: e, width: size.width/3,)).toList(),
                     ),
                   ),
                   SizedBox(height: Dimensions.spacingSizeLarge,)

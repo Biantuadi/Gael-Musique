@@ -4,10 +4,12 @@ import 'package:Gael/data/models/album_model.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
+import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeAlbumCard extends StatelessWidget{
   final Album album;
@@ -18,7 +20,6 @@ class HomeAlbumCard extends StatelessWidget{
   Widget build(BuildContext context) {
 
     String randomSong = "Random Song";
-    print("LES SONGS DE ${album.title}: ${album.songs}");
     if(album.songs.isNotEmpty){
       randomSong = album.songs[Random().nextInt(album.songs.length)].title;
     }
@@ -87,6 +88,67 @@ class HomeAlbumCard extends StatelessWidget{
             ],
           ),
         ),
+      ),
+    );
+  }
+
+}
+class HomeAlbumCardShimmer extends StatelessWidget{
+  final Size screenSize;
+   const HomeAlbumCardShimmer({super.key, required this.screenSize});
+  @override
+  Widget build(BuildContext context) {
+
+    Size size = Size(screenSize.width * 0.8, screenSize.height/4);
+    return Container(
+      height: size.height,
+      width: size.width,
+      padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
+      ),
+      child: Shimmer.fromColors(
+          baseColor: ThemeVariables.iconInactive,
+          highlightColor: Colors.grey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: size.height * .1,
+                    width: size.width * .4,
+                    child: Shimmer.fromColors(
+                        baseColor: Colors.black54,
+                        highlightColor: ThemeVariables.thirdColor,
+                        child: Container()),
+                  ),
+                  SizedBox(height: Dimensions.spacingSizeSmall,),
+                  SizedBox(
+                    height: size.height * .03,
+                    width: size.width * .2,
+                    child: Shimmer.fromColors(
+                        baseColor: Colors.black54,
+                        highlightColor: ThemeVariables.thirdColor,
+                        child: Container()),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: size.height * .02,
+                width: size.width * .2,
+                child: Shimmer.fromColors(
+                    baseColor: Colors.black54,
+                    highlightColor: ThemeVariables.thirdColor,
+                    child: Container()),
+              ),
+
+
+            ],
+          )
       ),
     );
   }
