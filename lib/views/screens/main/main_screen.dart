@@ -188,6 +188,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                  AspectRatio(
                                     aspectRatio: (size.height * .1) /(size.width/3),
                                     child:
+                                        /*
                                         streamProvider.podPlayerController.isVideoPlaying && streamProvider.videoIsPlaying?
                                     GestureDetector(
                                       onTap: (){
@@ -205,6 +206,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                                         },
                                       ),
                                     ) :
+                                        * */
                                    SizedBox(
                                      width: size.width/3,
                                      height: size.height * .1,

@@ -281,7 +281,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                             initialValue: provider.user!.firstName,
                             onChanged: (value) {
                               firstName = value;
-                            }, hintText: 'Athoms',
+                            }, hintText: 'user firstname',
                           ),
                           SizedBox(height: Dimensions.spacingSizeDefault,),
                           Text("Nom", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),),
@@ -290,7 +290,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                             initialValue: provider.user!.lastName,
                             onChanged: (value) {
                               name = value;
-                            }, hintText: 'Mbuma',
+                            }, hintText: 'user lastname',
 
                           ),
                         ],
@@ -301,7 +301,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           provider.setUpdateUpdateNames(lastName: name, firstName: firstName);
                           if(provider.userUpdate.id != null && (name != "" || firstName != "" )){
                             provider.updateUser(successCallBack: (){
-                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "informations mises à jour aavec succès", context: context, bgColor: Colors.green));
+                              ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "informations mises à jour avec succès", context: context, bgColor: Colors.green));
                               Navigator.pop(context);
                               Navigator.pop(context);
                             }, errorCallback: (){
@@ -374,7 +374,7 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
                           initialValue: provider.user!.email,
                           onChanged: (value) {
                             email = value;
-                          }, hintText: 'Athoms@gmail.com',
+                          }, hintText: 'E-mail@gmail.com',
                           validator:email != "" || email != null? (value)=>validateEmail(value):null,
                         ),
                         SizedBox(height: Dimensions.spacingSizeDefault,),
