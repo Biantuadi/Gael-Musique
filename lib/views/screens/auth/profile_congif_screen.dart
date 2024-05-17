@@ -128,16 +128,10 @@ class ProfileConfigScreenState extends State<ProfileConfigScreen> {
                             ),
                             SizedBox(height: Dimensions.spacingSizeLarge,),
                             GradientButton(onTap: ()async{
-
                               provider.setUserVars();
-                              await Provider.of<SongProvider>(context, listen: false).getSongsFromApi();
-                              await Provider.of<SongProvider>(context, listen: false).getAlbums();
-                              await Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
-                              await Provider.of<StreamingProvider>(context, listen: false).getStreaming();
                               if(imageFile != null){
                                 provider.updateUserAvatar(successCallBack: (){
                                   ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
-                                  //Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
                                 }, errorCallback: (){
                                  if( provider.avatarUpdateError!= null){
                                    ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.avatarUpdateError??"Une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
