@@ -149,7 +149,6 @@ class ChatListItem extends StatelessWidget {
 }
 class ChatItemShimmer extends StatelessWidget{
   const ChatItemShimmer({super.key});
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);

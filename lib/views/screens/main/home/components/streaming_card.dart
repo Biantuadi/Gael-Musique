@@ -73,7 +73,12 @@ class StreamingCardShimmer extends StatelessWidget{
             child: Shimmer.fromColors(
                 baseColor: ThemeVariables.iconInactive,
                 highlightColor: Colors.grey,
-                child: SizedBox(height:  size * 4/3,
+                child: Container(height:  size * 4/3,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+                    color: Colors.white12,
+
+                  ),
                   width: size,)
             ),
           ),
@@ -83,7 +88,8 @@ class StreamingCardShimmer extends StatelessWidget{
             child: Shimmer.fromColors(
                 baseColor: ThemeVariables.iconInactive,
                 highlightColor: Colors.grey,
-                child: SizedBox(height:  size * 4/3,
+                child: Container(height:  size * 4/3,
+                  color: Colors.white12,
                   width: size,)
             ),
           ),

@@ -124,7 +124,11 @@ class HomeAlbumCardShimmer extends StatelessWidget{
                     child: Shimmer.fromColors(
                         baseColor: Colors.black54,
                         highlightColor: ThemeVariables.thirdColor,
-                        child: Container()),
+                        child: Container(
+                          height: size.height * .1,
+                          width: size.width * .4,
+                          color: Colors.white12,
+                        )),
                   ),
                   SizedBox(height: Dimensions.spacingSizeSmall,),
                   SizedBox(
@@ -133,7 +137,11 @@ class HomeAlbumCardShimmer extends StatelessWidget{
                     child: Shimmer.fromColors(
                         baseColor: Colors.black54,
                         highlightColor: ThemeVariables.thirdColor,
-                        child: Container()),
+                        child: Container(
+                          height: size.height * .03,
+                          width: size.width * .2,
+                          color: Colors.white12,
+                        )),
                   ),
                 ],
               ),
@@ -143,7 +151,11 @@ class HomeAlbumCardShimmer extends StatelessWidget{
                 child: Shimmer.fromColors(
                     baseColor: Colors.black54,
                     highlightColor: ThemeVariables.thirdColor,
-                    child: Container()),
+                    child: Container(
+                      height: size.height * .02,
+                      width: size.width * .2,
+                      color: Colors.white12,
+                    )),
               ),
 
 

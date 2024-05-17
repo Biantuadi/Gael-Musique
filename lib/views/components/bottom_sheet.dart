@@ -23,25 +23,26 @@ void showCustomBottomSheet({required BuildContext context,required Widget conten
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return SafeArea(
-              child: Wrap(
-                children: [
-                  SafeArea(
-                    child: Container(
-                        width: size.width,
-                        padding: EdgeInsets.only(
-                            top:Dimensions.spacingSizeDefault,
-                            left:Dimensions.spacingSizeDefault,
-                            right:Dimensions.spacingSizeDefault,
-                          bottom: MediaQuery.of(context).viewInsets.bottom
-                        ),
-                        margin: EdgeInsets.all(Dimensions.spacingSizeDefault),
-                        decoration: BoxDecoration(
-                          color: bgColor??Colors.black,
-                          borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
-                        ),
-                        child: content),
-                  ),
-                ],
+              child: SafeArea(
+                child: Container(
+                    width: size.width,
+                    padding: EdgeInsets.only(
+                        top:Dimensions.spacingSizeDefault,
+                        left:Dimensions.spacingSizeDefault,
+                        right:Dimensions.spacingSizeDefault,
+                      bottom: MediaQuery.of(context).padding.bottom + Dimensions.spacingSizeDefault
+                    ),
+                    margin: EdgeInsets.only(
+                        left: Dimensions.spacingSizeDefault,
+                        top: MediaQuery.of(context).padding.top * 2 + Dimensions.spacingSizeDefault,
+                        right: Dimensions.spacingSizeDefault,
+                        bottom: MediaQuery.of(context).padding.bottom + Dimensions.spacingSizeDefault
+                    ),
+                    decoration: BoxDecoration(
+                      color: bgColor??Colors.black,
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault ),
+                    ),
+                    child: content),
               ),
             );
           });

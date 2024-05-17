@@ -26,8 +26,8 @@ import 'components/home_card.dart';
 import 'components/streaming_card.dart';
 
 class HomeScreen extends StatefulWidget {
-  ///VoidCallback voidCallback;
-  const HomeScreen({super.key});
+  final VoidCallback voidCallback;
+  const HomeScreen({super.key, required this.voidCallback});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -154,7 +154,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             Container(
                               alignment: Alignment.centerRight,
                               child: TextButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                      widget.voidCallback();
+                                },
                                 child: Text("Voir plus", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ThemeVariables.primaryColor),),
                               ),
                             ),
@@ -167,14 +169,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Center(
                           child: Column(
                             children: [
-
                               Wrap(
                                 spacing: Dimensions.spacingSizeSmall,
                                 alignment: WrapAlignment.spaceEvenly,
                                 children:
                                 streamProvider.allStreaming != null?
                                 streamProvider.allStreaming!.length>= 4?
-
                                 streamProvider.allStreaming!.sublist(0,4).
                                 map((streaming) => StreamingCard(
                                   streaming: streaming,
