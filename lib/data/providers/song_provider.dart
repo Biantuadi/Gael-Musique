@@ -312,7 +312,9 @@ class SongProvider with ChangeNotifier{
       allAlbums = allAlbums??[];
       allSongs = allSongs??[];
       data.forEach((json)async{
-        allSongs!.add(Song.fromJson(json));
+        if(!allSongs!.contains(Song.fromJson(json))){
+          allSongs!.add(Song.fromJson(json));
+        }
         await songRepository.upsertSong(song: Song.fromJson(json));
       });
 
