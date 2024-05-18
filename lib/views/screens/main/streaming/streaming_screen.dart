@@ -188,6 +188,8 @@ class _StreamingScreenState extends State<StreamingScreen> {
                 ),
               )]),
               SliverAppBar(
+                leading: Container(),
+                leadingWidth: 0,
                 flexibleSpace:  Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(top: Dimensions.spacingSizeDefault),

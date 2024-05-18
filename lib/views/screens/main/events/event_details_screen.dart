@@ -1,4 +1,5 @@
 import 'package:Gael/data/models/event_model.dart';
+import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/data/providers/events_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/get_formatted_duration.dart';
@@ -157,7 +158,12 @@ class EventDetailsScreenState extends State<EventDetailsScreen>{
                     child:Container(
                       padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                       child: GradientButton(onTap: (){
-                        Navigator.of(context).pushNamed(Routes.paymentDetailsScreen);
+                        if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+                          Navigator.of(context).pushNamed(Routes.paymentDetailsScreen);
+                        }else{
+                          Navigator.of(context).pushNamed(Routes.loginScreen, arguments: Routes.eventDetailsScreen);
+                        }
+
                       }, size: size, child: Text("Réserver", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
                     )
 

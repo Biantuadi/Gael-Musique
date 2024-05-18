@@ -134,7 +134,7 @@ class AuthRepository {
   Future<String?> getUserBio()async{
     return  sharedPreferences.getString(AppConfig.sharedUserBio);
   }
-  logOut(){
+  logOut()async{
     sharedPreferences.remove(AppConfig.sharedToken);
     sharedPreferences.remove(AppConfig.sharedUserBio);
     sharedPreferences.remove(AppConfig.sharedPhone);
@@ -143,6 +143,7 @@ class AuthRepository {
     sharedPreferences.remove(AppConfig.sharedEmail);
     sharedPreferences.remove(AppConfig.sharedFirstName);
     sharedPreferences.remove(AppConfig.sharedUserID);
+    sharedPreferences.remove(AppConfig.sharedUserCreatedAt);
   }
 
   Future<List<User>> getUsersFromDb() async{

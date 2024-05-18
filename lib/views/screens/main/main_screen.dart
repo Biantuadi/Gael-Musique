@@ -48,7 +48,12 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     screens.add(ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content: HomeScreen(
       voidCallback: (){
         setState(() {
-          tabController.index = 2;
+          if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+            tabController.index = 2;
+          }else{
+            tabController.index = 1;
+          }
+
         });
       },
     )));

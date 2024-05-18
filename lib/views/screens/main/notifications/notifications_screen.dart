@@ -63,6 +63,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               SliverAppBar(
                 title: Text("Notifications",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
                 pinned: true,
+                leadingWidth: 0,
+                leading: Container(),
                 backgroundColor:ThemeVariables.thirdColorBlack,
               ),
               SliverList.list(children: [

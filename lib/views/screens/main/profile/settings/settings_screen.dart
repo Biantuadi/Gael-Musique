@@ -50,9 +50,12 @@ class SettingsScreenState extends State<SettingsScreen>{
                   saveData =  value as bool;
                 });
               },),
+              Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated?
               ProfileOption(label: 'Modifier', iconData: Iconsax.edit, voidCallback: (){
-                Navigator.pushNamed(context, Routes.infoUpdateScreen);
-              },),
+                if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+                  Navigator.pushNamed(context, Routes.infoUpdateScreen);
+                }
+              },): Container(),
               ProfileOption(
                 label:
                 Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated?

@@ -353,6 +353,7 @@ class AuthProvider with ChangeNotifier{
     notifyListeners();
     authRepository.logOut();
     isLoading = false;
+    userIsAuthenticated = false;
     getUserVars();
   }
   getUserFromDB()async{
