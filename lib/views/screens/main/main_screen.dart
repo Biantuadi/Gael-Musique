@@ -6,6 +6,7 @@ import 'package:Gael/data/providers/streaming_provider.dart';
 import 'package:Gael/data/utils.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:Gael/views/screens/main/chat/chat_list_screen.dart';
 import 'package:Gael/views/screens/main/notifications/notifications_screen.dart';
@@ -39,12 +40,35 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   Connectivity connectivity =  Connectivity();
   bool userIsAuthenticated = false;
 
+ void initSocket(){
+   Provider.of<SocketProvider>(context, listen: false).initSocket(
+     successCallback: (){
+
+       ScaffoldMessenger.of(context).showSnackBar(
+           customSnack(text: "Connexion établie!", context: context, bgColor: Colors.green)
+       );
+     },
+     errorCallBack: (error){
+       ScaffoldMessenger.of(context).showSnackBar(
+           customSnack(text: "Une erreur s'est produite lors de la connexion au serveur", context: context, bgColor: Colors.red)
+       );
+     },
+     connectErrorCallBack: (error){
+
+       ScaffoldMessenger.of(context).showSnackBar(
+           customSnack(text: "Vous avez été deconnecté (${error.toString()})", context: context, bgColor: Colors.orangeAccent)
+       );
+     },
+     disconnectCallBack: () {  },
+     userIsAuthenticated: Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated,
+   );
+ }
 
   @override
   void initState() {
     super.initState();
     selectedIndex = widget.initialIndex??0;
-
+    initSocket();
     screens.add(ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content: HomeScreen(
       voidCallback: (){
         setState(() {

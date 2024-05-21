@@ -8,6 +8,7 @@ import 'package:Gael/utils/assets.dart';
 import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
+import 'package:Gael/views/components/custom_snackbar.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,11 +41,24 @@ class SplashScreenState extends State<SplashScreen> {
   void initSocket(){
     Provider.of<SocketProvider>(context, listen: false).initSocket(
       successCallback: (){
+
+          ScaffoldMessenger.of(context).showSnackBar(
+              customSnack(text: "Connexion établie!", context: context, bgColor: Colors.green)
+          );
       },
       errorCallBack: (error){
+        ScaffoldMessenger.of(context).showSnackBar(
+          customSnack(text: "Une erreur s'est produite lors de la connexion au serveur", context: context, bgColor: Colors.red)
+        );
       },
-      connectErrorCallBack: (error){},
+      connectErrorCallBack: (error){
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            customSnack(text: "Vous avez été deconnecté (${error.toString()})", context: context, bgColor: Colors.orangeAccent)
+        );
+      },
       disconnectCallBack: () {  },
+      userIsAuthenticated: Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated,
     );
   }
 

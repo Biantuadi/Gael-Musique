@@ -19,6 +19,7 @@ class SocketProvider with ChangeNotifier{
     required Function connectErrorCallBack,
     required VoidCallback successCallback,
     required VoidCallback disconnectCallBack,
+    required bool userIsAuthenticated
   }) {
     socket = io.io(AppConfig.BASE_URL, <String, dynamic>{
       'autoConnect': true,
@@ -28,7 +29,7 @@ class SocketProvider with ChangeNotifier{
       socket.connect();
       socket.onConnect((_) {
         successCallback();
-        onConnected();
+        onConnected(userIsAuthenticated);
         // Ajoutez ici votre logique lorsque la connexion est établie
         // Par exemple, récupérez tous les messages ou écoutez les nouveaux messages
       });
@@ -52,9 +53,13 @@ class SocketProvider with ChangeNotifier{
         doOnEvent(newMessage);
     });
   }
-  onConnected(){
+  onConnected(bool userIsAuthenticated){
     onEvent(event: "onConnected", doOnEvent: (user){
-
+      if(userIsAuthenticated){
+        socket.emit("onConnected", {
+          "message": "user is authenticated"
+        });
+      }
     });
   }
 
