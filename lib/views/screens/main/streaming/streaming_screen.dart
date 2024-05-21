@@ -26,11 +26,11 @@ class _StreamingScreenState extends State<StreamingScreen> {
   ScrollController scrollController = ScrollController();
 
   List<Widget> pageContent=[];
-  List<DiscoverModelsRelated> dataToShow=[];
-  List<DiscoverModelsRelated> songsOnly=[];
-  List<DiscoverModelsRelated> streamOnly=[];
-  List<DiscoverModelsRelated> radiosOnly=[];
-  List<DiscoverModelsRelated> podcastsOnly=[];
+  Set<DiscoverModelsRelated> dataToShow={};
+  Set<DiscoverModelsRelated> songsOnly={};
+  Set<DiscoverModelsRelated> streamOnly={};
+  Set<DiscoverModelsRelated> radiosOnly={};
+  Set<DiscoverModelsRelated> podcastsOnly={};
   bool showOnlySongs = false;
   bool showOnlyStreaming = false;
   bool showOnlyPodcasts = false;
@@ -139,7 +139,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
 
       });
 
-    dataToShow.sort((a, b)=> a.getCreatedDate()!.microsecondsSinceEpoch.compareTo(b.getCreatedDate()!.microsecondsSinceEpoch));
+    dataToShow.toList().sort((a, b)=> a.getCreatedDate()!.microsecondsSinceEpoch.compareTo(b.getCreatedDate()!.microsecondsSinceEpoch));
 
 
   }
@@ -236,23 +236,23 @@ class _StreamingScreenState extends State<StreamingScreen> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: Dimensions.spacingSizeDefault, mainAxisSpacing: Dimensions.spacingSizeDefault, childAspectRatio: .8),
                   itemBuilder: (BuildContext ctx, int index){
                     if(showOnlyStreaming){
-                      return StreamingWidget(streaming: streamOnly[index].streaming!,);
+                      return StreamingWidget(streaming: streamOnly.toList()[index].streaming!,);
                     }
                     if(showOnlySongs){
-                      return StreamSongWidget(song: songsOnly[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
+                      return StreamSongWidget(song: songsOnly.toList()[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
                     }
-                    DiscoverModelsRelated discoverRelated = dataToShow[index];
+                    DiscoverModelsRelated discoverRelated = dataToShow.toList()[index];
                     if(discoverRelated.streamIsNotNull()){
                       return StreamingWidget(streaming: discoverRelated.streaming!,);
                     }
                     if(discoverRelated.songIsNotNull()){
-                      return StreamSongWidget(song: dataToShow[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
+                      return StreamSongWidget(song: dataToShow.toList()[index].song!, provider: songProvider, size: Size(size.width *0.8, size.width *2),);
                     }
                     if(discoverRelated.radioIsNotNull()){
-                      return RadioWidget(radio: dataToShow[index].radio!,);
+                      return RadioWidget(radio: dataToShow.toList()[index].radio!,);
                     }
                     if(discoverRelated.podcastIsNotNull()){
-                      return PodcastWidget(podcast: dataToShow[index].podcast!,);
+                      return PodcastWidget(podcast: dataToShow.toList()[index].podcast!,);
                     }
                     return Container(
 
@@ -272,14 +272,11 @@ class _StreamingScreenState extends State<StreamingScreen> {
                         width: Dimensions.iconSizeDefault,
                           child: const CircularProgressIndicator(color: ThemeVariables.primaryColor, strokeWidth: 1,)),
                     ):const SizedBox(),
-
-
-                (showAll || showOnlySongs ||  showOnlyStreaming || showOnlyRadios|| showOnlyPodcasts)?
-                Center(
-                  child: Text("Nothing to show", style: Theme.of(context).textTheme.bodySmall,),
-                ) : Container()
-
-
+                nothingToshowWidget((showAll && dataToShow.isEmpty)),
+                nothingToshowWidget((showOnlySongs && songsOnly.isEmpty)),
+                nothingToshowWidget((showOnlyStreaming && streamOnly.isEmpty)),
+                nothingToshowWidget((showOnlyRadios && radiosOnly.isEmpty)),
+                nothingToshowWidget((showOnlyPodcasts && podcastsOnly.isEmpty)),
 
               ])
 
@@ -288,5 +285,13 @@ class _StreamingScreenState extends State<StreamingScreen> {
         );
       }
     );
+  }
+  Widget nothingToshowWidget(bool condition) {
+    return condition ? Center(
+      child: Text("Nothing to show", style: Theme
+          .of(context)
+          .textTheme
+          .bodySmall,),
+    ) : Container();
   }
 }

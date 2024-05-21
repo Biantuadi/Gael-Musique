@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index){
                               if(songProvider.allAlbums != null){
-                                Album album = songProvider.allAlbums![index];
+                                Album album = songProvider.allAlbums!.toList()[index];
                                 return HomeAlbumCard(album: album,screenSize: size,);
                               }
                               return HomeAlbumCardShimmer(screenSize: size);}

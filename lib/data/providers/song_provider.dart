@@ -16,9 +16,9 @@ import 'package:permission_handler/permission_handler.dart';
 class SongProvider with ChangeNotifier{
   SongRepository songRepository;
   SongProvider({required this.songRepository});
-  List<Album>? allAlbums;
-  List<Song>? allSongs;
-  List<Album>? albumsToShow;
+  Set<Album>? allAlbums;
+  Set<Song>? allSongs;
+  Set<Album>? albumsToShow;
   Album? currentAlbum;
   Song? currentSong;
   AudioPlayer audioPlayer = AudioPlayer();
@@ -288,13 +288,17 @@ class SongProvider with ChangeNotifier{
   }
 
   getSongsFromDB()async{
-    allSongs = await songRepository.getSongsFromDb();
+     await songRepository.getSongsFromDb().then((value){
+       allSongs = value.toSet();
+    });
     notifyListeners();
   }
 
 
   getAlbumsFromDB()async{
-    allAlbums = await songRepository.getAlbumsFromDb();
+     await songRepository.getAlbumsFromDb().then((value){
+       allAlbums = value.toSet();
+     });
     notifyListeners();
   }
 
@@ -309,12 +313,12 @@ class SongProvider with ChangeNotifier{
       songsTotalItems = response.data["totalItems"];
       songsCurrentPage = response.data["currentPage"];
       songsTotalPages = response.data["totalPages"];
-      allAlbums = allAlbums??[];
-      allSongs = allSongs??[];
+      allAlbums = allAlbums??{};
+      allSongs = allSongs??{};
       data.forEach((json)async{
-        if(!allSongs!.contains(Song.fromJson(json))){
-          allSongs!.add(Song.fromJson(json));
-        }
+
+         allSongs!.add(Song.fromJson(json));
+
         await songRepository.upsertSong(song: Song.fromJson(json));
       });
 
@@ -326,7 +330,7 @@ class SongProvider with ChangeNotifier{
     Response response = await songRepository.getAlbums();
     if(response.statusCode == 200){
       dynamic data = response.data["items"];
-      allAlbums = allAlbums??[];
+      allAlbums = allAlbums??{};
       data.forEach((json)async{
         allAlbums!.add(Album.fromJson(json:json));
         await songRepository.upsertAlbum(album: Album.fromJson(json:json));

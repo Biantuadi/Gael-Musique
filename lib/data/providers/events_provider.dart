@@ -9,8 +9,8 @@ class EventsProvider with ChangeNotifier{
   EventsRepository eventsRepository;
   EventsProvider({required this.eventsRepository});
 
-  List<Event>? events;
-  List<EventTicket>? tickets;
+  Set<Event>? events;
+  Set<EventTicket>? tickets;
   int eventTotalItems =0;
   int eventCurrentPage =0;
   int eventTotalPages =0;
@@ -26,7 +26,7 @@ class EventsProvider with ChangeNotifier{
     }
   }
   getEventsFromAPi()async{
-    events = events??[];
+    events = events??{};
     Response response = await eventsRepository.getEvents();
     if(response.statusCode == 200){
       List data = response.data["items"];
@@ -44,12 +44,16 @@ class EventsProvider with ChangeNotifier{
     }
   }
 getEventsFromDB()async{
-  events = await eventsRepository.getEventsFromDb();
+  await eventsRepository.getEventsFromDb().then((value){
+    events = value.toSet();
+  });
   notifyListeners();
 }
 
   getTicketsFromDB()async{
-    tickets = await eventsRepository.getEventsTicketsFromDb();
+    await eventsRepository.getEventsTicketsFromDb().then((value) {
+      tickets = value.toSet();
+    });
     notifyListeners();
   }
 
@@ -57,14 +61,12 @@ getEventsFromDB()async{
     Response response = await eventsRepository.getTickets();
     if(response.statusCode == 200){
       List data = response.data["items"];
-      tickets = tickets?? [];
+      tickets = tickets?? {};
       ticketTotalItems = response.data["totalItems"];
       ticketCurrentPage = response.data["currentPage"];
       ticketTotalPages = response.data["totalPages"];
       data.forEach((ticket) {
-        if(!tickets!.contains(EventTicket.fromJson(json : ticket))){
           tickets!.add(EventTicket.fromJson(json : ticket));
-        }
         eventsRepository.upsertEventTicket(eventTicket: EventTicket.fromJson(json : ticket));
         notifyListeners();
       });
