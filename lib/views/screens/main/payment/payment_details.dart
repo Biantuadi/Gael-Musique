@@ -34,11 +34,13 @@ class PaymentDetailsScreenState extends State<PaymentDetailsScreen>{
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
+      /*
       bottomSheet: Container(
         padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
         child: GradientButton(onTap: (){
         }, size: size, child: Text("Payer", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
       ),
+      *  */
       body: Consumer<PaymentProvider>(builder: (ctx, provider, child){
 
         return CustomScrollView(

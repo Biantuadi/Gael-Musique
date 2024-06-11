@@ -126,16 +126,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                        Text("Mon Dashboard", style: Theme.of(context).textTheme.titleMedium,),
                         SizedBox(height: Dimensions.spacingSizeSmall,),
 
-                        Center(
+                       /* Center(
                           child: Wrap(
 
                             children: [
-                              UserCartWidget(title: 'Mes payements', svgFile: Assets.payment, onTap: (){
-                                Navigator.pushNamed(context, Routes.paymentScreen);
-                              },),
-                              UserCartWidget(title: 'Mes favoris', svgFile: Assets.favorite,onTap: (){
-                                Navigator.pushNamed(context, Routes.favoritesScreen);
-                              }),
+                              //UserCartWidget(title: 'Mes payements', svgFile: Assets.payment, onTap: (){
+                               // Navigator.pushNamed(context, Routes.paymentScreen);
+                              //},),
+                              //UserCartWidget(title: 'Mes favoris', svgFile: Assets.favorite,onTap: (){
+                               // Navigator.pushNamed(context, Routes.favoritesScreen);
+                             // }),
                               UserCartWidget(title: 'Mes enseignements', svgFile: Assets.course,onTap: (){
                                 Navigator.pushNamed(context, Routes.coursesScreen);
                               }),
@@ -144,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }),
                             ],
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),

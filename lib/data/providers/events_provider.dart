@@ -34,13 +34,19 @@ class EventsProvider with ChangeNotifier{
       eventTotalItems = response.data["totalItems"];
       eventCurrentPage = response.data["currentPage"];
       eventTotalPages = response.data["totalPages"];
-      data.forEach((event)async {
-        if(!events!.contains(Event.fromJson(json : event))){
-          events!.add(Event.fromJson(json : event));
-        }
-        await eventsRepository.upsertEvent(event: (Event.fromJson(json : event)));
-        notifyListeners();
-      });
+      for (int i=0; i<data.length; i++){
+          Event event = Event.fromJson(json : data[i]);
+          bool containsIt  = false;
+          List<Event> founds = events!.where((e)=>e.id == event.id).toList();
+          containsIt = founds.isNotEmpty;
+          if(!events!.contains(event)||containsIt){
+            events!.add(event);
+          }
+          await eventsRepository.upsertEvent(event: (Event.fromJson(json : data[i])));
+          notifyListeners();
+
+      }
+
     }
   }
 getEventsFromDB()async{

@@ -30,7 +30,7 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _route();
-    initSocket();
+    //initSocket();
   }
 
 

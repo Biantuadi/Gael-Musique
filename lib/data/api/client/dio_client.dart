@@ -39,7 +39,6 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      print("TOKEN: $token");
       dio..options.validateStatus = (status) => status! < 800;
       token = await sharedPreferences.getString(AppConfig.sharedToken);
       dio.options.headers["Authorization"] = "Bearer $token";
@@ -64,7 +63,6 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
     Object? data
   }) async {
-    print("TOKEN: $token");
     token = await sharedPreferences.getString(AppConfig.sharedToken);
     dio.options.headers["Authorization"] = "Bearer $token";
     dio..options.validateStatus = (status) => status! < 800;
@@ -86,7 +84,6 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
     Object? data
   }) async {
-    print("TOKEN: $token");
     token = await sharedPreferences.getString(AppConfig.sharedToken);
     print("LA TOKEN: $token ");
     dio.options.headers["Authorization"] = "Bearer $token";
@@ -97,6 +94,24 @@ class DioClient {
         uri,
         data: data,
         onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } catch (e){
+      throw e;
+    }
+  }
+
+  Future<Response> delete(String uri, {
+    Object? data
+  }) async {
+    token = await sharedPreferences.getString(AppConfig.sharedToken);
+    dio.options.headers["Authorization"] = "Bearer $token";
+    dio..options.validateStatus = (status) => status! < 800;
+    //dio..options.contentType = Headers.multipartFormDataContentType;
+    try {
+      var response = await dio.delete(
+        uri,
+        data: data,
       );
       return response;
     } catch (e){

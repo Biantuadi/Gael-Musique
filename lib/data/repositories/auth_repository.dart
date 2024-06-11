@@ -22,6 +22,8 @@ class AuthRepository {
     return ApiResponse(response: response);
   }
 
+  
+
   Future<ApiResponse?> updateAvatar({required File avatar})async{
     File? file = avatar;
     String fileName = '';

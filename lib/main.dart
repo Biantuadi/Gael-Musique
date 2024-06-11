@@ -90,7 +90,7 @@ class MainApp extends StatelessWidget {
             dialogBackgroundColor: ThemeVariables.thirdColorBlack,
 
             // ignore: deprecated_member_use
-            backgroundColor: ThemeVariables.thirdColorBlack,
+            //backgroundColor: ThemeVariables.thirdColorBlack,
             textTheme: TextTheme(
               titleLarge: GoogleFonts.poppins(
                   fontWeight: FontWeight.w800,

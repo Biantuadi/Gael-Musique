@@ -68,7 +68,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   void initState() {
     super.initState();
     selectedIndex = widget.initialIndex??0;
-    initSocket();
+    //initSocket();
     screens.add(ScreenModel(icon: Iconsax.home, activeIcon: Iconsax.home_11, content: HomeScreen(
       voidCallback: (){
         setState(() {
@@ -85,9 +85,9 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
       screens.add(ScreenModel(icon: Iconsax.message, activeIcon: Iconsax.message1, content:  const ChatListScreen()));
     }
     screens.add( ScreenModel(icon: Iconsax.radio, activeIcon: Iconsax.radio5, content:  const StreamingScreen()));
-    if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
-      screens.add(ScreenModel(icon: Iconsax.notification, activeIcon: Iconsax.notification1, content:  const NotificationsScreen()));
-    }
+    //if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+      //screens.add(ScreenModel(icon: Iconsax.notification, activeIcon: Iconsax.notification1, content:  const NotificationsScreen()));
+    //}
     screens.add(ScreenModel(
         icon:Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated?
         Iconsax.user : Iconsax.setting_2,
