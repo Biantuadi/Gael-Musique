@@ -12,6 +12,7 @@ import 'package:Gael/utils/dimensions.dart';
 import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/utils/theme_variables.dart';
 import 'package:Gael/views/components/bottom_sheet.dart';
+import 'package:Gael/views/components/buttons/button_gradient.dart';
 // import 'package:Gael/views/components/buttons/button_gradient.dart';
 import 'package:Gael/views/components/layouts/custom_header.dart';
 import 'package:Gael/views/screens/not_internet_page.dart';
@@ -115,12 +116,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
-                              child: HomeCard(onTap: (){}, iconData: Iconsax.share, title: "Sanjola & lives", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
+                              child: HomeCard(
+                                onTap: (){
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context){
+                                        return alertDialog('Sanjola & lives');
+                                      }
+                                  );
+                                }, iconData: Iconsax.share, title: "Sanjola & lives", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                             Padding(
                               padding:  EdgeInsets.only(bottom:Dimensions.spacingSizeDefault/2),
                               child: HomeCard(onTap: (){
-
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                      return alertDialog('Enseignements');
+                                    }
+                                );
                               }, iconData: Iconsax.book, title: "Enseignements", width: (size.width/2) - 3* Dimensions.spacingSizeDefault/2, ),
                             ),
                             Padding(
@@ -236,5 +250,28 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     });
+  }
+  AlertDialog alertDialog(String title){
+    Size size = MediaQuery.sizeOf(context);
+    return AlertDialog(
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Service non disponible', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w900),),
+          SizedBox(height: Dimensions.spacingSizeSmall,),
+          Text("$title n'est pas encore disponible, restez connecté pour ne rien rater")
+        ],
+      ),
+      actions: [
+        GradientButton(
+            onTap:(){
+              Navigator.pop(context);
+            } ,
+            size: Size(size.width/3, 50),
+            child: Text('Fermer', style: Theme.of(context).textTheme.bodySmall,))
+      ],
+      
+    );
   }
 }

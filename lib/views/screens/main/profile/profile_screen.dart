@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'component/option_switch_tile.dart';
 import 'component/profile_option_tile.dart';
 import 'component/user_cart_widget.dart';
 
@@ -32,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
 
   }
+  bool isOffline = false;
 
   @override
    Widget build(BuildContext context) {
@@ -156,10 +158,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                       child: Column(
                         children: [
-                          ProfileOption(label: 'Paramètres', iconData: Iconsax.setting, voidCallback: () {
+                         /* ProfileOption(label: 'Paramètres', iconData: Iconsax.setting, voidCallback: () {
                             Navigator.pushNamed(context, Routes.settingsScreen);
+                          },), */
+
+                          ProfileSwitch(
+                            iconData: Iconsax.wifi,label: 'Mode Offline', isActive: isOffline, onChanged: (value){
+                            setState(() {
+                              isOffline = value as bool;
+                            });
                           },),
                           ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
+                          ProfileOption(label: 'A propos', iconData: Iconsax.info_circle, voidCallback: () {
+                            Navigator.pushNamed(context, Routes.aboutScreen);
+                          },),
                         ],
                       )),
 

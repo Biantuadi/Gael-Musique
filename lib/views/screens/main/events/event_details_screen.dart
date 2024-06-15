@@ -154,7 +154,7 @@ class EventDetailsScreenState extends State<EventDetailsScreen>{
                     ])
                   ],
                 ),
-                Positioned(
+                /*Positioned(
                     child:Container(
                       padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                       child: GradientButton(onTap: (){
@@ -167,7 +167,7 @@ class EventDetailsScreenState extends State<EventDetailsScreen>{
                       }, size: size, child: Text("Réserver", style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),)),
                     )
 
-                )
+                )*/
 
               ],
             ),

@@ -2,8 +2,8 @@ import 'package:Gael/data/models/chat_model.dart';
 import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
 import 'package:Gael/utils/dimensions.dart';
+import 'package:Gael/utils/routes/main_routes.dart';
 import 'package:Gael/views/components/images/image_base64_widget.dart';
-import 'package:Gael/views/components/images/network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +41,6 @@ class ChatDetailScreenState extends State<ChatDetailScreen> {
           imageUrl = user2!.profileImage;
         }
       }
-
       if(widget.chat.messages.isNotEmpty){
         lastMessage = widget.chat.messages.last.content;
         if(widget.chat.messages.last.user == Provider.of<AuthProvider>(context, listen: false).user){
@@ -62,11 +61,16 @@ class ChatDetailScreenState extends State<ChatDetailScreen> {
     // Map<String?, dynamic> data =
     //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     // print(ModalRoute.of(context)!.settings.arguments);
-    return  Scaffold(
+    return  PopScope(
+      onPopInvoked: (pop){
+
+      },
+        child: Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: (){
             Navigator.pop(context);
+            //Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route)=>false, arguments: 0);
           },
           icon: const Icon(Iconsax.arrow_left),
         ),
@@ -83,6 +87,6 @@ class ChatDetailScreenState extends State<ChatDetailScreen> {
         children: [
         ],
       ),
-    );
+    ));
   }
 }

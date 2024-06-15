@@ -1,5 +1,8 @@
 import 'package:Gael/data/models/app/screen_model.dart';
+import 'package:Gael/data/models/chat_model.dart';
+import 'package:Gael/data/models/user_model.dart';
 import 'package:Gael/data/providers/auth_provider.dart';
+import 'package:Gael/data/providers/chat_provider.dart';
 import 'package:Gael/data/providers/socket_provider.dart';
 import 'package:Gael/data/providers/song_provider.dart';
 import 'package:Gael/data/providers/streaming_provider.dart';
@@ -39,11 +42,11 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   late ScrollController scrollController;
   Connectivity connectivity =  Connectivity();
   bool userIsAuthenticated = false;
+  bool isChatScreen = false;
 
  void initSocket(){
    Provider.of<SocketProvider>(context, listen: false).initSocket(
      successCallback: (){
-
        ScaffoldMessenger.of(context).showSnackBar(
            customSnack(text: "Connexion établie!", context: context, bgColor: Colors.green)
        );
@@ -155,7 +158,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           systemStatusBarContrastEnforced: false,
           systemNavigationBarDividerColor: Colors.transparent,
         ),
-        child: Consumer3<StreamingProvider,SongProvider, SocketProvider>(builder: (context, streamProvider,songProvider,socketProvider, child){
+        child: Consumer5<StreamingProvider,SongProvider, SocketProvider, AuthProvider, ChatProvider>(builder: (context, streamProvider,songProvider,socketProvider,authProvider,chatProvider, child){
           if(streamProvider.videoPlayerHasBeenInitialized){
             if(streamProvider.podPlayerController.isVideoPlaying && (songProvider.audioPlayer.playing || songProvider.songIsPlaying)){
               songProvider.pauseSong();
@@ -303,18 +306,21 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
                           ),
                           controller: tabController,
                           onTap: (index){
-
                             if(tabController.index == screens.length - 1){
                               if(!Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
                                 Navigator.pushNamed(context, Routes.settingsScreen);
                               }
                             }else{
-                              setState(() {
-                                tabController.index = index;
-                              });
+                              if(tabController.index == 1){
+                                if(Provider.of<AuthProvider>(context, listen: false).userIsAuthenticated){
+                                }
+                              }else{
+                                setState(() {
+                                  tabController.index = index;
+                                });
+                              }
                             }
                           },
-
                           tabs:screens.map((screen) => Tab(
                               child: Container(
                                 padding: EdgeInsets.only(top: Dimensions.spacingSizeDefault),

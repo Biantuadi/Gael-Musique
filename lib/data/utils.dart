@@ -28,16 +28,25 @@ Future noInternetCallBacks(BuildContext context)async{
       ));
 }
 Future internetCallBacks(BuildContext context)async{
-  Provider.of<SongProvider>(context, listen: false).getSongsFromApi().then(
-          (value)async{
-        Provider.of<SongProvider>(context, listen: false).getAlbums().then((value)async{
-        });
-      }
+  Future getSongs()async{
+    Provider.of<SongProvider>(context, listen: false).getSongsFromApi().then(
+            (value)async{
+          Provider.of<SongProvider>(context, listen: false).getAlbums().then((value)async{
+          });
+        }
+    );
+  }
+
+  await Future.wait(
+    [
+      getSongs(),
+      Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi(),
+      Provider.of<RadiosProvider>(context, listen: false).getRadiosFromAPi(),
+      Provider.of<PodcastsProvider>(context, listen: false).getPodcastsFromAPi(),
+      Provider.of<ChatProvider>(context, listen: false).getUsersFromApi(),
+      Provider.of<StreamingProvider>(context, listen: false).getStreaming(),
+      Provider.of<ChatProvider>(context, listen: false).getUsersFromApi()
+  ]
   );
-  Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
-  Provider.of<RadiosProvider>(context, listen: false).getRadiosFromAPi();
-  Provider.of<PodcastsProvider>(context, listen: false).getPodcastsFromAPi();
-  Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
-  Provider.of<StreamingProvider>(context, listen: false).getStreaming();
-  Provider.of<ChatProvider>(context, listen: false).getUsersFromApi();
+
 }

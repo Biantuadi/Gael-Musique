@@ -170,7 +170,7 @@ class StreamingProvider with ChangeNotifier {
   }
 
 
-  getStreaming() async{
+  Future getStreaming() async{
     allStreaming = [];
     if(streamingCurrentPage>0){
       isLoadingData = true;

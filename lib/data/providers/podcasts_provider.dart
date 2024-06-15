@@ -20,7 +20,7 @@ class PodcastsProvider with ChangeNotifier{
       getPodcastsFromAPi();
     }
   }
-  getPodcastsFromAPi()async{
+  Future getPodcastsFromAPi()async{
     Response response = await podcastsRepository.gePodcasts();
     if(response.statusCode == 200){
       List data = response.data["items"];

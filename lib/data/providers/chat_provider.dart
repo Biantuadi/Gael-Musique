@@ -67,7 +67,7 @@ class ChatProvider with ChangeNotifier{
   }
 
 
-  getUsersFromApi()async{
+  Future getUsersFromApi()async{
     isLoading = true;
     notifyListeners();
     ApiResponse? apiResponse = await chatRepository.getUsers(page: userCurrentPage>0? userCurrentPage:null);

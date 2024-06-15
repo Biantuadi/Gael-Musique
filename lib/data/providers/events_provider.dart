@@ -25,26 +25,22 @@ class EventsProvider with ChangeNotifier{
       getEventsFromAPi();
     }
   }
-  getEventsFromAPi()async{
+  Future getEventsFromAPi()async{
     events = events??{};
     Response response = await eventsRepository.getEvents();
     if(response.statusCode == 200){
       List data = response.data["items"];
-
       eventTotalItems = response.data["totalItems"];
       eventCurrentPage = response.data["currentPage"];
       eventTotalPages = response.data["totalPages"];
       for (int i=0; i<data.length; i++){
           Event event = Event.fromJson(json : data[i]);
-          bool containsIt  = false;
-          List<Event> founds = events!.where((e)=>e.id == event.id).toList();
-          containsIt = founds.isNotEmpty;
-          if(!events!.contains(event)||containsIt){
+          List<String> eventsIds = events!.map((event)=>event.id).toList();
+          if(!(events!.contains(event)||eventsIds.contains(event.id))){
             events!.add(event);
+            await eventsRepository.upsertEvent(event: (event));
           }
-          await eventsRepository.upsertEvent(event: (Event.fromJson(json : data[i])));
           notifyListeners();
-
       }
 
     }

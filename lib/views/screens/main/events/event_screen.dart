@@ -31,7 +31,6 @@ class EventsScreenState extends State<EventsScreen>{
   void initState() {
     super.initState();
     Provider.of<EventsProvider>(context, listen: false).getEventsFromAPi();
-
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -76,7 +75,6 @@ class EventsScreenState extends State<EventsScreen>{
                     ),
 
                     SliverList.list(children: []),
-
                     provider.events != null?
                         provider.events!.isNotEmpty?
                     SliverPadding(
@@ -84,7 +82,7 @@ class EventsScreenState extends State<EventsScreen>{
                         sliver: SliverList.builder(
                             itemCount:provider.events!.length ,
                             itemBuilder: (BuildContext ctx, int i){
-                              return EventWidget(event: provider.events!.toList()[1],);
+                              return EventWidget(event: provider.events!.toList()[i],);
                             })):SliverPadding(
                           padding: EdgeInsets.all(Dimensions.spacingSizeDefault),
                           sliver:SliverList.list(children: [

@@ -302,7 +302,7 @@ class SongProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  getSongsFromApi()async{
+  Future getSongsFromApi()async{
     if(songsCurrentPage>0){
       isLoadingData = true;
       notifyListeners();

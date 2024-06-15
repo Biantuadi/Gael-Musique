@@ -90,6 +90,7 @@ class ChatListScreenState extends State<ChatListScreen> {
     return Consumer3<ChatProvider, SocketProvider, AuthProvider>(builder: (ctx, chatProvider, socketProvider,authProvider,child) {
         if(authProvider.userIsAuthenticated){
           return Scaffold(
+              /*
               floatingActionButton: GestureDetector(
                 onTap: (){
                   showCustomBottomSheet(
@@ -108,24 +109,39 @@ class ChatListScreenState extends State<ChatListScreen> {
                   ),
                 ),
               ),
+               */
             body: CustomScrollView(
 
             slivers: [
-              SliverList.list(children: [
+             /* SliverList.list(children: [
                 Container(
                   color: ThemeVariables.thirdColorBlack,
                   padding: EdgeInsets.only(
                       top: Dimensions.spacingSizeDefault * 3,
                       left: Dimensions.spacingSizeDefault),
                   child: Text(
-                    "Messages",
+                    "Assistance",
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
                         ?.copyWith(color: Colors.white),
                   ),
                 )
-              ]),
+              ]),*/
+              SliverAppBar(
+                pinned: true,
+                backgroundColor: ThemeVariables.thirdColorBlack,
+                leadingWidth: 0,
+                leading:const SizedBox(),
+                title: Text(
+                  "Messages",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(color: Colors.white),
+                )
+              ),
+              /*
               SliverAppBar(
                 pinned: true,
                 backgroundColor: ThemeVariables.thirdColorBlack,
@@ -139,6 +155,31 @@ class ChatListScreenState extends State<ChatListScreen> {
                   hintText: 'Recherche...',
                 ),
               ),
+               */
+              SliverList.list(children: [
+                SizedBox(
+                  height: Dimensions.spacingSizeDefault,
+                ),
+                ListTile(
+                  onTap: (){
+                    Navigator.pushNamed(context, Routes.assistanceScreen);
+                  },
+                  leading: Container(
+                    width: size.width * .2 - Dimensions.spacingSizeDefault,
+                    height: size.width * .2 - Dimensions.spacingSizeDefault,
+                    padding: EdgeInsets.all(Dimensions.spacingSizeExtraSmall),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(size.width),
+                        border: Border.all(color: Colors.white)
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(Iconsax.user),
+                  ),
+                  title: Text("Gael", style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
+                  subtitle: Text("Votre assistant", style: Theme.of(context).textTheme.bodySmall),
+
+                )
+              ]),
               chatProvider.chats != []?
               SliverList.builder(
                 itemCount: chatProvider.chatsToShow != null? chatProvider.chatsToShow!.length : 10,
@@ -201,7 +242,6 @@ class ChatListScreenState extends State<ChatListScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: Dimensions.spacingSizeDefault,),
-
           Row(
             children: [
               IconButton(

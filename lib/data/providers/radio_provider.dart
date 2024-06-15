@@ -20,7 +20,7 @@ class RadiosProvider with ChangeNotifier{
       getRadiosFromAPi();
     }
   }
-  getRadiosFromAPi()async{
+  Future getRadiosFromAPi()async{
     Response response = await radiosRepository.getRadios();
     if(response.statusCode == 200){
       List data = response.data["items"];

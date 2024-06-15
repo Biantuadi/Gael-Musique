@@ -25,6 +25,7 @@ class Routes {
   static const String homeScreen = "HOME-SCREEN";
   static const String chatListScreen = "CHAT-LIST-SCREEN";
   static const String chatDetailScreen = "CHAT-DETAIL-SCREEN";
+  static const String assistanceScreen = "ASSISTANCE-SCREEN";
   static const String noInternetScreen = "NO-INTERNET-SCREEN";
 
   static const String radioScreen = "RADIO-SCREEN";
@@ -115,6 +116,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) =>  const EventsScreen());
       case paymentScreen:
         return MaterialPageRoute(builder: (_) =>  const PaymentScreen());
+      case assistanceScreen:
+        return MaterialPageRoute(builder: (_) =>  const AssistanceScreen());
       case paymentDetailsScreen:
         return MaterialPageRoute(builder: (_) =>  const PaymentDetailsScreen());
       case eventDetailsScreen:
