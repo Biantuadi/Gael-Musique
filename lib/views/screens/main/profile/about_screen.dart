@@ -44,12 +44,12 @@ class AboutScreenState extends State<AboutScreen>{
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               SizedBox(height: Dimensions.spacingSizeSmall,),
-              Text('Contactez les développeurs', style:Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold) ,),
+              Text('Pour toute question, contactez-nous  ', style:Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold) ,),
               SizedBox(height: Dimensions.spacingSizeSmall,),
               TextButton(
                   onPressed: ()async{
                     try{
-                      final Uri emailLauncherUri = Uri(scheme: 'mailto', path: "giftbundjoko1963@gmail.com", queryParameters: {
+                      final Uri emailLauncherUri = Uri(scheme: 'mailto', path: "gaelapp2024@gmail.com", queryParameters: {
                         'subject': "Contact from gael app",
                         'body': ""
                       });
@@ -59,22 +59,7 @@ class AboutScreenState extends State<AboutScreen>{
                     }
                     launchAUrl("");
                   },
-                  child: Text('- Don De Dieu Bundjoko', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ThemeVariables.primaryColor),)
-              ),
-              TextButton(
-                  onPressed: ()async{
-                    try{
-                      final Uri emailLauncherUri = Uri(scheme: 'mailto', path: "benibiantuadi@gmail.com", queryParameters: {
-                        'subject': "Contact from gael app",
-                        'body': ""
-                      });
-                      await launchUrl(emailLauncherUri);
-                    }catch (e){
-                      print(e);
-                    }
-                    launchAUrl("");
-                  },
-                  child: Text('- Kévin Biantuadi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ThemeVariables.primaryColor),)
+                  child: Text('gaelapp2024@gmail.com', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ThemeVariables.primaryColor),)
               ),
             ],
           ),
