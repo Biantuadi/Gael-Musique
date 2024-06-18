@@ -169,6 +169,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             });
                           },),
                           ProfileOption(label: 'Déconnexion', iconData: Iconsax.logout4, voidCallback: () =>logoutBottomSheet(),),
+                          ProfileOption(bgColor: Colors.red.withOpacity(0.2),label: 'Supprimer votre compte', iconData: Iconsax.profile_delete, voidCallback: () {
+                            //Navigator.pushNamed(context, Routes.aboutScreen);
+                          },),
                           ProfileOption(label: 'A propos', iconData: Iconsax.info_circle, voidCallback: () {
                             Navigator.pushNamed(context, Routes.aboutScreen);
                           },),
@@ -198,29 +201,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
   updateAvatar(){
     Size size = MediaQuery.sizeOf(context);
-    showCustomBottomSheet(context: context, content:Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
-      return  Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
-          FileImageWidget(imagePath: imageFile!.path, size: Size(size.width, size.height / 4),),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
-          Row(
-            children: [
-              GradientButton(onTap: (){
-                if(!provider.isLoading){
-                  Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
+    if(imageFile != null){
+      showCustomBottomSheet(context: context, content:Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
+        return  Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
+            SizedBox(height: Dimensions.spacingSizeDefault,),
+            imageFile != null?
+            FileImageWidget(imagePath: imageFile!.path, size: Size(size.width, size.height / 4),) :
+            Container()
+            ,
+            SizedBox(height: Dimensions.spacingSizeDefault,),
+            Row(
+              children: [
+                GradientButton(onTap: (){
+                  if(!provider.isLoading){
+                    Provider.of<AuthProvider>(context, listen: false).updateUserAvatar(successCallBack: (){
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
 
-                  }, errorCallback: (){
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.avatarUpdateError??"une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
-                  }, avatar: imageFile!);
-                }
-              }, size: Size(provider.isLoading? size.width /2 : size.width / 3, 50),
-                bgColor: provider.isLoading? Colors.grey :null,
+                    }, errorCallback: (){
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.avatarUpdateError??"une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
+                    }, avatar: imageFile!);
+                  }
+                }, size: Size(provider.isLoading? size.width /2 : size.width / 3, 50),
+                  bgColor: provider.isLoading? Colors.grey :null,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -236,22 +243,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Text(provider.isLoading? "Mise à jour en cours":"Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
                     ],
                   ),
-              ),
-              SizedBox(width: Dimensions.spacingSizeDefault,),
-              TextButton(onPressed: (){
-                setState(() {
-                  imageFile = null;
-                  Navigator.pop(context);
+                ),
+                SizedBox(width: Dimensions.spacingSizeDefault,),
+                TextButton(onPressed: (){
+                  setState(() {
+                    imageFile = null;
+                    Navigator.pop(context);
 
-                });
-              }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
-            ],
-          ),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
+                  });
+                }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
+              ],
+            ),
+            SizedBox(height: Dimensions.spacingSizeDefault,),
 
-        ],
-      );
-    }));
+          ],
+        );
+      }));
+    }
   }
   sourceBottomSheet(){
     //Size size = MediaQuery.sizeOf(context);

@@ -548,61 +548,64 @@ class InfoUpdateScreenState extends State<InfoUpdateScreen>{
   }
   updateAvatar(){
     Size size = MediaQuery.sizeOf(context);
-    showCustomBottomSheet(context: context, content:Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
-      return  Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
-          FileImageWidget(imagePath: imageFile!.path, size: Size(size.width, size.height / 4),),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GradientButton(onTap: (){
-                if(!provider.isLoading){
-                  provider.updateUserAvatar(successCallBack: (){
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
+    if(imageFile != null){
+      showCustomBottomSheet(context: context, content:Consumer<AuthProvider>(builder: (BuildContext ctx, provider, child){
+        return  Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Nouvel avatar", style: Theme.of(context).textTheme.titleSmall,),
+            SizedBox(height: Dimensions.spacingSizeDefault,),
+            FileImageWidget(imagePath: imageFile!.path, size: Size(size.width, size.height / 4),),
+            SizedBox(height: Dimensions.spacingSizeDefault,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GradientButton(onTap: (){
+                  if(!provider.isLoading){
+                    provider.updateUserAvatar(successCallBack: (){
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(customSnack(text: "Avatar mise à jour avec succès", context: context, bgColor: Colors.green));
 
-                  }, errorCallback: (){
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.avatarUpdateError??"une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
-                  }, avatar: imageFile!);
-                }
-              }, size: Size(size.width / 3, 50),
-                bgColor: provider.isLoading? Colors.grey :null,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    provider.isLoading? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            margin: EdgeInsets.only(right: Dimensions.spacingSizeSmall),
-                            width:Dimensions.iconSizeExtraSmall,
-                            height: Dimensions.iconSizeExtraSmall,
-                            child:  const CircularProgressIndicator(strokeWidth: 1, color: Colors.black,))
-                      ],
-                    ):const SizedBox(),
-                    Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
-                  ],
+                    }, errorCallback: (){
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(customSnack(text: provider.avatarUpdateError??"une erreur s'est produite, veillez réessayer plus tard", context: context, bgColor: Colors.red));
+                    }, avatar: imageFile!);
+                  }
+                }, size: Size(size.width / 3, 50),
+                  bgColor: provider.isLoading? Colors.grey :null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      provider.isLoading? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(right: Dimensions.spacingSizeSmall),
+                              width:Dimensions.iconSizeExtraSmall,
+                              height: Dimensions.iconSizeExtraSmall,
+                              child:  const CircularProgressIndicator(strokeWidth: 1, color: Colors.black,))
+                        ],
+                      ):const SizedBox(),
+                      Text("Mettre à jour", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(width: Dimensions.spacingSizeDefault,),
-              TextButton(onPressed: (){
-                setState(() {
-                  imageFile = null;
-                  Navigator.pop(context);
+                SizedBox(width: Dimensions.spacingSizeDefault,),
+                TextButton(onPressed: (){
+                  setState(() {
+                    imageFile = null;
+                    Navigator.pop(context);
 
-                });
-              }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
-            ],
-          ),
-          SizedBox(height: Dimensions.spacingSizeDefault,),
+                  });
+                }, child: Text("Annuler", style: Theme.of(context).textTheme.titleSmall))
+              ],
+            ),
+            SizedBox(height: Dimensions.spacingSizeDefault,),
 
-        ],
-      );
-    }));
+          ],
+        );
+      }));
+
+    }
   }
 }

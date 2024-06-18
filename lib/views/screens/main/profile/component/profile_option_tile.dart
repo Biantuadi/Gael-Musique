@@ -5,7 +5,8 @@ class ProfileOption extends StatelessWidget{
   final String label;
   final VoidCallback voidCallback;
   final IconData iconData;
-  const ProfileOption({super.key, required this.label, required this.iconData, required this.voidCallback});
+  final Color? bgColor;
+  const ProfileOption({super.key, required this.label, required this.iconData, required this.voidCallback, this.bgColor});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class ProfileOption extends StatelessWidget{
         padding: EdgeInsets.all(Dimensions.spacingSizeDefault * 0.7),
         margin: EdgeInsets.symmetric(vertical :Dimensions.spacingSizeExtraSmall),
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
+          color: bgColor??Colors.grey.withOpacity(0.1),
           borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault)
         ),
         child: Row(
