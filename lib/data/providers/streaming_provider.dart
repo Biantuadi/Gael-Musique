@@ -189,6 +189,8 @@ class StreamingProvider with ChangeNotifier {
       data.forEach((json) {
        allStreaming!.add(Streaming.fromJson(json));
       });
+      // delete it after bug fixes
+      allStreaming = [];
     }
     if(streamingCurrentPage>0){
       isLoadingData = false;
